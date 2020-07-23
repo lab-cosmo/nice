@@ -10,7 +10,7 @@ def get_single(l1, l2, l, m1, m2):
 
 class ClebschGordan:
     def __init__(self, l_max):
-        self.precomputed = np.zeros([l_max + 1, l_max + 1, l_max + 1, 2 * l_max + 1, 2 * l_max + 1])
+        self.precomputed_ = np.zeros([l_max + 1, l_max + 1, l_max + 1, 2 * l_max + 1, 2 * l_max + 1])
         
         for l1 in range(l_max + 1):
             for l2 in range(l_max + 1):
@@ -18,5 +18,5 @@ class ClebschGordan:
                     for m1 in range(-l_max, l_max + 1):
                         for m2 in range(-l_max, l_max + 1):
                             now = get_single(l1, l2, l, m1, m2)
-                            self.precomputed[l1, l2, l, m1 + l1, m2 + l2] = now
+                            self.precomputed_[l1, l2, l, m1 + l1, m2 + l2] = now
                         

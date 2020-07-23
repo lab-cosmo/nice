@@ -68,6 +68,8 @@ class UnrollingPCA(TruncatedSVD):
         super().__init__(*args, **kwargs)     
         
     def fit_transform(self, coefficients):
+        if (len(coefficients.shape) == 2):
+            return super().fit_transform(coefficients)
         self.n_feat_ = coefficients.shape[1]
         self.l_max_ = coefficients.shape[2] - 1
         packed = pack_dense(coefficients)      
@@ -76,12 +78,16 @@ class UnrollingPCA(TruncatedSVD):
                                          self.l_max_)
     
     def fit(self, coefficients):
+        if (len(coefficients.shape) == 2):
+            return super().fit_transform(coefficients)
         self.n_feat_ = coefficients.shape[1]
         self.l_max_ = coefficients.shape[2] - 1
-        packed = pack_dense(coefficients)  
+        packed = pack_dense(coefficients) 
         super().fit(packed)
         
     def transform(self, coefficients):
+        if (len(coefficients.shape) == 2):
+            return super().fit_transform(coefficients)
         if (self.n_feat_ != coefficients.shape[1]):
             raise ValueError("wrong shape")
         if (self.l_max_ != coefficients.shape[2] - 1):
