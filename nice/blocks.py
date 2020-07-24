@@ -20,7 +20,7 @@ class ThresholdExpansioner:
     def fit(self, first_even, first_odd, second_even, second_odd):        
         self.l_max_ = first_even.covariants_.shape[2] - 1
         self.task_even_even_, self.task_odd_odd_, self.task_even_odd_, self.task_odd_even_ = \
-        get_thresholded_tasks(first_even, first_odd, second_even, second_odd, self.num_expand_, self.l_max_) 
+        get_thresholded_tasks(first_even, first_odd, second_even, second_odd, self.num_expand_, self.l_max_, self.mode_) 
         
         self.clebsch_ = ClebschGordan(self.l_max_)
         
