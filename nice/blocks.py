@@ -6,6 +6,7 @@ from nice.thresholding import get_thresholded_tasks
 from nice.nice_utilities import do_partial_expansion, Data
 from nice.ClebschGordan import ClebschGordan
 from parse import parse
+import warnings
 
 class ThresholdExpansioner:
     def __init__(self, num_expand = None, mode = 'covariants'):
@@ -103,7 +104,8 @@ class IndividualLambdaPCAs():
                 self.max_n_components_ = max(self.max_n_components_, n_components_now)
                 
                 if (data.covariants_.shape[0] * (lambd + 1) < n_components_now):
-                    raise ValueError("not enough data to fit pca")
+                    raise ValueError("not enough data to fit pca, number of vectors is {}, dimensionality of single vector (lambd + 1) is {}, i. e. total number of points is {}, while number of components is {}".format(data.covariants_.shape[0], 
+                    lambd + 1, data.covariants_.shape[0] * (lambd + 1), n_components_now))
                 
                 if (type(self.num_to_fit_) is str):
                     multiplier = int(parse('{}x', self.num_to_fit_)[0])                     
@@ -111,8 +113,13 @@ class IndividualLambdaPCAs():
                 else:
                     num_fit_now = self.num_to_fit_
                     if (num_fit_now * (lambd + 1) < n_components_now):
-                        raise ValueError("specified parameter num fit is too small to fit pca")
+                        raise ValueError("specified parameter num fit ({}) is too small to fit pca with number of components {} ".format(num_fit_now, n_components_now))
+                          
                       
+                if (data.covariants_.shape[0] * (lambd + 1) < num_fit_now):
+                    warnings.warn("given data is less than desired number of points to fit pca. Desired number of points to fit pca is {}, while number of vectors is {}, dimensionality of single vector (lambd + 1) is {}, i. e. total number of points is {}".format(num_fit_now, data.covariants_.shape[0], (lambd + 1), data.covariants_.shape[0] * (lambd + 1)), RuntimeWarning)
+
+                                     
                 if (n_components_now < data.actual_sizes_[lambd]):
                     self.reduction_happened_ = True
                 pca = UnrollingIndividualPCA(n_components = n_components_now)
