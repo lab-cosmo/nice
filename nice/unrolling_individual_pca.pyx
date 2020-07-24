@@ -84,7 +84,9 @@ class UnrollingIndividualPCA(TruncatedSVD):
         self.importances_ = np.mean(res * res, axis = 0)
         if (self.normalize_):
             self.importances_ = self.importances_ / np.sum(self.importances_)
-    
+        indices = np.argsort(self.importances_)[::-1]
+        self.importances_ = self.importances_[indices]
+        self.components_ = self.components_[indices]
     
     def fit_transform(self, *args):
         if (len(args) ==1):
