@@ -117,7 +117,7 @@ class IndividualLambdaPCAs():
                           
                       
                 if (data.covariants_.shape[0] * (lambd + 1) < num_fit_now):
-                    warnings.warn("given data is less than desired number of points to fit pca. Desired number of points to fit pca is {}, while number of vectors is {}, dimensionality of single vector (lambd + 1) is {}, i. e. total number of points is {}".format(num_fit_now, data.covariants_.shape[0], (lambd + 1), data.covariants_.shape[0] * (lambd + 1)), RuntimeWarning)
+                    warnings.warn("given data is less than desired number of points to fit pca. Desired number of points to fit pca is {}, while number of vectors is {}, dimensionality of single vector (lambd + 1) is {}, i. e. total number of points is {}. Number of pca components is {}".format(num_fit_now, data.covariants_.shape[0], (lambd + 1), data.covariants_.shape[0] * (lambd + 1), n_components_now), RuntimeWarning)
 
                                      
                 if (n_components_now < data.actual_sizes_[lambd]):
