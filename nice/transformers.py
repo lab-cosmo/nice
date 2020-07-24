@@ -167,3 +167,107 @@ class InitialTransformer():
         
         return Data(even_coefficients, even_coefficients_sizes), Data(odd_coefficients, odd_coefficients_sizes)
     
+class StandardBlock():
+    def __init__(self, covariants_expansioner = None, covariants_pca = None, invariants_expansioner = None,
+                 invariants_pca = None):
+        
+        self.covariants_expansioner_ = covariants_expansioner
+        if (self.covariants_expansioner_ is not None):
+            if self.covariants_expansioner_.mode_ != 'covariants':
+                raise ValueError("mode of covariants expansioner should be covariants")  
+        
+        self.covariants_pca_ = covariants_pca
+        if (self.covariants_pca_ is not None) and (self.covariants_expansioner_ is None):
+            raise ValueError("can not do pca over not existing covariants")
+        
+        self.invariants_expansioner_ = invariants_expansioner
+        if (self.invariants_expansioner_ is not None):
+            if self.invariants_expansioner_.mode_ != 'invariants':
+                raise ValueError("mode of invariants expansioner should be invariants")
+        
+        self.invariants_pca_ = invariants_pca
+        if (self.invariants_pca_ is not None) and (self.invariants_expansioner_ is None):
+            raise ValueError("can not do pca over not existing invariants")
+            
+        if (self.covariants_expansioner_ is not None) and (self.covariants_pca_ is not None):
+            self.higher_body_orders_possible_ = True
+        else:
+            self.higher_body_orders_possible_ = False
+            
+        if (self.covariants_expansioner_ is None) and (self.invariants_expansioner_ is None):
+            raise ValueError("nothing to do")
+        
+    def fit(self, first_even, first_odd, second_even, second_odd):
+        if (self.covariants_expansioner_ is not None):
+            self.covariants_expansioner_.fit(first_even, first_odd, second_even, second_odd)
+        if (self.covariants_pca_ is not None):
+            transformed_even, transformed_odd = self.covariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
+           
+            self.covariants_pca_.fit(transformed_even, transformed_odd)
+            
+        if (self.invariants_expansioner_ is not None):
+            self.invariants_expansioner_.fit(first_even, first_odd, second_even, second_odd)
+        if (self.invariants_pca_ is not None):
+            invariants_even, _ = self.invariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
+            self.invariants_pca_.fit(invariants_even)
+        
+    def transform(self, first_even, first_odd, second_even, second_odd):
+        transformed_even, transformed_odd = None, None
+        if (self.covariants_expansioner_ is not None):
+            transformed_even, transformed_odd = self.covariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
+        if (self.covariants_pca_ is not None):
+            transformed_even, transformed_odd = self.covariants_pca_.transform(transformed_even, transformed_odd)
+        
+        invariants_even = None
+        if (self.invariants_expansioner_ is not None):
+            invariants_even, _ = self.invariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
+        if (self.invariants_pca_ is not None):
+            invariants_even = self.invariants_pca_.transform(invariants_even)
+       
+        return transformed_even, transformed_odd, invariants_even
+        
+    
+class StandardSequence():
+    def __init__(self, blocks, initial_pca = IndividualLambdaPCAsBoth()):
+        self.blocks_ = blocks
+        self.initial_pca_ = initial_pca
+        for i in range(len(self.blocks_) - 1):
+            if not self.blocks_[i].higher_body_orders_possible_:
+                raise ValueError("all intermediate standard blocks should calculate covariants")
+        self.initial_transformer_ = InitialTransformer()
+                
+    def fit(self, coefficients):
+        self.intermediate_sizes_ = []
+        data_even_0, data_odd_0 = self.initial_transformer_.transform(coefficients)
+        self.initial_pca_.fit(data_even_0, data_odd_0)
+        data_even_0, data_odd_0 = self.initial_pca_.transform(data_even_0, data_odd_0)
+        data_even_now, data_odd_now = data_even_0, data_odd_0
+        self.intermediate_sizes_.append([data_even_now.actual_sizes_, data_odd_now.actual_sizes_])
+        for i in range(len(self.blocks_)):
+            self.blocks_[i].fit(data_even_now, data_odd_now, data_even_0, data_odd_0)            
+            data_even_now, data_odd_now, _ = self.blocks_[i].transform(data_even_now, data_odd_now, data_even_0, data_odd_0)
+            if (data_even_now is not None):
+                self.intermediate_sizes_.append([data_even_now.actual_sizes_, data_odd_now.actual_sizes_])
+        
+    def transform(self, coefficients, return_only_invariants = False):
+        data_even_0, data_odd_0 = self.initial_transformer_.transform(coefficients)
+        data_even_0, data_odd_0 = self.initial_pca_.transform(data_even_0, data_odd_0)
+        
+        
+        all_invariants = [data_even_0.get_invariants()]
+        data_even_now, data_odd_now = data_even_0, data_odd_0
+        for i in range(len(self.blocks_)):
+            data_even_now, data_odd_now, invariants_even_now = self.blocks_[i].transform(data_even_now, data_odd_now, data_even_0, data_odd_0)
+            
+            if (invariants_even_now is not None):
+                all_invariants.append(invariants_even_now)
+            else:
+                all_invariants.append(data_even_now.get_invariants())
+        
+        if (return_only_invariants):
+            return all_invariants
+        else:
+            return data_even_now, data_odd_now, all_invariants
+        
+            
+    

@@ -230,6 +230,9 @@ class Data:
         self.importances_ = importances
         self.raw_importances_ = raw_importances
         
+    def get_invariants(self):
+        return self.covariants_[:, :self.actual_sizes_[0], 0, 0]
+    
     def __getitem__(self, sliced): #only env dim slice should be used
         return Data(self.covariants_[sliced], self.actual_sizes_[sliced], self.importances_, self.raw_importances_)
         '''args = [self.covariants_[sliced], self.actual_sizes_[sliced]]

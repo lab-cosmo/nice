@@ -16,7 +16,7 @@ setup(
 import cython
 import pyximport; pyximport.install()
 
-from nice import blocks
+from nice import transformers
 from nice import unrolling_individual_pca
 from nice import ClebschGordan
 

@@ -162,9 +162,9 @@ cdef get_threshold(double[:, :] first_importances_1, int[:] first_actual_sizes_1
             num_it_no_change = 0
         num_previous = num_now
             
-    num_1_1 = get_total_num_full(first_importances_1, first_actual_sizes_1, second_importances_1, second_actual_sizes_1, middle, mode)  
-    num_2_2 = get_total_num_full(first_importances_2, first_actual_sizes_2, second_importances_2, second_actual_sizes_2, middle, mode)  
-    return middle, num_1_1, num_2_2
+    num_1_1 = get_total_num_full(first_importances_1, first_actual_sizes_1, second_importances_1, second_actual_sizes_1, left, mode)  
+    num_2_2 = get_total_num_full(first_importances_2, first_actual_sizes_2, second_importances_2, second_actual_sizes_2, left, mode)  
+    return left, num_1_1, num_2_2
     
     
 cdef double get_upper_threshold(double[:, :] first_importances, int[:] first_actual_sizes, 
