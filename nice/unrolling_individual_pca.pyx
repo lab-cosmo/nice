@@ -61,8 +61,8 @@ cpdef unpack_dense(double[:, :] packed, int n_envs, int l, int n_feat):
     
 from sklearn.decomposition import TruncatedSVD #not center the data
 class UnrollingIndividualPCA(TruncatedSVD):
-    def __init__(self, *args, **kwargs):
-        self.normalize_ = True
+    def __init__(self, *args, normalize_importances = True, **kwargs):
+        self.normalize_importances_ = normalize_importances
         super().__init__(*args, **kwargs)     
         
     def fit(self, *args):
@@ -82,7 +82,7 @@ class UnrollingIndividualPCA(TruncatedSVD):
         res = super().fit_transform(packed)
         
         self.importances_ = np.mean(res * res, axis = 0)
-        if (self.normalize_):
+        if (self.normalize_importances_):
             self.importances_ = self.importances_ / np.sum(self.importances_)
         indices = np.argsort(self.importances_)[::-1]
         self.importances_ = self.importances_[indices]
@@ -101,23 +101,43 @@ class UnrollingIndividualPCA(TruncatedSVD):
         if (self.n_components < n_feat):
             packed = pack_dense(covariants, l, n_feat, n_feat)
         if (self.n_components == n_feat):
-            packed = pack_dense(covariants, l, n_feat, n_feat + 1)      
-        res = super().fit_transform(packed)
+            packed = pack_dense(covariants, l, n_feat, n_feat + 1)   
+            
+        res = super().fit_transform(packed)        
         self.importances_ = np.mean(res * res, axis = 0)
+        if (self.normalize_importances_):
+            self.importances_ = self.importances_ / np.sum(self.importances_)
+        indices = np.argsort(self.importances_)[::-1]
+        self.importances_ = self.importances_[indices]
+        self.components_ = self.components_[indices]
+        
+        res = super().transform(packed)
         return unpack_dense(res, covariants.shape[0],
                                          self.l_, self.n_components)
     
         
-    def transform(self, *args):
+    def transform(self, *args, method = 'serial'):
+        
+        
         if (len(args) == 1):
             return super().transform(args)
         #print("components shape: ", self.components_.shape)
         #print("num components: ", self.n_components)
         covariants, n_feat, l = args
-        return transform_inplace(covariants, self.components_, 
-                        l, n_feat)
-    
+        if (method == 'serial'):            
+            return transform_inplace(covariants, self.components_, 
+                            l, n_feat)
+        else:
+            if (self.n_components < n_feat):
+                packed = pack_dense(covariants, l, n_feat, n_feat)
+            if (self.n_components == n_feat):
+                packed = pack_dense(covariants, l, n_feat, n_feat + 1)    
+            res = super().transform(packed)
+            return unpack_dense(res, covariants.shape[0],
+                                         self.l_, self.n_components)
 
+ 
+       
     
         
         
