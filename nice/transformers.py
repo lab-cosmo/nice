@@ -36,11 +36,11 @@ class ThresholdExpansioner:
             new_odd = np.empty([first_even.covariants_.shape[0], new_odd_size, 1])
         
         if (self.mode_ == 'covariants'):
-            new_even_actual_sizes = np.empty([self.l_max_ + 1], dtype = np.int32)
-            new_odd_actual_sizes = np.empty([self.l_max_ + 1], dtype = np.int32)
+            new_even_actual_sizes = np.zeros([self.l_max_ + 1], dtype = np.int32)
+            new_odd_actual_sizes = np.zeros([self.l_max_ + 1], dtype = np.int32)
         else:
-            new_even_actual_sizes = np.empty([1], dtype = np.int32)
-            new_odd_actual_sizes = np.empty([1], dtype = np.int32)
+            new_even_actual_sizes = np.zeros([1], dtype = np.int32)
+            new_odd_actual_sizes = np.zeros([1], dtype = np.int32)
         
        
         do_partial_expansion(self.clebsch_.precomputed_, first_even.covariants_,
@@ -132,7 +132,7 @@ class IndividualLambdaPCAs():
             
     def transform(self, data):
         result = np.empty([data.covariants_.shape[0], self.max_n_components_, self.l_max_ + 1, 2 * self.l_max_ + 1])
-        new_actual_sizes = np.empty([self.l_max_ + 1], dtype = np.int32)
+        new_actual_sizes = np.zeros([self.l_max_ + 1], dtype = np.int32)
         for lambd in range(self.l_max_ + 1):
             if (self.pcas_[lambd] is not None):
                 now = self.pcas_[lambd].transform(data.covariants_[:, :, lambd, :], data.actual_sizes_[lambd], lambd)
