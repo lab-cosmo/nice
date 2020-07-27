@@ -128,6 +128,17 @@ cpdef do_partial_expansion_invariants(double[:, :, :, :, :] clebsch_gordan,
             res_actual_sizes[0] += 1
 
 
+cpdef get_sizes(int l_max, int[:, :] tasks):
+    sizes = np.zeros([l_max + 1], dtype = np.int32)
+    int[:] sizes_view = sizes
+    cdef int task_ind
+    cdef int lambd, l1, l2
+        
+    for task_ind in range(tasks.shape[0]):       
+        for lambd in range(abs_c(l1 - l2), min_c(l1 + l2, l_max) + 1):
+            sizes_view[lambd] += 1
+    return sizes
+    
 cpdef do_partial_expansion_covariants(double[:, :, :, :, :] clebsch_gordan,
                         double[:, :, :, :] first_covariants,                       
                         double[:, :, :, :] second_covariants,                       

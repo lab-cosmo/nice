@@ -3,7 +3,7 @@ from nice.unrolling_individual_pca import UnrollingIndividualPCA
 #from cython.parallel cimport prange
 
 from nice.thresholding import get_thresholded_tasks
-from nice.nice_utilities import do_partial_expansion, Data
+from nice.nice_utilities import do_partial_expansion, Data, get_sizes
 from nice.ClebschGordan import ClebschGordan
 from parse import parse
 import warnings
@@ -26,8 +26,12 @@ class ThresholdExpansioner:
         self.clebsch_ = ClebschGordan(self.l_max_)
         
     def transform(self, first_even, first_odd, second_even, second_odd):
-        new_even_size = self.task_even_even_[0].shape[0] + self.task_odd_odd_[0].shape[0]
-        new_odd_size = self.task_even_odd_[0].shape[0] + self.task_odd_even_[0].shape[0]
+        new_even_size = np.max(get_sizes(self.l_max_, self.task_even_even_[0]) + \
+                        get_sizes(self.l_max_, self.task_odd_odd_[0]))
+        
+        new_odd_size = np.max(get_sizes(self.l_max_, self.task_even_odd_[0]) + \
+                        get_sizes(self.l_max_, self.task_odd_even_[0]))
+        
         if (self.mode_ == 'covariants'):
             new_even = np.empty([first_even.covariants_.shape[0], new_even_size, self.l_max_ + 1, 2 * self.l_max_ + 1])
             new_odd = np.empty([first_even.covariants_.shape[0], new_odd_size, self.l_max_ + 1, 2 * self.l_max_ + 1])
