@@ -29,18 +29,18 @@ class ThresholdExpansioner:
         new_even_size = self.task_even_even_[0].shape[0] + self.task_odd_odd_[0].shape[0]
         new_odd_size = self.task_even_odd_[0].shape[0] + self.task_odd_even_[0].shape[0]
         if (self.mode_ == 'covariants'):
-            new_even = np.zeros([first_even.covariants_.shape[0], new_even_size, self.l_max_ + 1, 2 * self.l_max_ + 1])
-            new_odd = np.zeros([first_even.covariants_.shape[0], new_odd_size, self.l_max_ + 1, 2 * self.l_max_ + 1])
+            new_even = np.empty([first_even.covariants_.shape[0], new_even_size, self.l_max_ + 1, 2 * self.l_max_ + 1])
+            new_odd = np.empty([first_even.covariants_.shape[0], new_odd_size, self.l_max_ + 1, 2 * self.l_max_ + 1])
         else:
-            new_even = np.zeros([first_even.covariants_.shape[0], new_even_size, 1])
-            new_odd = np.zeros([first_even.covariants_.shape[0], new_odd_size, 1])
+            new_even = np.empty([first_even.covariants_.shape[0], new_even_size, 1])
+            new_odd = np.empty([first_even.covariants_.shape[0], new_odd_size, 1])
         
         if (self.mode_ == 'covariants'):
-            new_even_actual_sizes = np.zeros([self.l_max_ + 1], dtype = np.int32)
-            new_odd_actual_sizes = np.zeros([self.l_max_ + 1], dtype = np.int32)
+            new_even_actual_sizes = np.empty([self.l_max_ + 1], dtype = np.int32)
+            new_odd_actual_sizes = np.empty([self.l_max_ + 1], dtype = np.int32)
         else:
-            new_even_actual_sizes = np.zeros([1], dtype = np.int32)
-            new_odd_actual_sizes = np.zeros([1], dtype = np.int32)
+            new_even_actual_sizes = np.empty([1], dtype = np.int32)
+            new_odd_actual_sizes = np.empty([1], dtype = np.int32)
         
        
         do_partial_expansion(self.clebsch_.precomputed_, first_even.covariants_,
@@ -76,7 +76,7 @@ class IndividualLambdaPCAs():
         self.num_to_fit_ = num_to_fit
         
     def get_importances(self):        
-        result = np.zeros([self.max_n_components_, self.l_max_ + 1])
+        result = np.empty([self.max_n_components_, self.l_max_ + 1])
         for lambd in range(self.l_max_ + 1):
             if (self.pcas_[lambd] is not None):
                 result[:self.pcas_[lambd].n_components, lambd] = self.pcas_[lambd].importances_
@@ -131,8 +131,8 @@ class IndividualLambdaPCAs():
         self.importances_ = self.get_importances()
             
     def transform(self, data):
-        result = np.zeros([data.covariants_.shape[0], self.max_n_components_, self.l_max_ + 1, 2 * self.l_max_ + 1])
-        new_actual_sizes = np.zeros([self.l_max_ + 1], dtype = np.int32)
+        result = np.empty([data.covariants_.shape[0], self.max_n_components_, self.l_max_ + 1, 2 * self.l_max_ + 1])
+        new_actual_sizes = np.empty([self.l_max_ + 1], dtype = np.int32)
         for lambd in range(self.l_max_ + 1):
             if (self.pcas_[lambd] is not None):
                 now = self.pcas_[lambd].transform(data.covariants_[:, :, lambd, :], data.actual_sizes_[lambd], lambd)
