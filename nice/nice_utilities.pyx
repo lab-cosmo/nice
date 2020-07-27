@@ -128,16 +128,36 @@ cpdef do_partial_expansion_invariants(double[:, :, :, :, :] clebsch_gordan,
             res_actual_sizes[0] += 1
 
 
-cpdef get_sizes(int l_max, int[:, :] tasks):
+cpdef int get_sizes_invariants(int l_max, int[:, :] tasks):
     sizes = np.zeros([l_max + 1], dtype = np.int32)
     int[:] sizes_view = sizes
     cdef int task_ind
     cdef int lambd, l1, l2
         
-    for task_ind in range(tasks.shape[0]):       
+    for task_ind in range(tasks.shape[0]):
+        l1, l2 = tasks[task_ind, 1], tasks[task_ind, 3]
+        if (l1 == l2):
+            sizes_view[0] += 1       
+    return sizes
+            
+cpdef int get_sizes_covariants(int l_max, int[:, :] tasks):
+    sizes = np.zeros([l_max + 1], dtype = np.int32)
+    int[:] sizes_view = sizes
+    cdef int task_ind
+    cdef int lambd, l1, l2
+        
+    for task_ind in range(tasks.shape[0]):
+        l1, l2 = tasks[task_ind, 1], tasks[task_ind, 3]
         for lambd in range(abs_c(l1 - l2), min_c(l1 + l2, l_max) + 1):
             sizes_view[lambd] += 1
     return sizes
+    
+def get_sizes(l_max, tasks, mode):
+    if (mode == 'invariants'):
+        return get_sizes_invariants(l_max, tasks)
+    if (mode == 'covariants'):
+        return get_sizes_covariants(l_max, tasks)
+#cdef int[:, :] get_placing(int l_max, int[:, :] tasks):
     
 cpdef do_partial_expansion_covariants(double[:, :, :, :, :] clebsch_gordan,
                         double[:, :, :, :] first_covariants,                       
