@@ -1,6 +1,7 @@
 cimport cython
 import numpy as np
 from libc.math cimport fabs
+from cython.parallel import prange
 
 
 @cython.boundscheck(False)
@@ -9,12 +10,12 @@ cpdef pack_dense(double[:, :, :] covariants, int l,
                  int n_feat, int desired_n_feat):    
     cdef int n_envs = covariants.shape[0]
     cdef int num_per_feat = (l + 1)
-    res = np.zeros([n_envs * (2 * l + 1), desired_n_feat])
+    res = np.empty([n_envs * (2 * l + 1), desired_n_feat])
     cdef double[:, :] res_view = res
     cdef int env_ind, feat_ind, now, m
     
     
-    for feat_ind in range(n_feat):
+    for feat_ind in prange(n_feat, schedule = "static", nogil = True):
         now = 0
         for env_ind in range(n_envs):           
             for m in range(2 * l + 1):
@@ -23,7 +24,7 @@ cpdef pack_dense(double[:, :, :] covariants, int l,
                     
     return res
     
-@cython.boundscheck(False)
+'''@cython.boundscheck(False)
 @cython.wraparound(False)
 cdef transform_inplace(double[:, :, :] covariants, double[:, :] components, 
                         int l, int n_feat):
@@ -37,18 +38,18 @@ cdef transform_inplace(double[:, :, :] covariants, double[:, :] components,
             for m in range(2 * l + 1):
                 for i in range(n_feat):
                     res_view[env_ind, feat_ind, m] += components[feat_ind, i] * covariants[env_ind, i, m]
-    return res
+    return res'''
                 
 @cython.boundscheck(False)
 @cython.wraparound(False)
 cpdef unpack_dense(double[:, :] packed, int n_envs, int l, int n_feat):
    
     
-    res = np.zeros([n_envs, n_feat, 2 * l + 1])
+    res = np.empty([n_envs, n_feat, 2 * l + 1])
     cdef double[:, :, :] res_view = res
     cdef int feat_ind, now, env_ind, m
     
-    for feat_ind in range(n_feat):
+    for feat_ind in prange(n_feat, schedule = "static", nogil = True):
         now = 0
         for env_ind in range(n_envs):           
             for m in range(2 * l + 1):
@@ -116,7 +117,7 @@ class UnrollingIndividualPCA(TruncatedSVD):
                                          self.l_, self.n_components)
     
         
-    def transform(self, *args, method = 'serial'):
+    def transform(self, *args):
         
         
         if (len(args) == 1):
@@ -124,17 +125,15 @@ class UnrollingIndividualPCA(TruncatedSVD):
         #print("components shape: ", self.components_.shape)
         #print("num components: ", self.n_components)
         covariants, n_feat, l = args
-        if (method == 'serial'):            
-            return transform_inplace(covariants, self.components_, 
-                            l, n_feat)
-        else:
-            if (self.n_components < n_feat):
-                packed = pack_dense(covariants, l, n_feat, n_feat)
-            if (self.n_components == n_feat):
-                packed = pack_dense(covariants, l, n_feat, n_feat + 1)    
-            res = super().transform(packed)
-            return unpack_dense(res, covariants.shape[0],
-                                         self.l_, self.n_components)
+       
+        
+        if (self.n_components < n_feat):
+            packed = pack_dense(covariants, l, n_feat, n_feat)
+        if (self.n_components == n_feat):
+            packed = pack_dense(covariants, l, n_feat, n_feat + 1)    
+        res = super().transform(packed)
+        return unpack_dense(res, covariants.shape[0],
+                                     self.l_, self.n_components)
 
  
        

@@ -130,12 +130,12 @@ class IndividualLambdaPCAs():
                 
         self.importances_ = self.get_importances()
             
-    def transform(self, data, method = 'serial'):
+    def transform(self, data):
         result = np.zeros([data.covariants_.shape[0], self.max_n_components_, self.l_max_ + 1, 2 * self.l_max_ + 1])
         new_actual_sizes = np.zeros([self.l_max_ + 1], dtype = np.int32)
         for lambd in range(self.l_max_ + 1):
             if (self.pcas_[lambd] is not None):
-                now = self.pcas_[lambd].transform(data.covariants_[:, :, lambd, :], data.actual_sizes_[lambd], lambd, method = method)
+                now = self.pcas_[lambd].transform(data.covariants_[:, :, lambd, :], data.actual_sizes_[lambd], lambd)
                 result[:, :now.shape[1], lambd, :(2*lambd + 1)] = now
                 new_actual_sizes[lambd] = now.shape[1]
             else:
@@ -153,8 +153,8 @@ class IndividualLambdaPCAsBoth():
         self.even_pca_.fit(data_even)
         self.odd_pca_.fit(data_odd)
     
-    def transform(self, data_even, data_odd, method = 'serial'):
-        return self.even_pca_.transform(data_even, method = method), self.odd_pca_.transform(data_odd, method = method)
+    def transform(self, data_even, data_odd):
+        return self.even_pca_.transform(data_even), self.odd_pca_.transform(data_odd)
     
 class InitialTransformer():
     def transform(self, coefficients):
