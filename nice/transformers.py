@@ -24,20 +24,21 @@ class ThresholdExpansioner:
         get_thresholded_tasks(first_even, first_odd, second_even, second_odd, self.num_expand_, self.l_max_, self.mode_) 
         
         self.clebsch_ = ClebschGordan(self.l_max_)
-        
-    def transform(self, first_even, first_odd, second_even, second_odd):
-        new_even_size = np.max(get_sizes(self.l_max_, self.task_even_even_[0], self.mode_) + \
+        self.new_even_size_ = np.max(get_sizes(self.l_max_, self.task_even_even_[0], self.mode_) + \
                         get_sizes(self.l_max_, self.task_odd_odd_[0], self.mode_))
         
-        new_odd_size = np.max(get_sizes(self.l_max_, self.task_even_odd_[0], self.mode_) + \
+        self.new_odd_size_ = np.max(get_sizes(self.l_max_, self.task_even_odd_[0], self.mode_) + \
                         get_sizes(self.l_max_, self.task_odd_even_[0], self.mode_))
         
+    def transform(self, first_even, first_odd, second_even, second_odd):
+       
+        
         if (self.mode_ == 'covariants'):
-            new_even = np.empty([first_even.covariants_.shape[0], new_even_size, self.l_max_ + 1, 2 * self.l_max_ + 1])
-            new_odd = np.empty([first_even.covariants_.shape[0], new_odd_size, self.l_max_ + 1, 2 * self.l_max_ + 1])
+            new_even = np.empty([first_even.covariants_.shape[0], self.new_even_size_, self.l_max_ + 1, 2 * self.l_max_ + 1])
+            new_odd = np.empty([first_even.covariants_.shape[0], self.new_odd_size_, self.l_max_ + 1, 2 * self.l_max_ + 1])
         else:
-            new_even = np.empty([first_even.covariants_.shape[0], new_even_size, 1])
-            new_odd = np.empty([first_even.covariants_.shape[0], new_odd_size, 1])
+            new_even = np.empty([first_even.covariants_.shape[0], self.new_even_size_, 1])
+            new_odd = np.empty([first_even.covariants_.shape[0], self.new_odd_size_, 1])
         
         if (self.mode_ == 'covariants'):
             new_even_actual_sizes = np.zeros([self.l_max_ + 1], dtype = np.int32)
