@@ -30,6 +30,9 @@ class ThresholdExpansioner:
         self.new_odd_size_ = np.max(get_sizes(self.l_max_, self.task_even_odd_[0], self.mode_) + \
                         get_sizes(self.l_max_, self.task_odd_even_[0], self.mode_))
         
+        self.new_even_raw_importances_ = np.concatenate([self.task_even_even_[1], self.task_odd_odd_[1]], axis = 0)
+        self.new_odd_raw_importances_ = np.concatenate([self.task_even_odd_[1], self.task_odd_even_[1]], axis = 0)
+        
     def transform(self, first_even, first_odd, second_even, second_odd):
        
         
