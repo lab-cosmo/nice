@@ -68,8 +68,8 @@ class UnrollingIndividualPCA(TruncatedSVD):
             return super().transform(args)
         #print("components shape: ", self.components_.shape)
         #print("num components: ", self.n_components)
-        covariants, n_feat, l = args
-       
+        covariants, l = args
+        n_feat = covariants.shape[1]
         
         if (self.n_components < n_feat):
             packed = pack_dense(covariants, l, n_feat, n_feat)

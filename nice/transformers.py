@@ -180,13 +180,17 @@ class InitialTransformer():
         return Data(even_coefficients, even_coefficients_sizes), Data(odd_coefficients, odd_coefficients_sizes)
     
 class StandardBlock():
-    def __init__(self, covariants_expansioner = None, covariants_pca = None, invariants_expansioner = None,
-                 invariants_pca = None):
+    def __init__(self, covariants_expansioner = None, covariants_purifier = None, covariants_pca = None, invariants_expansioner = None, invariants_purifier = None, invariants_pca = None):
         
         self.covariants_expansioner_ = covariants_expansioner
         if (self.covariants_expansioner_ is not None):
             if self.covariants_expansioner_.mode_ != 'covariants':
                 raise ValueError("mode of covariants expansioner should be covariants")  
+        
+        self.covariants_purifier_ = covariants_purifier
+        if (self.covariants_purifier_ is not None) and (self.covariants_expansioner_ is None):
+            raise ValueError("can not purify covariants without covariants")
+            
         
         self.covariants_pca_ = covariants_pca
         if (self.covariants_pca_ is not None) and (self.covariants_expansioner_ is None):
@@ -197,6 +201,10 @@ class StandardBlock():
             if self.invariants_expansioner_.mode_ != 'invariants':
                 raise ValueError("mode of invariants expansioner should be invariants")
         
+        self.invariants_purifier_ = invariants_purifier
+        if (self.invariants_purifier_ is not None) and (self.invariants_expansioner_ is None):
+            raise ValueError("can not purifier invariants without invariants")
+            
         self.invariants_pca_ = invariants_pca
         if (self.invariants_pca_ is not None) and (self.invariants_expansioner_ is None):
             raise ValueError("can not do pca over not existing invariants")
@@ -209,9 +217,15 @@ class StandardBlock():
         if (self.covariants_expansioner_ is None) and (self.invariants_expansioner_ is None):
             raise ValueError("nothing to do")
         
-    def fit(self, first_even, first_odd, second_even, second_odd):
+    def fit(self, first_even, first_odd, second_even, second_odd, 
+            old_even_covariants = None, old_odd_covariants = None,
+            old_even_invariants = None, old_odd_invariants = None):
+        
         if (self.covariants_expansioner_ is not None):
             self.covariants_expansioner_.fit(first_even, first_odd, second_even, second_odd)
+            
+        #if (self.covariant_purifier_ is not None):
+            
         if (self.covariants_pca_ is not None):
             transformed_even, transformed_odd = self.covariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
            
