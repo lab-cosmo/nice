@@ -12,7 +12,8 @@ class UnrollingIndividualPCA(TruncatedSVD):
         if (len(args) == 1):
             return super().fit(args[0])
         #print("num components: ", self.n_components)
-        covariants, n_feat, l = args
+        covariants, l = args
+        n_feat = covariants.shape[1]
         if (self.n_components > n_feat):
             #print("in if: ", self.n_components, n_feat)
             self.n_components = n_feat           
@@ -34,7 +35,8 @@ class UnrollingIndividualPCA(TruncatedSVD):
     def fit_transform(self, *args):
         if (len(args) ==1):
             return super().fit_transform(args[0])
-        covariants, n_feat, l = args
+        covariants, l = args
+        n_feat = covariants.shape[1]
         #print("num components: ", self.n_components)
         if (self.n_components > n_feat):
             #print("in if: ", self.n_components, n_feat)

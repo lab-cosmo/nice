@@ -5,8 +5,11 @@ from nice.unrolling_individual_pca import UnrollingIndividualPCA
 from nice.thresholding import get_thresholded_tasks
 from nice.nice_utilities import do_partial_expansion, Data, get_sizes
 from nice.ClebschGordan import ClebschGordan
+from nice.packing import unite_parallel, subtract_parallel, pack_dense, unpack_dense
 from parse import parse
 import warnings
+from sklearn.linear_model import Ridge
+from sklearn.base import clone
 
 class ThresholdExpansioner:
     def __init__(self, num_expand = None, mode = 'covariants', num_threads = None):
@@ -132,7 +135,7 @@ class IndividualLambdaPCAs():
                 if (n_components_now < data.actual_sizes_[lambd]):
                     self.reduction_happened_ = True
                 pca = UnrollingIndividualPCA(n_components = n_components_now)
-                pca.fit(data.covariants_[:num_fit_now, :, lambd, :], data.actual_sizes_[lambd], lambd)
+                pca.fit(data.covariants_[:num_fit_now, :data.actual_sizes_[lambd], lambd, :], lambd)
                 self.pcas_.append(pca)
             else:
                 self.pcas_.append(None)
@@ -144,7 +147,7 @@ class IndividualLambdaPCAs():
         new_actual_sizes = np.zeros([self.l_max_ + 1], dtype = np.int32)
         for lambd in range(self.l_max_ + 1):
             if (self.pcas_[lambd] is not None):
-                now = self.pcas_[lambd].transform(data.covariants_[:, :, lambd, :], data.actual_sizes_[lambd], lambd)
+                now = self.pcas_[lambd].transform(data.covariants_[:, :data.actual_sizes_[lambd], lambd, :], lambd)
                 result[:, :now.shape[1], lambd, :(2*lambd + 1)] = now
                 new_actual_sizes[lambd] = now.shape[1]
             else:
@@ -279,4 +282,81 @@ class StandardSequence():
             return data_even_now, data_odd_now, all_invariants
         
             
+   
+class InvariantsPurifier:
+    def __init__(self, regressor = Ridge(alpha = 1e-15)):
+        self.regressor_ = regressor
+        
+    def fit(self, old_blocks, new_block):
+        old_uniting = unite_parallel(old_blocks)
+        self.regressor_.fit(old_uniting, new_block)
+        
+    def transform(self, old_blocks, new_block):
+        old_uniting = unite_parallel(old_blocks)
+        predictions = self.regressor_.predict(old_uniting)
+        return subtract_parallel(new_block, predictions)
     
+class CovariantsIndividualPurifier:
+    def __init__(self, regressor = Ridge(alpha = 1e-15)):
+        self.regressor_ = regressor
+        
+    def fit(self, old_blocks, new_block, l):
+        old_blocks_reshaped = [pack_dense(old_block, l, old_block.shape[1], old_block.shape[1]) \
+                               for old_block in old_blocks]
+        old_uniting = unite_parallel(old_blocks_reshaped)
+        new_reshaped = pack_dense(new_block, l, new_block.shape[1], new_block.shape[1])
+        self.regressor_.fit(old_uniting, new_reshaped)
+        
+    def transform(self, old_blocks, new_block, l):
+        old_blocks_reshaped = [pack_dense(old_block, l, old_block.shape[1], old_block.shape[1]) \
+                               for old_block in old_blocks]
+        old_uniting = unite_parallel(old_blocks_reshaped)
+        new_reshaped = pack_dense(new_block, l, new_block.shape[1], new_block.shape[1])
+        predictions = self.regressor_.predict(old_uniting)
+        result = subtract_parallel(new_reshaped, predictions)        
+        return unpack_dense(result, new_block.shape[0], l, new_block.shape[1])
+        
+class CovariantsPurifier:
+    def __init__(self, l_max, regressor = Ridge(alpha = 1e-15)):
+        self.l_max_ = l_max
+        self.purifiers_ = []
+        
+        for l in range(l_max + 1):
+            self.purifiers_.append(CovariantsIndividualPurifier(regressor = clone(regressor)))            
+       
+        
+    def fit(self, old_datas, new_data):
+        for l in range(self.l_max_ + 1):
+            old_blocks_now = [old_data.covariants_[:, :old_data.actual_sizes_[l], l, :] for old_data in old_datas]
+            new_block_now = new_data.covariants_[:, :new_data.actual_sizes_[l], l, :]
+            self.purifiers_[l].fit(old_blocks_now, new_block_now, l)
+           
+    def transform(self, old_datas, new_data):
+        ans = Data(np.empty(new_data.covariants_.shape), np.copy(new_data.actual_sizes_),
+                      importances = np.copy(new_data.importances_),
+                      raw_importances = np.copy(new_data.raw_importances_))
+        
+        for l in range(self.l_max_ + 1):
+            old_blocks_now = [old_data.covariants_[:, :old_data.actual_sizes_[l], l, :] for old_data in old_datas]
+            new_block_now = new_data.covariants_[:, :new_data.actual_sizes_[l], l, :]
+            now = self.purifiers_[l].transform(old_blocks_now, new_block_now, l)
+            ans.covariants_[:, :now.shape[1], l, :(2 * l + 1)] = now # todo parallelize it
+        return ans
+    
+class CovariantsPurifierBoth:
+    def __init__(self, l_max, regressor = Ridge(alpha = 1e-15)):
+        self.even_purifier_ = CovariantsPurifier(l_max, regressor = clone(regressor))
+        self.odd_purifier_ = CovariantsPurifier(l_max, regressor = clone(regressor))
+        
+    def fit(self, old_datas_even, new_data_even, old_datas_odd, new_data_odd):
+        self.even_purifier_.fit(old_datas_even, new_data_even)
+        self.odd_purifier_.fit(old_datas_odd, new_data_odd)
+        
+    def transform(self, old_datas_even, new_data_even, old_datas_odd, new_data_odd):
+        return self.even_purifier_.transform(old_datas_even, new_data_even),\
+               self.odd_purifier_.transform(old_datas_odd, new_data_odd)
+    
+
+        
+        
+        
