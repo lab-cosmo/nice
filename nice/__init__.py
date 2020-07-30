@@ -33,3 +33,4 @@ from nice import test_utilities
 from nice import thresholding
 from nice import unrolling_pca
 from nice import test_parallel
+from nice import packing

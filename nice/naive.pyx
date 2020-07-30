@@ -3,7 +3,7 @@ cimport cython
 from nice_utilities cimport single_contraction, min_c, abs_c
 
 
-@cython.boundscheck(False)
+'''@cython.boundscheck(False)
 @cython.wraparound(False)
 cpdef double compute_bispectrum_single(double[:, :, :, :, :] clebsh_gordan, double[:] c1,
                    double[:] c2, double[:] c3, int l1, int l2, int l, double[:, :] buff):
@@ -47,7 +47,7 @@ cpdef double[:] compute_bispectrum(double[:, :, :, :, :] clebsh_gordan, double[:
                                                                  c[n1, l1, :], c[n2, l2, :], c[n3, l3, :],
                                                                  l1, l2, l3, buff)
                             now += 1
-    return ans
+    return ans'''
     
 @cython.boundscheck(False)
 @cython.wraparound(False)

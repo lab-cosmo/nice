@@ -1,5 +1,5 @@
 import nice.rascal_coefficients
-from nice.nice_utilities import do_full_expansion
+#from nice.nice_utilities import do_full_expansion
 import tqdm 
 import numpy as np
 

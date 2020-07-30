@@ -9,13 +9,14 @@ from parse import parse
 import warnings
 
 class ThresholdExpansioner:
-    def __init__(self, num_expand = None, mode = 'covariants'):
+    def __init__(self, num_expand = None, mode = 'covariants', num_threads = None):
         if (num_expand is None):
             self.num_expand_ = -1
         else:
             self.num_expand_ = num_expand
         
         self.mode_ = mode
+        self.num_threads_ = num_threads
         
     
     def fit(self, first_even, first_odd, second_even, second_odd):        
@@ -53,19 +54,19 @@ class ThresholdExpansioner:
        
         do_partial_expansion(self.clebsch_.precomputed_, first_even.covariants_,
                              second_even.covariants_,
-                             self.l_max_, self.task_even_even_[0], new_even, new_even_actual_sizes, self.mode_)
+                             self.l_max_, self.task_even_even_[0], new_even, new_even_actual_sizes, self.mode_, num_threads = self.num_threads_)
         #print(new_even_actual_sizes)
         do_partial_expansion(self.clebsch_.precomputed_, first_odd.covariants_,
                              second_odd.covariants_,
-                             self.l_max_, self.task_odd_odd_[0], new_even, new_even_actual_sizes, self.mode_)
+                             self.l_max_, self.task_odd_odd_[0], new_even, new_even_actual_sizes, self.mode_, num_threads = self.num_threads_)
         #print(new_even_actual_sizes)
         do_partial_expansion(self.clebsch_.precomputed_, first_even.covariants_,
                              second_odd.covariants_,
-                             self.l_max_, self.task_even_odd_[0], new_odd, new_odd_actual_sizes, self.mode_)
+                             self.l_max_, self.task_even_odd_[0], new_odd, new_odd_actual_sizes, self.mode_, num_threads = self.num_threads_)
         
         do_partial_expansion(self.clebsch_.precomputed_, first_odd.covariants_,
                              second_even.covariants_,
-                             self.l_max_, self.task_odd_even_[0], new_odd, new_odd_actual_sizes, self.mode_) 
+                             self.l_max_, self.task_odd_even_[0], new_odd, new_odd_actual_sizes, self.mode_, num_threads = self.num_threads_) 
         if (self.mode_ == 'covariants'):
             return Data(new_even, new_even_actual_sizes), Data(new_odd, new_odd_actual_sizes)
         else:
