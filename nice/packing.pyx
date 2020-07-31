@@ -3,6 +3,8 @@ import numpy as np
 from cython.parallel import prange
 from multiprocessing import cpu_count
 
+cdef int switch_to_parallel_after = 36000000
+
                      
                      
 @cython.boundscheck(False)
@@ -21,16 +23,27 @@ cpdef pack_dense(double[:, :, :] covariants, int l,
     cdef double[:, :] res_view = res
     cdef int env_ind, feat_ind, now, m
     
-    for env_ind in prange(n_envs, nogil = True, schedule = 'static', num_threads = num_threads_int):
-        for feat_ind in range(n_feat):
-            for m in range(2 * l + 1):
-                res_view[m + env_ind * (2 * l + 1), feat_ind] = covariants[env_ind, feat_ind, m]
-                
-    for env_ind in prange(n_envs, nogil = True, schedule = 'static', num_threads = num_threads_int):
-        for feat_ind in range(n_feat, desired_n_feat):
-            for m in range(2 * l + 1):
-                res_view[m + env_ind * (2 * l + 1), feat_ind] = 0.0
-        
+    if (n_feat * (2 * l + 1) * n_envs) > switch_to_parallel_after:
+        for env_ind in prange(n_envs, nogil = True, schedule = 'static', num_threads = num_threads_int):
+            for feat_ind in range(n_feat):
+                for m in range(2 * l + 1):
+                    res_view[m + env_ind * (2 * l + 1), feat_ind] = covariants[env_ind, feat_ind, m]
+
+        for env_ind in prange(n_envs, nogil = True, schedule = 'static', num_threads = num_threads_int):
+            for feat_ind in range(n_feat, desired_n_feat):
+                for m in range(2 * l + 1):
+                    res_view[m + env_ind * (2 * l + 1), feat_ind] = 0.0
+                    
+    else:
+        for env_ind in range(n_envs):
+            for feat_ind in range(n_feat):
+                for m in range(2 * l + 1):
+                    res_view[m + env_ind * (2 * l + 1), feat_ind] = covariants[env_ind, feat_ind, m]
+
+        for env_ind in range(n_envs):
+            for feat_ind in range(n_feat, desired_n_feat):
+                for m in range(2 * l + 1):
+                    res_view[m + env_ind * (2 * l + 1), feat_ind] = 0.0
     '''for feat_ind in prange(n_feat, nogil = True, schedule = 'static', num_threads = num_threads_int):
         now = 0
         for env_ind in range(n_envs):           
@@ -82,11 +95,17 @@ cpdef unpack_dense(double[:, :] packed, int n_envs, int l, int n_feat, num_threa
             for m in range(2 * l + 1):
                 res_view[env_ind, feat_ind, m] = packed[now, feat_ind]
                 now = now + 1'''
-    
-    for env_ind in prange(n_envs, nogil = True, schedule = 'static', num_threads = num_threads_int):
-        for feat_ind in range(n_feat):
-            for m in range(2 * l + 1):
-                res_view[env_ind, feat_ind, m] = packed[m + env_ind * (2 * l + 1), feat_ind]
+    if (n_feat * (2 * l + 1) * n_envs) > switch_to_parallel_after:
+        for env_ind in prange(n_envs, nogil = True, schedule = 'static', num_threads = num_threads_int):
+            for feat_ind in range(n_feat):
+                for m in range(2 * l + 1):
+                    res_view[env_ind, feat_ind, m] = packed[m + env_ind * (2 * l + 1), feat_ind]
+                    
+    else:
+        for env_ind in range(n_envs):
+            for feat_ind in range(n_feat):
+                for m in range(2 * l + 1):
+                    res_view[env_ind, feat_ind, m] = packed[m + env_ind * (2 * l + 1), feat_ind]
     return res
 
 @cython.boundscheck(False)
@@ -100,9 +119,15 @@ cpdef copy_parallel(double[:, :] source, double[:, :] destination, num_threads =
         
     cdef int env_ind, feat_ind
     cdef int n_feat = source.shape[1]
-    for env_ind in prange(source.shape[0], nogil = True, schedule = 'static', num_threads = num_threads_int):
-        for feat_ind in range(n_feat):
-            destination[env_ind, feat_ind] = source[env_ind, feat_ind]
+    if (source.shape[0] * source.shape[1] > switch_to_parallel_after):
+        for env_ind in prange(source.shape[0], nogil = True, schedule = 'static', num_threads = num_threads_int):
+            for feat_ind in range(n_feat):
+                destination[env_ind, feat_ind] = source[env_ind, feat_ind]
+    else:
+        for env_ind in range(source.shape[0]):
+            for feat_ind in range(n_feat):
+                destination[env_ind, feat_ind] = source[env_ind, feat_ind]
+    
             
 def unite_parallel(blocks, num_threads = None):
     total_size = 0
@@ -129,9 +154,14 @@ cpdef subtract_parallel(double[:, :] a, double[:, :] b, num_threads = None):
         
     cdef int env_ind, feat_ind
     cdef int n_feat = a.shape[1]
-    for env_ind in prange(a.shape[0], nogil = True, schedule = 'static', num_threads = num_threads_int):
-        for feat_ind in range(n_feat):
-            result_view[env_ind, feat_ind] = a[env_ind, feat_ind] - b[env_ind, feat_ind]
+    if (a.shape[0] * a.shape[1] > switch_to_parallel_after):
+        for env_ind in prange(a.shape[0], nogil = True, schedule = 'static', num_threads = num_threads_int):
+            for feat_ind in range(n_feat):
+                result_view[env_ind, feat_ind] = a[env_ind, feat_ind] - b[env_ind, feat_ind]
+    else:
+        for env_ind in range(a.shape[0]):
+            for feat_ind in range(n_feat):
+                result_view[env_ind, feat_ind] = a[env_ind, feat_ind] - b[env_ind, feat_ind]
             
     return result
             

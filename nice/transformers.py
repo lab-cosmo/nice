@@ -4,7 +4,7 @@ from nice.unrolling_individual_pca import UnrollingIndividualPCA
 
 from nice.thresholding import get_thresholded_tasks
 from nice.nice_utilities import do_partial_expansion, Data, get_sizes
-from nice.ClebschGordan import ClebschGordan
+from nice.ClebschGordan import ClebschGordan, check_clebsch_gordan
 from nice.packing import unite_parallel, subtract_parallel, pack_dense, unpack_dense
 from parse import parse
 import warnings
@@ -22,12 +22,17 @@ class ThresholdExpansioner:
         self.num_threads_ = num_threads
         
     
-    def fit(self, first_even, first_odd, second_even, second_odd):        
+    def fit(self, first_even, first_odd, second_even, second_odd, clebsch_gordan = None):        
         self.l_max_ = first_even.covariants_.shape[2] - 1
         self.task_even_even_, self.task_odd_odd_, self.task_even_odd_, self.task_odd_even_ = \
         get_thresholded_tasks(first_even, first_odd, second_even, second_odd, self.num_expand_, self.l_max_, self.mode_) 
         
-        self.clebsch_ = ClebschGordan(self.l_max_)
+        if clebsch_gordan is None:
+            self.clebsch_ = ClebschGordan(self.l_max_)
+        else:
+            check_clebsch_gordan(clebsch_gordan, self.l_max_)
+            self.clebsch_ = clebsch_gordan
+            
         self.new_even_size_ = np.max(get_sizes(self.l_max_, self.task_even_even_[0], self.mode_) + \
                         get_sizes(self.l_max_, self.task_odd_odd_[0], self.mode_))
         
@@ -203,7 +208,7 @@ class StandardBlock():
         
         self.invariants_purifier_ = invariants_purifier
         if (self.invariants_purifier_ is not None) and (self.invariants_expansioner_ is None):
-            raise ValueError("can not purifier invariants without invariants")
+            raise ValueError("can not purify invariants without invariants")
             
         self.invariants_pca_ = invariants_pca
         if (self.invariants_pca_ is not None) and (self.invariants_expansioner_ is None):
@@ -219,34 +224,68 @@ class StandardBlock():
         
     def fit(self, first_even, first_odd, second_even, second_odd, 
             old_even_covariants = None, old_odd_covariants = None,
-            old_even_invariants = None, old_odd_invariants = None):
+            old_even_invariants = None, clebsch_gordan = None):
+        
+        self.l_max_ = first_even.covariants_.shape[2] - 1
+        if clebsch_gordan is None:
+            self.clebsch_ = ClebschGordan(self.l_max_)
+        else:
+            check_clebsch_gordan(clebsch_gordan, self.l_max_)
+            self.clebsch_ = clebsch_gordan
+        
         
         if (self.covariants_expansioner_ is not None):
-            self.covariants_expansioner_.fit(first_even, first_odd, second_even, second_odd)
-            
-        #if (self.covariant_purifier_ is not None):
-            
-        if (self.covariants_pca_ is not None):
+            self.covariants_expansioner_.fit(first_even, first_odd, second_even, second_odd, clebsch_gordan = self.clebsch_)
             transformed_even, transformed_odd = self.covariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
-           
+            
+        if (self.covariants_purifier_ is not None):
+            
+            if (old_even_covariants is None) or (old_odd_covariants is None):
+                raise ValueError("to fit covariants purifier previous covariants should be provided")
+            
+            self.covariants_purifier_.fit(old_even_covariants, transformed_even, old_odd_covariants, transformed_odd)
+            transformed_even, transformed_odd = self.covariants_purifier_.transform(old_even_covariants, transformed_even, old_odd_covariants, transformed_odd)
+        
+                
+                
+        if (self.covariants_pca_ is not None):
             self.covariants_pca_.fit(transformed_even, transformed_odd)
             
         if (self.invariants_expansioner_ is not None):
-            self.invariants_expansioner_.fit(first_even, first_odd, second_even, second_odd)
-        if (self.invariants_pca_ is not None):
+            self.invariants_expansioner_.fit(first_even, first_odd, second_even, second_odd, clebsch_gordan = self.clebsch_)
             invariants_even, _ = self.invariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
+            
+        if (self.invariants_purifier_ is not None):
+            if (old_even_invariants is None):
+                raise ValueError("to fit invariants purifier previous invariants should be provided")
+            self.invariants_purifier_.fit(old_even_invariants, invariants_even)
+            invariants_even = self.invariants_purifier_.transform(old_even_invariants, invariants_even)
+            
+        if (self.invariants_pca_ is not None):            
             self.invariants_pca_.fit(invariants_even)
         
-    def transform(self, first_even, first_odd, second_even, second_odd):
+    def transform(self, first_even, first_odd, second_even, second_odd, old_even_covariants = None, old_odd_covariants = None,
+            old_even_invariants = None):
         transformed_even, transformed_odd = None, None
         if (self.covariants_expansioner_ is not None):
             transformed_even, transformed_odd = self.covariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
+            
+        if (self.covariants_purifier_ is not None):
+            if (old_even_covariants is None) or (old_odd_covariants is None):
+                raise ValueError("need previous covariants to do covariants purifier transformation")
+            transformed_even, transformed_odd = self.covariants_purifier_.transform(old_even_covariants, transformed_even, old_odd_covariants, transformed_odd)
+            
         if (self.covariants_pca_ is not None):
             transformed_even, transformed_odd = self.covariants_pca_.transform(transformed_even, transformed_odd)
         
         invariants_even = None
         if (self.invariants_expansioner_ is not None):
             invariants_even, _ = self.invariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
+        if (self.invariants_purifier_ is not None):
+            if (old_even_invariants is None):
+                raise ValueError("need previous invariants to do invariants purifier transformation")
+            invariants_even = self.invariants_purifier_.transform(old_even_invariants, invariants_even)
+            
         if (self.invariants_pca_ is not None):
             invariants_even = self.invariants_pca_.transform(invariants_even)
        
@@ -262,16 +301,38 @@ class StandardSequence():
                 raise ValueError("all intermediate standard blocks should calculate covariants")
         self.initial_transformer_ = InitialTransformer()
                 
-    def fit(self, coefficients):
+    def fit(self, coefficients, clebsch_gordan = None):
+        
+        self.l_max_ = coefficients.shape[2] - 1
+        if clebsch_gordan is None:
+            self.clebsch_ = ClebschGordan(self.l_max_)
+        else:
+            check_clebsch_gordan(clebsch_gordan, self.l_max_)
+            self.clebsch_ = clebsch_gordan
+            
         self.intermediate_sizes_ = []
         data_even_0, data_odd_0 = self.initial_transformer_.transform(coefficients)
         self.initial_pca_.fit(data_even_0, data_odd_0)
         data_even_0, data_odd_0 = self.initial_pca_.transform(data_even_0, data_odd_0)
+        
         data_even_now, data_odd_now = data_even_0, data_odd_0
+        all_invariants = [data_even_0.get_invariants()]
+        all_even_covariants = [data_even_0]
+        all_odd_covariants = [data_odd_0]
+        
         self.intermediate_sizes_.append([data_even_now.actual_sizes_, data_odd_now.actual_sizes_])
         for i in range(len(self.blocks_)):
-            self.blocks_[i].fit(data_even_now, data_odd_now, data_even_0, data_odd_0)            
-            data_even_now, data_odd_now, _ = self.blocks_[i].transform(data_even_now, data_odd_now, data_even_0, data_odd_0)
+            self.blocks_[i].fit(data_even_now, data_odd_now, data_even_0, data_odd_0, all_even_covariants, all_odd_covariants, all_invariants, clebsch_gordan = self.clebsch_)            
+            data_even_now, data_odd_now, invariants_even_now = self.blocks_[i].transform(data_even_now, data_odd_now, data_even_0, data_odd_0, all_even_covariants, all_odd_covariants, all_invariants)
+            
+            all_even_covariants.append(data_even_now)
+            all_odd_covariants.append(data_odd_now)
+            
+            if (invariants_even_now is not None):
+                all_invariants.append(invariants_even_now)
+            else:
+                all_invariants.append(data_even_now.get_invariants())
+                
             if (data_even_now is not None):
                 self.intermediate_sizes_.append([data_even_now.actual_sizes_, data_odd_now.actual_sizes_])
         
@@ -282,8 +343,14 @@ class StandardSequence():
         
         all_invariants = [data_even_0.get_invariants()]
         data_even_now, data_odd_now = data_even_0, data_odd_0
+       
+        all_even_covariants = [data_even_0]
+        all_odd_covariants = [data_odd_0]
         for i in range(len(self.blocks_)):
-            data_even_now, data_odd_now, invariants_even_now = self.blocks_[i].transform(data_even_now, data_odd_now, data_even_0, data_odd_0)
+            data_even_now, data_odd_now, invariants_even_now = self.blocks_[i].transform(data_even_now, data_odd_now, data_even_0, data_odd_0, all_even_covariants, all_odd_covariants, all_invariants)
+            
+            all_even_covariants.append(data_even_now)
+            all_odd_covariants.append(data_odd_now)
             
             if (invariants_even_now is not None):
                 all_invariants.append(invariants_even_now)
@@ -296,13 +363,15 @@ class StandardSequence():
             return data_even_now, data_odd_now, all_invariants
         
             
-   
+            
+            
+DEFAULT_LINEAR_REGRESSOR = Ridge(alpha = 1e-12) 
 class InvariantsPurifier:
-    def __init__(self, regressor = Ridge(alpha = 1e-15)):
-        self.regressor_ = regressor
+    def __init__(self, regressor = DEFAULT_LINEAR_REGRESSOR):
+        self.regressor_ = clone(regressor)
         
-    def fit(self, old_blocks, new_block):
-        old_uniting = unite_parallel(old_blocks)
+    def fit(self, old_blocks, new_block):       
+        old_uniting = unite_parallel(old_blocks)       
         self.regressor_.fit(old_uniting, new_block)
         
     def transform(self, old_blocks, new_block):
@@ -311,10 +380,11 @@ class InvariantsPurifier:
         return subtract_parallel(new_block, predictions)
     
 class CovariantsIndividualPurifier:
-    def __init__(self, regressor = Ridge(alpha = 1e-15)):
-        self.regressor_ = regressor
+    def __init__(self, regressor = DEFAULT_LINEAR_REGRESSOR):
+        self.regressor_ = clone(regressor)
+        self.regressor_.set_params(**{"fit_intercept" : False})
         
-    def fit(self, old_blocks, new_block, l):
+    def fit(self, old_blocks, new_block, l):        
         old_blocks_reshaped = [pack_dense(old_block, l, old_block.shape[1], old_block.shape[1]) \
                                for old_block in old_blocks]
         old_uniting = unite_parallel(old_blocks_reshaped)
@@ -331,19 +401,30 @@ class CovariantsIndividualPurifier:
         return unpack_dense(result, new_block.shape[0], l, new_block.shape[1])
         
 class CovariantsPurifier:
-    def __init__(self, l_max, regressor = Ridge(alpha = 1e-15)):
-        self.l_max_ = l_max
-        self.purifiers_ = []
-        
-        for l in range(l_max + 1):
-            self.purifiers_.append(CovariantsIndividualPurifier(regressor = clone(regressor)))            
-       
+    def __init__(self, regressor = DEFAULT_LINEAR_REGRESSOR):
+        self.regressor_ = clone(regressor)
+        self.regressor_.set_params(**{"fit_intercept" : False})
         
     def fit(self, old_datas, new_data):
+        self.l_max_ = new_data.covariants_.shape[2] - 1
+        self.purifiers_ = []
+        
         for l in range(self.l_max_ + 1):
-            old_blocks_now = [old_data.covariants_[:, :old_data.actual_sizes_[l], l, :] for old_data in old_datas]
+            self.purifiers_.append(CovariantsIndividualPurifier(regressor = clone(self.regressor_))) 
+      
+        for l in range(self.l_max_ + 1):            
+            old_blocks_now = [old_data.covariants_[:, :old_data.actual_sizes_[l], l, :] \
+                              for old_data in old_datas if (old_data.actual_sizes_[l] > 0) ]
             new_block_now = new_data.covariants_[:, :new_data.actual_sizes_[l], l, :]
-            self.purifiers_[l].fit(old_blocks_now, new_block_now, l)
+            
+            old_total_size = 0
+            for old_data in old_datas:
+                old_total_size += old_data.actual_sizes_[l]
+            new_size = new_data.actual_sizes_[l]
+            if (old_total_size == 0) or (new_size == 0):
+                self.purifiers_[l] = None
+            else:
+                self.purifiers_[l].fit(old_blocks_now, new_block_now, l)
            
     def transform(self, old_datas, new_data):
         ans = Data(np.empty(new_data.covariants_.shape), np.copy(new_data.actual_sizes_),
@@ -351,16 +432,22 @@ class CovariantsPurifier:
                       raw_importances = np.copy(new_data.raw_importances_))
         
         for l in range(self.l_max_ + 1):
-            old_blocks_now = [old_data.covariants_[:, :old_data.actual_sizes_[l], l, :] for old_data in old_datas]
-            new_block_now = new_data.covariants_[:, :new_data.actual_sizes_[l], l, :]
-            now = self.purifiers_[l].transform(old_blocks_now, new_block_now, l)
-            ans.covariants_[:, :now.shape[1], l, :(2 * l + 1)] = now # todo parallelize it
+            if (self.purifiers_[l] is not None):
+                old_blocks_now = [old_data.covariants_[:, :old_data.actual_sizes_[l], l, :] for old_data in old_datas]
+                new_block_now = new_data.covariants_[:, :new_data.actual_sizes_[l], l, :]
+                now = self.purifiers_[l].transform(old_blocks_now, new_block_now, l)
+                ans.covariants_[:, :now.shape[1], l, :(2 * l + 1)] = now # todo parallelize it
+            else:                
+                if (ans.actual_sizes_[l] > 0):                   
+                    ans.covariants_[:, :ans.actual_sizes_[l], l, :(2 * l + 1)] = \
+                    new_data.covariants_[:, :ans.actual_sizes_[l], l, :(2 * l + 1)] #todo parallelize it
+                   
         return ans
     
 class CovariantsPurifierBoth:
-    def __init__(self, l_max, regressor = Ridge(alpha = 1e-15)):
-        self.even_purifier_ = CovariantsPurifier(l_max, regressor = clone(regressor))
-        self.odd_purifier_ = CovariantsPurifier(l_max, regressor = clone(regressor))
+    def __init__(self, regressor = DEFAULT_LINEAR_REGRESSOR):
+        self.even_purifier_ = CovariantsPurifier(regressor = clone(regressor))
+        self.odd_purifier_ = CovariantsPurifier(regressor = clone(regressor))
         
     def fit(self, old_datas_even, new_data_even, old_datas_odd, new_data_odd):
         self.even_purifier_.fit(old_datas_even, new_data_even)
