@@ -15,7 +15,7 @@ setup(
 
 '''import cython
 import pyximport; pyximport.install()'''
-from nice import transformers
+'''from nice import transformers
 from nice import ClebschGordan
 from nice import contracted_pca
 from nice import parallelized
@@ -33,4 +33,4 @@ from nice import test_utilities
 from nice import thresholding
 from nice import unrolling_pca
 from nice import test_parallel
-from nice import packing
+from nice import packing'''
