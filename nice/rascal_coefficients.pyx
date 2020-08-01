@@ -5,10 +5,42 @@ from naive cimport compute_powerspectrum
 from libc.math cimport sin, M_PI, sqrt, fmax
 import tqdm
 import rascal
+from ase import Atoms
 from rascal.representations import SphericalInvariants as SOAP
 from rascal.representations import SphericalExpansion as SPH
 from rascal.neighbourlist.structure_manager import (
         mask_center_atoms_by_species, mask_center_atoms_by_id)
+
+from multiprocessing import Pool, cpu_count
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cpdef void copy_coefs(double[:, :, :, :] coefficients, int[:] central_species, int central_now,
+                double[:, :, :, :] ans):
+    cdef int now = 0
+    cdef int n_radial = coefficients.shape[1]
+    cdef int l_max = coefficients.shape[2] - 1
+    cdef int env_ind, radial_ind, l, m
+    
+    
+    for env_ind in range(coefficients.shape[0]):
+        if central_species[env_ind] == central_now:
+            for radial_ind in range(n_radial):
+                for l in range(l_max + 1):
+                    for m in range(2 * l_max + 1):
+                        ans[now, radial_ind, l, m] = coefficients[env_ind, radial_ind, l, m]
+            now += 1
+
+
+def split_by_central_specie(all_species, species, coefficients): 
+    result = {}
+    for specie in tqdm.tqdm(species):
+        num_now = np.sum(all_species == specie)
+        result[specie] = np.empty([num_now, coefficients.shape[1], coefficients.shape[2], coefficients.shape[3]])
+        copy_coefs(coefficients, all_species, specie, result[specie])
+    return result   
+    
 
 
 @cython.boundscheck(False)
@@ -30,7 +62,7 @@ cpdef convert_rascal_coefficients(double[:, :] coefficients, int n_max, int n_ty
                     now += 1
     return ans
 
-@cython.boundscheck(False)
+'''@cython.boundscheck(False)
 @cython.wraparound(False)
 cpdef normalize_by_ps(double[:, :, :, :] coefficients):
     cdef int n_envs = coefficients.shape[0]
@@ -50,35 +82,52 @@ cpdef normalize_by_ps(double[:, :, :, :] coefficients):
         for n in range(n_radial):
             for l in range(l_max + 1):
                 for m in range(2 * l + 1):
-                    coefficients[env_ind, n, l, m] /= multiplier
+                    coefficients[env_ind, n, l, m] /= multiplier'''
                     
-                    
-def get_rascal_coefficients(structures, HYPERS, n_types, normalize = True):
+ 
+
+def get_rascal_coefficients(structures, HYPERS, n_types):
    
     
     sph = SPH(**HYPERS)
-    n_max = HYPERS['max_radial']
-    l_max = HYPERS['max_angular']
+    try:
+        n_max = HYPERS['max_radial']
+        l_max = HYPERS['max_angular']
+    except KeyError:
+        raise KeyError("max_radial and max_angular should be specified")
+    
     feat = sph.transform(structures).get_features(sph)
     res = convert_rascal_coefficients(feat, n_max, n_types, l_max)
     
-    if (normalize):
-        normalize_by_ps(res)
+    #if (normalize):
+    #    normalize_by_ps(res)
     return np.array(res)
 
 
-
-def get_rascal_coefficients_parallelized(p, structures, hypers, n_types,
-                                         normalize = True, task_size = 100):
+def get_rascal_coefficients_stared(task):
+    return get_rascal_coefficients(*task)
+def get_rascal_coefficients_parallelized(structures, hypers, task_size = 100, num_threads = None):
     
+      
+    all_species = []
+    for structure in structures:
+        all_species.append(structure.get_atomic_numbers())
+    all_species = np.concatenate(all_species, axis = 0)
+    species = np.unique(all_species)
+    all_species = all_species.astype(np.int32)
+    species = species.astype(np.int32)
+                   
+    if (num_threads is None):
+        num_threads = cpu_count()
+    
+    p = Pool(num_threads) 
     tasks = []
     for i in range(0, len(structures), task_size):
-        tasks.append([structures[i : i + task_size], hypers, n_types, normalize])
+        tasks.append([structures[i : i + task_size], hypers, len(species)])  
         
-    def wrapped(task):
-        return get_rascal_coefficients(*task)
-    
-    result = [res for res in tqdm.tqdm(p.imap(wrapped, tasks), total = len(tasks))]
-    return np.concatenate(result, axis = 0)
-    
+    result = [res for res in tqdm.tqdm(p.imap(get_rascal_coefficients_stared, tasks), total = len(tasks))]
+    p.close()
+    p.join()
+    result = np.concatenate(result, axis = 0)
+    return split_by_central_specie(all_species, species, result)
             

@@ -10,7 +10,7 @@ from parse import parse
 import warnings
 from sklearn.linear_model import Ridge
 from sklearn.base import clone
-
+from sklearn.exceptions import NotFittedError 
 
 def get_num_fit(desired_num, block_size):
     if (desired_num % block_size == 0):
@@ -22,8 +22,11 @@ class IndividualLambdaPCAs():
     def __init__(self, n_components = None, num_to_fit = '10x'):
         self.n_components_ = n_components
         self.num_to_fit_ = num_to_fit
+        self.fitted_ = False
         
-    def get_importances(self):        
+    def get_importances(self):
+        if (not self.fitted_):
+            raise NotFittedError("instance of {} is not fitted. Thus importances are not available".format(type(self).__name__))
         result = np.empty([self.max_n_components_, self.l_max_ + 1])
         for lambd in range(self.l_max_ + 1):
             if (self.pcas_[lambd] is not None):
@@ -38,6 +41,7 @@ class IndividualLambdaPCAs():
         return result 
     
     def fit(self, data):
+        
         self.l_max_ = data.covariants_.shape[2] - 1
         self.pcas_ = []
         self.reduction_happened_ = False
@@ -75,10 +79,12 @@ class IndividualLambdaPCAs():
                 self.pcas_.append(pca)
             else:
                 self.pcas_.append(None)
-                
+        self.fitted_ = True
         self.importances_ = self.get_importances()
             
     def transform(self, data):
+        if (not self.fitted_):
+            raise NotFittedError("instance of {} is not fitted. It can not transform anything".format(type(self).__name__))
         result = np.empty([data.covariants_.shape[0], self.max_n_components_, self.l_max_ + 1, 2 * self.l_max_ + 1])
         new_actual_sizes = np.zeros([self.l_max_ + 1], dtype = np.int32)
         for lambd in range(self.l_max_ + 1):
@@ -89,17 +95,27 @@ class IndividualLambdaPCAs():
             else:
                 new_actual_sizes[lambd] = 0
             
-        return Data(result, new_actual_sizes, importances = self.importances_)    
+        return Data(result, new_actual_sizes, importances = self.importances_)
+    
+    def is_fitted(self):
+        return self.fitted_
     
     
 class IndividualLambdaPCAsBoth():
     def __init__(self, *args, **kwargs):
         self.even_pca_ = IndividualLambdaPCAs(*args, **kwargs)
         self.odd_pca_ = IndividualLambdaPCAs(*args, **kwargs)
+        self.fitted_ = False
         
     def fit(self, data_even, data_odd):
+        
         self.even_pca_.fit(data_even)
         self.odd_pca_.fit(data_odd)
-    
+        self.fitted_ = True
     def transform(self, data_even, data_odd):
+        if (not self.fitted_):
+            raise NotFittedError("instance of {} is not fitted. It can not transform anything".format(type(self).__name__))
         return self.even_pca_.transform(data_even), self.odd_pca_.transform(data_odd)
+    
+    def is_fitted(self):
+        return self.fitted_

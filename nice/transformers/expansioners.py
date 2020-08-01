@@ -2,6 +2,7 @@ from nice.thresholding import get_thresholded_tasks
 from nice.nice_utilities import do_partial_expansion, Data, get_sizes
 from nice.ClebschGordan import ClebschGordan, check_clebsch_gordan
 import numpy as np
+from sklearn.exceptions import NotFittedError 
 
 class ThresholdExpansioner:
     def __init__(self, num_expand = None, mode = 'covariants', num_threads = None):
@@ -12,9 +13,10 @@ class ThresholdExpansioner:
         
         self.mode_ = mode
         self.num_threads_ = num_threads
-        
+        self.fitted_ = False
     
-    def fit(self, first_even, first_odd, second_even, second_odd, clebsch_gordan = None):        
+    def fit(self, first_even, first_odd, second_even, second_odd, clebsch_gordan = None):
+                
         self.l_max_ = first_even.covariants_.shape[2] - 1
         self.task_even_even_, self.task_odd_odd_, self.task_even_odd_, self.task_odd_even_ = \
         get_thresholded_tasks(first_even, first_odd, second_even, second_odd, self.num_expand_, self.l_max_, self.mode_) 
@@ -33,9 +35,11 @@ class ThresholdExpansioner:
         
         self.new_even_raw_importances_ = np.concatenate([self.task_even_even_[1], self.task_odd_odd_[1]], axis = 0)
         self.new_odd_raw_importances_ = np.concatenate([self.task_even_odd_[1], self.task_odd_even_[1]], axis = 0)
+        self.fitted_ = True
         
     def transform(self, first_even, first_odd, second_even, second_odd):
-       
+        if (not self.fitted_):
+            raise NotFittedError("instance of {} is not fitted. It can not transform anything".format(type(self).__name__))
         
         if (self.mode_ == 'covariants'):
             new_even = np.empty([first_even.covariants_.shape[0], self.new_even_size_, self.l_max_ + 1, 2 * self.l_max_ + 1])
@@ -71,4 +75,7 @@ class ThresholdExpansioner:
             return Data(new_even, new_even_actual_sizes), Data(new_odd, new_odd_actual_sizes)
         else:
             return new_even[:, :new_even_actual_sizes[0], 0], new_odd[:, :new_odd_actual_sizes[0], 0]
+        
+    def is_fitted(self):
+        return self.fitted_
         

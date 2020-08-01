@@ -10,10 +10,19 @@ from parse import parse
 import warnings
 from sklearn.linear_model import Ridge
 from sklearn.base import clone
+from sklearn.exceptions import NotFittedError       
         
-        
-           
+       
+def check_if_all_fitted(parts):
+    all_fitted = True
+    for part in parts:
+        if (part is not None):
+            all_fitted = all_fitted and part.is_fitted()
+    return all_fitted
+
 class InitialTransformer():
+    def __init__(self):
+        self.fitted_ = True
     def transform(self, coefficients):
         l_max = coefficients.shape[2] - 1
         even_coefficients = np.copy(coefficients)
@@ -24,8 +33,9 @@ class InitialTransformer():
         
         return Data(even_coefficients, even_coefficients_sizes), Data(odd_coefficients, odd_coefficients_sizes)
     
-class StandardBlock():
-    def __init__(self, covariants_expansioner = None, covariants_purifier = None, covariants_pca = None, invariants_expansioner = None, invariants_purifier = None, invariants_pca = None):
+class StandardBlock():    
+        
+    def __init__(self, covariants_expansioner = None, covariants_purifier = None, covariants_pca = None, invariants_expansioner = None, invariants_purifier = None, invariants_pca = None, guaranteed_parts_fitted_consistently = False):
         
         self.covariants_expansioner_ = covariants_expansioner
         if (self.covariants_expansioner_ is not None):
@@ -61,10 +71,13 @@ class StandardBlock():
             
         if (self.covariants_expansioner_ is None) and (self.invariants_expansioner_ is None):
             raise ValueError("nothing to do")
+            
+        self.fitted_ = guaranteed_parts_fitted_consistently and check_if_all_fitted([covariants_expansioner, covariants_purifier, covariants_pca, invariants_expansioner, invariants_purifier, invariants_pca])
         
     def fit(self, first_even, first_odd, second_even, second_odd, 
             old_even_covariants = None, old_odd_covariants = None,
             old_even_invariants = None, clebsch_gordan = None):
+        
         
         self.l_max_ = first_even.covariants_.shape[2] - 1
         if clebsch_gordan is None:
@@ -103,9 +116,13 @@ class StandardBlock():
             
         if (self.invariants_pca_ is not None):            
             self.invariants_pca_.fit(invariants_even)
+            
+        self.fitted_ = True
         
     def transform(self, first_even, first_odd, second_even, second_odd, old_even_covariants = None, old_odd_covariants = None,
             old_even_invariants = None):
+        if (not self.fitted_):
+            raise NotFittedError("instance of {} is not fitted. It can not transform anything".format(type(self).__name__))
         transformed_even, transformed_odd = None, None
         if (self.covariants_expansioner_ is not None):
             transformed_even, transformed_odd = self.covariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
@@ -130,17 +147,21 @@ class StandardBlock():
             invariants_even = self.invariants_pca_.transform(invariants_even)
        
         return transformed_even, transformed_odd, invariants_even
+    
+    def is_fitted(self):
+        return self.fitted_
         
     
 class StandardSequence():
-    def __init__(self, blocks, initial_pca = IndividualLambdaPCAsBoth()):
+    def __init__(self, blocks, initial_pca = IndividualLambdaPCAsBoth(), guaranteed_parts_fitted_consistently = False):
         self.blocks_ = blocks
         self.initial_pca_ = initial_pca
         for i in range(len(self.blocks_) - 1):
             if not self.blocks_[i].higher_body_orders_possible_:
                 raise ValueError("all intermediate standard blocks should calculate covariants")
         self.initial_transformer_ = InitialTransformer()
-                
+        self.fitted_ = guaranteed_parts_fitted_consistently and check_if_all_fitted(blocks + [self.initial_pca_, self.initial_transformer_])       
+   
     def fit(self, coefficients, clebsch_gordan = None):
         
         self.l_max_ = coefficients.shape[2] - 1
@@ -175,8 +196,12 @@ class StandardSequence():
                 
             if (data_even_now is not None):
                 self.intermediate_sizes_.append([data_even_now.actual_sizes_, data_odd_now.actual_sizes_])
+                
+        self.fitted_ = True
         
     def transform(self, coefficients, return_only_invariants = False):
+        if (not self.fitted_):
+            raise NotFittedError("instance of {} is not fitted. It can not transform anything".format(type(self).__name__))
         data_even_0, data_odd_0 = self.initial_transformer_.transform(coefficients)
         data_even_0, data_odd_0 = self.initial_pca_.transform(data_even_0, data_odd_0)
         
@@ -201,3 +226,6 @@ class StandardSequence():
             return all_invariants
         else:
             return data_even_now, data_odd_now, all_invariants
+        
+    def is_fitted(self):
+        return self.fitted_

@@ -164,4 +164,31 @@ cpdef subtract_parallel(double[:, :] a, double[:, :] b, num_threads = None):
                 result_view[env_ind, feat_ind] = a[env_ind, feat_ind] - b[env_ind, feat_ind]
             
     return result
-            
+     
+
+'''@cython.boundscheck(False)
+@cython.wraparound(False)
+cpdef accumulate(double[:, :] values, int[:] structure_indices, int central_now,
+                double[:, :] ans):
+    
+    cdef int env_ind, feat_ind, n_feat = values.shape[1]
+    cdef int now = 0
+    for env_ind in range(values.shape[0]):      
+        for feat_ind in range(n_feat):
+            ans[structure_indices[env_ind], feat_ind] += values[env_ind, feat_ind]
+    
+def accumulate_to_structures(structures, values):
+    all_species = []
+    for structure in structures:
+        all_species.append(structure.get_atomic_numbers())
+    all_species = np.concatenate(all_species, axis = 0)
+    species = np.unique(all_species)
+    all_species = all_species.astype(np.int32)
+    species = species.astype(np.int32)
+    
+    result = {}
+    for specie in tqdm.tqdm(species):
+        num_now = np.sum(all_species == specie)
+        result[specie] = np.empty([num_now, coefficients.shape[1], coefficients.shape[2], coefficients.shape[3]])
+        copy_coefs(coefficients, all_species, specie, result[specie])
+    return result   '''
