@@ -10,7 +10,8 @@ from rascal.representations import SphericalInvariants as SOAP
 from rascal.representations import SphericalExpansion as SPH
 from rascal.neighbourlist.structure_manager import (
         mask_center_atoms_by_species, mask_center_atoms_by_id)
-
+import warnings
+import copy
 from multiprocessing import Pool, cpu_count
 
 
@@ -107,8 +108,16 @@ def get_rascal_coefficients(structures, HYPERS, n_types):
 def get_rascal_coefficients_stared(task):
     return get_rascal_coefficients(*task)
 
-def get_rascal_coefficients_parallelized(structures, hypers, task_size = 100, num_threads = None):  
-      
+def get_rascal_coefficients_parallelized(structures, rascal_hypers, task_size = 100, num_threads = None):  
+    hypers = copy.deepcopy(rascal_hypers)
+    
+    if ('expansion_by_species_method' in hypers.keys()):
+        if (hypers['expansion_by_species_method'] != 'user defined'):
+            raise ValueError("for proper packing spherical expansion coefficients into [env index, radial/specie index, l, m] shape output should be uniform, thus 'expansion_by_species_method' must be 'user defined'")
+            
+    hypers['expansion_by_species_method'] = 'user defined'
+    
+    
     all_species = []
     for structure in structures:
         all_species.append(structure.get_atomic_numbers())
@@ -116,7 +125,16 @@ def get_rascal_coefficients_parallelized(structures, hypers, task_size = 100, nu
     species = np.unique(all_species)
     all_species = all_species.astype(np.int32)
     species = species.astype(np.int32)
-                       
+    if ('global_species' not in hypers.keys()):
+        hypers['global_species'] = list(species)
+    else:
+        for specie in species:
+            if (specie not in hypers['global_species']):
+                warnings.warn("atom with type {} is presented in the dataset but it is not listed in the global_species, adding it".format(specie))
+                hypers['global_species'].append(int(specie))
+                
+      
+                              
     
     if (num_threads is None):
         num_threads = cpu_count()
