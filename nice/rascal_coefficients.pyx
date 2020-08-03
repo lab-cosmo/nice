@@ -126,12 +126,14 @@ def get_rascal_coefficients_parallelized(structures, rascal_hypers, task_size = 
     all_species = all_species.astype(np.int32)
     species = species.astype(np.int32)
     if ('global_species' not in hypers.keys()):
-        hypers['global_species'] = list(species)
+        hypers['global_species'] = [int(specie) for specie in species]
     else:
         for specie in species:
             if (specie not in hypers['global_species']):
                 warnings.warn("atom with type {} is presented in the dataset but it is not listed in the global_species, adding it".format(specie))
                 hypers['global_species'].append(int(specie))
+            
+        species = np.array(hypers['global_species']).astype(np.int32)
                 
       
                               
