@@ -96,7 +96,7 @@ class StandardBlock():
         if (self.covariants_expansioner_ is not None):
             self.covariants_expansioner_.fit(first_even, first_odd, second_even, second_odd, clebsch_gordan = self.clebsch_)
             transformed_even, transformed_odd = self.covariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
-            self.intermediate_shapes_['after covariants expansioner'] = [[transformed_even.actual_sizes_, transformed_odd.actual_sizes_]]
+            self.intermediate_shapes_['after covariants expansioner'] = [list(transformed_even.actual_sizes_), list(transformed_odd.actual_sizes_)]
             
         if (self.covariants_purifier_ is not None):
             
@@ -105,32 +105,32 @@ class StandardBlock():
             
             self.covariants_purifier_.fit(old_even_covariants, transformed_even, old_odd_covariants, transformed_odd)
             transformed_even, transformed_odd = self.covariants_purifier_.transform(old_even_covariants, transformed_even, old_odd_covariants, transformed_odd)
-            self.intermediate_shapes_['after covariants purifier'] = [[transformed_even.actual_sizes_, transformed_odd.actual_sizes_]]
+            self.intermediate_shapes_['after covariants purifier'] = [list(transformed_even.actual_sizes_), list(transformed_odd.actual_sizes_)]
         
                 
                 
         if (self.covariants_pca_ is not None):
             self.covariants_pca_.fit(transformed_even, transformed_odd)
             transformed_even, transformed_odd = self.covariants_pca_.transform(transformed_even, transformed_odd)
-            self.intermediate_shapes_['after covariants pca'] = [[transformed_even.actual_sizes_, transformed_odd.actual_sizes_]]
+            self.intermediate_shapes_['after covariants pca'] = [list(transformed_even.actual_sizes_), list(transformed_odd.actual_sizes_)]
             
         
         if (self.invariants_expansioner_ is not None):
             self.invariants_expansioner_.fit(first_even, first_odd, second_even, second_odd, clebsch_gordan = self.clebsch_)
             invariants_even, _ = self.invariants_expansioner_.transform(first_even, first_odd, second_even, second_odd)
-            self.intermediate_shapes_['after invariants expansioner'] = [invariants_even.shape[1]]
+            self.intermediate_shapes_['after invariants expansioner'] = invariants_even.shape[1]
             
         if (self.invariants_purifier_ is not None):
             if (old_even_invariants is None):
                 raise ValueError("to fit invariants purifier previous invariants should be provided")
             self.invariants_purifier_.fit(old_even_invariants, invariants_even)
             invariants_even = self.invariants_purifier_.transform(old_even_invariants, invariants_even)
-            self.intermediate_shapes_['after invariants purifier'] = [invariants_even.shape[1]]
+            self.intermediate_shapes_['after invariants purifier'] = invariants_even.shape[1]
             
         if (self.invariants_pca_ is not None):            
             self.invariants_pca_.fit(invariants_even)
             invariants_even = self.invariants_pca_.transform(invariants_even)
-            self.intermediate_shapes_['after invariants pca'] = [invariants_even.shape[1]]
+            self.intermediate_shapes_['after invariants pca'] = invariants_even.shape[1]
             
         self.fitted_ = True
         
@@ -194,11 +194,11 @@ class StandardSequence():
             
         
         data_even_0, data_odd_0 = self.initial_transformer_.transform(coefficients)
-        self.intermediate_shapes_['after initial transformer'] = [data_even_0.actual_sizes_, data_odd_0.actual_sizes_]
+        self.intermediate_shapes_['after initial transformer'] = [list(data_even_0.actual_sizes_), list(data_odd_0.actual_sizes_)]
         
         self.initial_pca_.fit(data_even_0, data_odd_0)
         data_even_0, data_odd_0 = self.initial_pca_.transform(data_even_0, data_odd_0)
-        self.intermediate_shapes_['after initial pca'] = [data_even_0.actual_sizes_, data_odd_0.actual_sizes_]
+        self.intermediate_shapes_['after initial pca'] = [list(data_even_0.actual_sizes_), list(data_odd_0.actual_sizes_)]
         
         data_even_now, data_odd_now = data_even_0, data_odd_0
         all_invariants = [data_even_0.get_invariants()]
