@@ -106,8 +106,8 @@ def get_rascal_coefficients(structures, HYPERS, n_types):
 
 def get_rascal_coefficients_stared(task):
     return get_rascal_coefficients(*task)
-def get_rascal_coefficients_parallelized(structures, hypers, task_size = 100, num_threads = None):
-    
+
+def get_rascal_coefficients_parallelized(structures, hypers, task_size = 100, num_threads = None):  
       
     all_species = []
     for structure in structures:
@@ -116,7 +116,8 @@ def get_rascal_coefficients_parallelized(structures, hypers, task_size = 100, nu
     species = np.unique(all_species)
     all_species = all_species.astype(np.int32)
     species = species.astype(np.int32)
-                   
+                       
+    
     if (num_threads is None):
         num_threads = cpu_count()
     

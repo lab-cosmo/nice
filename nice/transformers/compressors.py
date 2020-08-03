@@ -11,6 +11,7 @@ import warnings
 from sklearn.linear_model import Ridge
 from sklearn.base import clone
 from sklearn.exceptions import NotFittedError 
+from sklearn.decomposition import PCA
 
 def get_num_fit(desired_num, block_size):
     if (desired_num % block_size == 0):
@@ -117,5 +118,50 @@ class IndividualLambdaPCAsBoth():
             raise NotFittedError("instance of {} is not fitted. It can not transform anything".format(type(self).__name__))
         return self.even_pca_.transform(data_even), self.odd_pca_.transform(data_odd)
     
+    def is_fitted(self):
+        return self.fitted_
+
+    
+class InvariantsPCA(PCA):
+    def __init__(self, *args, num_to_fit = '10x', **kwargs):
+        self.num_to_fit_ = num_to_fit
+        self.fitted_ = False
+        return super().__init__(*args, **kwargs)
+    
+    def process_input(self, X):
+        if (type(self.num_to_fit_) is str):
+            multiplier = int(parse('{}x', self.num_to_fit_)[0])                     
+            num_fit_now = multiplier * self.n_components
+        else:
+            num_fit_now = self.num_to_fit_
+            
+        if (self.n_components > X.shape[0]):
+            raise ValueError("not enough data to fit pca. Number of environments is {}, number of components is {}".format(X.shape[0], self.n_components))
+            
+        if (num_fit_now > X.shape[0]):
+            warnings.warn("Amount of provided data is less than the desired one to fit PCA. Number of components is {}, desired number of environments is {}, actual number of environments is {}".format(self.n_components, num_fit_now, X.shape[0]))
+            
+        return X[:num_fit_now]
+         
+    def fit(self, X): 
+        if (self.n_components > X.shape[1]):
+            self.n_components = X.shape[1]
+        
+        res = super().fit(self.process_input(X))
+        self.fitted_ = True
+        return res
+        
+    def fit_transform(self, X):
+        if (self.n_components > X.shape[1]):
+            self.n_components = X.shape[1]
+        res = super().fit_transform(self.process_input(X)) 
+        self.fitted_ = True
+        return res
+    
+    def transform(self, X):
+        if (not self.fitted_):
+            raise NotFittedError("instance of {} is not fitted. It can not transform anything".format(type(self).__name__))
+        return super().transform(X)
+        
     def is_fitted(self):
         return self.fitted_
