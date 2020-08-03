@@ -201,15 +201,18 @@ class StandardSequence():
         self.intermediate_shapes_['after initial pca'] = [list(data_even_0.actual_sizes_), list(data_odd_0.actual_sizes_)]
         
         data_even_now, data_odd_now = data_even_0, data_odd_0
+        
         all_invariants = [data_even_0.get_invariants()]
+        all_invariants_small = [data_even_0.get_invariants()]
+        
         all_even_covariants = [data_even_0]
         all_odd_covariants = [data_odd_0]
         
         
         for i in range(len(self.blocks_)):
-            self.blocks_[i].fit(data_even_now, data_odd_now, data_even_0, data_odd_0, all_even_covariants, all_odd_covariants, all_invariants, clebsch_gordan = self.clebsch_)   
+            self.blocks_[i].fit(data_even_now, data_odd_now, data_even_0, data_odd_0, all_even_covariants, all_odd_covariants, all_invariants_small, clebsch_gordan = self.clebsch_)   
             self.intermediate_shapes_['block nu = {} -> nu = {}'.format(i + 1, i + 2)] = self.blocks_[i].get_intermediate_shapes()
-            data_even_now, data_odd_now, invariants_even_now = self.blocks_[i].transform(data_even_now, data_odd_now, data_even_0, data_odd_0, all_even_covariants, all_odd_covariants, all_invariants)
+            data_even_now, data_odd_now, invariants_even_now = self.blocks_[i].transform(data_even_now, data_odd_now, data_even_0, data_odd_0, all_even_covariants, all_odd_covariants, all_invariants_small)
             
             all_even_covariants.append(data_even_now)
             all_odd_covariants.append(data_odd_now)
@@ -219,7 +222,8 @@ class StandardSequence():
             else:
                 all_invariants.append(data_even_now.get_invariants())               
            
-                
+            all_invariants_small.append(data_even_now.get_invariants())
+            
         self.fitted_ = True
         
     def transform(self, coefficients, return_only_invariants = False):
@@ -230,12 +234,13 @@ class StandardSequence():
         
         
         all_invariants = [data_even_0.get_invariants()]
+        all_invariants_small = [data_even_0.get_invariants()]
         data_even_now, data_odd_now = data_even_0, data_odd_0
        
         all_even_covariants = [data_even_0]
         all_odd_covariants = [data_odd_0]
         for i in range(len(self.blocks_)):
-            data_even_now, data_odd_now, invariants_even_now = self.blocks_[i].transform(data_even_now, data_odd_now, data_even_0, data_odd_0, all_even_covariants, all_odd_covariants, all_invariants)
+            data_even_now, data_odd_now, invariants_even_now = self.blocks_[i].transform(data_even_now, data_odd_now, data_even_0, data_odd_0, all_even_covariants, all_odd_covariants, all_invariants_small)
             
             all_even_covariants.append(data_even_now)
             all_odd_covariants.append(data_odd_now)
@@ -245,6 +250,7 @@ class StandardSequence():
             else:
                 all_invariants.append(data_even_now.get_invariants())
                 
+            all_invariants_small.append(data_even_now.get_invariants())
         #proper indexing by body order nu
         all_invariants_dict = {}
         for i in range(len(all_invariants)):

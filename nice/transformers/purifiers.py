@@ -19,6 +19,8 @@ class InvariantsPurifier:
         self.fitted_ = False
         self.num_to_fit_ = num_to_fit
         self.max_take_ = max_take
+        if (type(self.max_take_) == list):
+            self.max_take_ = np.array(self.max_take_)
         if (self.max_take_ is not None) and (type(self.max_take_) != np.ndarray):
             self.max_take_ = int(self.max_take_)
         
@@ -84,6 +86,9 @@ class CovariantsIndividualPurifier:
         self.fitted_ = False
         self.num_to_fit_ = num_to_fit
         self.max_take_ = max_take
+        if (type(self.max_take_) == list):
+            self.max_take_ = np.array(self.max_take_)
+            
         if (self.max_take_ is not None) and (type(self.max_take_) != np.ndarray):
             self.max_take_ = int(self.max_take_)
             
@@ -159,6 +164,8 @@ class CovariantsPurifier:
         self.fitted_ = False
         self.num_to_fit_ = num_to_fit
         self.max_take_ = max_take
+        if (type(self.max_take_) == list):
+            self.max_take_ = np.array(self.max_take_)
         if (self.max_take_ is not None) and (type(self.max_take_) != np.ndarray):
             self.max_take_ = int(self.max_take_)
             
