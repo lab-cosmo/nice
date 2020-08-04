@@ -187,7 +187,11 @@ class CovariantsPurifier:
         self.purifiers_ = []
         
         for l in range(self.l_max_ + 1):
-            self.purifiers_.append(CovariantsIndividualPurifier(regressor = clone(self.regressor_), num_to_fit = self.num_to_fit_, max_take = self.max_take_)) 
+            if (self.regressor_ is None):
+                current_regressor = None
+            else:
+                current_regressor = clone(self.regressor_)
+            self.purifiers_.append(CovariantsIndividualPurifier(regressor = current_regressor, num_to_fit = self.num_to_fit_, max_take = self.max_take_)) 
       
         for l in range(self.l_max_ + 1):            
             old_blocks_now = [old_data.covariants_[:, :old_data.actual_sizes_[l], l, :] \
@@ -234,8 +238,13 @@ class CovariantsPurifierBoth:
         self.max_take_ = max_take
         if (self.max_take_ is not None) and (type(self.max_take_) != np.ndarray):
             self.max_take_ = int(self.max_take_)
-        self.even_purifier_ = CovariantsPurifier(regressor = clone(regressor), num_to_fit = self.num_to_fit_, max_take = self.max_take_)
-        self.odd_purifier_ = CovariantsPurifier(regressor = clone(regressor), num_to_fit = self.num_to_fit_, max_take = self.max_take_)
+        if (regressor is None):
+            even_regressor, odd_regressor = None, None
+        else:
+            even_regressor, odd_regressor = clone(regressor), clone(regressor)
+            
+        self.even_purifier_ = CovariantsPurifier(regressor = even_regressor, num_to_fit = self.num_to_fit_, max_take = self.max_take_)
+        self.odd_purifier_ = CovariantsPurifier(regressor = odd_regressor, num_to_fit = self.num_to_fit_, max_take = self.max_take_)
         self.fitted_ = False
         
         

@@ -33,6 +33,9 @@ class InitialTransformer():
         
         return Data(even_coefficients, even_coefficients_sizes), Data(odd_coefficients, odd_coefficients_sizes)
     
+    def is_fitted(self):
+        return self.fitted_
+    
 class StandardBlock():    
         
     def __init__(self, covariants_expansioner = None, covariants_purifier = None, covariants_pca = None, invariants_expansioner = None, invariants_purifier = None, invariants_pca = None, guaranteed_parts_fitted_consistently = False):
@@ -222,11 +225,12 @@ class StandardSequence():
             all_odd_covariants.append(data_odd_now)
             
             if (invariants_even_now is not None):
-                all_invariants.append(invariants_even_now)
+                all_invariants.append(invariants_even_now)                
             else:
-                all_invariants.append(data_even_now.get_invariants())               
-           
-            all_invariants_small.append(data_even_now.get_invariants())
+                all_invariants.append(data_even_now.get_invariants())
+                
+            if (data_even_now is not None):
+                all_invariants_small.append(data_even_now.get_invariants())
             
         self.fitted_ = True
         
@@ -250,11 +254,13 @@ class StandardSequence():
             all_odd_covariants.append(data_odd_now)
             
             if (invariants_even_now is not None):
-                all_invariants.append(invariants_even_now)
+                all_invariants.append(invariants_even_now)                
             else:
                 all_invariants.append(data_even_now.get_invariants())
-                
-            all_invariants_small.append(data_even_now.get_invariants())
+             
+            if (data_even_now is not None):
+                all_invariants_small.append(data_even_now.get_invariants())
+            
         #proper indexing by body order nu
         all_invariants_dict = {}
         for i in range(len(all_invariants)):
