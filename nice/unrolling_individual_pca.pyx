@@ -31,6 +31,9 @@ class UnrollingIndividualPCA(TruncatedSVD):
         indices = np.argsort(self.importances_)[::-1]
         self.importances_ = self.importances_[indices]
         self.components_ = self.components_[indices]
+        self.explained_variance_ = self.explained_variance_[indices]
+        self.explained_variance_ratio_ = self.explained_variance_ratio_[indices]
+        self.singular_values_ = self.singular_values_[indices]
     
     def fit_transform(self, *args):
         if (len(args) ==1):

@@ -122,11 +122,11 @@ class CovariantsIndividualPurifier:
                                for old_block in old_blocks]
         else:
             if (type(self.max_take_) is int):
-                 old_blocks_reshaped = [pack_dense(old_block[:num_fit_now, :self.max_take_], l, self.max_take_, self.max_take_) \
-                                   for old_block in old_blocks]
+                size_now = self.max_take_                
             else:
-                old_blocks_reshaped = [pack_dense(old_blocks[i][:num_fit_now, :self.max_take_[i]], l, self.max_take_[i], self.max_take_[i])  for i in range(len(old_blocks))] 
-            
+                size_now = self.max_take_[i]
+            old_blocks_reshaped = [pack_dense(old_block[:num_fit_now, :min(size_now, old_block.shape[1])], l, min(size_now, old_block.shape[1]), min(size_now, old_block.shape[1])) \
+                                   for old_block in old_blocks]
             
        
         old_uniting = unite_parallel(old_blocks_reshaped)
@@ -143,10 +143,11 @@ class CovariantsIndividualPurifier:
                                for old_block in old_blocks]
         else:
             if (type(self.max_take_) is int):
-                 old_blocks_reshaped = [pack_dense(old_block[:, :self.max_take_], l, self.max_take_, self.max_take_) \
-                                   for old_block in old_blocks]
+                size_now = self.max_take_                
             else:
-                old_blocks_reshaped = [pack_dense(old_blocks[i][:, :self.max_take_[i]], l, self.max_take_[i], self.max_take_[i]) for i in range(len(old_blocks))]
+                size_now = self.max_take_[i]
+            old_blocks_reshaped = [pack_dense(old_block[:num_fit_now, :min(size_now, old_block.shape[1])], l, min(size_now, old_block.shape[1]), min(size_now, old_block.shape[1])) \
+                                   for old_block in old_blocks]
             
         old_uniting = unite_parallel(old_blocks_reshaped)
         new_reshaped = pack_dense(new_block, l, new_block.shape[1], new_block.shape[1])
