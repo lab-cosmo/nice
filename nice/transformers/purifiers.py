@@ -14,8 +14,12 @@ from sklearn.exceptions import NotFittedError
 
 DEFAULT_LINEAR_REGRESSOR = Ridge(alpha = 1e-12) 
 class InvariantsPurifier:
-    def __init__(self, regressor = DEFAULT_LINEAR_REGRESSOR, num_to_fit = '10x', max_take = None):
-        self.regressor_ = clone(regressor)
+    def __init__(self, regressor = None, num_to_fit = '10x', max_take = None):
+        if (regressor is None):
+            self.regressor_ = clone(DEFAULT_LINEAR_REGRESSOR)
+        else:
+            self.regressor_ = regressor
+            
         self.fitted_ = False
         self.num_to_fit_ = num_to_fit
         self.max_take_ = max_take
@@ -80,8 +84,11 @@ class InvariantsPurifier:
     
     
 class CovariantsIndividualPurifier:
-    def __init__(self, regressor = DEFAULT_LINEAR_REGRESSOR, num_to_fit = '10x', max_take = None):
-        self.regressor_ = clone(regressor)
+    def __init__(self, regressor = None, num_to_fit = '10x', max_take = None):
+        if (regressor is None):
+            self.regressor_ = clone(DEFAULT_LINEAR_REGRESSOR)
+        else:
+            self.regressor_ = regressor
         self.regressor_.set_params(**{"fit_intercept" : False})
         self.fitted_ = False
         self.num_to_fit_ = num_to_fit
@@ -159,8 +166,12 @@ class CovariantsIndividualPurifier:
         return self.fitted_
         
 class CovariantsPurifier:
-    def __init__(self, regressor = DEFAULT_LINEAR_REGRESSOR, num_to_fit = '10x', max_take = None):
-        self.regressor_ = clone(regressor)
+    def __init__(self, regressor = None, num_to_fit = '10x', max_take = None):
+        if (regressor is None):
+            self.regressor_ = clone(DEFAULT_LINEAR_REGRESSOR)
+        else:
+            self.regressor_ = regressor
+        
         self.regressor_.set_params(**{"fit_intercept" : False})
         self.fitted_ = False
         self.num_to_fit_ = num_to_fit
@@ -218,7 +229,7 @@ class CovariantsPurifier:
         return self.fitted_
     
 class CovariantsPurifierBoth:
-    def __init__(self, regressor = DEFAULT_LINEAR_REGRESSOR, num_to_fit = '10x', max_take = None):
+    def __init__(self, regressor = None, num_to_fit = '10x', max_take = None):
         self.num_to_fit_ = num_to_fit
         self.max_take_ = max_take
         if (self.max_take_ is not None) and (type(self.max_take_) != np.ndarray):

@@ -168,9 +168,13 @@ class StandardBlock():
         
     
 class StandardSequence():
-    def __init__(self, blocks, initial_pca = IndividualLambdaPCAsBoth(), guaranteed_parts_fitted_consistently = False):
-        self.blocks_ = blocks
-        self.initial_pca_ = initial_pca
+    def __init__(self, blocks, initial_pca = None, guaranteed_parts_fitted_consistently = False):
+        if (initial_pca is None):
+            self.initial_pca_ = IndividualLambdaPCAsBoth()
+        else:
+            self.initial_pca_ = initial_pca
+            
+        self.blocks_ = blocks        
         for i in range(len(self.blocks_) - 1):
             if not self.blocks_[i].higher_body_orders_possible_:
                 raise ValueError("all intermediate standard blocks should calculate covariants")
