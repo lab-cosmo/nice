@@ -146,7 +146,7 @@ class CovariantsIndividualPurifier:
                 size_now = self.max_take_                
             else:
                 size_now = self.max_take_[i]
-            old_blocks_reshaped = [pack_dense(old_block[:num_fit_now, :min(size_now, old_block.shape[1])], l, min(size_now, old_block.shape[1]), min(size_now, old_block.shape[1])) \
+            old_blocks_reshaped = [pack_dense(old_block[:, :min(size_now, old_block.shape[1])], l, min(size_now, old_block.shape[1]), min(size_now, old_block.shape[1])) \
                                    for old_block in old_blocks]
             
         old_uniting = unite_parallel(old_blocks_reshaped)
