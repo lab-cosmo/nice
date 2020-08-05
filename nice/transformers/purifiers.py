@@ -87,9 +87,10 @@ class CovariantsIndividualPurifier:
     def __init__(self, regressor = None, num_to_fit = '10x', max_take = None):
         if (regressor is None):
             self.regressor_ = clone(DEFAULT_LINEAR_REGRESSOR)
+            self.regressor_.set_params(**{"fit_intercept" : False})
         else:
-            self.regressor_ = regressor
-        self.regressor_.set_params(**{"fit_intercept" : False})
+            self.regressor_ = regressor            
+                
         self.fitted_ = False
         self.num_to_fit_ = num_to_fit
         self.max_take_ = max_take
@@ -169,6 +170,7 @@ class CovariantsPurifier:
     def __init__(self, regressor = None, num_to_fit = '10x', max_take = None):
         if (regressor is None):
             self.regressor_ = clone(DEFAULT_LINEAR_REGRESSOR)
+            self.regressor_.set_params(**{"fit_intercept" : False})
         else:
             self.regressor_ = regressor
         
@@ -242,6 +244,8 @@ class CovariantsPurifierBoth:
             even_regressor, odd_regressor = None, None
         else:
             even_regressor, odd_regressor = clone(regressor), clone(regressor)
+            even_regressor.set_params(**{"fit_intercept" : False})
+            odd_regressor.set_params(**{"fit_intercept" : False})
             
         self.even_purifier_ = CovariantsPurifier(regressor = even_regressor, num_to_fit = self.num_to_fit_, max_take = self.max_take_)
         self.odd_purifier_ = CovariantsPurifier(regressor = odd_regressor, num_to_fit = self.num_to_fit_, max_take = self.max_take_)
