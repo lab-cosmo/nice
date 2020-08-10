@@ -19,22 +19,6 @@ def check_if_all_fitted(parts):
         if (part is not None):
             all_fitted = all_fitted and part.is_fitted()
     return all_fitted
-
-class InitialTransformer():
-    def __init__(self):
-        self.fitted_ = True
-    def transform(self, coefficients):
-        l_max = coefficients.shape[2] - 1
-        even_coefficients = np.copy(coefficients)
-        even_coefficients_sizes = [coefficients.shape[1] if i % 2 == 0 else 0 for i in range(l_max + 1)]
-
-        odd_coefficients = np.copy(coefficients)
-        odd_coefficients_sizes = [coefficients.shape[1] if i % 2 == 1 else 0 for i in range(l_max + 1)]
-        
-        return Data(even_coefficients, even_coefficients_sizes), Data(odd_coefficients, odd_coefficients_sizes)
-    
-    def is_fitted(self):
-        return self.fitted_
     
 class StandardBlock():    
         
