@@ -215,8 +215,7 @@ class CovariantsPurifier:
         if (not self.fitted_):
             raise NotFittedError("instance of {} is not fitted. It can not transform anything".format(type(self).__name__))
         ans = Data(np.empty(new_data.covariants_.shape), np.copy(new_data.actual_sizes_),
-                      importances = np.copy(new_data.importances_),
-                      raw_importances = np.copy(new_data.raw_importances_))
+                      importances = np.copy(new_data.importances_))
         
         for l in range(self.l_max_ + 1):
             if (self.purifiers_[l] is not None):

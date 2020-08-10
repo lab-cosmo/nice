@@ -366,17 +366,16 @@ cdef double*** get_buff(int num_threads, int l_max):
     return new_same_parity_features, new_other_parity_features'''
 
 class Data:
-    def __init__(self, covariants, actual_sizes, importances = None, raw_importances = None):
+    def __init__(self, covariants, actual_sizes, importances = None):
         self.covariants_ = covariants
         self.actual_sizes_ = actual_sizes
-        self.importances_ = importances
-        self.raw_importances_ = raw_importances
+        self.importances_ = importances       
         
     def get_invariants(self):
         return self.covariants_[:, :self.actual_sizes_[0], 0, 0]
     
     def __getitem__(self, sliced): #only env dim slice should be used
-        return Data(self.covariants_[sliced], self.actual_sizes_[sliced], self.importances_, self.raw_importances_)
+        return Data(self.covariants_[sliced], self.actual_sizes_[sliced], self.importances_)
         '''args = [self.covariants_[sliced], self.actual_sizes_[sliced]]
         if (self.importances_ is None):
             args.append(None)
