@@ -2,6 +2,7 @@ import numpy as np
 from nice.unrolling_individual_pca import UnrollingIndividualPCA
 #from cython.parallel cimport prange
 from nice.transformers.compressors import IndividualLambdaPCAsBoth
+from nice.transformers.miscellaneous import InitialTransformer
 from nice.thresholding import get_thresholded_tasks
 from nice.nice_utilities import do_partial_expansion, Data, get_sizes
 from nice.ClebschGordan import ClebschGordan, check_clebsch_gordan
