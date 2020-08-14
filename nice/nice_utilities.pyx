@@ -77,9 +77,11 @@ cdef void single_contraction(const double[:, :, :, :, :] clebsh_gordan,
         real_now = 0.0
         imag_now = 0.0
         
-        for m2 in range(-l2, l2 + 1):
-            m1 = mu - m2
-            if (m1 >=-l1) and (m1 <= l1):
+#        for m2 in range(-l2, l2 + 1):
+#            m1 = mu - m2
+#            if (m1 >=-l1) and (m1 <= l1):
+        for m2 in range(max(-l2, mu-l1), min(l2,mu+l1)+1):
+                m1 = mu - m2
                 real_now += clebsh_gordan[l1, l2, lambd, m1 + l1, m2 + l2] * \
                 (buff[0][l1 + m1] * buff[2][l2 + m2] - buff[1][l1 + m1] * buff[3][l2 + m2])
                 
