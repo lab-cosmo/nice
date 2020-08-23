@@ -24,7 +24,7 @@ def main():
     parser.add_argument('-o', '--output', type=str, default="",
                         help='Output files prefix. Defaults to input filename with stripped extension')
     parser.add_argument('--select', type=str, default=":",
-                        help='Selection of input frames. ASE format.')
+                        help='Selection of input structures. ASE format.')
     parser.add_argument('--nmax', type=int, default=6,
                         help='Number of radial channels')
     parser.add_argument('--lmax', type=int, default=4,
@@ -73,34 +73,31 @@ def main():
         output = os.path.splitext(filename)[0]
         
    
-    # first-order equivariants are just combinations of the spherical coefficients
-    blocklist = [ StandardBlock(ThresholdExpansioner(),
-                                CovariantsPurifierBoth(nsph),
-                                IndividualLambdaPCAsBoth(nsph),
-                                None, None, None) ];
-    # ~ numax=4;
-    # ~ for nu in range(1, numax-1):
-        # ~ blocklist.append(
-            # ~ StandardBlock(ThresholdExpansioner(num_expand=fscreen),
-                         # ~ CovariantsPurifierBoth(),
-                         # ~ IndividualLambdaPCAsBoth(n_components=fkeep),
-                         # ~ ThresholdExpansioner(num_expand=fscreen0, mode='invariants'),
-                         # ~ InvariantsPurifier(),
-                         # ~ InvariantsPCA(n_components=fkeep0)) 
-                         # ~ )
-    # ~ # at the last order, we only need invariants
-    # ~ blocklist.append(
-            # ~ StandardBlock(None, None, None,
-                         # ~ ThresholdExpansioner(num_expand=fscreen0, mode='invariants'),
-                         # ~ InvariantsPurifier(),
-                         # ~ InvariantsPCA(n_components=fkeep0)) 
-                         # ~ )
+    numax=4;
+    blocklist = [ ]
+    for nu in range(1, numax-1): # this starts from nu=2
+        blocklist.append(
+            StandardBlock(ThresholdExpansioner(num_expand=fscreen),
+                         CovariantsPurifierBoth(),
+                         IndividualLambdaPCAsBoth(n_components=fkeep),
+                         ThresholdExpansioner(num_expand=fscreen0, mode='invariants'),
+                         InvariantsPurifier(),
+                         InvariantsPCA(n_components=fkeep0)) 
+                         )
+    # at the last order, we only need invariants
+    blocklist.append(
+            StandardBlock(None, None, None,
+                         ThresholdExpansioner(num_expand=fscreen0, mode='invariants'),
+                         InvariantsPurifier(),
+                         InvariantsPCA(n_components=fkeep0)) 
+                         )
     
-    nice_sequence = StandardSequence(blocklist)
+    # first-order equivariants are just combinations of the spherical coefficients, done by initial_pca
+    nice_sequence = StandardSequence(blocklist, initial_pca=IndividualLambdaPCAsBoth(n_components=nsph))
 
-    print("Loading structures ", filename, " frames: ", select)
-    frames = ase_io.read(filename, index=select)
-    for f in frames:
+    print("Loading structures ", filename, " structures: ", select)
+    structures = ase_io.read(filename, index=select)
+    for f in structures:
         if f.cell.sum() == 0.0:  # fake PBC
             f.cell = [100,100,100]
             f.positions += np.asarray([50,50,50])
@@ -119,18 +116,18 @@ def main():
         'radial_basis': 'GTO'
     }, **json_hypers }
        
-    feats = get_rascal_coefficients_parallelized(frames, hypers, mask=(None if mask=="" else mask), mask_id=(None if mask_id<0 else mask_id))    
+    coefficients = get_rascal_coefficients_parallelized(structures, hypers, mask=(None if mask=="" else mask), mask_id=(None if mask_id<0 else mask_id))    
     # merge all the coefficients, as we want (for some reason) to apply the same NICE to all species. if mask has been specified, this does nothing
     l = []
-    for f in feats.values():
+    for f in coefficients.values():
         l.append(f)
-    feats = np.vstack(l)    
+    coefficients = np.vstack(l)    
     if nsph == 0:
-        nsph = feats.shape[1]        
-    scale = 1.0/np.sqrt(np.sum(feats**2)/len(feats));
-    feats *= scale   # normalization of features
+        nsph = coefficients.shape[1]        
+    scale = 1.0/np.sqrt(np.sum(coefficients**2)/len(coefficients));
+    coefficients *= scale   # normalization of features
     
-    print("FEATS ", feats.shape)
+    print("coefficients ", coefficients.shape)
     
     hypers["keep"] = fkeep
     hypers["keep0"] = fkeep0
@@ -148,7 +145,7 @@ def main():
     cglist = ClebschGordan(args.lmax)
         
     print("Optimizing NICE")
-    nice_sequence.fit(feats, clebsch_gordan = cglist)
+    nice_sequence.fit(coefficients, clebsch_gordan = cglist)
     
     print("Dumping NICE model")    
     pickle.dump( { 
