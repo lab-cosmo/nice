@@ -75,7 +75,7 @@ def main():
    
     # first-order equivariants are just combinations of the spherical coefficients
     blocklist = [ StandardBlock(ThresholdExpansioner(),
-                                None,
+                                CovariantsPurifierBoth(nsph),
                                 IndividualLambdaPCAsBoth(nsph),
                                 None, None, None) ];
     # ~ numax=4;
