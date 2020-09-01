@@ -111,7 +111,6 @@ def get_rascal_coefficients_parallelized(structures, rascal_hypers, mask = None,
     hypers = copy.deepcopy(rascal_hypers)
 
     if mask is not None:
-        print("MASKING: ", mask)
         for f in structures:
             mask_center_atoms_by_species(f,[mask])
     if mask_id is not None:

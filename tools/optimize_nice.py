@@ -74,16 +74,18 @@ def main():
         
    
     numax=4;
+    purify_take=50;
     blocklist = [ ]
-    for nu in range(1, numax-1): # this starts from nu=2
+    for nu in range(1, numax-1): # this starts from nu=2 actually
         blocklist.append(
             StandardBlock(ThresholdExpansioner(num_expand=fscreen),
-                         CovariantsPurifierBoth(),
+                         CovariantsPurifierBoth(max_take=purify_take),
                          IndividualLambdaPCAsBoth(n_components=fkeep),
                          ThresholdExpansioner(num_expand=fscreen0, mode='invariants'),
                          InvariantsPurifier(),
                          InvariantsPCA(n_components=fkeep0)) 
                          )
+                         
     # at the last order, we only need invariants
     blocklist.append(
             StandardBlock(None, None, None,
