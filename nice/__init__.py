@@ -11,8 +11,6 @@ setup(
     name="nice",
     ext_modules=cythonize(extensions),
 )'''
-
-
 '''import cython
 import pyximport; pyximport.install()'''
 '''from nice import transformers
