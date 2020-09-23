@@ -31,9 +31,10 @@ class IndividualLambdaPCAs:
 
     def get_importances(self):
         if not self.fitted_:
-            raise NotFittedError(("instance of {} is not fitted."
-                                  "Thus importances are not available").format(
-                                      type(self).__name__))
+            raise NotFittedError(
+                ("instance of {} is not fitted. "
+                 "Thus importances are not available.").format(
+                     type(self).__name__))
         result = np.empty([self.max_n_components_, self.l_max_ + 1])
         for lambd in range(self.l_max_ + 1):
             if self.pcas_[lambd] is not None:
@@ -65,16 +66,16 @@ class IndividualLambdaPCAs:
                                              n_components_now)
 
                 if data.covariants_.shape[0] * (lambd + 1) < n_components_now:
-                    raise ValueError(
-                        ("not enough data to fit pca, number of vectors is {},"
-                         "dimensionality of single vector (lambd + 1) is {},"
-                         "i. e. total number of points is {},"
-                         "while number of components is {}").format(
-                             data.covariants_.shape[0],
-                             lambd + 1,
-                             data.covariants_.shape[0] * (lambd + 1),
-                             n_components_now,
-                         ))
+                    raise ValueError((
+                        "not enough data to fit pca, number of vectors is {}, "
+                        "dimensionality of single vector (lambd + 1) is {}, "
+                        "i. e. total number of points is {}, "
+                        "while number of components is {}.").format(
+                            data.covariants_.shape[0],
+                            lambd + 1,
+                            data.covariants_.shape[0] * (lambd + 1),
+                            n_components_now,
+                        ))
 
                 if type(self.num_to_fit_) is str:
                     multiplier = int(parse("{}x", self.num_to_fit_)[0])
@@ -84,19 +85,19 @@ class IndividualLambdaPCAs:
                     num_fit_now = self.num_to_fit_
                     if num_fit_now * (lambd + 1) < n_components_now:
                         raise ValueError(
-                            ("specified parameter num fit ({}) is too"
-                             "small to fit pca with number of components {} "
+                            ("specified parameter num fit ({}) is too "
+                             "small to fit pca with number of components {}."
                              ).format(num_fit_now, n_components_now))
 
                 if data.covariants_.shape[0] * (lambd + 1) < num_fit_now:
                     warnings.warn(
-                        ("given data is less than desired number"
-                         "of points to fit pca."
-                         "Desired number of points to fit pca is {},"
-                         "while number of vectors is {},"
-                         "dimensionality of single vector (lambd + 1) is {},"
-                         "i. e. total number of points is {}."
-                         "Number of pca components is {}").format(
+                        ("given data is less than desired number "
+                         "of points to fit pca. "
+                         "Desired number of points to fit pca is {}, "
+                         "while number of vectors is {}, "
+                         "dimensionality of single vector (lambd + 1) is {}, "
+                         "i. e. total number of points is {}. "
+                         "Number of pca components is {}.").format(
                              num_fit_now,
                              data.covariants_.shape[0],
                              (lambd + 1),
@@ -123,7 +124,7 @@ class IndividualLambdaPCAs:
     def transform(self, data):
         if not self.fitted_:
             raise NotFittedError(
-                ("instance of {} is not fitted."
+                ("instance of {} is not fitted. "
                  "It can not transform anything.").format(type(self).__name__))
         result = np.empty([
             data.covariants_.shape[0],
@@ -163,7 +164,7 @@ class IndividualLambdaPCAsBoth:
     def transform(self, data_even, data_odd):
         if not self.fitted_:
             raise NotFittedError(
-                ("instance of {} is not fitted."
+                ("instance of {} is not fitted. "
                  "It can not transform anything.").format(type(self).__name__))
         return self.even_pca_.transform(data_even), self.odd_pca_.transform(
             data_odd)
@@ -187,16 +188,16 @@ class InvariantsPCA(PCA):
 
         if self.n_components > X.shape[0]:
             raise ValueError(
-                ("not enough data to fit pca."
-                 "Number of environments is {}, number of components is {}"
+                ("not enough data to fit pca. "
+                 "Number of environments is {}, number of components is {}."
                  ).format(X.shape[0], self.n_components))
 
         if num_fit_now > X.shape[0]:
-            warnings.warn(("Amount of provided data is less"
-                           "than the desired one to fit PCA."
-                           "Number of components is {},"
-                           "desired number of environments is {},"
-                           "actual number of environments is {}").format(
+            warnings.warn(("Amount of provided data is less "
+                           "than the desired one to fit PCA. "
+                           "Number of components is {}, "
+                           "desired number of environments is {}, "
+                           "actual number of environments is {}.").format(
                                self.n_components, num_fit_now, X.shape[0]))
 
         return X[:num_fit_now]
@@ -219,7 +220,7 @@ class InvariantsPCA(PCA):
     def transform(self, X):
         if not self.fitted_:
             raise NotFittedError(
-                ("instance of {} is not fitted."
+                ("instance of {} is not fitted. "
                  "It can not transform anything.").format(type(self).__name__))
         return super().transform(X)
 

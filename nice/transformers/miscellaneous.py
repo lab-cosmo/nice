@@ -33,7 +33,7 @@ class ParityDefinitionChanger():
         new_first_covariants = np.empty(new_first_shape)
         new_second_covariants = np.empty(new_second_shape)
 
-        for lambd in range(l_max + 1):  #todo may be do copying in parallel
+        for lambd in range(l_max + 1):  # todo may be do copying in parallel
             if (lambd % 2 == 0):
                 new_first_covariants[:, :new_first_sizes[lambd], lambd, :(
                     2 * lambd +

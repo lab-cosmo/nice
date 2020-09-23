@@ -1,16 +1,7 @@
-import numpy as np
-from nice.unrolling_individual_pca import UnrollingIndividualPCA
-#from cython.parallel cimport prange
 from nice.transformers.compressors import IndividualLambdaPCAsBoth
 from nice.transformers.miscellaneous import InitialTransformer
-from nice.thresholding import get_thresholded_tasks
-from nice.nice_utilities import do_partial_expansion, Data, get_sizes
 from nice.ClebschGordan import ClebschGordan, check_clebsch_gordan
-from nice.packing import unite_parallel, subtract_parallel, pack_dense, unpack_dense
-from parse import parse
-import warnings
-from sklearn.linear_model import Ridge
-from sklearn.base import clone
+
 from sklearn.exceptions import NotFittedError
 
 

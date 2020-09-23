@@ -25,10 +25,8 @@ class ClebschGordan:
 
 def check_clebsch_gordan(clebsch_gordan, required_l_max):
     if (type(clebsch_gordan) != ClebschGordan):
-        raise ValueError(
-            "type of precomputed clebsch gordan coefficients should be ClebschGordan class"
-        )
+        raise ValueError("type of precomputed clebsch gordan "
+                         "coefficients should be ClebschGordan class.")
     if (clebsch_gordan.l_max_ < required_l_max):
-        raise ValueError(
-            "given precomputed clebsch gordan coefficients have smaller l_max than required one"
-        )
+        raise ValueError("given precomputed clebsch gordan coefficients "
+                         "have smaller l_max than required one.")
