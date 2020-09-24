@@ -76,6 +76,8 @@ index. The transformation itself is nothing else but matrix vector multiplicatio
 Within this framework we work only with this way of transformation. Further we will call 
 any vector of odd size which transforms this way as covariant feature/fingerprint. 
 
+
+
 Some transformations upon covariant vectors leads to also covariant vectors, some not. 
 For instance we can apply elementwise squaring of vector elements which clearly would 
 result in non covariant vector. 
@@ -83,6 +85,35 @@ result in non covariant vector.
 There are several ways to combine covariants to get covariant output. The most obvious is to
 construct linear combination of covariants. 
 
+.. math::
+   {output}^l_m = \sum\limits_i (input_i)^l_m * q_i
+   
+
+where :math:`q_i` are arbitrarily coefficients. The less obvious way is to do Clebsch-Gordan 
+iteration: 
+
+.. math::
+   {output}^l_m  = \sum\limits_{m_1 m_2} <l_1 m_1; l_2 m_2| l m> (first\:input)^l_m (second\:input)^l_m
+
+, there :math:`<l_1 m_1; l_2 m_2| l m>` are Clebsch-Gordan coefficients. 
+
+For further purposes it is necessary to introduce the concept of body order.
+
+It is clear that combining transformation rules [] and [] we get covariants
+which depends polynomially on the entries of initial spherical expansion coefficients.
+
+if all monomials have the same power :math:`v` than the define body order of the 
+corresponding covariant vector to be :math:`v`. If monomials have different powers 
+than body order is undefined. 
+
+If we apply linear combination to the covariants of body order :math:`v` than result is also
+of body order :math:`v`. If we do Clebsch-Gordan iteration with covariants of body order 
+:math:`v_1` and :math:`v_2` than the result has body order :math:`v_1 + v_2`. 
+
+There are several important statements:
+
+1. Completeness a. For any :math:`v` Using combination rule [2] one can get
+ the full basis in the 
 
 
 
