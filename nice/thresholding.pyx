@@ -148,6 +148,7 @@ cdef get_threshold(double[:, :] first_importances_1, int[:] first_actual_sizes_1
         num_now = get_total_num_full(first_importances_1, first_actual_sizes_1, second_importances_1, second_actual_sizes_1, middle, mode) + get_total_num_full(first_importances_2, first_actual_sizes_2, second_importances_2, second_actual_sizes_2, middle, mode)
         
         if (num_now == desired_num):
+            left = middle
             break
         if (num_now > desired_num):
             left = middle
