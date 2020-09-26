@@ -91,6 +91,35 @@ class ParityDefinitionChanger():
                Data(new_second_covariants, new_second_sizes, new_second_importances)
 
 
+class InitialScaler():
+    def __init__(self):
+        self.fitted_ = False
+
+    def fit(self, coefficients):
+        total = 0.0
+        total_values = 0
+
+        for l in range(coefficients.shape[2]):
+            total += np.sum((coefficients[:, :, l, 0:(2 * l + 1)])**2)
+            total_values += coefficients.shape[0] * coefficients.shape[1] * (
+                2 * l + 1)
+
+        average = total / total_values
+        self.multiplier_ = 1.0 / np.sqrt(average)
+        self.fitted_ = True
+
+    def transform(self, coefficients):
+        if (not self.fitted_):
+            raise NotFittedError(
+                "instance of {} is not fitted. It can not transform anything".
+                format(type(self).__name__))
+
+        return coefficients * self.multiplier_
+
+    def is_fitted(self):
+        return self.fitted_
+
+
 class InitialTransformer():
     def __init__(self):
         self.fitted_ = True

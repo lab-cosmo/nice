@@ -221,7 +221,11 @@ class StandardSequence():
     def __init__(self,
                  blocks,
                  initial_pca=None,
+                 initial_scaler=None,
                  guaranteed_parts_fitted_consistently=False):
+
+        self.initial_scaler_ = initial_scaler
+
         if (initial_pca is None):
             self.initial_pca_ = IndividualLambdaPCAsBoth()
         else:
@@ -252,6 +256,10 @@ class StandardSequence():
         else:
             check_clebsch_gordan(clebsch_gordan, self.l_max_)
             self.clebsch_ = clebsch_gordan
+
+        if (self.initial_scaler_ is not None):
+            self.initial_scaler_.fit(coefficients)
+            coefficients = self.initial_scaler_.transform(coefficients)
 
         data_even_0, data_odd_0 = self.initial_transformer_.transform(
             coefficients)
@@ -310,6 +318,10 @@ class StandardSequence():
             raise NotFittedError(
                 "instance of {} is not fitted. It can not transform anything".
                 format(type(self).__name__))
+
+        if (self.initial_scaler_ is not None):
+            coefficients = self.initial_scaler_.transform(coefficients)
+
         data_even_0, data_odd_0 = self.initial_transformer_.transform(
             coefficients)
         data_even_0, data_odd_0 = self.initial_pca_.transform(

@@ -1,6 +1,7 @@
 from sklearn.utils.extmath import randomized_svd
 import numpy as np
 
+
 def do_sign_covariant_pca(X, n_components):
     sums = np.sum(X, axis=1)
     signs = ((sums <= 0) - 0.5) * 2.0
