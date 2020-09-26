@@ -88,8 +88,7 @@ cpdef normalize_by_ps(double[:, :, :, :] coefficients):
  
 
 def get_rascal_coefficients(structures, HYPERS, n_types):
-   
-    
+       
     sph = SPH(**HYPERS)
     try:
         n_max = HYPERS['max_radial']
@@ -108,9 +107,16 @@ def get_rascal_coefficients(structures, HYPERS, n_types):
 def get_rascal_coefficients_stared(task):
     return get_rascal_coefficients(*task)
 
-def get_rascal_coefficients_parallelized(structures, rascal_hypers, task_size = 100, num_threads = None):  
+def get_rascal_coefficients_parallelized(structures, rascal_hypers, mask = None, mask_id = None, task_size = 100, num_threads = None):  
     hypers = copy.deepcopy(rascal_hypers)
-    
+
+    if mask is not None:
+        for f in structures:
+            mask_center_atoms_by_species(f,[mask])
+    if mask_id is not None:
+        for f in structures:
+            mask_center_atoms_by_id(f,[mask_id])
+                            
     if ('expansion_by_species_method' in hypers.keys()):
         if (hypers['expansion_by_species_method'] != 'user defined'):
             raise ValueError("for proper packing spherical expansion coefficients into [env index, radial/specie index, l, m] shape output should be uniform, thus 'expansion_by_species_method' must be 'user defined'")
@@ -134,10 +140,7 @@ def get_rascal_coefficients_parallelized(structures, rascal_hypers, task_size = 
                 hypers['global_species'].append(int(specie))
             
         species = np.array(hypers['global_species']).astype(np.int32)
-                
-      
-                              
-    
+                                  
     if (num_threads is None):
         num_threads = cpu_count()
     
@@ -150,5 +153,11 @@ def get_rascal_coefficients_parallelized(structures, rascal_hypers, task_size = 
     p.close()
     p.join()
     result = np.concatenate(result, axis = 0)
-    return split_by_central_specie(all_species, species, result)
-            
+    if (mask is None and mask_id is None):
+        return split_by_central_specie(all_species, species, result)
+    else:
+        # just return the masked specie/atom
+        if mask is None:
+            return {mask_id: result}
+        else:
+            return {mask: result}
