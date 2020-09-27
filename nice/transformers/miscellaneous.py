@@ -1,5 +1,6 @@
 import numpy as np
 from nice.nice_utilities import Data
+from sklearn.exceptions import NotFittedError
 
 
 class ParityDefinitionChanger():
@@ -92,27 +93,60 @@ class ParityDefinitionChanger():
 
 
 class InitialScaler():
-    def __init__(self):
+    def __init__(self, mode="signal integral", individually=False):
         self.fitted_ = False
+        self.mode_ = mode
+        if (self.mode_ != "signal integral") and (self.mode_ != "variance"):
+            raise ValueError("mode should be ethier "
+                             "\"signal integral\" ethier \"variance\".")
 
-    def fit(self, coefficients):
+        self.individually_ = individually
+
+    def _get_variance_multiplier(self, coefficients):
         total = 0.0
         total_values = 0
 
         for l in range(coefficients.shape[2]):
-            total += np.sum((coefficients[:, :, l, 0:(2 * l + 1)])**2)
-            total_values += coefficients.shape[0] * coefficients.shape[1] * (
-                2 * l + 1)
+            if self.individually_:
+                total += np.sum((coefficients[:, :, l, 0:(2 * l + 1)])**2,
+                                axis=(1, 2))
+                total_values += coefficients.shape[1] * (2 * l + 1)
+
+            else:
+                total += np.sum((coefficients[:, :, l, 0:(2 * l + 1)])**2)
+                total_values += coefficients.shape[0] * coefficients.shape[
+                    1] * (2 * l + 1)
 
         average = total / total_values
-        self.multiplier_ = 1.0 / np.sqrt(average)
+        result = 1.0 / np.sqrt(average)
+        if (self.individually_):
+            return result[:, np.newaxis, np.newaxis, np.newaxis]
+        else:
+            return result
+
+    def _get_signal_integral_multiplier(self, coefficients):
+        if self.individually_:
+            result = 1.0 / np.sqrt(np.sum(coefficients[:, :, 0, 0]**2, axis=1))
+            return result[:, np.newaxis, np.newaxis, np.newaxis]
+        else:
+            return 1.0 / np.sqrt(
+                np.mean(np.sum(coefficients[:, :, 0, 0]**2, axis=1)))
+
+    def fit(self, coefficients):
+        if (self.mode_ == "signal integral"):
+            self.multiplier_ = self._get_signal_integral_multiplier(
+                coefficients)
+
+        if (self.mode_ == "variance"):
+            self.multiplier_ = self._get_variance_multiplier(coefficients)
+
         self.fitted_ = True
 
     def transform(self, coefficients):
         if (not self.fitted_):
-            raise NotFittedError(
-                "instance of {} is not fitted. It can not transform anything".
-                format(type(self).__name__))
+            raise NotFittedError("instance of {} is not fitted. "
+                                 "It can not transform anything.".format(
+                                     type(self).__name__))
 
         return coefficients * self.multiplier_
 
