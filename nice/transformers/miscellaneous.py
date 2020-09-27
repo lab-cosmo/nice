@@ -94,13 +94,17 @@ class ParityDefinitionChanger():
 
 class InitialScaler():
     def __init__(self, mode="signal integral", individually=False):
-        self.fitted_ = False
+        self.individually_ = individually
+
+        if self.individually_:
+            self.fitted_ = True
+        else:
+            self.fitted_ = False
+
         self.mode_ = mode
         if (self.mode_ != "signal integral") and (self.mode_ != "variance"):
             raise ValueError("mode should be ethier "
                              "\"signal integral\" ethier \"variance\".")
-
-        self.individually_ = individually
 
     def _get_variance_multiplier(self, coefficients):
         total = 0.0
@@ -133,12 +137,13 @@ class InitialScaler():
                 np.mean(np.sum(coefficients[:, :, 0, 0]**2, axis=1)))
 
     def fit(self, coefficients):
-        if (self.mode_ == "signal integral"):
-            self.multiplier_ = self._get_signal_integral_multiplier(
-                coefficients)
+        if not self.individually_:
+            if (self.mode_ == "signal integral"):
+                self.multiplier_ = self._get_signal_integral_multiplier(
+                    coefficients)
 
-        if (self.mode_ == "variance"):
-            self.multiplier_ = self._get_variance_multiplier(coefficients)
+            if (self.mode_ == "variance"):
+                self.multiplier_ = self._get_variance_multiplier(coefficients)
 
         self.fitted_ = True
 
@@ -147,8 +152,16 @@ class InitialScaler():
             raise NotFittedError("instance of {} is not fitted. "
                                  "It can not transform anything.".format(
                                      type(self).__name__))
+        if (self.individually_):
+            if (self.mode_ == "signal integral"):
+                multipliers = self._get_signal_integral_multiplier(
+                    coefficients)
 
-        return coefficients * self.multiplier_
+            if (self.mode_ == "variance"):
+                multipliers = self._get_variance_multiplier(coefficients)
+            return coefficients * multipliers
+        else:
+            return coefficients * self.multiplier_
 
     def is_fitted(self):
         return self.fitted_
