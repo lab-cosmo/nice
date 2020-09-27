@@ -87,6 +87,30 @@ cpdef normalize_by_ps(double[:, :, :, :] coefficients):
                     
  
 
+def process_structures(structures, delta = 0.1):   
+    """Satisfying librascal desire of having all atoms 
+    inside the cell even if structure is not periodic. 
+    (changes only non periodic structures)
+    """
+
+    result = []
+    for structure in structures:
+        if True in structure.pbc:
+            result.append(copy.deepcopy(structure))
+        else:
+            current = copy.deepcopy(structure)
+            for dim in range(3):
+                min_now = np.min( current.positions[:, dim])
+                current.positions[:, dim] =  current.positions[:, dim] - min_now + delta
+            
+            spreads = []
+            for dim in range(3):                
+                spreads.append(np.max(current.positions[:, dim]) + delta)
+            current.cell = spreads
+            result.append(current)
+    return result
+
+
 def get_rascal_coefficients(structures, HYPERS, n_types):
    
     
@@ -96,6 +120,8 @@ def get_rascal_coefficients(structures, HYPERS, n_types):
         l_max = HYPERS['max_angular']
     except KeyError:
         raise KeyError("max_radial and max_angular should be specified")
+        
+    structures = process_structures(structures)
     
     feat = sph.transform(structures).get_features(sph)
     res = convert_rascal_coefficients(feat, n_max, n_types, l_max)

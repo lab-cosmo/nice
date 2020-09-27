@@ -15,7 +15,7 @@ def make_structural_features(features, structures, show_progress=True):
             raise ValueError("structures contain atomic specie {}, "
                              "but not features given for it".format(specie))
 
-    start_indices, end_indices = {}
+    start_indices, end_indices = {}, {}
     now = 0
     for specie_index in features.keys():
         start_indices[specie_index] = {}
@@ -33,7 +33,7 @@ def make_structural_features(features, structures, show_progress=True):
     for specie in all_species:
         current_positions[specie] = 0
 
-    for i in tqdm.tqdm(range(len(structures), disable=not (show_progress))):
+    for i in tqdm.tqdm(range(len(structures)), disable=not (show_progress)):
         species_now = structures[i].get_atomic_numbers()
         for specie in all_species:
             num_atoms_now = np.sum(species_now == specie)
