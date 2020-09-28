@@ -34,9 +34,9 @@ cpdef void copy_coefs(double[:, :, :, :] coefficients, int[:] central_species, i
             now += 1
 
 
-def split_by_central_specie(all_species, species, coefficients): 
+def split_by_central_specie(all_species, species, coefficients, show_progress = True): 
     result = {}
-    for specie in tqdm.tqdm(species):
+    for specie in tqdm.tqdm(species, disable = not show_progress):
         num_now = np.sum(all_species == specie)
         result[specie] = np.empty([num_now, coefficients.shape[1], coefficients.shape[2], coefficients.shape[3]])
         copy_coefs(coefficients, all_species, specie, result[specie])
@@ -134,7 +134,7 @@ def get_rascal_coefficients(structures, HYPERS, n_types):
 def get_rascal_coefficients_stared(task):
     return get_rascal_coefficients(*task)
 
-def get_rascal_coefficients_parallelized(structures, rascal_hypers, task_size = 100, num_threads = None):  
+def get_rascal_coefficients_parallelized(structures, rascal_hypers, task_size = 100, num_threads = None, show_progress = True):  
     hypers = copy.deepcopy(rascal_hypers)
     
     if ('expansion_by_species_method' in hypers.keys()):
@@ -172,9 +172,9 @@ def get_rascal_coefficients_parallelized(structures, rascal_hypers, task_size = 
     for i in range(0, len(structures), task_size):
         tasks.append([structures[i : i + task_size], hypers, len(species)])  
         
-    result = [res for res in tqdm.tqdm(p.imap(get_rascal_coefficients_stared, tasks), total = len(tasks))]
+    result = [res for res in tqdm.tqdm(p.imap(get_rascal_coefficients_stared, tasks), total = len(tasks), disable = not show_progress)]
     p.close()
     p.join()
     result = np.concatenate(result, axis = 0)
-    return split_by_central_specie(all_species, species, result)
+    return split_by_central_specie(all_species, species, result, show_progress = show_progress)
             
