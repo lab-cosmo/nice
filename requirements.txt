@@ -1,0 +1,7 @@
+cython
+numpy
+ase
+tqdm
+sklearn
+sympy
+parse
