@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>NICE documentation &mdash; NICE  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> NICE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">NICE documentation</a><ul>
+<li><a class="reference internal" href="#theory-in-a-nutshell">Theory in a nutshell</a></li>
+<li><a class="reference internal" href="#tutorial">tutorial</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">NICE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>NICE documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="nice-documentation">
+<h1>NICE documentation<a class="headerlink" href="#nice-documentation" title="Permalink to this headline">¶</a></h1>
+<p>NICE is a set of tools designed for calculation of
+invariant and covariant atomic structure representations. It allows to
+automatically select most informative combinations of high order spectrum elements
+and perform their efficient computation usring recurrency relations.</p>
+<p>Though being designed specifically for atomistic machine learning, NICE in principle
+can be applied to other machine learning tasks which involves signals on sphere/ on a ball
+with necessasity to produce invariant/covariant output.</p>
+<div class="section" id="theory-in-a-nutshell">
+<h2>Theory in a nutshell<a class="headerlink" href="#theory-in-a-nutshell" title="Permalink to this headline">¶</a></h2>
+<p>One can use this toolbox as a black box which calculates proper atomic
+structure representations. In this case we refer reader to the <a class="reference internal" href="#tutorial-label"><span class="std std-ref">tutorial</span></a> along with examples folder to borrow
+appropriate hyperparameters for the real life scenarios.</p>
+<p>In order to meaningfully select hypers or desing your calculations some understanding of
+what is going on is required. The most comprehensive description is given in <a class="reference internal" href="#ref" id="id1"><span>[Ref]</span></a>, which
+though might appear to be quite time consuming for people not from the field. Thus, this
+section is designed to give short overview of the method without any prooves and unnecesarry
+details.
+,
+For various purposes in atomistic machine learning, there is need to describe atomic environments
+by invariant or covariant values. Atomic environment is described by unordered set of
+relative positions of neighbors within given cut-off radius along with their species
+<span class="math notranslate nohighlight">\(\{\{\vec{r_1}, \alpha_1\}, \{\vec{r_2}, \alpha_{2}\}... \{\vec{r_n}, \alpha_{n}\}\}\)</span>.
+The number of neighbors potentially can be varying. The goal is to provide description
+of the fixed size consisting of invariant or covariant features with respect
+to permutations of atoms of the same specie along rotations of the environment.</p>
+<p>The invariance with respect to permutation of atoms is achieved by introduction of “neighbor
+density functions”:
+<span class="math notranslate nohighlight">\(\rho_{\alpha}(\vec{r}) = \sum\limits_i g(\vec{r} - \vec{r_i}) \delta_{\alpha, \alpha_i}\)</span>,
+where <span class="math notranslate nohighlight">\(g\)</span> is some local function, such as gaussian, or even delta function. After that
+fingerprints are expressed as the functionals of <span class="math notranslate nohighlight">\(\rho\)</span>.</p>
+<p>To deal with neighbor density functions spherical expansion coefficients are introduced:</p>
+<div class="math notranslate nohighlight">
+\[&lt; \{n, \alpha\} l m | \rho^1&gt; =  \int d\vec{r} R_{n}(\vec{r}) Y_l^m(\hat{r}) \rho_{\alpha}(\vec{r})\]</div>
+<p>, where <span class="math notranslate nohighlight">\(\hat{r}\)</span> is the unit direction vector, <span class="math notranslate nohighlight">\(r = |\vec{r}|\)</span>, <span class="math notranslate nohighlight">\(R_{n}(r)\)</span> is
+some complete basis, not really matters which one particularly,
+<span class="math notranslate nohighlight">\(Y_l^m(\hat{r})\)</span> are spherical harmonics <a class="footnote-reference brackets" href="#f1" id="id2">1</a>. <span class="math notranslate nohighlight">\(l\)</span> index runs from <span class="math notranslate nohighlight">\(0\)</span>
+to <span class="math notranslate nohighlight">\(+\inf\)</span>,
+<span class="math notranslate nohighlight">\(m\)</span> runs from <span class="math notranslate nohighlight">\(-l\)</span> to <span class="math notranslate nohighlight">\(l\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\{n, \alpha\}\)</span> indices never used separately from each other and, thus, for simplicity,
+in further narrative we will refer to them as to just <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>It is known how coefficients <span class="math notranslate nohighlight">\(&lt; n l m | \rho^1&gt;\)</span> transforms under rotations of the environment.
+Particulary coefficients with <span class="math notranslate nohighlight">\(l = 0\)</span> remains constants under rotations, i. e. are invariants,
+while the general transformation rule is</p>
+<div class="math notranslate nohighlight">
+\[&lt; n l m | \hat{R} | \rho^1&gt; = \sum\limits_{m'} D^l_{mm'} &lt; n l m' | \rho^1&gt;\]</div>
+<p>where <span class="math notranslate nohighlight">\(&lt; n l m | \hat{R} | \rho^1&gt;\)</span> are spherical expansion coefficients
+for the rotated environment, <span class="math notranslate nohighlight">\(\hat{R}'\)</span> is the rotation, described, for instance,
+by Euler angles  <a class="footnote-reference brackets" href="#f2" id="id3">2</a>, <span class="math notranslate nohighlight">\(D^l_{mm'}(\hat{R})\)</span> are Wigner D matrices  <a class="footnote-reference brackets" href="#f3" id="id4">3</a>.</p>
+<p>Let’s look at this transformation more closely. First of all we see that spherical expansion
+coefficients of rotated environment depends only on coefficients of the initial environments
+with the same <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(l\)</span> indices. I. e. one can group coefficients into vectors
+corresponding to fixed <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(l\)</span> of size <span class="math notranslate nohighlight">\(2l + 1\)</span> and indexed by <span class="math notranslate nohighlight">\(m\)</span>
+index. The transformation itself is nothing else but matrix vector multiplication.</p>
+<p>Within this framework we work only with this way of transformation. Further we will call
+any vector of odd size which transforms this way as covariant feature/fingerprint.</p>
+<p>Some transformations upon covariant vectors leads to also covariant vectors, some not.
+For instance we can apply elementwise squaring of vector elements which clearly would
+result in non covariant vector.</p>
+<p>There are several ways to combine covariants to get covariant output. The most obvious is to
+construct linear combination of covariants.</p>
+<div class="math notranslate nohighlight">
+\[{output}^l_m = \sum\limits_i (input_i)^l_m * q_i\]</div>
+<p>where <span class="math notranslate nohighlight">\(q_i\)</span> are arbitrarily coefficients. The less obvious way is to do Clebsch-Gordan
+iteration:</p>
+<div class="math notranslate nohighlight">
+\[{output}^l_m  = \sum\limits_{m_1 m_2} &lt;l_1 m_1; l_2 m_2| l m&gt; (first\:input)^l_m (second\:input)^l_m\]</div>
+<p>, there <span class="math notranslate nohighlight">\(&lt;l_1 m_1; l_2 m_2| l m&gt;\)</span> are Clebsch-Gordan coefficients.</p>
+<p>For further purposes it is necessary to introduce the concept of body order.</p>
+<p>It is clear that combining transformation rules [] and [] we get covariants
+which depends polynomially on the entries of initial spherical expansion coefficients.</p>
+<p>if all monomials have the same power <span class="math notranslate nohighlight">\(v\)</span> than the define body order of the
+corresponding covariant vector to be <span class="math notranslate nohighlight">\(v\)</span>. If monomials have different powers
+than body order is undefined.</p>
+<p>If we apply linear combination to the covariants of body order <span class="math notranslate nohighlight">\(v\)</span> than result is also
+of body order <span class="math notranslate nohighlight">\(v\)</span>. If we do Clebsch-Gordan iteration with covariants of body order
+<span class="math notranslate nohighlight">\(v_1\)</span> and <span class="math notranslate nohighlight">\(v_2\)</span> than the result has body order <span class="math notranslate nohighlight">\(v_1 + v_2\)</span>.</p>
+<p>There are several important statements:</p>
+<ol class="arabic simple">
+<li><p>Completeness a. For any <span class="math notranslate nohighlight">\(v\)</span> Using combination rule [2] one can get</p></li>
+</ol>
+<blockquote>
+<div><p>the full basis in the</p>
+</div></blockquote>
+</div>
+<div class="section" id="tutorial">
+<span id="tutorial-label"></span><h2>tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Spherical_harmonics">https://en.wikipedia.org/wiki/Spherical_harmonics</a></p>
+</dd>
+<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Euler_angles">https://en.wikipedia.org/wiki/Euler_angles</a></p>
+</dd>
+<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Wigner_D-matrix">https://en.wikipedia.org/wiki/Wigner_D-matrix</a></p>
+</dd>
+</dl>
+<dl class="citation">
+<dt class="label" id="ref"><span class="brackets"><a class="fn-backref" href="#id1">Ref</a></span></dt>
+<dd><p><a class="reference external" href="https://aip.scitation.org/doi/10.1063/5.0021116">https://aip.scitation.org/doi/10.1063/5.0021116</a></p>
+</dd>
+</dl>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jigyasa Nigam, Sergey Pozdnyakov, Michele Ceriotti
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
