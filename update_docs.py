@@ -10,6 +10,7 @@ with open(".nojekyll", "w") as f:
     pass
 
 os.system("git add *")
+os.system("git add .nojekyll")
 os.system("git commit -m 'automatic docs build'")
 os.system("git push")
 os.system("git checkout master")
