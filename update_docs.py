@@ -10,4 +10,4 @@ with open(".nojekyll", "w") as f:
 os.system("git add *")
 os.system("git commit -m 'automatic docs build'")
 os.system("git push")
-os.system("git checkoug gh-pages")'''
+os.system("git checkoug gh-pages")
