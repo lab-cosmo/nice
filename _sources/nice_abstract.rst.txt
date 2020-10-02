@@ -1,3 +1,7 @@
+
+Nice
+_____
+
 NICE is a set of tools designed for calculation of 
 invariant and covariant atomic structure representations. It allows to
 automatically select most informative combinations of high order spectrum elements

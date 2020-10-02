@@ -3,19 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-
+  
 
 .. toctree::
    :glob:
    :maxdepth: 1
    :caption: Nice
 
-   preambule.rst
+   nice_abstract
+   installation
+   theory
+    
 
 .. toctree::
    :glob:
    :maxdepth: 1
-   :caption: Tutorial
+   :caption: Tutorials
 
    symlinks/methane_home_pc_tutorial
 
