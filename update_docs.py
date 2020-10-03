@@ -6,7 +6,7 @@ os.system("rm transformers.rst")
 os.system("cp transformers_proper.rst transformers.rst")
 os.system("make html")
 os.chdir("../")
-os.system("git checkout gh-pages")
+os.system("git checkout -f gh-pages")
 os.system("git rm -r *")
 os.system("cp -r ../build/html/* .")
 with open(".nojekyll", "w") as f:
