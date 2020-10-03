@@ -1,6 +1,9 @@
 import os
 os.system("rm -r ../build/*")
 os.chdir("./docs")
+os.system("sphinx-apidoc -f -o . ../nice/transformers")
+os.system("rm transformers.rst")
+os.system("cp transformer_proper.rst transformer.rst")
 os.system("make html")
 os.chdir("../")
 os.system("git checkout gh-pages")
