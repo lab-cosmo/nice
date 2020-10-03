@@ -22,6 +22,14 @@
 
    symlinks/methane_home_pc_tutorial
 
+
+.. toctree::
+   :glob:
+   :maxdepth: 3
+   :caption: reference guide
+
+   transformers
+
 .. toctree::
    :glob:
    :maxdepth: 1
