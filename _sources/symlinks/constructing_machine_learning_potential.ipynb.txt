@@ -1,0 +1,382 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Constructing machine learning potential"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "--2020-09-29 02:18:17--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528\n",
+      "Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41\n",
+      "Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.\n",
+      "HTTP request sent, awaiting response... 302 FOUND\n",
+      "Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1601338757&Signature=n%2B%2FBV7Tn17SCCiuM%2B4vyOgX9fmY%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]\n",
+      "--2020-09-29 02:18:17--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1601338757&Signature=n%2B%2FBV7Tn17SCCiuM%2B4vyOgX9fmY%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893\n",
+      "Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.202, 148.187.25.201\n",
+      "Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.200|:443... connected.\n",
+      "HTTP request sent, awaiting response... 200 OK\n",
+      "Length: 1218139661 (1.1G) [application/octet-stream]\n",
+      "Saving to: ‘methane.extxyz.gz’\n",
+      "\n",
+      "methane.extxyz.gz   100%[===================>]   1.13G  29.4MB/s    in 43s     \n",
+      "\n",
+      "2020-09-29 02:19:00 (27.3 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# downloading dataset from https://archive.materialscloud.org/record/2020.110\n",
+    "\n",
+    "!wget \"https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528\" -O methane.extxyz.gz\n",
+    "!gunzip -k methane.extxyz.gz"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import sys\n",
+    "sys.path.insert(0, '../')\n",
+    "import numpy as np\n",
+    "import ase.io\n",
+    "import tqdm\n",
+    "from nice.transformers import *\n",
+    "from nice.rascal_coefficients import get_rascal_coefficients_parallelized\n",
+    "from nice.utilities import make_structural_features\n",
+    "from matplotlib import pyplot as plt\n",
+    "from sklearn.linear_model import BayesianRidge"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "HARTREE_TO_EV = 27.211386245988\n",
+    "train_subset = \"0:10000\"    #input for ase.io.read command\n",
+    "test_subset = \"10000:15000\"     #input to ase.io.read command\n",
+    "environments_for_fitting = 1000    #number of environments to fit nice transfomers\n",
+    "grid =  [150, 200, 350, 500, 750, 1000,\n",
+    "         1500, 2000, 3000, 5000, 7500, 10000] #for learning curve\n",
+    "\n",
+    "#HYPERS for librascal spherical expansion coefficients\n",
+    "HYPERS = {\n",
+    "'interaction_cutoff': 6.3,\n",
+    "'max_radial': 5,\n",
+    "'max_angular': 5,\n",
+    "'gaussian_sigma_type': 'Constant',\n",
+    "'gaussian_sigma_constant': 0.05,\n",
+    "'cutoff_smooth_width': 0.3,\n",
+    "'radial_basis': 'GTO'\n",
+    "}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#our model:\n",
+    "def get_transformer():\n",
+    "    return StandardSequence([StandardBlock(ThresholdExpansioner(num_expand = 150),\n",
+    "                                              CovariantsPurifierBoth(max_take = 10),\n",
+    "                                                  IndividualLambdaPCAsBoth(n_components = 50),\n",
+    "                                                 ThresholdExpansioner(num_expand =300, mode = 'invariants'),\n",
+    "                                                 InvariantsPurifier(max_take = 50),\n",
+    "                                                  InvariantsPCA(n_components = 200)),\n",
+    "                             StandardBlock(ThresholdExpansioner(num_expand = 150),\n",
+    "                                              CovariantsPurifierBoth(max_take = 10),\n",
+    "                                                  IndividualLambdaPCAsBoth(n_components = 50),\n",
+    "                                                 ThresholdExpansioner(num_expand =300, mode = 'invariants'),\n",
+    "                                                 InvariantsPurifier(max_take = 50),\n",
+    "                                                  InvariantsPCA(n_components = 200)),\n",
+    "                            StandardBlock(None,\n",
+    "                                             None,\n",
+    "                                                  None,\n",
+    "                                                  ThresholdExpansioner(num_expand =300, mode = 'invariants'),\n",
+    "                                              InvariantsPurifier(max_take = 50),\n",
+    "                                                 InvariantsPCA(n_components = 200))\n",
+    "                                   ],\n",
+    "                            initial_scaler = InitialScaler(mode = 'signal integral',\n",
+    "                                                           individually = True)\n",
+    "                          )"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 100/100 [00:01<00:00, 50.78it/s]\n",
+      "100%|██████████| 2/2 [00:00<00:00, 32.65it/s]\n",
+      "100%|██████████| 50/50 [00:00<00:00, 50.40it/s]\n",
+      "100%|██████████| 2/2 [00:00<00:00, 92.62it/s]\n"
+     ]
+    }
+   ],
+   "source": [
+    "train_structures = ase.io.read('methane.extxyz', \n",
+    "                         index = train_subset)\n",
+    "\n",
+    "\n",
+    "train_coefficients = get_rascal_coefficients_parallelized(train_structures, HYPERS)\n",
+    "\n",
+    "test_structures = ase.io.read('methane.extxyz', \n",
+    "                         index = test_subset)\n",
+    "\n",
+    "test_coefficients = get_rascal_coefficients_parallelized(test_structures, HYPERS)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "all_species = []\n",
+    "for structure in train_structures:\n",
+    "    all_species.append(np.array(structure.get_atomic_numbers()))\n",
+    "all_species = np.concatenate(all_species, axis=0)\n",
+    "all_species = np.sort(np.unique(all_species))\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#individual transformers for each atomic specie in dataset\n",
+    "transformers = {}\n",
+    "for key in train_coefficients.keys():\n",
+    "    transformers[key] = get_transformer()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "../nice/transformers/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n",
+      "../nice/transformers/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n",
+      "../nice/transformers/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n",
+      "../nice/transformers/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n",
+      "../nice/transformers/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n",
+      "../nice/transformers/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n"
+     ]
+    }
+   ],
+   "source": [
+    "for key in train_coefficients.keys():\n",
+    "    transformers[key].fit(train_coefficients[key][:environments_for_fitting])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "train_features = {}\n",
+    "for specie in all_species:\n",
+    "    train_features[specie] = transformers[specie].transform(train_coefficients[specie],\n",
+    "                                                            return_only_invariants = True)\n",
+    "    \n",
+    "test_features = {}\n",
+    "for specie in all_species:\n",
+    "    test_features[specie] = transformers[specie].transform(test_coefficients[specie],\n",
+    "                                                           return_only_invariants = True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 10000/10000 [00:01<00:00, 8197.85it/s]\n",
+      "100%|██████████| 5000/5000 [00:00<00:00, 8348.81it/s]\n"
+     ]
+    }
+   ],
+   "source": [
+    "train_features = make_structural_features(train_features, train_structures)\n",
+    "test_features = make_structural_features(test_features, test_structures)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "train_energies = [structure.info['energy'] for structure in train_structures]\n",
+    "train_energies = np.array(train_energies) * HARTREE_TO_EV\n",
+    "\n",
+    "test_energies = [structure.info['energy'] for structure in test_structures]\n",
+    "test_energies = np.array(test_energies) * HARTREE_TO_EV\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def get_rmse(first, second):\n",
+    "    return np.sqrt(np.mean((first - second) ** 2))\n",
+    "\n",
+    "def get_standard_deviation(values):\n",
+    "    return np.sqrt(np.mean((values - np.mean(values)) ** 2))\n",
+    "\n",
+    "def get_relative_performance(predictions, values):\n",
+    "    return get_rmse(predictions, values) / get_standard_deviation(values)\n",
+    "\n",
+    "def estimate_performance(clf, data_train, data_test, targets_train, targets_test):\n",
+    "    clf.fit(data_train, targets_train)\n",
+    "    return get_relative_performance(clf.predict(data_test), targets_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 12/12 [00:44<00:00,  3.68s/it]\n"
+     ]
+    }
+   ],
+   "source": [
+    "errors = []\n",
+    "for el in tqdm.tqdm(grid):   \n",
+    "    errors.append(estimate_performance(BayesianRidge(), train_features[:el],\n",
+    "                                       test_features, train_energies[:el],\n",
+    "                                       test_energies))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[0.42475707682463026, 0.4279185376733464, 0.3492008266166807, 0.23186154623365574, 0.18099637715376907, 0.1627617360623108, 0.13117557751441186, 0.1164749070161693, 0.09898349078930455, 0.08364100338420387, 0.07238494336948237, 0.06996193035290897]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(errors)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "iVBORw0KGgoAAAANSUhEUgAAAZsAAAEKCAYAAADEovgeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4xLjMsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+AADFEAAAgAElEQVR4nO3de5xd49n/8c83gySDJhWh5HxweDSpYGgJVVolFbQUiaFFHkGpU0l4KKXiEIdWKRqn1COkqTokoY6lQT1IghCpChLiVw1B6hBCcv3+uHdqTPZM9kxmzdoz832/Xuu1977X6dqx5cq91r2uWxGBmZlZltrlHYCZmbV+TjZmZpY5JxszM8uck42ZmWXOycbMzDLnZGNmZplbI+8AytX6668fvXv3zjsMM7MWZcaMGW9HRNfa7U42dejduzfTp0/POwwzsxZF0vxi7b6MZmZmmXOyMTOzzDnZmJlZ5pxszMwsc042ZW7CBOjdG9q1S68TJuQdkZlZwznZNKGmTgwTJsDIkTB/PkSk15EjnXDMrOWRpxgorqqqKhoy9HlFYvjoo8/bKith3Diorq5/3whYuhSWLEn7r1h23x3efHPl7Xv1gnnzSg7NzKzZSJoREVW12/2cTRM5/fQvJhpIn488Em677YtJpNiyfHnp53rttaaN3cwsa042TaSuBPDhh/CPf6ReTmUlbLDB5+/rWjp2TK9HHw0LF658zC9/GZYtg4qKbL+TmVlTcbJpIj17pnsqtfXqBc8917hjLlmy8qW5du3gnXdgyy3hwgvhe98DqXHHNzNrLh4g0ETGjEm9kZoqK1N7Y1VXp3s+vXqlhNKrF/z+93DrrfDJJzB0KOy6K7iqjpmVuzaVbCT1lXSdpFub+tjFEkMpgwNKOe68eemezrx5cPDBsN9+8MILcMUVMHs2bLstDB8Or77aFN/EzKzpZZ5sJFVIelrS1NU4xvWSFkp6vsi6PSS9KGmupFPrO05EvBIRIxobx6rUTgyrm2jqs+aacMwxMHcunHEG3HknbLYZnHQSLFqU3XnNzBqjOXo2xwNziq2QtIGkdWu19S+y6XhgjyL7VwC/BYYAWwDDJW0haaCkqbWWDVb3i5SjL30JfvnLlHR+/GO47DLo1w/Gjk33fMzMykGmyUZSd2BP4No6NtkZuENS+8L2RwCX194oIqYB7xTZfztgbqHHshSYCOwTEc9FxNBaS5FxXa3HxhvDNdfArFmw004wenTq6dx4Yxq5ZmaWp6x7Nr8GRgFFnyKJiD8C9wJ/kFQNHA7s34DjdwNer/F5QaGtKEldJF0NbCXptDq22UvSuMWLFzcgjPLx1a/ClCnwl7/Ahhum3s4228B99+UdmZm1ZZklG0lDgYURMaO+7SJiLPAxcBWwd0R8kFVMEbEoIo6KiH4RcX4d20yJiJGdOnXKKoxmscsu8MQTcMst8O9/p2oE3/0uPPNM3pGZWVuUZc9mMLC3pHmky1u7Srqp9kaSdgIGALcDZzXwHG8APWp87l5oM9IzOcOGwZw58KtfwYwZsPXW8KMfFX8myMwsK5klm4g4LSK6R0RvYBjwl4g4uOY2krYCxgH7AIcBXSSd24DTPAVsIqmPpLUK55ncJF+gFWnfHk44AV5+GUaNgkmT0v2cUaPg3Xfzjs7M2oK8n7OpBA6IiJcjYjnwI2Clf3NLugV4HNhM0gJJIwAi4jPgWNJ9nznApIiY3WzRtzCdO8MFF6TyOcOGwcUXp5Frl16aHhI1M8uKqz7XoaFVn1uiZ59No9buvTdNiXDeeXDggenym5lZY9RV9dl/rbRhW24J99yTRqp17gwHHQTbbQcPPZR3ZGbW2jjZGLvtlgYP3HhjqjK9666w557w/Er1GszMGsfJxoB06eyQQ9L9nLFj4bHHUs9nxAh4w+P7zGw1OdnYF3ToAKeckkaunXAC3HQTbLJJmhyuhT7namZlwMnGiurSBS65BP7+d/jBD9Lggf794fLL0xTWZmYN4WRj9erTByZMSHPmDBwIxx0HW2wBf/wjeCCjmZXKycZKss028OCDcPfdadrqAw6A7beHn/88DZtu1y69TpiQd6RmVo48LbSVTIIhQ1KNtRtvhJ/9LNVfW2H+/DSNNWQ7l4+ZtTzu2ViDVVTAYYfBOuusvO6jj9JgAjOzmpxsrNEWLCje/tprzRuHmZU/JxtrtJ49G9ZuZm2Xk4012pgxUFn5xTYJzj47n3jMrHw52VijVVfDuHHQq1dKMhtskIZDL2zVE3CbWWM42dhqqa6GefNg+XL4179STbVf/hLefDPvyMysnDjZWJO69FL4+GOPSDOzL3KysSa16aZw/PFwww2p6oCZGTjZWAbOOAO6dk1JxyVtzAycbCwDnTqlwp1/+xtMnJh3NGZWDpxsLBOHHgpbbw2jRsGHH+YdjZnlzcnGMlFRAZddlqoMjB2bdzRmljcnG8vMjjvCsGEp2cyfn3c0ZpYnJxvL1IUXpgc+R43KOxIzy1ObSjaS+kq6TtKtecfSVvTsCaNHw6RJMG1a3tGYWV4ySzaSOkh6UtKzkmZLanTFLEnXS1oo6fki6/aQ9KKkuZJOre84EfFKRIxobBzWOKecAj16pKHQy5blHY2Z5SHLns0nwK4RsSUwCNhD0jdqbiBpA0nr1mrrX+RY44E9ajdKqgB+CwwBtgCGS9pC0kBJU2stGzTN17KGqqyEiy6CZ56B66/POxozy0NmySaSDwof1ywstR/x2xm4Q1J7AElHAJcXOdY04J0ip9kOmFvosSwFJgL7RMRzETG01lJSeUhJe0kat3jx4pK+p5XmgAPSgIHTT4f33ss7GjNrbpnes5FUIekZYCFwf0Q8UXN9RPwRuBf4g6Rq4HBg/wacohvweo3PCwptdcXTRdLVwFaSTiu2TURMiYiRnTp1akAYtipSGgr99tupUKeZtS2ZJpuIWBYRg4DuwHaSBhTZZizwMXAVsHeN3lAW8SyKiKMiol9EnJ/Veay4rbeGESPgN7+BF1/MOxoza07NMhotIt4DHqL4fZedgAHA7cBZDTz0G0CPGp+7F9qsTJ17brqHc9JJeUdiZs0py9FoXSV1LrzvCOwG/L3WNlsB44B9gMOALpLObcBpngI2kdRH0lrAMGByU8Rv2dhwQzjzTLj77rSYWduQZc9mI+AhSbNISeH+iJhaa5tK4ICIeDkilgM/AlZ61lzSLcDjwGaSFkgaARARnwHHku77zAEmRcTszL6RNYmf/hQ22ST1bpYuzTsaM2sOCteAL6qqqiqme0KWzNx1FwwdmiZbO/HEvKMxs6YiaUZEVNVub1MVBKx87LknDBkCZ58NC0salG5mLZmTjeXm0kvT9AM//3nekZhZ1pxsLDebb57u31xzTaouYGatl5ON5erMM6FLF08hbdbaOdlYrjp3hjFjUkXoW12L26zVcrKx3I0YAVtuCSefDEuW5B2NmWXBycZyt2IK6ddeg4svzjsaM8uCk42VhZ13hv33h/PPh9dfX/X2ZtayONlY2Rg7Ng0SOLXeKfDMrCVysrGy0bt3mtXz5pvhscfyjsbMmpKTjZWV0aOhWzc47jhYvjzvaMysqTjZWFlZe+10OW3mTBg/Pu9ozKypONlY2Rk+HHbYAU47Df7977yjMbOm4GRjZWfFFNILF6bJ1sys5XOysbJUVQWHHQa//jW89FLe0ZjZ6nKysbJ13nnQoQP87Gd5R2Jmq8vJxsrWV76Sph+YMgXuvTfvaMxsdTjZWFk77jjo3z/N5vnpp3lHY2aN5WRjZa19+zTJ2pw5sOGG0K5devhzwoS8IzOzhlgj7wDMVmXx4pRk3n03fZ4/H0aOTO+rq/OLy8xK556Nlb0zzli5msBHH8Hpp+cTj5k1nJONlb3XXmtYu5mVn3qTjaQKSZ5hxHLVs2fx9h49mjcOM2u8epNNRCwDdmymWMyKGjMGKitXbu/WDZYubf54zKzhSrmM9rSkyZIOkbTviiXzyMwKqqth3Djo1SuVsunVC4YNg8cfh332gQ8/zDtCM1uVUkajdQAWAbvWaAvgtkwiMiuiunrlkWff/jYceSTsthtMnQrrrZdPbGa2aqtMNhFxWHMEYtZQ//3fKcEMHw7f/GaqMtCtW95RmVkxq7yMJqm7pNslLSwsf5LUvTmCM1uVffeFP/85PXszeLCLdpqVq1Lu2dwATAY2LixTCm1mZWHXXeGhh9K9m8GD4emn847IzGorJdl0jYgbIuKzwjIe6JpxXGYNUlUFjz4KHTvCzjvDww/nHZGZ1VRKslkk6eDCMzcVkg4mDRgwKyubbQaPPQbdu8Mee8Cdd+YdkZmtUEqyORw4AHgT+CfwQ8CDBqwsde8OjzwCgwal+zk3+IKvWVmodzSapApg34jYu5niMVttXbrAAw/AfvvB4YfD22/DKafkHZVZ21ZKBYHhzRSLWZNZZ5006dqBB8KoUTB6NETkHZVZ21XKQ52PSboC+APwn2e1I2JmZlFlRFJf4HSgU0T8MO94LFtrrZXmvVlvPRg7FhYtgquvhjU8sYZZsyvlf7tBhddzarQFX6wosBJJPYAbgQ0L24+LiMsaE6Sk64GhwMKIGFBr3R7AZUAFcG1EXFDXcSLiFWCEpFsbE4e1PBUV8NvfQteucM45KeHccgt06JB3ZGZty6ru2bQDroqISY049mfAzyJipqR1gRmS7o+IF2ocfwNgSUS8X6Otf0TMrXWs8cAVpORVM74K4LfAbsAC4ClJk0mJ5/xaxzg8IhY24ntYCyfB2WeneznHHw9DhqSRal/6Ut6RmbUdq7pnsxwY1ZgDR8Q/V1xqKySTOUDtYiI7A3dIag8g6Qjg8iLHmga8U+Q02wFzI+KViFgKTAT2iYjnImJoraWkRCNpL0njFi9eXOpXtRbiuOPgppvS8zi77AIL/U8Ps2ZTytDnBySdLKmHpPVWLA05iaTewFbAEzXbI+KPwL3AHyRVk4ZZ79+AQ3cDXq/xeQErJ7SacXSRdDWwlaTTim0TEVMiYmSnTp0aEIa1FNXVqVczZw7suCPMm5d3RGZtQyn3bA4svB5Toy2AvqWcQNI6wJ+AEyLi37XXR8RYSROBq4B+EfFBKcdtjIhYBByV1fGtZfje9+D++2Ho0FTe5r774KtfzTsqs9ZtlT2biOhTZCk10axJSjQTIqLolASSdgIGALcDZzUgdoA3gJrzNXYvtJnVa/BgmDYtDYfeaac0N46ZZaeUqs+Vks6QNK7weRNJQ0vYT8B1wJyIuLSObbYCxgH7kKoSdJF0bgPifwrYRFIfSWsBw0hFQ81WaeDAVN5mvfXgO99JUxSYWTZKrfq8FNih8PkNoJSEMBg4BNhV0jOF5Xu1tqkEDoiIlwuDEX4EzK99IEm3AI8Dm0laIGkEQER8BhxLuu8zB5gUEbNLiM0MgD59UsLZZBPYay+YODHviMxap1Lu2fSLiAMlDQeIiI8KvZZ6RcSjQL3bRcRjtT5/ClxTZLs6qxhExN3A3auKx6wuG24If/0r7L03HHRQehbnmGNWvZ+Zla6Uns1SSR1JgwKQ1A/4JNOozJpZp05wzz1p0MCxx6bnclzexqzplJJszgLuAXpImgA8SCOfvTErZx07wm23wY9/DL/4RXou53//F3r3hnbt0uuECTkHadZCrfIyWkTcL2km8A3SZbHjI+LtzCMzy8Eaa8D118P668Mll6RyN8uWpXXz58PIkel9dXV+MZq1RApfKyiqqqoqpk+fnncYlpOINErtvfdWXterlx8GNauLpBkRUVW7vZTLaGZtjgR1VSx67bXmjcWsNXCyMatDz57F29df34MHzBqqpGQjaUdJhxXed5XUJ9uwzPI3ZgxUVn6xTYK33oJvfhOefDKfuMxaolIqCJwFjAZWFK5cE7gpy6DMykF1NYwbl+7RSOl1/Hj43e/gpZfg61+H4cN9/8asFKscICDpGVLF5pkRsVWhbVZEfK0Z4suNBwhYfd5/Hy66CC6+OI1WO/54+J//gc6d847MLF+rM0BgaaSMtOKhzrWbOjizlmbdddPMny+9lKoOXHwx9O8Pl18OS5fmHZ1Z+Skl2UyS9Dugc2FyswcoUlLGrC3q1g1uuAFmzoRBg9KDoAMGwO23exCBWU2lTDFwMXAraaqAzYAzI2Kl2TTN2rJBg9IcOXfdBWuuCfvuCzvv7EEEZiuUMkDgJOCFiDglIk6OiPubIS6zFkdKE7M9+2waRPDii2kQwUEHeRCBWSmX0dYF7pP0iKRjJW2YdVBmLdkaa6SyNnPnwhlnwB13wOabw+jRaXSba61ZW1RyuRpJXyNNEb0fsCAivpNlYHnzaDRrKgsWpKRz440r38eprEwJyLXWrLVoinI1C4E3gUXABk0VmFlr1717ej7nK19Zed1HH8Hppzd7SGbNrpR7Nj+R9DBpaoEuwBGt/Rkbsyy8+Wbxdtdas7aglJk6ewAnRMQzWQdj1pr17JmmKahtnXXgs8/SvR6z1qrOno2kLxXeXgS8Jmm9mkvzhGfWehSrtbbGGqkawR57wNueJcpasfouo91ceJ0BTC+8zqjx2cwaoK5aazfcAI8+ClVV8IyvH1gr5cnT6uDRaNacnnoKfvADeOcduO66VODTrCVq9Gg0SQ+W0mZmjbfttjBjRurdHHQQnHxyuo9j1lrUd8+mQ+HezPqSvlzjfk1voFtzBWjWVmy4ITzwABxzDFxyCQwZAosW5R2VWdOor2dzJOn+zOZ88X7NncAV2Ydm1vastRZccQVcfz1Mm5Z6Os8+m3dUZquvzmQTEZdFRB/g5IjoGxF9CsuWEeFkY5ahww6DRx6BTz+F7beHiRPzjshs9axyZH9EXC5pALAF0KFG+41ZBmbW1m23HUyfDvvvnwYMzJwJ558PFRV5R2bWcKVOC315YdkFGAvsnXFcZkYqcfPgg3D00Wlm0CFD0og1s5amlNpoPwS+DbwZEYcBWwKdMo3KzP5jrbXgyivh2mvhr39N93Fmzco7KrOGKSXZLImI5cBnhaoCC0klbMysGY0YkZLNJ5+k+ziTJuUdkVnpSkk20yV1Jk0FPQOYCTyeaVRmVtQ3vpHu4wwaBAceCKeeCsuW5R2V2aqVMkDgJ4W3V0u6B/hSRLgTb5aTjTaChx6C44+HCy9MJW5uvhnWc8VCK2N1JhtJW9e3LiJmZhOSma3KWmvBVVfB1lunh0C33TbNCDpwYN6RmRVXX8/mknrWBbBrE8diZg10xBEwYADst1+6j3PDDWmotFm5qTPZRMQuzRmImTXO9tun+zg//CEccEC6j3PuuX4ex8pLKc/ZVEo6Q9K4wudNJA3NPjQzK9XGG6f7OEccARdcAEOHwrvv5h2V2edKGY12A7AU2KHw+Q3g3MwiMrNGad8+zZdz9dXpQdBtt4Xnn887KrOklGTTLyLGAp8CRMRHgDKNyswa7cgjUy/nww/TUOk//SnviMxKSzZLJXUkDQpAUj/gk0yjMrPVMnhwmh9nwIB0L2effdLMoO3aQe/eMGFC3hFaW7PK52yAs4B7gB6SJgCDgUOzDMrMVt/GG6eKA7vvDpMnf94+fz6MHJneV1fnE5u1PfX2bCQJ+DuwLynB3AJURcTDmUdmZqutfXt49dWV2z/6CE4/vfnjsbar3p5NRISkuyNiIHBXM8VkZk3o9deLt8+f37xxWNtWyj2bmZK2zTwSM8tEz57F26U0TPrTT5s3HmubSkk2Xwcel/SypFmSnpPk2mhmLcSYMVBZ+cW2Dh3SVAWnnQZbbQWPPZZPbNZ2lJJsdgf6kcrT7AUMLbyaWQtQXZ2ev+nVK/VmevVKc+M8+WQaOPD++7DjjumBUE/MZllRROQdQ1mqqqqK6dOn5x2GWeY++ADOPht+9atUOfrSS1OCkp+ms0aQNCMiqmq3l9KzMbNWbJ110pTTM2ZA375wyCGw227wj3/kHZm1Jk42ZgbAllumezdXXpkKe37ta3DOOWlmULPV5WRjZv9RUQFHHw1z5sD3vw9nnZWS0MMP5x2ZtXRONma2ko02gokT4Z57YOlS2GUXOPRQePvtvCOzlsrJxszqtPvuqXL0aaelemqbb54maItIn3v3dr01K41Ho9XBo9HMvmj2bDjqKHj00ZR05s2Djz/+fH1lZRpi7XprbZtHo5nZavnqV1Nhz2uvTSPVaiYacL01q5+TjZmVrF07GDECli8vvv6115o3Hms5nGzMrMF69SrevvHGzRuHtRxONmbWYMXqrQG89VZa52dzrDYnGzNrsGL11i67DPbaC844AwYOhPvuyztKKydONmbWKNXVaUTa8uXp9bjj4NZb07M5kIZN778/LFiQZ5RWLpxszKxJ7b47PPcc/PKXMHVqGiZ90UXp4VBru5xszKzJtW+fLqfNmQPf/jaMGgWDBrnsTVvmZGNmmendG+68E6ZMSc/l7LJLuvz2z3/mHZk1NycbM8vc0KGpAsGZZ6b7OpttBr/+NXz2Wd6RWXNxsjGzZtGxY5qkbfZsGDwYTjwRttnGU1K3FU42Ztas+veHu++GP/0J3n03TUl96KGwcGHekVmWnGzMrNlJsO++aQDBqafCzTenS2tXXgnLluUdnWXBycbMcrP22nD++TBrFmy9NRxzDGy3HTzxRN6RWVNzsjGz3G2+OTzwQJqw7c03YfvtYeRIWLQo78isqbSJZCOpr6TrJN2adyxmVpwEBx4If/97Gjxw/fXp0tq119ZdZdpajrJPNpKul7RQ0vO12veQ9KKkuZJOre8YEfFKRIzINlIzawrrrguXXAJPPw1bbAFHHAE77AAzZ3p20JZsjbwDKMF44ArgxhUNkiqA3wK7AQuApyRNBiqA82vtf3hEeJyLWQszcGCarO2mm+Dkk6GqCioqPn82Z/78dKkNPDtoS1D2PZuImAa8U6t5O2BuoceyFJgI7BMRz0XE0FpLyYlG0khJ0yVNf+utt5rwW5hZY0hwyCHw4ouwzjorPwTq2UFbjrJPNnXoBrxe4/OCQltRkrpIuhrYStJpdW0XEeMioioiqrp27dp00ZrZauncGT74oPi6+fObNxZrnJaabBokIhZFxFER0S8ial9mM7MWoGfP4u0VFXDNNa4qXe5aarJ5A+hR43P3QpuZtVLFZgdt3z5N3DZyJGy6Kfzud0465aqlJpungE0k9ZG0FjAMmJxzTGaWoWKzg153Hcydm8rffOUrcNRRqRzO1Vd7aupyU/bJRtItwOPAZpIWSBoREZ8BxwL3AnOASRExO884zSx7tWcHra5OiWfIEHj88TRLaPfucPTRKelceaWTTrlQROQdQ1mqqqqK6dOn5x2GmTVQRKpGcPbZqaJ0t26p/tp//zd06JB3dK2fpBkRUVW7vex7NmZmDSHBbrvBI4+kpNOnD/z0p9CvH/zmN7BkSd4Rtk1ONmbWKklpSupp0+DBB9NlteOPT0nnssucdJqbk42ZtWoS7Lprqkbw0EOp3toJJ0DfvvCrX6UHQy17TjZm1mZ861sp4fz1r6nu2kknpaRzySXw4Yd5R9e6OdmYWZvzzW+mS2vTpsGAAan2Wt++cNFFTjpZcbKpRdJeksYtXrw471DMLGM77ZQGETz6KGy5JYwalQYUjB1bd3kcaxwnm1oiYkpEjOzUqVPeoZhZMxk8GO67D/72tzRj6OjRKelccAG8/37e0bUOTjZmZgXbb58eDH38cdh2WzjttDRvznnnwb//nXd0LZuTjZlZLd/4RiqB88QTKQGdfnpKOuee66TTWE42ZmZ12G47mDoVnnwyXWr7+c9TTbZzzgHf1m0YJxszs1XYdluYMgWmT08j2c46K/V0zj47FQf1VNWr1hKmhTYzKwvbbAN33glPP516N7/4xRfXe6rqurlnY2bWQFttBbffDhtttPI6T1VdnJONmVkjvflm8fb58+Gzz5o3lnLnZGNm1kh1TVUNqTLB7benKQ/MycbMrNGKTVXdsWMq9NmuHey7L+ywQ6rF1tY52ZiZNVKxqaqvuSZVk541C669Fl5/PRUA3XPP1NZWeabOWiTtBezVv3//I1566aW8wzGzFm7JErj8cjj//PRszsEHp5FsvXvnHVk2PFNniVwbzcyaUseOqcDnK6/AKafAH/+Y5tQ58UR4++28o2s+TjZmZs3gy1+GCy+El16CH/0oTVHdt28qgdMWpjVwsjEza0bdu6f7Os8/D9/5TiqB068fXHUVfPpp3tFlx8nGzCwH//VfcNttaVqDTTeFn/wkzR76hz/A8uV5R9f0nGzMzHK0/fZpaPTUqen+zrBhqQDogw/mHVnTcrIxM8uZlIZGP/00/P738NZb6RLbd78LM2fmHV3TcLIxMysTFRVp8MCLL8Kll6ZEs802MHw4vPxy3tGtHicbM7My06FDGhr98supqOfkybD55nDssfCvf6VpDFratAZ+qLMOVVVVMX369LzDMDPjn/9MD4Jecw2ssQYsW/bFQp+VlamSQTlMa+CHOs3MWqiNNkpDo194IV1qq11RuiVMa+DJ08zMWohNN03lb4qZPz/1bL72NRg4ML1265YGH5QD92zMzFqQuqY16NgRHn0UTj01jWzr0QO6dIGdd4af/jRdZvu//4MPPii+f9b3gdyzMTNrQcaMSVNPf/TR520179m8916qTjBr1ufL+PFfTDJ9+36xBzRvHpx55ue9piymt/YAgTp4gICZlasJE9I9mtdeSz2dMWPqTwrLl6cEMmsWPPfc50nopZfqr1bQq1dKRA1R1wABJ5taPMWAmbUVS5akQQdVK6WGRGp46RyPRiuRpxgws7aiY8f00GivXsXX1zftdUM52ZiZtXHFpreurEztTcXJxsysjSs2vXVTPyTq0WhmZkZ1dbYVCNyzMTOzzDnZmJlZ5pxszMwsc042ZmaWOScbMzPLnCsI1EHSW8D8vOOooROwuBWcc3WP2Zj9G7pPKduv7jbrA283IKZy5t9m4/dvyD6lbpv3b7NXRHRdqTUivLSABRjXGs65usdszP4N3aeU7Vd3G2B6c//3zGrxb7Px+zdkn1K3Ldffpi+jtRxTWsk5V/eYjdm/ofuUsn1TbdMa+LfZ+P0bsk+p25blb9OX0cxyIGl6FClWaJa3rH6b7tmY5WNc3lz58RsAAAWYSURBVAGY1SGT36Z7NmZmljn3bMzMLHNONmZmljknGzMzy5yTjVkZkPRfkq6WdKuko/OOx6wmSWtLmi5paGOP4WRjlhFJ10taKOn5Wu17SHpR0lxJpwJExJyIOAo4ABicR7zWdjTkt1kwGpi0Oud0sjHLznhgj5oNkiqA3wJDgC2A4ZK2KKzbG7gLuLt5w7Q2aDwl/jYl7Qa8ACxcnRN6pk6zjETENEm9azVvB8yNiFcAJE0E9gFeiIjJwGRJdwE3N2es1rY08Le5DrA2KQEtkXR3RCxv6DmdbMyaVzfg9RqfFwBfl/QtYF+gPe7ZWD6K/jYj4lgASYcCbzcm0YCTjVlZiIiHgYdzDsOsThExfnX29z0bs+b1BtCjxufuhTazvGX623SyMWteTwGbSOojaS1gGDA555jMIOPfppONWUYk3QI8DmwmaYGkERHxGXAscC8wB5gUEbPzjNPanjx+my7EaWZmmXPPxszMMudkY2ZmmXOyMTOzzDnZmJlZ5pxszMwsc042ZmaWOScbs0aS9LCkqmY4z3GS5kiaUMK2nSX9pAnP3VvSQU11PGu7nGzMciCpIXUJfwLsFhHVJWzbubD96p5zhd5Ag5NNoVy92X842VirVviX+RxJ10iaLek+SR0L6/7TM5G0vqR5hfeHSrpD0v2S5kk6VtJJkp6W9H+S1qtxikMkPSPpeUnbFfZfuzA51ZOFffapcdzJkv4CPFgk1pMKx3le0gmFtquBvsCfJZ1Ya/uvFs7xjKRZkjYBLgD6FdoukvQtSY9Imgy8UPjzeL7GMU6W9IvC+/6SHpD0rKSZkvoVjrdT4XgnFr7DFTX2n1qoWI2kDyRdIulZYHtJ20j6q6QZku6VtFFhu+MkvVCIeWIj/9NaSxMRXry02oX0L/PPgEGFz5OAgwvvHwaqCu/XB+YV3h8KzAXWBboCi4GjCut+BZxQY/9rCu+/CTxfeH9ejXN0Bv5Bmg/kUFLZ9vWKxLkN8Fxhu3WA2cBWhXXzgPWL7HM5UF14vxbQsfB9n6+xzbeAD4E+Nf48aq4/GfhF4f0TwA8K7zsAlYX9p9bY/lDgihqfpwLfKrwP4IDC+zWBvwFdC58PBK4vvP9/QPsVfz55/0a8NM/iKQasLXg1Ip4pvJ9B+gt3VR6KiPeB9yUtBqYU2p8DvlZju1vgP5NRfUlSZ+C7wN6STi5s0wHoWXh/f0S8U+R8OwK3R8SHAJJuA3YCnq4nxseB0yV1B26LiJckFdvuyYh4tb4vK2ldoFtE3F74Ph8X2uvbrbZlwJ8K7zcDBgD3F45RAfyzsG4WMEHSHcAdDTmBtVxONtYWfFLj/TJSDwBSj2fFpeQO9eyzvMbn5Xzx/5vaxQUDELBfRLxYc4Wkr5N6GU0iIm6W9ASwJ3C3pCOBV4psWvOcNb8zrPy9V6W+/T+OiGWF9wJmR8T2RY6xJ6knuBcpWQ6MVATSWjHfs7G2bB7p8hXADxt5jAMBJO0ILI6IxaSquT9V4Z/0krYq4TiPAN+XVClpbeAHhbY6SeoLvBIRvwHuJPW43idd/qvLv4ANJHWR1B4YClDoxS2Q9P3CsdtLqixyvHnAIEntJPUgTSVczItAV0nbF463ZuEeUzugR0Q8BIwGOpEuG1or556NtWUXA5MkjQTuauQxPpb0NOkexeGFtl8CvwZmFf5yfZXCX+p1iYiZksYDTxaaro2I+i6hARxAGqDwKfAmcF5EvCPpscIggD9T63tFxKeSzimc5w3g7zVWHwL8rrD+U2B/0iWvZYWb/uML3+tV4AVSGfqZdXyfpZJ+CPxGUifS3zW/Jt2/uqnQJuA3EfHeKr6ntQKeYsDMzDLny2hmZpY5JxszM8uck42ZmWXOycbMzDLnZGNmZplzsjEzs8w52ZiZWeacbMzMLHP/H7HWJ4mqcccAAAAAAElFTkSuQmCC\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "from matplotlib import pyplot as plt\n",
+    "plt.plot(grid, errors, 'bo')\n",
+    "plt.plot(grid, errors, 'b')\n",
+    "plt.xlabel(\"number of structures\")\n",
+    "plt.ylabel(\"relative error\")\n",
+    "plt.xscale('log')\n",
+    "plt.yscale('log')\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

@@ -20,7 +20,7 @@
    :maxdepth: 1
    :caption: Tutorials
 
-   symlinks/methane_home_pc_tutorial
+   symlinks/constructing_machine_learning_potential
 
 
 .. toctree::
