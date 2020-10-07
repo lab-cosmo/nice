@@ -132,11 +132,15 @@ def transform_sequentially(transformers, structures, HYPERS, all_species,
             else:
                 # determining size of output
                 dummy_shape = coefficients[specie].shape
+                dummy_shape = list(dummy_shape)
                 dummy_shape[0] = 1
-                dummy_data = np.zeros(dummy_shape)
+                dummy_data = np.ones(dummy_shape)
                 dummy_output = transformers[specie].transform(dummy_data,
                                                               return_only_invariants = True)
-                now[specie] = np.zeros([0, dummy_output.shape[1]])
+                current_block = {}
+                for key in dummy_output.keys():
+                    current_block[key] = np.zeros([0, dummy_output[key].shape[1]])
+                now[specie] = current_block
                 
         pieces.append(make_structural_features(now, structures[i : i + block_size],
                                                all_species,
