@@ -1,7 +1,6 @@
 import numpy as np
 cimport cython
 from nice_utilities cimport single_contraction, min_c, abs_c, max_c
-from naive cimport compute_powerspectrum
 from libc.math cimport sin, M_PI, sqrt, fmax
 import tqdm
 import rascal
