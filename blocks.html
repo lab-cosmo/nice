@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>NICE &mdash; NICE  documentation</title>
+  <title>Blocks &mdash; NICE  documentation</title>
   
 
   
@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="User guide" href="symlinks/user_guide.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
     <link rel="prev" title="Constructing machine learning potential" href="symlinks/constructing_machine_learning_potential.html" /> 
 </head>
 
@@ -95,11 +95,15 @@
 </ul>
 <p class="caption"><span class="caption-text">reference guide</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">NICE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#module-blocks.compressors">Compressors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#module-blocks.expansioners">Expansioners</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#module-blocks.purifiers">Purifiers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#module-blocks.miscellaneous">Miscellaneous</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Blocks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-blocks.grouping">NICE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-blocks.compressors">Compressors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-blocks.expansioners">Expansioners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-blocks.purifiers">Purifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-blocks.miscellaneous">Miscellaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User guide</span></p>
 <ul>
@@ -160,7 +164,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>NICE</li>
+      <li>Blocks</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -203,8 +207,10 @@
     text-align: unset;
 }
 </style>
+<div class="section" id="blocks">
+<h1>Blocks<a class="headerlink" href="#blocks" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-blocks.grouping">
-<span id="nice"></span><h1>NICE<a class="headerlink" href="#module-blocks.grouping" title="Permalink to this headline">¶</a></h1>
+<span id="nice"></span><h2>NICE<a class="headerlink" href="#module-blocks.grouping" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="blocks.grouping.StandardBlock">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.grouping.</code><code class="sig-name descname">StandardBlock</code><span class="sig-paren">(</span><em class="sig-param">covariants_expansioner=None</em>, <em class="sig-param">covariants_purifier=None</em>, <em class="sig-param">covariants_pca=None</em>, <em class="sig-param">invariants_expansioner=None</em>, <em class="sig-param">invariants_purifier=None</em>, <em class="sig-param">invariants_pca=None</em>, <em class="sig-param">guaranteed_parts_fitted_consistently=False</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.grouping.StandardBlock" title="Permalink to this definition">¶</a></dt>
@@ -264,7 +270,7 @@
 
 </div>
 <div class="section" id="module-blocks.compressors">
-<span id="compressors"></span><h1>Compressors<a class="headerlink" href="#module-blocks.compressors" title="Permalink to this headline">¶</a></h1>
+<span id="compressors"></span><h2>Compressors<a class="headerlink" href="#module-blocks.compressors" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="blocks.compressors.IndividualLambdaPCAs">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.compressors.</code><code class="sig-name descname">IndividualLambdaPCAs</code><span class="sig-paren">(</span><em class="sig-param">n_components=None</em>, <em class="sig-param">num_to_fit='10x'</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.IndividualLambdaPCAs" title="Permalink to this definition">¶</a></dt>
@@ -410,7 +416,7 @@ and n_features is the number of features.</p>
 
 </div>
 <div class="section" id="module-blocks.expansioners">
-<span id="expansioners"></span><h1>Expansioners<a class="headerlink" href="#module-blocks.expansioners" title="Permalink to this headline">¶</a></h1>
+<span id="expansioners"></span><h2>Expansioners<a class="headerlink" href="#module-blocks.expansioners" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="blocks.expansioners.ThresholdExpansioner">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.expansioners.</code><code class="sig-name descname">ThresholdExpansioner</code><span class="sig-paren">(</span><em class="sig-param">num_expand=None</em>, <em class="sig-param">mode='covariants'</em>, <em class="sig-param">num_threads=None</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.expansioners.ThresholdExpansioner" title="Permalink to this definition">¶</a></dt>
@@ -434,7 +440,7 @@ and n_features is the number of features.</p>
 
 </div>
 <div class="section" id="module-blocks.purifiers">
-<span id="purifiers"></span><h1>Purifiers<a class="headerlink" href="#module-blocks.purifiers" title="Permalink to this headline">¶</a></h1>
+<span id="purifiers"></span><h2>Purifiers<a class="headerlink" href="#module-blocks.purifiers" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="blocks.purifiers.CovariantsIndividualPurifier">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.purifiers.</code><code class="sig-name descname">CovariantsIndividualPurifier</code><span class="sig-paren">(</span><em class="sig-param">regressor=None</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">max_take=None</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.purifiers.CovariantsIndividualPurifier" title="Permalink to this definition">¶</a></dt>
@@ -521,7 +527,7 @@ and n_features is the number of features.</p>
 
 </div>
 <div class="section" id="module-blocks.miscellaneous">
-<span id="miscellaneous"></span><h1>Miscellaneous<a class="headerlink" href="#module-blocks.miscellaneous" title="Permalink to this headline">¶</a></h1>
+<span id="miscellaneous"></span><h2>Miscellaneous<a class="headerlink" href="#module-blocks.miscellaneous" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="blocks.miscellaneous.InitialScaler">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.miscellaneous.</code><code class="sig-name descname">InitialScaler</code><span class="sig-paren">(</span><em class="sig-param">mode='signal integral'</em>, <em class="sig-param">individually=False</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.miscellaneous.InitialScaler" title="Permalink to this definition">¶</a></dt>
@@ -576,6 +582,7 @@ and n_features is the number of features.</p>
 </dd></dl>
 
 </div>
+</div>
 
 
            </div>
@@ -585,7 +592,7 @@ and n_features is the number of features.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="symlinks/user_guide.html" class="btn btn-neutral float-right" title="User guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="symlinks/constructing_machine_learning_potential.html" class="btn btn-neutral float-left" title="Constructing machine learning potential" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -1,0 +1,517 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nice package &mdash; NICE  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> NICE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Nice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nice_abstract.html">Nice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory in a nutshell</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/constructing_machine_learning_potential.html">Constructing machine learning potential</a></li>
+</ul>
+<p class="caption"><span class="caption-text">reference guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html">User guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Getting-coefficients">Getting coefficients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Data-structure">Data structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Compressors">Compressors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Expansioner">Expansioner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Purifiers:">Purifiers:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#StandardBlock">StandardBlock</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#StandardSequence">StandardSequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Custom-regressors-into-purifiers">Custom regressors into purifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Sequential-fitting">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Non-standard-sequence">Non standard sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Meet-definition-from-the-article">Meet definition from the article</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NICE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>nice package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/nice.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="nice-package">
+<h1>nice package<a class="headerlink" href="#nice-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nice.blocks.html">nice.blocks package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#nice-blocks-compressors-module">nice.blocks.compressors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#nice-blocks-expansioners-module">nice.blocks.expansioners module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#nice-blocks-grouping-module">nice.blocks.grouping module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#nice-blocks-miscellaneous-module">nice.blocks.miscellaneous module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#nice-blocks-purifiers-module">nice.blocks.purifiers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-nice.ClebschGordan">
+<span id="nice-clebschgordan-module"></span><h2>nice.ClebschGordan module<a class="headerlink" href="#module-nice.ClebschGordan" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nice.ClebschGordan.ClebschGordan">
+<em class="property">class </em><code class="sig-prename descclassname">nice.ClebschGordan.</code><code class="sig-name descname">ClebschGordan</code><span class="sig-paren">(</span><em class="sig-param">l_max</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.ClebschGordan.ClebschGordan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nice.ClebschGordan.check_clebsch_gordan">
+<code class="sig-prename descclassname">nice.ClebschGordan.</code><code class="sig-name descname">check_clebsch_gordan</code><span class="sig-paren">(</span><em class="sig-param">clebsch_gordan</em>, <em class="sig-param">required_l_max</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.ClebschGordan.check_clebsch_gordan" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.ClebschGordan.get_single">
+<code class="sig-prename descclassname">nice.ClebschGordan.</code><code class="sig-name descname">get_single</code><span class="sig-paren">(</span><em class="sig-param">l1</em>, <em class="sig-param">l2</em>, <em class="sig-param">l</em>, <em class="sig-param">m1</em>, <em class="sig-param">m2</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.ClebschGordan.get_single" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-nice.contracted_pca">
+<span id="nice-contracted-pca-module"></span><h2>nice.contracted_pca module<a class="headerlink" href="#module-nice.contracted_pca" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="nice.contracted_pca.do_pca_step">
+<code class="sig-prename descclassname">nice.contracted_pca.</code><code class="sig-name descname">do_pca_step</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">n_components</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">epsilon=1e-08</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.contracted_pca.do_pca_step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.contracted_pca.do_sign_covariant_pca">
+<code class="sig-prename descclassname">nice.contracted_pca.</code><code class="sig-name descname">do_sign_covariant_pca</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">n_components</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.contracted_pca.do_sign_covariant_pca" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-nice.nice_utilities">
+<span id="nice-nice-utilities-module"></span><h2>nice.nice_utilities module<a class="headerlink" href="#module-nice.nice_utilities" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nice.nice_utilities.Data">
+<em class="property">class </em><code class="sig-prename descclassname">nice.nice_utilities.</code><code class="sig-name descname">Data</code><a class="headerlink" href="#nice.nice_utilities.Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="nice.nice_utilities.Data.get_invariants">
+<code class="sig-name descname">get_invariants</code><a class="headerlink" href="#nice.nice_utilities.Data.get_invariants" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nice.nice_utilities.do_partial_expansion">
+<code class="sig-prename descclassname">nice.nice_utilities.</code><code class="sig-name descname">do_partial_expansion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.do_partial_expansion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.nice_utilities.do_partial_expansion_covariants">
+<code class="sig-prename descclassname">nice.nice_utilities.</code><code class="sig-name descname">do_partial_expansion_covariants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.do_partial_expansion_covariants" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.nice_utilities.do_partial_expansion_invariants">
+<code class="sig-prename descclassname">nice.nice_utilities.</code><code class="sig-name descname">do_partial_expansion_invariants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.do_partial_expansion_invariants" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.nice_utilities.get_placing">
+<code class="sig-prename descclassname">nice.nice_utilities.</code><code class="sig-name descname">get_placing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.get_placing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.nice_utilities.get_size_invariants">
+<code class="sig-prename descclassname">nice.nice_utilities.</code><code class="sig-name descname">get_size_invariants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.get_size_invariants" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.nice_utilities.get_sizes">
+<code class="sig-prename descclassname">nice.nice_utilities.</code><code class="sig-name descname">get_sizes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.get_sizes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.nice_utilities.get_sizes_covariants">
+<code class="sig-prename descclassname">nice.nice_utilities.</code><code class="sig-name descname">get_sizes_covariants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.get_sizes_covariants" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.nice_utilities.process_contiguousness">
+<code class="sig-prename descclassname">nice.nice_utilities.</code><code class="sig-name descname">process_contiguousness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.process_contiguousness" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-nice.packing">
+<span id="nice-packing-module"></span><h2>nice.packing module<a class="headerlink" href="#module-nice.packing" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="nice.packing.copy_parallel">
+<code class="sig-prename descclassname">nice.packing.</code><code class="sig-name descname">copy_parallel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.packing.copy_parallel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.packing.pack_dense">
+<code class="sig-prename descclassname">nice.packing.</code><code class="sig-name descname">pack_dense</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.packing.pack_dense" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.packing.subtract_parallel">
+<code class="sig-prename descclassname">nice.packing.</code><code class="sig-name descname">subtract_parallel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.packing.subtract_parallel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.packing.unite_parallel">
+<code class="sig-prename descclassname">nice.packing.</code><code class="sig-name descname">unite_parallel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.packing.unite_parallel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.packing.unpack_dense">
+<code class="sig-prename descclassname">nice.packing.</code><code class="sig-name descname">unpack_dense</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.packing.unpack_dense" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-nice.rascal_coefficients">
+<span id="nice-rascal-coefficients-module"></span><h2>nice.rascal_coefficients module<a class="headerlink" href="#module-nice.rascal_coefficients" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="nice.rascal_coefficients.convert_rascal_coefficients">
+<code class="sig-prename descclassname">nice.rascal_coefficients.</code><code class="sig-name descname">convert_rascal_coefficients</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.convert_rascal_coefficients" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.rascal_coefficients.copy_coefs">
+<code class="sig-prename descclassname">nice.rascal_coefficients.</code><code class="sig-name descname">copy_coefs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.copy_coefs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.rascal_coefficients.get_rascal_coefficients">
+<code class="sig-prename descclassname">nice.rascal_coefficients.</code><code class="sig-name descname">get_rascal_coefficients</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.get_rascal_coefficients" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.rascal_coefficients.get_rascal_coefficients_stared">
+<code class="sig-prename descclassname">nice.rascal_coefficients.</code><code class="sig-name descname">get_rascal_coefficients_stared</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.get_rascal_coefficients_stared" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.rascal_coefficients.process_structures">
+<code class="sig-prename descclassname">nice.rascal_coefficients.</code><code class="sig-name descname">process_structures</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.process_structures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Satisfying librascal desire of having all atoms
+inside the cell even if structure is not periodic.
+(changes only non periodic structures)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nice.rascal_coefficients.split_by_central_specie">
+<code class="sig-prename descclassname">nice.rascal_coefficients.</code><code class="sig-name descname">split_by_central_specie</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.split_by_central_specie" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-nice.thresholding">
+<span id="nice-thresholding-module"></span><h2>nice.thresholding module<a class="headerlink" href="#module-nice.thresholding" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="nice.thresholding.get_thresholded_tasks">
+<code class="sig-prename descclassname">nice.thresholding.</code><code class="sig-name descname">get_thresholded_tasks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.thresholding.get_thresholded_tasks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-nice.unrolling_individual_pca">
+<span id="nice-unrolling-individual-pca-module"></span><h2>nice.unrolling_individual_pca module<a class="headerlink" href="#module-nice.unrolling_individual_pca" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nice.unrolling_individual_pca.UnrollingIndividualPCA">
+<em class="property">class </em><code class="sig-prename descclassname">nice.unrolling_individual_pca.</code><code class="sig-name descname">UnrollingIndividualPCA</code><a class="headerlink" href="#nice.unrolling_individual_pca.UnrollingIndividualPCA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._truncated_svd.TruncatedSVD</span></code></p>
+<dl class="attribute">
+<dt id="nice.unrolling_individual_pca.UnrollingIndividualPCA.fit">
+<code class="sig-name descname">fit</code><a class="headerlink" href="#nice.unrolling_individual_pca.UnrollingIndividualPCA.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nice.unrolling_individual_pca.UnrollingIndividualPCA.fit_transform">
+<code class="sig-name descname">fit_transform</code><a class="headerlink" href="#nice.unrolling_individual_pca.UnrollingIndividualPCA.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nice.unrolling_individual_pca.UnrollingIndividualPCA.transform">
+<code class="sig-name descname">transform</code><a class="headerlink" href="#nice.unrolling_individual_pca.UnrollingIndividualPCA.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-nice.unrolling_pca">
+<span id="nice-unrolling-pca-module"></span><h2>nice.unrolling_pca module<a class="headerlink" href="#module-nice.unrolling_pca" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nice.unrolling_pca.UnrollingPCA">
+<em class="property">class </em><code class="sig-prename descclassname">nice.unrolling_pca.</code><code class="sig-name descname">UnrollingPCA</code><a class="headerlink" href="#nice.unrolling_pca.UnrollingPCA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._truncated_svd.TruncatedSVD</span></code></p>
+<dl class="attribute">
+<dt id="nice.unrolling_pca.UnrollingPCA.fit">
+<code class="sig-name descname">fit</code><a class="headerlink" href="#nice.unrolling_pca.UnrollingPCA.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nice.unrolling_pca.UnrollingPCA.fit_transform">
+<code class="sig-name descname">fit_transform</code><a class="headerlink" href="#nice.unrolling_pca.UnrollingPCA.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nice.unrolling_pca.UnrollingPCA.transform">
+<code class="sig-name descname">transform</code><a class="headerlink" href="#nice.unrolling_pca.UnrollingPCA.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nice.unrolling_pca.get_signs">
+<code class="sig-prename descclassname">nice.unrolling_pca.</code><code class="sig-name descname">get_signs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_pca.get_signs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.unrolling_pca.pack_dense">
+<code class="sig-prename descclassname">nice.unrolling_pca.</code><code class="sig-name descname">pack_dense</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_pca.pack_dense" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.unrolling_pca.unpack_dense">
+<code class="sig-prename descclassname">nice.unrolling_pca.</code><code class="sig-name descname">unpack_dense</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_pca.unpack_dense" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-nice.utilities">
+<span id="nice-utilities-module"></span><h2>nice.utilities module<a class="headerlink" href="#module-nice.utilities" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="nice.utilities.get_all_species">
+<code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">get_all_species</code><span class="sig-paren">(</span><em class="sig-param">structures</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.get_all_species" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.utilities.get_compositional_features">
+<code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">get_compositional_features</code><span class="sig-paren">(</span><em class="sig-param">structures</em>, <em class="sig-param">all_species</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.get_compositional_features" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.utilities.get_spherical_expansion">
+<code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">get_spherical_expansion</code><span class="sig-paren">(</span><em class="sig-param">structures</em>, <em class="sig-param">rascal_hypers</em>, <em class="sig-param">all_species</em>, <em class="sig-param">task_size=100</em>, <em class="sig-param">num_threads=None</em>, <em class="sig-param">show_progress=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.get_spherical_expansion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.utilities.make_structural_features">
+<code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">make_structural_features</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">structures</em>, <em class="sig-param">all_species</em>, <em class="sig-param">show_progress=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.make_structural_features" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nice.utilities.transform_sequentially">
+<code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">transform_sequentially</code><span class="sig-paren">(</span><em class="sig-param">transformers</em>, <em class="sig-param">structures</em>, <em class="sig-param">HYPERS</em>, <em class="sig-param">all_species</em>, <em class="sig-param">block_size=500</em>, <em class="sig-param">show_progress=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.transform_sequentially" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-nice">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nice" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jigyasa Nigam, Sergey Pozdnyakov, Michele Ceriotti
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

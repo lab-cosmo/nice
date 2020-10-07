@@ -1,7 +1,7 @@
-blocks
-======
+nice
+====
 
 .. toctree::
    :maxdepth: 4
 
-   blocks
+   nice
