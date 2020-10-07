@@ -25,10 +25,11 @@
 
 .. toctree::
    :glob:
-   :maxdepth: 3
+   :maxdepth: 5
    :caption: reference guide
 
    blocks
+   utilities
 
 .. toctree::
    :glob:
