@@ -115,8 +115,6 @@ def make_structural_features(features, structures, all_species, show_progress=Tr
 
     return result
 
-# upper done
-
 def transform_sequentially(transformers, structures, HYPERS, all_species, 
                            block_size = 500, show_progress = True):
     pieces = []
