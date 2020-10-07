@@ -13,6 +13,7 @@
    nice_abstract
    installation
    theory
+   acknowledgements
     
 
 .. toctree::
