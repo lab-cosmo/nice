@@ -28,7 +28,7 @@
    :maxdepth: 3
    :caption: reference guide
 
-   transformers
+   blocks
 
 .. toctree::
    :glob:

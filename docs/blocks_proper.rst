@@ -1,7 +1,7 @@
 NICE 
 ----------------------------
 
-.. automodule:: transformers.grouping
+.. automodule:: blocks.grouping
    :members:
    :undoc-members:
    :show-inheritance:
@@ -9,7 +9,7 @@ NICE
 Compressors
 -------------------------------
 
-.. automodule:: transformers.compressors
+.. automodule:: blocks.compressors
    :members:
    :undoc-members:
    :show-inheritance:
@@ -17,7 +17,7 @@ Compressors
 Expansioners
 --------------------------------
 
-.. automodule:: transformers.expansioners
+.. automodule:: blocks.expansioners
    :members:
    :undoc-members:
    :show-inheritance:
@@ -25,7 +25,7 @@ Expansioners
 Purifiers
 -----------------------------
 
-.. automodule:: transformers.purifiers
+.. automodule:: blocks.purifiers
    :members:
    :undoc-members:
    :show-inheritance:
@@ -33,7 +33,7 @@ Purifiers
 Miscellaneous
 ---------------------------------
 
-.. automodule:: transformers.miscellaneous
+.. automodule:: blocks.miscellaneous
    :members:
    :undoc-members:
    :show-inheritance:
