@@ -1,4 +1,4 @@
-NICE is a set of tools designed for calculation of 
+NICE (N-body Iteratively Contracted Equivariants) is a set of tools designed for calculation of 
 invariant and covariant atomic structure representations. It allows to
 automatically select most informative combinations of high order spectrum elements
 and perform their efficient computation usring recurrency relations. 
