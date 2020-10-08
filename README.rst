@@ -8,7 +8,7 @@ NICE
 Code for `Recursive evaluation and iterative contraction of N-body equivariant features <https://aip.scitation.org/doi/10.1063/5.0021116>`_ 
 in the development phase. 
 
-NICE is a set of tools designed for calculation of 
+NICE (N-body Iteratively Contracted Equivariants) is a set of tools designed for calculation of 
 invariant and covariant atomic structure representations. It allows to
 automatically select most informative combinations of high order spectrum elements
 and perform their efficient computation usring recurrency relations. 
