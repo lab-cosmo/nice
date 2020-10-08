@@ -35,7 +35,6 @@ split('calculating_covariants.ipynb', 'docs/cutted/')
 split('getting_insights_about_the_model.ipynb', 'docs/cutted/')
 
 
-
 # converting notebooks to rst 
 os.chdir('docs/cutted/')
 names = [name for name in os.listdir('.') if name.endswith('.ipynb')]
@@ -46,23 +45,12 @@ for name in names:
     os.system("cp {} {}/".format(name, dir_name))
     os.chdir(dir_name)
     os.system('jupyter nbconvert --to rst {}'.format(name))
+    names_inner = os.listdir('.')
+    for name_inner in names_inner:
+        if (name_inner.endswith('_files')):  
+            os.system('cp -r {} ../../'.format(name_inner))  
     os.chdir('../')
+
     
 os.chdir('../..')
 
-os.system("rm -r ../build/*")
-os.chdir("./docs")
-os.system("sphinx-apidoc -f -o . ../nice")
-os.system("make html")
-os.chdir("../")
-os.system("git checkout -f gh-pages")
-os.system("git rm -r *")
-os.system("cp -r ../build/html/* .")
-with open(".nojekyll", "w") as f:
-    pass
-
-os.system("git add *")
-os.system("git add .nojekyll")
-os.system("git commit -m 'automatic docs build'")
-os.system("git push")
-os.system("git checkout master")
