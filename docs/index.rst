@@ -9,12 +9,9 @@
    :glob:
    :maxdepth: 1
    :caption: Nice
-
-   nice_abstract
-   installation
-   theory
-   acknowledgements
-    
+	
+   hello_user
+   theory    
 
 .. toctree::
    :glob:
@@ -35,6 +32,13 @@
 
    blocks
    utilities
+
+.. toctree::
+   :glob:   
+   :maxdepth: 1
+   :caption: Acknowledgements
+
+   acknowledgements
 
 .. toctree::
    :glob:
