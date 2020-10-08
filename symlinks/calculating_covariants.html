@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Constructing machine learning potential &mdash; NICE  documentation</title>
+  <title>Calculating covariants &mdash; NICE  documentation</title>
   
 
   
@@ -38,8 +38,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Calculating covariants" href="calculating_covariants.html" />
-    <link rel="prev" title="Theory in a nutshell" href="../theory.html" /> 
+    <link rel="next" title="Getting insights about the model" href="getting_insights_about_the_model.html" />
+    <link rel="prev" title="Constructing machine learning potential" href="constructing_machine_learning_potential.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -91,8 +91,8 @@
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Constructing machine learning potential</a></li>
-<li class="toctree-l1"><a class="reference internal" href="calculating_covariants.html">Calculating covariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constructing_machine_learning_potential.html">Constructing machine learning potential</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Calculating covariants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_insights_about_the_model.html">Getting insights about the model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="constructor_or_non_standard_sequence.html">Constructor or non standard sequence</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sequential_fitting.html">Sequential fitting</a></li>
@@ -166,13 +166,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Constructing machine learning potential</li>
+      <li>Calculating covariants</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/symlinks/constructing_machine_learning_potential.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/symlinks/calculating_covariants.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -427,59 +427,120 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Constructing-machine-learning-potential">
-<h1>Constructing machine learning potential<a class="headerlink" href="#Constructing-machine-learning-potential" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Calculating-covariants">
+<h1>Calculating covariants<a class="headerlink" href="#Calculating-covariants" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># downloading dataset from https://archive.materialscloud.org/record/2020.110</span>
+<span></span><span class="c1"># cell to wrap in collapsible in future</span>
+
+<span class="c1"># downloading dataset from https://archive.materialscloud.org/record/2020.110</span>
 
 <span class="o">!</span>wget <span class="s2">&quot;https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528&quot;</span> -O methane.extxyz.gz
 <span class="o">!</span>gunzip -k methane.extxyz.gz
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Will not apply HSTS. The HSTS database must be a regular and non-world-writable file.
-ERROR: could not open HSTS store at &#39;/home/pozdn/.wget-hsts&#39;. HSTS will be disabled.
---2020-10-08 03:23:15--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
-Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
-Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
-HTTP request sent, awaiting response... 302 FOUND
-Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602120255&amp;Signature=XQ2nesngBFTiYDZbF2KRA%2FwHg9A%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
---2020-10-08 03:23:15--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602120255&amp;Signature=XQ2nesngBFTiYDZbF2KRA%2FwHg9A%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
-Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.202, 148.187.25.201, 148.187.25.200
-Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.202|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 1218139661 (1.1G) [application/octet-stream]
-Saving to: ‘methane.extxyz.gz’
 
-methane.extxyz.gz   100%[===================&gt;]   1.13G  39.7MB/s    in 29s
-
-2020-10-08 03:23:44 (40.3 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
-
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">ase.io</span>
 <span class="kn">import</span> <span class="nn">tqdm</span>
 <span class="kn">from</span> <span class="nn">nice.blocks</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">nice.utilities</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">BayesianRidge</span>
+
+<span class="n">HARTREE_TO_EV</span> <span class="o">=</span> <span class="mf">27.211386245988</span>
+<span class="n">train_subset</span> <span class="o">=</span> <span class="s2">&quot;0:10000&quot;</span>    <span class="c1">#input for ase.io.read command</span>
+<span class="n">test_subset</span> <span class="o">=</span> <span class="s2">&quot;10000:15000&quot;</span>     <span class="c1">#input to ase.io.read command</span>
+<span class="n">environments_for_fitting</span> <span class="o">=</span> <span class="mi">1000</span>    <span class="c1">#number of environments to fit nice transfomers</span>
+<span class="n">grid</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span>
+         <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">7500</span><span class="p">,</span> <span class="mi">10000</span><span class="p">]</span> <span class="c1">#for learning curve</span>
+
+<span class="c1">#HYPERS for librascal spherical expansion coefficients</span>
+<span class="n">HYPERS</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
+<span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="s1">&#39;max_angular&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="s1">&#39;gaussian_sigma_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Constant&#39;</span><span class="p">,</span>
+<span class="s1">&#39;gaussian_sigma_constant&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+<span class="s1">&#39;cutoff_smooth_width&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+<span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
+<span class="p">}</span>
+
+<span class="c1">#our model:</span>
+<span class="k">def</span> <span class="nf">get_transformer</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">StandardSequence</span><span class="p">([</span><span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
+                                              <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
+                                                  <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
+                                                 <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                                                 <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
+                                                  <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)),</span>
+                             <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
+                                              <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
+                                                  <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
+                                                 <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                                                 <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
+                                                  <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)),</span>
+                            <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
+                                              <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
+                                                  <span class="kc">None</span><span class="p">,</span>
+                                                  <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                                              <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
+                                                 <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">))</span>
+                                   <span class="p">],</span>
+                            <span class="n">initial_scaler</span> <span class="o">=</span> <span class="n">InitialScaler</span><span class="p">(</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;signal integral&#39;</span><span class="p">,</span>
+                                                           <span class="n">individually</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+                          <span class="p">)</span>
+
+
+<span class="n">train_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
+                         <span class="n">index</span> <span class="o">=</span> <span class="n">train_subset</span><span class="p">)</span>
+
+<span class="n">test_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
+                         <span class="n">index</span> <span class="o">=</span> <span class="n">test_subset</span><span class="p">)</span>
+
+<span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">train_structures</span> <span class="o">+</span> <span class="n">test_structures</span><span class="p">)</span>
+
+<span class="n">train_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">train_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+
+
+
+<span class="n">test_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">test_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+
+<span class="c1">#individual transformers for each atomic specie in dataset</span>
+<span class="n">transformers</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_transformer</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="n">environments_for_fitting</span><span class="p">])</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Will not apply HSTS. The HSTS database must be a regular and non-world-writable file.
+ERROR: could not open HSTS store at &#39;/home/pozdn/.wget-hsts&#39;. HSTS will be disabled.
+--2020-10-08 04:32:38--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
+Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
+Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
+HTTP request sent, awaiting response... 302 FOUND
+Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602124418&amp;Signature=hqys0DXJzdcgtdyKJE5UVAdmmCE%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+--2020-10-08 04:32:38--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602124418&amp;Signature=hqys0DXJzdcgtdyKJE5UVAdmmCE%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.201, 148.187.25.200, 148.187.25.202
+Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.201|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1218139661 (1.1G) [application/octet-stream]
+Saving to: ‘methane.extxyz.gz’
+
+methane.extxyz.gz   100%[===================&gt;]   1.13G  39.6MB/s    in 31s
+
+2020-10-08 04:33:09 (37.4 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+
+</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -501,267 +562,111 @@ In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_
 The animation.avconv_path rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
 In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
 The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
+100%|██████████| 100/100 [00:00&lt;00:00, 101.91it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 23.53it/s]
+100%|██████████| 50/50 [00:00&lt;00:00, 102.87it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 46.34it/s]
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  self.n_components, num_fit_now, X.shape[0]))
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  self.n_components, num_fit_now, X.shape[0]))
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  self.n_components, num_fit_now, X.shape[0]))
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  self.n_components, num_fit_now, X.shape[0]))
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  self.n_components, num_fit_now, X.shape[0]))
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  self.n_components, num_fit_now, X.shape[0]))
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">HARTREE_TO_EV</span> <span class="o">=</span> <span class="mf">27.211386245988</span>
-<span class="n">train_subset</span> <span class="o">=</span> <span class="s2">&quot;0:10000&quot;</span>    <span class="c1">#input for ase.io.read command</span>
-<span class="n">test_subset</span> <span class="o">=</span> <span class="s2">&quot;10000:15000&quot;</span>     <span class="c1">#input to ase.io.read command</span>
-<span class="n">environments_for_fitting</span> <span class="o">=</span> <span class="mi">1000</span>    <span class="c1">#number of environments to fit nice transfomers</span>
-<span class="n">grid</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span>
-         <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">7500</span><span class="p">,</span> <span class="mi">10000</span><span class="p">]</span> <span class="c1">#for learning curve</span>
-
-<span class="c1">#HYPERS for librascal spherical expansion coefficients</span>
-<span class="n">HYPERS</span> <span class="o">=</span> <span class="p">{</span>
-<span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
-<span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-<span class="s1">&#39;max_angular&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-<span class="s1">&#39;gaussian_sigma_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Constant&#39;</span><span class="p">,</span>
-<span class="s1">&#39;gaussian_sigma_constant&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
-<span class="s1">&#39;cutoff_smooth_width&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
-<span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">#our model:</span>
-<span class="k">def</span> <span class="nf">get_transformer</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">StandardSequence</span><span class="p">([</span><span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
-                                              <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
-                                                  <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                 <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
-                                                 <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                  <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)),</span>
-                             <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
-                                              <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
-                                                  <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                 <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
-                                                 <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                  <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)),</span>
-                            <span class="n">StandardBlock</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span>
-                                             <span class="kc">None</span><span class="p">,</span>
-                                                  <span class="kc">None</span><span class="p">,</span>
-                                                  <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
-                                              <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                 <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">))</span>
-                                   <span class="p">],</span>
-                            <span class="n">initial_scaler</span> <span class="o">=</span> <span class="n">InitialScaler</span><span class="p">(</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;signal integral&#39;</span><span class="p">,</span>
-                                                           <span class="n">individually</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-                          <span class="p">)</span>
+<span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">,</span> <span class="n">invariants_even</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">train_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
-                         <span class="n">index</span> <span class="o">=</span> <span class="n">train_subset</span><span class="p">)</span>
-
-<span class="n">test_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
-                         <span class="n">index</span> <span class="o">=</span> <span class="n">test_subset</span><span class="p">)</span>
-
-<span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">train_structures</span> <span class="o">+</span> <span class="n">test_structures</span><span class="p">)</span>
-
-<span class="n">train_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">train_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
 
 
+<span class="nb">print</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
 
-<span class="n">test_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">test_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">invariants_even</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">invariants_even</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:01&lt;00:00, 99.58it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 23.47it/s]
-100%|██████████| 50/50 [00:00&lt;00:00, 99.14it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 45.84it/s]
+(40000, 87, 6, 11)
+[22 55 73 83 87 76]
+(40000, 88, 6, 11)
+[20 54 72 87 88 75]
+(40000, 10)
+(40000, 200)
+(40000, 200)
+(40000, 200)
 </pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data_true</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_true</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data_pseudo</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_pseudo</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(40000, 87, 6, 11)
+[22 54 73 87 87 75]
+(40000, 88, 6, 11)
+[20 55 72 83 88 76]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">#individual transformers for each atomic specie in dataset</span>
-<span class="n">transformers</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_transformer</span><span class="p">()</span>
+<span></span><span class="k">for</span> <span class="n">lambd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="n">data_true</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_true</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span>
+                          <span class="n">lambd</span><span class="p">,</span> <span class="p">:(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">/=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">data_pseudo</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_pseudo</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span>
+                            <span class="n">lambd</span><span class="p">,</span> <span class="p">:(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">/=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="n">environments_for_fitting</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">train_features</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">specie</span> <span class="ow">in</span> <span class="n">all_species</span><span class="p">:</span>
-    <span class="n">train_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span>
-                                                            <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-
-<span class="n">test_features</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">specie</span> <span class="ow">in</span> <span class="n">all_species</span><span class="p">:</span>
-    <span class="n">test_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span>
-                                                           <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">train_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_structures</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
-<span class="n">test_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">test_features</span><span class="p">,</span> <span class="n">test_structures</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-100%|██████████| 10000/10000 [00:00&lt;00:00, 13229.44it/s]
-100%|██████████| 5000/5000 [00:00&lt;00:00, 13406.35it/s]
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">train_energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">structure</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">train_structures</span><span class="p">]</span>
-<span class="n">train_energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">train_energies</span><span class="p">)</span> <span class="o">*</span> <span class="n">HARTREE_TO_EV</span>
-
-<span class="n">test_energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">structure</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">test_structures</span><span class="p">]</span>
-<span class="n">test_energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_energies</span><span class="p">)</span> <span class="o">*</span> <span class="n">HARTREE_TO_EV</span>
-
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">get_rmse</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">first</span> <span class="o">-</span> <span class="n">second</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
-
-<span class="k">def</span> <span class="nf">get_standard_deviation</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">values</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">values</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
-
-<span class="k">def</span> <span class="nf">get_relative_performance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">get_rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="n">get_standard_deviation</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">estimate_performance</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">,</span> <span class="n">targets_test</span><span class="p">):</span>
-    <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">get_relative_performance</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test</span><span class="p">),</span> <span class="n">targets_test</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
-    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">estimate_performance</span><span class="p">(</span><span class="n">BayesianRidge</span><span class="p">(),</span> <span class="n">train_features</span><span class="p">[:</span><span class="n">el</span><span class="p">],</span>
-                                       <span class="n">test_features</span><span class="p">,</span> <span class="n">train_energies</span><span class="p">[:</span><span class="n">el</span><span class="p">],</span>
-                                       <span class="n">test_energies</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-100%|██████████| 12/12 [00:25&lt;00:00,  2.15s/it]
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[0.42476527899035144, 0.42796589781240785, 0.34952489077704013, 0.23182807845077727, 0.18056920495637674, 0.1626459002495877, 0.131175677112106, 0.11671606813507408, 0.0993609951213104, 0.08436996136277373, 0.07267630159243503, 0.0702358288818265]
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;number of structures&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;relative error&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/symlinks_constructing_machine_learning_potential_14_0.png" src="../_images/symlinks_constructing_machine_learning_potential_14_0.png" />
 </div>
 </div>
 </div>
@@ -774,10 +679,10 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="calculating_covariants.html" class="btn btn-neutral float-right" title="Calculating covariants" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="getting_insights_about_the_model.html" class="btn btn-neutral float-right" title="Getting insights about the model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../theory.html" class="btn btn-neutral float-left" title="Theory in a nutshell" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="constructing_machine_learning_potential.html" class="btn btn-neutral float-left" title="Constructing machine learning potential" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
