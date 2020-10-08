@@ -22,12 +22,16 @@
    :caption: Tutorials
 
    symlinks/constructing_machine_learning_potential
-
+   symlinks/calculating_covariants
+   symlinks/getting_insights_about_the_model
+   symlinks/constructor_or_non_standard_sequence
+   symlinks/sequential_fitting
+   symlinks/custom_regressors_into_purifiers
 
 .. toctree::
    :glob:
    :maxdepth: 5
-   :caption: reference guide
+   :caption: Reference guide
 
    blocks
    utilities
@@ -35,7 +39,7 @@
 .. toctree::
    :glob:
    :maxdepth: 1
-   :caption: User guide
+   :caption: User guide (to be deleted)
 
    symlinks/user_guide
 
