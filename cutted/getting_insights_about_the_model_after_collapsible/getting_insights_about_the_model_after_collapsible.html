@@ -210,6 +210,28 @@
     text-align: unset;
 }
 </style>
+<p>As it was discussed in the first tutorial ThresholdExpansioner sorts all
+pairs of inputs by their pairwise importances and after that produces
+the output only for fixed number of most important pairs. This number is
+controlled by num_expand.</p>
+<p>But, there are two reasons, why real number of covariants after
+ThresholdEpansioner might be different from the speciefied one. 1) some
+pairs of input covariants produce features not to all lambda channels.
+Particularly, pair of inpur covariants with some l1 and l2 produces
+covariants only to lambda channels where |l1 - l2| &lt;= lambda &lt;= l1 +
+l2. Thus, real number of features after ThresholdExpanioner would be
+smaller than specified one in num_expand.</p>
+<ol class="arabic simple" start="2">
+<li><p>Pairwise importances can have a lot of collisions. For instance it is
+impossible to select such threshold to filter out exactly 3 pairs
+from the set of pairs with the following importances [1, 1, 2, 2]. It
+is possible to filter out either 0, either 2, either 4, but not
+exactly 3.</p></li>
+</ol>
+<p>Thus, it is good idea to have possibility to have a look at the actual
+amount of intermediate features.</p>
+<p>StandardSequence has method get_intermediat_shapes(). It returns
+intermediate shapes in the form of nested dictionary:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">intermediate_shapes</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_intermediate_shapes</span><span class="p">()</span>
 
 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">intermediate_shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -231,21 +253,24 @@
 <span class="n">block</span> <span class="n">nu</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">-&gt;</span> <span class="n">nu</span> <span class="o">=</span> <span class="mi">4</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;after covariants expansioner&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">62</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">57</span><span class="p">]],</span> <span class="s1">&#39;after covariants purifier&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">62</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">57</span><span class="p">]],</span> <span class="s1">&#39;after covariants pca&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]],</span> <span class="s1">&#39;after invariants expansioner&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;after invariants purifier&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;after invariants pca&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">}</span>
 </pre></div>
 </div>
+<p>spectrums of pcas can be accessed in the following way: (convenient
+getters will be inserted in the next version of NICE)</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">proper_log_plot</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;avoiding log(0)&#39;&#39;&#39;</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e0</span><span class="p">])</span>
 
 <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;purple&#39;</span><span class="p">]</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nu: &quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="c1"># loop over lambda channels</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">proper_log_plot</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">,</span>
                             <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;lambda = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="c1"># loop over lambda channels</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span><span class="o">.</span><span class="n">odd_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">proper_log_plot</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span><span class="o">.</span><span class="n">odd_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">,</span>
@@ -256,15 +281,15 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="k">for</span> <span class="n">nu</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">)):</span>
+<span class="k">for</span> <span class="n">nu</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">)):</span> <span class="c1"># loop over body orders</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nu: &quot;</span><span class="p">,</span> <span class="n">nu</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="c1"># loop over lambda channels</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
                 <span class="n">proper_log_plot</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;lambda = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="c1"># loop over lambda channels</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span><span class="o">.</span><span class="n">odd_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
                 <span class="n">proper_log_plot</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span><span class="o">.</span><span class="n">odd_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -278,19 +303,43 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">1</span>
 </pre></div>
 </div>
-<img alt="../../_images/getting_insights_about_the_model_after_collapsible_1_1.png" src="../../_images/getting_insights_about_the_model_after_collapsible_1_1.png" />
+<img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_1.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_1.png" />
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">2</span>
 </pre></div>
 </div>
-<img alt="../../_images/getting_insights_about_the_model_after_collapsible_1_3.png" src="../../_images/getting_insights_about_the_model_after_collapsible_1_3.png" />
+<img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_3.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_3.png" />
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">3</span>
 </pre></div>
 </div>
-<img alt="../../_images/getting_insights_about_the_model_after_collapsible_1_5.png" src="../../_images/getting_insights_about_the_model_after_collapsible_1_5.png" />
+<img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_5.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_5.png" />
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">4</span>
 </pre></div>
 </div>
-<img alt="../../_images/getting_insights_about_the_model_after_collapsible_1_7.png" src="../../_images/getting_insights_about_the_model_after_collapsible_1_7.png" />
+<img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_7.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_7.png" />
+<p>(checks if pca instance is None are needed since it would be None if
+number of features for corresponding lambda channel would be zero after
+expansion step)</p>
+<p>inner class for single Lambda channel inherits from
+sklearn.decomposition.TruncatedSVD (PCA without centering the data,
+which would break covariant transformation). Thus, in addition to
+.importances_, .explained_variance_ and .explained_variance_ratio_
+are also accesible.</p>
+<p>importances_ (which are used by subsequent TresholdExpansioners) are
+explained_variance_ normalized not to variance of input as
+explained_variance_ratio_, but to variance of output:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span>\
+             <span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">explained_variance_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span>\
+             <span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span>\
+             <span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.015553507472993076</span>
+<span class="mf">0.979846667528322</span>
+<span class="mf">1.0</span>
+</pre></div>
+</div>
 
 
            </div>

@@ -214,7 +214,14 @@
 </style>
 <div class="section" id="getting-insights-about-the-model">
 <h1>Getting insights about the model<a class="headerlink" href="#getting-insights-about-the-model" title="Permalink to this headline">¶</a></h1>
-<p>some text</p>
+<p>In the first tutorial we calculated invariant representations of atomic
+environments and used them for prediction of energies.</p>
+<p>But it is always good to have some understanding about the model. In
+this tutorial it will be shown how to get spectrums of pca along with
+number of covariants after each transformation.</p>
+<p>First of all we need fitted model. This preliminary cell reproduces
+corresponding part of the first tutorial “constructing machine learning
+potential: (few hypers are changed)</p>
 <div class="toggle admonition">
 <p class="admonition-title">Preliminaries</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cell to wrap in collapsible in future</span>
@@ -299,44 +306,27 @@
     <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="n">environments_for_fitting</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Will not apply HSTS. The HSTS database must be a regular and non-world-writable file.
-ERROR: could not open HSTS store at &#39;/home/pozdn/.wget-hsts&#39;. HSTS will be disabled.
---2020-10-08 05:12:54--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>--2020-10-12 00:53:40--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
 Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
 Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
 HTTP request sent, awaiting response... 302 FOUND
-Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602126834&amp;Signature=yMiITsP7kQ7Z7zbPsNkPExbHI3Q%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
---2020-10-08 05:12:54--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602126834&amp;Signature=yMiITsP7kQ7Z7zbPsNkPExbHI3Q%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
-Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.202, 148.187.25.200, 148.187.25.201
-Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.202|:443... connected.
+Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602456880&amp;Signature=0VCx86AIK1v7hnHkwCf%2Bp7TF%2ByI%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+--2020-10-12 00:53:40--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602456880&amp;Signature=0VCx86AIK1v7hnHkwCf%2Bp7TF%2ByI%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.201, 148.187.25.202
+Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.200|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 1218139661 (1.1G) [application/octet-stream]
 Saving to: ‘methane.extxyz.gz’
 
-methane.extxyz.gz   100%[===================&gt;]   1.13G   111MB/s    in 19s
+methane.extxyz.gz   100%[===================&gt;]   1.13G  29.2MB/s    in 34s
 
-2020-10-08 05:13:13 (62.1 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+2020-10-12 00:54:15 (34.3 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The text.latex.preview rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The mathtext.fallback_to_cm rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: Support for setting the &#39;mathtext.fallback_to_cm&#39; rcParam is deprecated since 3.3 and will be removed two minor releases later; use &#39;mathtext.fallback : &#39;cm&#39; instead.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The validate_bool_maybe_none function was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The savefig.jpeg_quality rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The keymap.all_axes rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The animation.avconv_path rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-100%|██████████| 100/100 [00:00&lt;00:00, 105.48it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 24.54it/s]
-100%|██████████| 50/50 [00:00&lt;00:00, 102.47it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 46.46it/s]
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100%|██████████| 100/100 [00:02&lt;00:00, 48.94it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 30.25it/s]
+100%|██████████| 50/50 [00:00&lt;00:00, 50.53it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 62.63it/s]
 /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
   self.n_components, num_fit_now, X.shape[0]))
 /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
@@ -352,6 +342,28 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 </pre></div>
 </div>
 </div>
+<p>As it was discussed in the first tutorial ThresholdExpansioner sorts all
+pairs of inputs by their pairwise importances and after that produces
+the output only for fixed number of most important pairs. This number is
+controlled by num_expand.</p>
+<p>But, there are two reasons, why real number of covariants after
+ThresholdEpansioner might be different from the speciefied one. 1) some
+pairs of input covariants produce features not to all lambda channels.
+Particularly, pair of inpur covariants with some l1 and l2 produces
+covariants only to lambda channels where |l1 - l2| &lt;= lambda &lt;= l1 +
+l2. Thus, real number of features after ThresholdExpanioner would be
+smaller than specified one in num_expand.</p>
+<ol class="arabic simple" start="2">
+<li><p>Pairwise importances can have a lot of collisions. For instance it is
+impossible to select such threshold to filter out exactly 3 pairs
+from the set of pairs with the following importances [1, 1, 2, 2]. It
+is possible to filter out either 0, either 2, either 4, but not
+exactly 3.</p></li>
+</ol>
+<p>Thus, it is good idea to have possibility to have a look at the actual
+amount of intermediate features.</p>
+<p>StandardSequence has method get_intermediat_shapes(). It returns
+intermediate shapes in the form of nested dictionary:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">intermediate_shapes</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_intermediate_shapes</span><span class="p">()</span>
 
 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">intermediate_shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -373,21 +385,24 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 <span class="n">block</span> <span class="n">nu</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">-&gt;</span> <span class="n">nu</span> <span class="o">=</span> <span class="mi">4</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;after covariants expansioner&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">62</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">57</span><span class="p">]],</span> <span class="s1">&#39;after covariants purifier&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">62</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">57</span><span class="p">]],</span> <span class="s1">&#39;after covariants pca&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]],</span> <span class="s1">&#39;after invariants expansioner&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;after invariants purifier&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;after invariants pca&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">}</span>
 </pre></div>
 </div>
+<p>spectrums of pcas can be accessed in the following way: (convenient
+getters will be inserted in the next version of NICE)</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">proper_log_plot</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;avoiding log(0)&#39;&#39;&#39;</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e0</span><span class="p">])</span>
 
 <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;purple&#39;</span><span class="p">]</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nu: &quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="c1"># loop over lambda channels</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">proper_log_plot</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">,</span>
                             <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;lambda = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="c1"># loop over lambda channels</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span><span class="o">.</span><span class="n">odd_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">proper_log_plot</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">initial_pca_</span><span class="o">.</span><span class="n">odd_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">,</span>
@@ -398,15 +413,15 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="k">for</span> <span class="n">nu</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">)):</span>
+<span class="k">for</span> <span class="n">nu</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">)):</span> <span class="c1"># loop over body orders</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nu: &quot;</span><span class="p">,</span> <span class="n">nu</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="c1"># loop over lambda channels</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
                 <span class="n">proper_log_plot</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;lambda = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span> <span class="c1"># loop over lambda channels</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span><span class="o">.</span><span class="n">odd_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
                 <span class="n">proper_log_plot</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="n">nu</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_pca_</span><span class="o">.</span><span class="n">odd_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -420,19 +435,43 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">1</span>
 </pre></div>
 </div>
-<img alt="_images/getting_insights_about_the_model_after_collapsible_1_11.png" src="_images/getting_insights_about_the_model_after_collapsible_1_11.png" />
+<img alt="_images/getting_insights_about_the_model_after_collapsible_4_11.png" src="_images/getting_insights_about_the_model_after_collapsible_4_11.png" />
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">2</span>
 </pre></div>
 </div>
-<img alt="_images/getting_insights_about_the_model_after_collapsible_1_31.png" src="_images/getting_insights_about_the_model_after_collapsible_1_31.png" />
+<img alt="_images/getting_insights_about_the_model_after_collapsible_4_31.png" src="_images/getting_insights_about_the_model_after_collapsible_4_31.png" />
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">3</span>
 </pre></div>
 </div>
-<img alt="_images/getting_insights_about_the_model_after_collapsible_1_51.png" src="_images/getting_insights_about_the_model_after_collapsible_1_51.png" />
+<img alt="_images/getting_insights_about_the_model_after_collapsible_4_51.png" src="_images/getting_insights_about_the_model_after_collapsible_4_51.png" />
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">4</span>
 </pre></div>
 </div>
-<img alt="_images/getting_insights_about_the_model_after_collapsible_1_71.png" src="_images/getting_insights_about_the_model_after_collapsible_1_71.png" />
+<img alt="_images/getting_insights_about_the_model_after_collapsible_4_71.png" src="_images/getting_insights_about_the_model_after_collapsible_4_71.png" />
+<p>(checks if pca instance is None are needed since it would be None if
+number of features for corresponding lambda channel would be zero after
+expansion step)</p>
+<p>inner class for single Lambda channel inherits from
+sklearn.decomposition.TruncatedSVD (PCA without centering the data,
+which would break covariant transformation). Thus, in addition to
+.importances_, .explained_variance_ and .explained_variance_ratio_
+are also accesible.</p>
+<p>importances_ (which are used by subsequent TresholdExpansioners) are
+explained_variance_ normalized not to variance of input as
+explained_variance_ratio_, but to variance of output:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span>\
+             <span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">explained_variance_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span>\
+             <span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">transformers</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span>\
+             <span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.015553507472993076</span>
+<span class="mf">0.979846667528322</span>
+<span class="mf">1.0</span>
+</pre></div>
+</div>
 </div>
 
 
