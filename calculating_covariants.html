@@ -214,7 +214,16 @@
 </style>
 <div class="section" id="calculating-covariants">
 <h1>Calculating covariants<a class="headerlink" href="#calculating-covariants" title="Permalink to this headline">¶</a></h1>
-<p>some text</p>
+<p>In the previous tutorial we calculated invariant representation of
+atomic environment and used to for prediction of energies - invariant
+properties.</p>
+<p>In case when there is need to predict covariant properties covariants
+instead of invariants are required. This tutorial shows how to calculate
+them.</p>
+<p>First of all we need to get fitted instance of model as in the previous
+tutorial. It is done by the following preliminaries cell: (with the only
+difference that since we want to calculate covariants, we clearly
+shouldn’t left covariants branch of the last block empty)</p>
 <div class="toggle admonition">
 <p class="admonition-title">Preliminaries</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cell to wrap in collapsible in future</span>
@@ -299,44 +308,27 @@
     <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="n">environments_for_fitting</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Will not apply HSTS. The HSTS database must be a regular and non-world-writable file.
-ERROR: could not open HSTS store at &#39;/home/pozdn/.wget-hsts&#39;. HSTS will be disabled.
---2020-10-08 04:32:38--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>--2020-10-12 00:41:24--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
 Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
 Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
 HTTP request sent, awaiting response... 302 FOUND
-Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602124418&amp;Signature=hqys0DXJzdcgtdyKJE5UVAdmmCE%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
---2020-10-08 04:32:38--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602124418&amp;Signature=hqys0DXJzdcgtdyKJE5UVAdmmCE%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
-Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.201, 148.187.25.200, 148.187.25.202
-Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.201|:443... connected.
+Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602456144&amp;Signature=xBvXs4RBa6ynAsKMKhFA0%2FfRVYA%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+--2020-10-12 00:41:24--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602456144&amp;Signature=xBvXs4RBa6ynAsKMKhFA0%2FfRVYA%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.202, 148.187.25.201
+Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.200|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 1218139661 (1.1G) [application/octet-stream]
 Saving to: ‘methane.extxyz.gz’
 
-methane.extxyz.gz   100%[===================&gt;]   1.13G  39.6MB/s    in 31s
+methane.extxyz.gz   100%[===================&gt;]   1.13G  30.7MB/s    in 28s
 
-2020-10-08 04:33:09 (37.4 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+2020-10-12 00:41:53 (40.9 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The text.latex.preview rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The mathtext.fallback_to_cm rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: Support for setting the &#39;mathtext.fallback_to_cm&#39; rcParam is deprecated since 3.3 and will be removed two minor releases later; use &#39;mathtext.fallback : &#39;cm&#39; instead.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The validate_bool_maybe_none function was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The savefig.jpeg_quality rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The keymap.all_axes rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The animation.avconv_path rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-100%|██████████| 100/100 [00:00&lt;00:00, 101.91it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 23.53it/s]
-100%|██████████| 50/50 [00:00&lt;00:00, 102.87it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 46.34it/s]
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100%|██████████| 100/100 [00:02&lt;00:00, 49.96it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 37.77it/s]
+100%|██████████| 50/50 [00:01&lt;00:00, 48.32it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 55.51it/s]
 /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
   self.n_components, num_fit_now, X.shape[0]))
 /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
@@ -352,30 +344,75 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 </pre></div>
 </div>
 </div>
+<p>Now we need to call .transform method with return_only_invariants =
+False, which is default value:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">,</span> <span class="n">invariants_even</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
-
-
-<span class="nb">print</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">invariants_even</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+<p>result is data_even, data_odd and invariants_even. First two objects
+are covariants, the last is invariants.</p>
+<p>There is one another important symmetry in addition to translational and
+rotational one. Usually atomic properties, such as energy, transform in
+certain way also with respect to inversion. Particularly, energy is
+invariant with respect to it.</p>
+<p>In NICE features are separated in two groups - the ones which are
+invariant with respect to inversion, and the ones which change their
+sign. The first are called even, second are called odd.</p>
+<p>Now let’s take a look at the returned objects more closely:</p>
+<p>invariants is the same object as in the previous tutorial - dictionary,
+where keys are body order</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">invariants_even</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">invariants_even</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">40000</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
-<span class="p">[</span><span class="mi">22</span> <span class="mi">55</span> <span class="mi">73</span> <span class="mi">83</span> <span class="mi">87</span> <span class="mi">76</span><span class="p">]</span>
-<span class="p">(</span><span class="mi">40000</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
-<span class="p">[</span><span class="mi">20</span> <span class="mi">54</span> <span class="mi">72</span> <span class="mi">87</span> <span class="mi">88</span> <span class="mi">75</span><span class="p">]</span>
-<span class="p">(</span><span class="mi">40000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">40000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="p">(</span><span class="mi">40000</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
 <span class="p">(</span><span class="mi">40000</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
 <span class="p">(</span><span class="mi">40000</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Returned covariants are covariants after last block, i. e. in our case
+of body order 4. (functionality to get all covariants of all body order
+from StandardSequence will be added in the next version of NICE)</p>
+<p>Even covariants are packed in the class Data, which has two relevant
+fields - .covariants_ and .actual_sizes_. (getters are also to be
+added in the next version) First is np.array with covariants themselves.
+It has following indexing -[environmental_index, feature_index,
+lambda, m]. But the problem is that for each lambda channel actual
+number of features is different. Thus, shape of this array doesn’t
+reflect real number of meaningfull entries. Information about actual
+number of features is stored in .actual_sizes_:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">data_even</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape of even covariants array: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;actual sizes of even covariants: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;nice.nice_utilities.Data&#39;&gt;
+shape of even covariants array: (40000, 87, 6, 11)
+actual sizes of even covariants: [22 55 73 83 87 76]
+</pre></div>
+</div>
+<p>The same for odd covariants:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape of odd covariants array: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;actual sizes of odd covariants: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">shape</span> <span class="n">of</span> <span class="n">odd</span> <span class="n">covariants</span> <span class="n">array</span><span class="p">:</span> <span class="p">(</span><span class="mi">40000</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">actual</span> <span class="n">sizes</span> <span class="n">of</span> <span class="n">odd</span> <span class="n">covariants</span><span class="p">:</span> <span class="p">[</span><span class="mi">20</span> <span class="mi">54</span> <span class="mi">72</span> <span class="mi">87</span> <span class="mi">88</span> <span class="mi">75</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>There is one another point - that for each lambda channel size of
+covariant vectors is (2 * lambda + 1). These vectors are stored from
+the beginning. It means that meaningfull entries for each lambda are
+located in [:, :, lambda, :(2 * lambda + 1)]</p>
+<p>In the <a class="reference external" href="https://aip.scitation.org/doi/10.1063/5.0021116">nice
+article</a> other
+definition of parity is used. Covariants are splitted into true and
+pseudo groups. All covariants in true group are transformed with respect
+to inversion as (-1)^lambda, while all covariants in the pseudo group
+are transformed as (-1) ^ (lambda + 1).</p>
+<p>There is special class - ParityDefinitionChanger to switch between these
+definitions:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">data_true</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -391,9 +428,14 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 <span class="p">[</span><span class="mi">20</span> <span class="mi">55</span> <span class="mi">72</span> <span class="mi">83</span> <span class="mi">88</span> <span class="mi">76</span><span class="p">]</span>
 </pre></div>
 </div>
+<p>This transformation is symmetric, thus, we can use this it once again to
+go back from true and pseudo covariants to even and odd:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>There is one another discrepancy - covariants defined in the nice
+article, are smaller by the factor of (2 * lambda + 1). Thus, the last
+step to get full compliance is the following:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">lambd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
     <span class="n">data_true</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_true</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span>
                           <span class="n">lambd</span><span class="p">,</span> <span class="p">:(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">/=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>

@@ -428,6 +428,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
+<p>Now we need to call .transform method with return_only_invariants = False, which is default value:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -437,19 +438,17 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+<p>result is data_even, data_odd and invariants_even. First two objects are covariants, the last is invariants.</p>
+<p>There is one another important symmetry in addition to translational and rotational one. Usually atomic properties, such as energy, transform in certain way also with respect to inversion. Particularly, energy is invariant with respect to it.</p>
+<p>In NICE features are separated in two groups - the ones which are invariant with respect to inversion, and the ones which change their sign. The first are called even, second are called odd.</p>
+<p>Now let’s take a look at the returned objects more closely:</p>
+<p>invariants is the same object as in the previous tutorial - dictionary, where keys are body order</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
-
-
-<span class="nb">print</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">invariants_even</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+<span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">invariants_even</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">invariants_even</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -459,18 +458,61 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(40000, 87, 6, 11)
-[22 55 73 83 87 76]
-(40000, 88, 6, 11)
-[20 54 72 87 88 75]
 (40000, 10)
 (40000, 200)
 (40000, 200)
 (40000, 200)
 </pre></div></div>
 </div>
+<p>Returned covariants are covariants after last block, i. e. in our case of body order 4. (functionality to get all covariants of all body order from StandardSequence will be added in the next version of NICE)</p>
+<p>Even covariants are packed in the class Data, which has two relevant fields - .covariants_ and .actual_sizes_. (getters are also to be added in the next version) First is np.array with covariants themselves. It has following indexing -[environmental_index, feature_index, lambda, m]. But the problem is that for each lambda channel actual number of features is different. Thus, shape of this array doesn’t reflect real number of meaningfull entries. Information about actual number of features
+is stored in .actual_sizes_:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">data_even</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape of even covariants array: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;actual sizes of even covariants: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;nice.nice_utilities.Data&#39;&gt;
+shape of even covariants array: (40000, 87, 6, 11)
+actual sizes of even covariants: [22 55 73 83 87 76]
+</pre></div></div>
+</div>
+<p>The same for odd covariants:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape of odd covariants array: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;actual sizes of odd covariants: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+shape of odd covariants array: (40000, 88, 6, 11)
+actual sizes of odd covariants: [20 54 72 87 88 75]
+</pre></div></div>
+</div>
+<p>There is one another point - that for each lambda channel size of covariant vectors is (2 * lambda + 1). These vectors are stored from the beginning. It means that meaningfull entries for each lambda are located in [:, :, lambda, :(2 * lambda + 1)]</p>
+<p>In the <a class="reference external" href="https://aip.scitation.org/doi/10.1063/5.0021116">nice article</a> other definition of parity is used. Covariants are splitted into true and pseudo groups. All covariants in true group are transformed with respect to inversion as (-1)^lambda, while all covariants in the pseudo group are transformed as (-1) ^ (lambda + 1).</p>
+<p>There is special class - ParityDefinitionChanger to switch between these definitions:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -495,8 +537,9 @@ div.rendered_html tbody tr:hover {
 [20 55 72 83 88 76]
 </pre></div></div>
 </div>
+<p>This transformation is symmetric, thus, we can use this it once again to go back from true and pseudo covariants to even and odd:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -504,8 +547,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+<p>There is one another discrepancy - covariants defined in the nice article, are smaller by the factor of (2 * lambda + 1). Thus, the last step to get full compliance is the following:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
