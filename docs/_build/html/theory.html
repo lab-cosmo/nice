@@ -1,0 +1,427 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Theory in a nutshell &mdash; NICE  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/togglebutton.js"></script>
+        <script type="text/javascript">var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/togglebutton.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Constructing machine learning potential" href="symlinks/constructing_machine_learning_potential.html" />
+    <link rel="prev" title="NICE" href="hello_user.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> NICE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Nice</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="hello_user.html">NICE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hello_user.html#installation">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Theory in a nutshell</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/constructing_machine_learning_potential.html">Constructing machine learning potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/constructor_or_non_standard_sequence.html">Constructor or non standard sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/sequential_fitting.html">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/custom_regressors_into_purifiers.html">Custom regressors into purifiers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Acknowledgements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User guide (to be deleted)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html">User guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Getting-coefficients">Getting coefficients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Data-structure">Data structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Compressors">Compressors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Expansioner">Expansioner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Purifiers:">Purifiers:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#StandardBlock">StandardBlock</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#StandardSequence">StandardSequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Custom-regressors-into-purifiers">Custom regressors into purifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Sequential-fitting">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Non-standard-sequence">Non standard sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/user_guide.html#Meet-definition-from-the-article">Meet definition from the article</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NICE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Theory in a nutshell</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/theory.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="theory-in-a-nutshell">
+<h1>Theory in a nutshell<a class="headerlink" href="#theory-in-a-nutshell" title="Permalink to this headline">¶</a></h1>
+<p>One can use this toolbox as a black box which calculates proper atomic
+structure representations. In this case we refer reader to the <span class="xref std std-ref">tutorial-label</span> along with examples folder to borrow
+appropriate hyperparameters for the real life scenarios.</p>
+<p>In order to meaningfully select hypers or desing your calculations some understanding of
+what is going on is required. The most comprehensive description is given in <a class="reference internal" href="#ref" id="id1"><span>[Ref]</span></a>, which
+though might appear to be quite time consuming for people not from the field. Thus, this
+section is designed to give short overview of the method without any proves and unnecesarry
+details.
+,
+For various purposes in atomistic machine learning, there is need to describe atomic environments
+by invariant or covariant values. Atomic environment is described by unordered set of
+relative positions of neighbors within given cut-off radius along with their species
+<span class="math notranslate nohighlight">\(\{\{\vec{r_1}, \alpha_1\}, \{\vec{r_2}, \alpha_{2}\}... \{\vec{r_n}, \alpha_{n}\}\}\)</span>.
+The number of neighbors potentially can be varying. The goal is to provide description
+of the fixed size consisting of invariant or covariant features with respect
+to permutations of atoms of the same specie along rotations of the environment.</p>
+<p>The invariance with respect to permutation of atoms is achieved by introduction of “neighbor
+density functions”:
+<span class="math notranslate nohighlight">\(\rho_{\alpha}(\vec{r}) = \sum\limits_i g(\vec{r} - \vec{r_i}) \delta_{\alpha, \alpha_i}\)</span>,
+where <span class="math notranslate nohighlight">\(g\)</span> is some local function, such as gaussian, or even delta function. After that
+fingerprints are expressed as the functionals of <span class="math notranslate nohighlight">\(\rho\)</span>.</p>
+<p>To deal with neighbor density functions spherical expansion coefficients are introduced:</p>
+<div class="math notranslate nohighlight">
+\[&lt; \{n, \alpha\} l m | \rho^1&gt; =  \int d\vec{r} R_{n}(\vec{r}) Y_l^m(\hat{r}) \rho_{\alpha}(\vec{r})\]</div>
+<p>, where <span class="math notranslate nohighlight">\(\hat{r}\)</span> is the unit direction vector, <span class="math notranslate nohighlight">\(r = |\vec{r}|\)</span>, <span class="math notranslate nohighlight">\(R_{n}(r)\)</span> is
+some complete basis, not really matters which one particularly,
+<span class="math notranslate nohighlight">\(Y_l^m(\hat{r})\)</span> are
+<a class="reference external" href="https://en.wikipedia.org/wiki/Spherical_harmonics">spherical harmonics</a>.  <span class="math notranslate nohighlight">\(l\)</span> index runs from <span class="math notranslate nohighlight">\(0\)</span>
+to <span class="math notranslate nohighlight">\(+\inf\)</span>,
+<span class="math notranslate nohighlight">\(m\)</span> runs from <span class="math notranslate nohighlight">\(-l\)</span> to <span class="math notranslate nohighlight">\(l\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\{n, \alpha\}\)</span> indices never used separately from each other and, thus, for simplicity,
+in further narrative we will refer to them as to just <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>It is known how coefficients <span class="math notranslate nohighlight">\(&lt; n l m | \rho^1&gt;\)</span> transforms under rotations of the environment.
+Particulary coefficients with <span class="math notranslate nohighlight">\(l = 0\)</span> remains constants under rotations, i. e. are invariants,
+while the general transformation rule is</p>
+<div class="math notranslate nohighlight">
+\[&lt; n l m | \hat{R} | \rho^1&gt; = \sum\limits_{m'} D^l_{mm'} &lt; n l m' | \rho^1&gt;\]</div>
+<p>where <span class="math notranslate nohighlight">\(&lt; n l m | \hat{R} | \rho^1&gt;\)</span> are spherical expansion coefficients
+for the rotated environment, <span class="math notranslate nohighlight">\(\hat{R}\)</span> is the rotation, described, for instance,
+by <a class="reference external" href="https://en.wikipedia.org/wiki/Euler_angles">Euler angles</a>
+, <span class="math notranslate nohighlight">\(D^l_{mm'}(\hat{R})\)</span> are
+<a class="reference external" href="https://en.wikipedia.org/wiki/Wigner_D-matrix">Wigner D matrices</a>.</p>
+<p>Let’s look at this transformation more closely. First of all we see that spherical expansion
+coefficients of rotated environment depends only on coefficients of the initial environments
+with the same <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(l\)</span> indices. I. e. one can group coefficients into vectors
+corresponding to fixed <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(l\)</span> of size <span class="math notranslate nohighlight">\(2l + 1\)</span> and indexed by <span class="math notranslate nohighlight">\(m\)</span>
+index. The transformation itself is nothing else but matrix vector multiplication.</p>
+<p>Within this framework we work only with this way of transformation. Further we will call
+any vector of odd size which transforms this way as covariant feature/fingerprint.</p>
+<p>Some transformations upon covariant vectors leads to also covariant vectors, some not.
+For instance we can apply elementwise squaring of vector elements which clearly would
+result in non covariant vector.</p>
+<p>There are several ways to combine covariants to get covariant output. The most obvious is to
+construct linear combination of covariants.</p>
+<div class="math notranslate nohighlight" id="equation-first-expansion">
+<span class="eqno">(1)<a class="headerlink" href="#equation-first-expansion" title="Permalink to this equation">¶</a></span>\[{output}^l_m = \sum\limits_i (input_i)^l_m * q_i\]</div>
+<p>where <span class="math notranslate nohighlight">\(q_i\)</span> are arbitrarily coefficients. The less obvious way is to do Clebsch-Gordan
+iteration:</p>
+<div class="math notranslate nohighlight" id="equation-second-expansion">
+<span class="eqno">(2)<a class="headerlink" href="#equation-second-expansion" title="Permalink to this equation">¶</a></span>\[{output}^{\lambda}_m  = \sum\limits_{m_1 m_2} &lt;l_1 m_1; l_2 m_2| \lambda m&gt;
+ (first\:input)^{l_1}_{m_1} (second\:input)^{l_2}_{m_2}\]</div>
+<p>, there <span class="math notranslate nohighlight">\(&lt;l_1 m_1; l_2 m_2| l m&gt;\)</span> are
+<a class="reference external" href="https://en.wikipedia.org/wiki/Clebsch%E2%80%93Gordan_coefficients">Clebsch-Gordan coefficients</a>.</p>
+<p>Let’s take a loot at the second construction rule in more detail. It takes as
+the input two covariant vectors and constructs several covariant outputs, indexed
+by natural index <span class="math notranslate nohighlight">\(\lambda\)</span>. (Actually, <span class="math notranslate nohighlight">\(\lambda\)</span> is bounded between
+<span class="math notranslate nohighlight">\(| l_1 - l_2 |\)</span> and <span class="math notranslate nohighlight">\(|l_1 + l_2|\)</span>, otherwise Clebsch-Gordan coefficients are zeros)</p>
+<p>For further purposes it is necessary to introduce the concept of body order.</p>
+<p>It is clear that combining transformation rules <a class="reference internal" href="#equation-first-expansion">(1)</a> and <a class="reference internal" href="#equation-second-expansion">(2)</a> we get covariants
+which depends polynomially on the entries of initial spherical expansion coefficients.</p>
+<p>if all monomials have the same power <span class="math notranslate nohighlight">\(\nu\)</span> than the define body order of the
+corresponding covariant vector to be <span class="math notranslate nohighlight">\(\nu\)</span>. If monomials have different powers
+than body order is undefined.</p>
+<p>If we apply linear combination to the covariants of body order <span class="math notranslate nohighlight">\(\nu\)</span> than result is also
+of body order <span class="math notranslate nohighlight">\(\nu\)</span>. If we do Clebsch-Gordan iteration with covariants of body order
+<span class="math notranslate nohighlight">\(\nu_1\)</span> and <span class="math notranslate nohighlight">\(\nu_2\)</span> than the result has body order <span class="math notranslate nohighlight">\(\nu_1 + \nu_2\)</span>.</p>
+<p>Consider the following procedure. Initially we
+have <span class="math notranslate nohighlight">\(\nu = 1\)</span>, and initial spherical expansion
+coefficients <span class="math notranslate nohighlight">\(&lt; n l m | \rho^1&gt;\)</span> . Let’s apply construction rule
+<a class="reference internal" href="#equation-second-expansion">(2)</a> for each pair of spherical expansion coefficients,
+and for each possible <span class="math notranslate nohighlight">\(\lambda\)</span>. The result would be set
+of <span class="math notranslate nohighlight">\(\nu=2\)</span> body order covariants. As the next step let’s do the same
+for each pair of the obtained <span class="math notranslate nohighlight">\(\nu=2\)</span> covariants, and
+initial <span class="math notranslate nohighlight">\(\nu=1\)</span> spherical expansion coefficients. The result would
+be set of <span class="math notranslate nohighlight">\(\nu=3\)</span> covariants. And so on.</p>
+<p>There are two important statements:</p>
+<ol class="arabic simple">
+<li><p>Completeness a.
+For each <span class="math notranslate nohighlight">\(\nu\)</span> set of covariants obtained by previously discussed
+procedure is complete basis in the space of <span class="math notranslate nohighlight">\(v\)</span> order functinonals
+from <span class="math notranslate nohighlight">\(\rho(*)\)</span> to invariant/covariant output. It means
+that any <span class="math notranslate nohighlight">\(\nu\)</span> order functional can be expressed as linear combination
+of  <span class="math notranslate nohighlight">\(\nu\)</span> order covariants/invariants.</p></li>
+<li><p>Completeness b.
+For each <span class="math notranslate nohighlight">\(\nu\)</span> set of covariants obtained by previously discussed
+procedure is complete basis in a space of <span class="math notranslate nohighlight">\(v\)</span> body order potentials.
+It means, that any function of atomic structure given by sum of contributions
+over all subsets of <span class="math notranslate nohighlight">\(\nu\)</span> atoms can be represented as the linear
+combination of <span class="math notranslate nohighlight">\(\nu\)</span> order covariants/invariants. Particularly any
+two-body potential, such as <a class="reference external" href="https://en.wikipedia.org/wiki/Lennard-Jones_potential">LJ potential</a>,
+can be represented as
+linear combination of first order invariants, any three-body potential
+can be represented as linear combination of second order invariants
+and so on.</p></li>
+</ol>
+<p>Taking into account these facts, it looks like that the recipe for machine learning
+potentials is very clear. Just iterate over the body order
+until convergence.</p>
+<p>The problem is that the size of <span class="math notranslate nohighlight">\(\nu\)</span> order covariants explodes with
+<span class="math notranslate nohighlight">\(\nu\)</span> exponentially. Indeed, when we go from <span class="math notranslate nohighlight">\(\nu - 1\)</span> to
+<span class="math notranslate nohighlight">\(\nu\)</span> order number of entries is multiplied by the number
+of <span class="math notranslate nohighlight">\(\nu=1\)</span> order covariant vectors and by the number of
+different <span class="math notranslate nohighlight">\(\lambda\)</span>-s. Thus, it is not computationaly feasible to
+go to high body orders with naive approach.</p>
+<p>In practice, for particular distributions in phase space, given by particular
+datasets, by far not all components of covariants are relevant. Namely,
+in real life scenarious the <a class="reference external" href="https://en.wikipedia.org/wiki/Principal_component_analysis">PCA</a>
+spectrum decreases very rapidly. So,
+in fact, we need only few components out of great many.</p>
+<p>There is a way how to construct iterative components iteratively.
+It consist of iterative PCA and Clebsch-Gordan expansions. For each
+transition from <span class="math notranslate nohighlight">\(\nu-1\)</span> body order to <span class="math notranslate nohighlight">\(\nu\)</span> body oder we do PCA
+of <span class="math notranslate nohighlight">\(\nu-1\)</span> body order covariants and use only ones with the highest
+variance/importance for subsequent expansion. The number of components
+to take can be either fixed either to cover certain percentabe of the
+variance in the dataset.</p>
+<p>It is clear that this way the most part of variance is keeped. Indeed,
+let’s imagine that we had exact linear dependencies at some step, and, thus,
+after pca some components have exact zero variance. Substituting zero to
+expansion rule <a class="reference internal" href="#equation-second-expansion">(2)</a> we see that result is … also zeros.
+The same relates to small components - components with small variance
+“give a birth” to components with also small variance, thus their neglecting,
+would not affect much covariants with higher body orders.</p>
+<p>There is one another important observation, that on particular dataset’s
+covariants with different body orders can correlate with each other. Thus,
+it is a good idea, to preserve at each iteration, not the components with
+the highest absolute variance, but the components with the
+highest “purified variance” or “new variance”. I. e. components
+with highest residuals, which can not be explained by linear regression
+based on previous body orders. Using
+“<a class="reference external" href="https://scikit-learn.org/stable/">sklearn</a> language” purification
+step can be viewed as :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">purified_covariants</span> <span class="o">=</span> <span class="n">covariants</span> <span class="o">-</span> <span class="n">linear_regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">all_covariants_of_smaller_body_order</span><span class="p">,</span> <span class="n">covariants</span><span class="p">)</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">covariants</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To conclude, NICE consist of iterations each of three steps:</p>
+<ol class="arabic simple">
+<li><p>Expansion - raising the body order by one using Clebsh-Gordan iteration <a class="reference internal" href="#equation-second-expansion">(2)</a>.</p></li>
+<li><p>Purification - getting rid of variance, which is explainable by previous body-order covariants.</p></li>
+<li><p>PCA - to group the most part of variance in small subset of components.</p></li>
+</ol>
+<p>In current implementation there is also duplicate branch of only invariants,
+which allows to choose hyper parameters, such as the amount of components to expand,
+separatelly for invariants and covariants, which is very usefull in practice.</p>
+<p>More about it in the first tutorial “Constructing machine learning potential”.</p>
+<dl class="citation">
+<dt class="label" id="ref"><span class="brackets"><a class="fn-backref" href="#id1">Ref</a></span></dt>
+<dd><p><a class="reference external" href="https://aip.scitation.org/doi/10.1063/5.0021116">https://aip.scitation.org/doi/10.1063/5.0021116</a></p>
+</dd>
+</dl>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="symlinks/constructing_machine_learning_potential.html" class="btn btn-neutral float-right" title="Constructing machine learning potential" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="hello_user.html" class="btn btn-neutral float-left" title="NICE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jigyasa Nigam, Sergey Pozdnyakov, Michele Ceriotti
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

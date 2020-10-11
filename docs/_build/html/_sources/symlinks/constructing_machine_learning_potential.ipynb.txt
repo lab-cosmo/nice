@@ -1,0 +1,372 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Constructing machine learning potential"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Will not apply HSTS. The HSTS database must be a regular and non-world-writable file.\n",
+      "ERROR: could not open HSTS store at '/home/pozdn/.wget-hsts'. HSTS will be disabled.\n",
+      "--2020-10-08 03:23:15--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528\n",
+      "Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41\n",
+      "Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.\n",
+      "HTTP request sent, awaiting response... 302 FOUND\n",
+      "Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1602120255&Signature=XQ2nesngBFTiYDZbF2KRA%2FwHg9A%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]\n",
+      "--2020-10-08 03:23:15--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1602120255&Signature=XQ2nesngBFTiYDZbF2KRA%2FwHg9A%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893\n",
+      "Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.202, 148.187.25.201, 148.187.25.200\n",
+      "Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.202|:443... connected.\n",
+      "HTTP request sent, awaiting response... 200 OK\n",
+      "Length: 1218139661 (1.1G) [application/octet-stream]\n",
+      "Saving to: ‘methane.extxyz.gz’\n",
+      "\n",
+      "methane.extxyz.gz   100%[===================>]   1.13G  39.7MB/s    in 29s     \n",
+      "\n",
+      "2020-10-08 03:23:44 (40.3 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# downloading dataset from https://archive.materialscloud.org/record/2020.110\n",
+    "\n",
+    "!wget \"https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528\" -O methane.extxyz.gz\n",
+    "!gunzip -k methane.extxyz.gz"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: \n",
+      "The text.latex.preview rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.\n",
+      "In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: \n",
+      "The mathtext.fallback_to_cm rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.\n",
+      "In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: Support for setting the 'mathtext.fallback_to_cm' rcParam is deprecated since 3.3 and will be removed two minor releases later; use 'mathtext.fallback : 'cm' instead.\n",
+      "In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: \n",
+      "The validate_bool_maybe_none function was deprecated in Matplotlib 3.3 and will be removed two minor releases later.\n",
+      "In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: \n",
+      "The savefig.jpeg_quality rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.\n",
+      "In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: \n",
+      "The keymap.all_axes rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.\n",
+      "In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: \n",
+      "The animation.avconv_path rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.\n",
+      "In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: \n",
+      "The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.\n"
+     ]
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "import ase.io\n",
+    "import tqdm\n",
+    "from nice.blocks import *\n",
+    "from nice.utilities import *\n",
+    "from matplotlib import pyplot as plt\n",
+    "from sklearn.linear_model import BayesianRidge"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "HARTREE_TO_EV = 27.211386245988\n",
+    "train_subset = \"0:10000\"    #input for ase.io.read command\n",
+    "test_subset = \"10000:15000\"     #input to ase.io.read command\n",
+    "environments_for_fitting = 1000    #number of environments to fit nice transfomers\n",
+    "grid =  [150, 200, 350, 500, 750, 1000,\n",
+    "         1500, 2000, 3000, 5000, 7500, 10000] #for learning curve\n",
+    "\n",
+    "#HYPERS for librascal spherical expansion coefficients\n",
+    "HYPERS = {\n",
+    "'interaction_cutoff': 6.3,\n",
+    "'max_radial': 5,\n",
+    "'max_angular': 5,\n",
+    "'gaussian_sigma_type': 'Constant',\n",
+    "'gaussian_sigma_constant': 0.05,\n",
+    "'cutoff_smooth_width': 0.3,\n",
+    "'radial_basis': 'GTO'\n",
+    "}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#our model:\n",
+    "def get_transformer():\n",
+    "    return StandardSequence([StandardBlock(ThresholdExpansioner(num_expand = 150),\n",
+    "                                              CovariantsPurifierBoth(max_take = 10),\n",
+    "                                                  IndividualLambdaPCAsBoth(n_components = 50),\n",
+    "                                                 ThresholdExpansioner(num_expand =300, mode = 'invariants'),\n",
+    "                                                 InvariantsPurifier(max_take = 50),\n",
+    "                                                  InvariantsPCA(n_components = 200)),\n",
+    "                             StandardBlock(ThresholdExpansioner(num_expand = 150),\n",
+    "                                              CovariantsPurifierBoth(max_take = 10),\n",
+    "                                                  IndividualLambdaPCAsBoth(n_components = 50),\n",
+    "                                                 ThresholdExpansioner(num_expand =300, mode = 'invariants'),\n",
+    "                                                 InvariantsPurifier(max_take = 50),\n",
+    "                                                  InvariantsPCA(n_components = 200)),\n",
+    "                            StandardBlock(None,\n",
+    "                                             None,\n",
+    "                                                  None,\n",
+    "                                                  ThresholdExpansioner(num_expand =300, mode = 'invariants'),\n",
+    "                                              InvariantsPurifier(max_take = 50),\n",
+    "                                                 InvariantsPCA(n_components = 200))\n",
+    "                                   ],\n",
+    "                            initial_scaler = InitialScaler(mode = 'signal integral',\n",
+    "                                                           individually = True)\n",
+    "                          )"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 100/100 [00:01<00:00, 99.58it/s]\n",
+      "100%|██████████| 2/2 [00:00<00:00, 23.47it/s]\n",
+      "100%|██████████| 50/50 [00:00<00:00, 99.14it/s]\n",
+      "100%|██████████| 2/2 [00:00<00:00, 45.84it/s]\n"
+     ]
+    }
+   ],
+   "source": [
+    "train_structures = ase.io.read('methane.extxyz', \n",
+    "                         index = train_subset)\n",
+    "\n",
+    "test_structures = ase.io.read('methane.extxyz', \n",
+    "                         index = test_subset)\n",
+    "\n",
+    "all_species = get_all_species(train_structures + test_structures)\n",
+    "\n",
+    "train_coefficients = get_spherical_expansion(train_structures, HYPERS, all_species)\n",
+    "\n",
+    "\n",
+    "\n",
+    "test_coefficients = get_spherical_expansion(test_structures, HYPERS, all_species)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#individual transformers for each atomic specie in dataset\n",
+    "transformers = {}\n",
+    "for key in train_coefficients.keys():\n",
+    "    transformers[key] = get_transformer()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n",
+      "/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n",
+      "/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n",
+      "/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n",
+      "/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n",
+      "/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.\n",
+      "  self.n_components, num_fit_now, X.shape[0]))\n"
+     ]
+    }
+   ],
+   "source": [
+    "for key in train_coefficients.keys():\n",
+    "    transformers[key].fit(train_coefficients[key][:environments_for_fitting])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "train_features = {}\n",
+    "for specie in all_species:\n",
+    "    train_features[specie] = transformers[specie].transform(train_coefficients[specie],\n",
+    "                                                            return_only_invariants = True)\n",
+    "    \n",
+    "test_features = {}\n",
+    "for specie in all_species:\n",
+    "    test_features[specie] = transformers[specie].transform(test_coefficients[specie],\n",
+    "                                                           return_only_invariants = True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 10000/10000 [00:00<00:00, 13229.44it/s]\n",
+      "100%|██████████| 5000/5000 [00:00<00:00, 13406.35it/s]\n"
+     ]
+    }
+   ],
+   "source": [
+    "train_features = make_structural_features(train_features, train_structures, all_species)\n",
+    "test_features = make_structural_features(test_features, test_structures, all_species)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "train_energies = [structure.info['energy'] for structure in train_structures]\n",
+    "train_energies = np.array(train_energies) * HARTREE_TO_EV\n",
+    "\n",
+    "test_energies = [structure.info['energy'] for structure in test_structures]\n",
+    "test_energies = np.array(test_energies) * HARTREE_TO_EV\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def get_rmse(first, second):\n",
+    "    return np.sqrt(np.mean((first - second) ** 2))\n",
+    "\n",
+    "def get_standard_deviation(values):\n",
+    "    return np.sqrt(np.mean((values - np.mean(values)) ** 2))\n",
+    "\n",
+    "def get_relative_performance(predictions, values):\n",
+    "    return get_rmse(predictions, values) / get_standard_deviation(values)\n",
+    "\n",
+    "def estimate_performance(clf, data_train, data_test, targets_train, targets_test):\n",
+    "    clf.fit(data_train, targets_train)\n",
+    "    return get_relative_performance(clf.predict(data_test), targets_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 12/12 [00:25<00:00,  2.15s/it]\n"
+     ]
+    }
+   ],
+   "source": [
+    "errors = []\n",
+    "for el in tqdm.tqdm(grid):   \n",
+    "    errors.append(estimate_performance(BayesianRidge(), train_features[:el],\n",
+    "                                       test_features, train_energies[:el],\n",
+    "                                       test_energies))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[0.42476527899035144, 0.42796589781240785, 0.34952489077704013, 0.23182807845077727, 0.18056920495637674, 0.1626459002495877, 0.131175677112106, 0.11671606813507408, 0.0993609951213104, 0.08436996136277373, 0.07267630159243503, 0.0702358288818265]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(errors)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "from matplotlib import pyplot as plt\n",
+    "plt.plot(grid, errors, 'bo')\n",
+    "plt.plot(grid, errors, 'b')\n",
+    "plt.xlabel(\"number of structures\")\n",
+    "plt.ylabel(\"relative error\")\n",
+    "plt.xscale('log')\n",
+    "plt.yscale('log')\n",
+    "plt.show()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
