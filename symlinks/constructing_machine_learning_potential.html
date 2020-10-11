@@ -432,6 +432,7 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Constructing-machine-learning-potential">
 <h1>Constructing machine learning potential<a class="headerlink" href="#Constructing-machine-learning-potential" title="Permalink to this headline">¶</a></h1>
+<p>First of all we need to get some dataset for fitting. Good example is <a class="reference external" href="https://archive.materialscloud.org/record/2020.110">this one</a>:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -449,27 +450,25 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Will not apply HSTS. The HSTS database must be a regular and non-world-writable file.
-ERROR: could not open HSTS store at &#39;/home/pozdn/.wget-hsts&#39;. HSTS will be disabled.
---2020-10-08 03:23:15--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
+--2020-10-11 22:55:57--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
 Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
 Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
 HTTP request sent, awaiting response... 302 FOUND
-Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602120255&amp;Signature=XQ2nesngBFTiYDZbF2KRA%2FwHg9A%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
---2020-10-08 03:23:15--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602120255&amp;Signature=XQ2nesngBFTiYDZbF2KRA%2FwHg9A%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
-Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.202, 148.187.25.201, 148.187.25.200
-Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.202|:443... connected.
+Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602449817&amp;Signature=ipI5BxoFpZfU08isT3SnYOzzOzg%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+--2020-10-11 22:55:57--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602449817&amp;Signature=ipI5BxoFpZfU08isT3SnYOzzOzg%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.201, 148.187.25.202
+Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.200|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 1218139661 (1.1G) [application/octet-stream]
 Saving to: ‘methane.extxyz.gz’
 
-methane.extxyz.gz   100%[===================&gt;]   1.13G  39.7MB/s    in 29s
+methane.extxyz.gz   100%[===================&gt;]   1.13G  54.2MB/s    in 26s
 
-2020-10-08 03:23:44 (40.3 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+2020-10-11 22:56:23 (44.3 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
 
 </pre></div></div>
 </div>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
@@ -484,28 +483,12 @@ methane.extxyz.gz   100%[===================&gt;]   1.13G  39.7MB/s    in 29s
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The text.latex.preview rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The mathtext.fallback_to_cm rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle: Support for setting the &#39;mathtext.fallback_to_cm&#39; rcParam is deprecated since 3.3 and will be removed two minor releases later; use &#39;mathtext.fallback : &#39;cm&#39; instead.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The validate_bool_maybe_none function was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The savefig.jpeg_quality rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The keymap.all_axes rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The animation.avconv_path rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-In /home/pozdn/.local/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test.mplstyle:
-The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be removed two minor releases later.
-</pre></div></div>
-</div>
+<p>In the following cell parameters which control subsequent calculations along with hyperparamters of the model are defined.</p>
+<p>Total amount of structures in the methane dataset is very huge, thus it is good idea to select smaller amount to speed up calculations.</p>
+<p>Two out of three steps of NICE requires data to be fitted. In the PCA step atomic environments are used to determine matrix of linear transformation which would allow to preserve the most amount of information for <strong>this particular dataset</strong>. In purifers eliminated correlations are also dataset specific. Though, it is absolutelly not necessary to use the same amount of data to fit NICE transformer and to fit subsequent machine learning model. Typically NICE transformer requires less amount of
+data to be fitted, and fitting process requires noticiable amount of RAM, thus, it is good idea to restrict amount of data for this step, which is controleed by environments_for_fitting variable.</p>
+<p>grid defines numbers of training configurations for which error would be estimated in order to get an idea how good is the model depending on the number of training configurations. (yep, NICE transformer uses more data for fitting for few first point, but it is just a tutorial)</p>
+<p>in HYPERS dictionary parameters for initial spherical expansion are defined. For more detail we refer reader to <a class="reference external" href="https://github.com/cosmo-epfl/librascal">librascal</a> documentation.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -531,6 +514,26 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 </pre></div>
 </div>
 </div>
+<p>This cell is the most important one. Our model is defined here. As was mentioned before NICE is the sequence of standard transformations, there each increases body order by 1. The classes which implements this logic are StandardBlock and StandardSequence.</p>
+<p>StandardSequence consist of 1) initial scaler 2) initial pca and of 3) sequence of standard blocks.</p>
+<p>Let’s imagine uniform multiplication of spherical expansion coefficients by some constant k. In this case covariants of order k would change as *= k ^(body order). In other words relative scale of different body orders would change. This might affect subsequent regression, so it is a good idea to fix the scale in some proper way. This is done by initial scaler. It has two mods - “signal integral” and “variance”. In the first case it scales coefficients such a way to make integral of squared
+corresponding signal over the ball to be one. In the second case it assures variance of coefficient’s entries to be ones. In practice first mod gives better results. Second parameter to this class is to scale coefficients individually, i. e. separately for each environment or globally, thus preserving information about scale of signals in relation to each other.</p>
+<p>Initial pca is the same pca which is applied in each block, more details about it later. It is the first transformation to coefficients after initial scaler.</p>
+<p>As already mentioned in theory each block consist of two branches - for covariants and for invariants. Each branch consist of expansion, purification and pca step. During the expansion step in each block features of next body order are produced by Clebsch-Gordan iteration between features from the previous block and spherical expansion coefficients after initial_pca. In case of full expansion, each with each, number of features after this transformation would be incredibly huge, as it was
+already discussed in theory. Thus, thresholding heuristic is used. For each feature information how important it is is stored during the calculations. In standard sequence this importances are just explained variance ratios after PCA step. During expansion for each pair of covariant vectors “pair importance” is defined as the multiplication of previously discussed single feature importances, and after that only fixed amount of most important input pairs produce output. This fixed amount is
+controlled by num_expand parameter. If it is not specified (or set to None) full expansion, each with each, would be performed.</p>
+<p>The nature of purifier step was discussed in the theory. Parameter max_take controls the amount of features to take for purification from previous body orders. (Features are alwas stored in descending order of importance, and it uses first ones). If max_take is not specified (None) it would use all available features. One additional parameter is linear regressor to use. For example</p>
+<p>from sklearn.linear_model import Ridge CovariantsPurifierBoth(regressor = Ridge(alpha = 42, fit_intercept = False), max_take = 10)</p>
+<p>or</p>
+<p>from sklearn.linear_model import Lars InvariantsPurifier(regressor = Lars(n_nonzero_coefs = 7), max_take = 10)</p>
+<p>Default one is Ridge(alpha = 1e-12) without fitting intercept for covariants purifier and with fitting intercept for invariants purifier.</p>
+<p><strong>*Important!*</strong> always put fit_intercept = False to regressor in covariants purifer. Otherwise resulting features would not be covariants, since vector with constant entries is not covariant. (it is not checked automatically, since corresponding parameter might have different name from “fit_intercept”)</p>
+<p>Custom regressors can be feeded into purifiers, more details about it in tutorial “Custom regressors into purifiers”</p>
+<p>Parameter of pca states for the number of output features. If it is not specified (None) full pca would be performed.</p>
+<p>Both in name of classes states for the fact that transformations are done simultaneously on even and odd features (more details about it in the tutorials “Calculating covariants” (what are even and odd features?) and “Constructor or non standard sequence” (classes to work with no separation?)).</p>
+<p>Individual in IndividualLambdaPCAsBoth states for the fact that transformations are independent for each lambda channel.</p>
+<p>Since we are interested only in invariants, it is not necessary for last block to calculate covariants. Thus corresponding branch is filled with None-s.</p>
+<p>In this example parameters of covariant and invariant branches (such as num_expand in expansioners) are not dramatically different, but in real life calculations they usually differ from each other dramatically, see examples folder.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -563,6 +566,9 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 </pre></div>
 </div>
 </div>
+<p>In this cell we read structures, get set of all species in the dataset, and calculate spherical expansion.</p>
+<p>all species is given by the set of int, where 1 states for H, 2 for He and so on.</p>
+<p>coefficients is the dictionary where keys are central species, 1 and 6 in our case, and entries are numpy arrays shaped in the [environment_index, radial/specie index, l, m] way.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -575,26 +581,34 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
                          <span class="n">index</span> <span class="o">=</span> <span class="n">test_subset</span><span class="p">)</span>
 
 <span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">train_structures</span> <span class="o">+</span> <span class="n">test_structures</span><span class="p">)</span>
-
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;all species: &quot;</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
 <span class="n">train_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">train_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
-
 
 
 <span class="n">test_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">test_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+all species:  [1 6]
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:01&lt;00:00, 99.58it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 23.47it/s]
-100%|██████████| 50/50 [00:00&lt;00:00, 99.14it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 45.84it/s]
+100%|██████████| 100/100 [00:01&lt;00:00, 52.42it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 30.58it/s]
+100%|██████████| 50/50 [00:00&lt;00:00, 51.26it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 74.03it/s]
 </pre></div></div>
 </div>
+<p>We are going to fit two NICE transformers on environments around H and C atoms separatelly. the following cells create them and perfom fitting:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -636,6 +650,8 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
   self.n_components, num_fit_now, X.shape[0]))
 </pre></div></div>
 </div>
+<p>It is not necessary to fit different transformers for each central specie, see for example qm9 examples in example folder</p>
+<p>Let’s calculate representations!:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -653,27 +669,71 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 </pre></div>
 </div>
 </div>
+<p>Result is nested dictionary. First level keys are central species, inner level keys are body orders. Inside are numpy arrays with shapes [environment_index, invariant_index]:</p>
+<p>In this case number of train structures is 10k, and each consist of 4 H atoms. Thus, total amount of H centered environments is 40k</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">train_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_structures</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
-<span class="n">test_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">test_features</span><span class="p">,</span> <span class="n">test_structures</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_features</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">train_features</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
-100%|██████████| 10000/10000 [00:00&lt;00:00, 13229.44it/s]
-100%|██████████| 5000/5000 [00:00&lt;00:00, 13406.35it/s]
+1 : (40000, 10)
+2 : (40000, 200)
+3 : (40000, 200)
+4 : (40000, 200)
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
+<p>Now we need to prepare to subsequent linear regression. As it was already discussed in theory energy is extensive property, and thus it is given as sum of atomic contributions. Each atomic contribution depends on 1) central specie and 2) environment. Thus, it is straighforward to see that if each atomic contribution is given by linear combination of previously calculated NICE features, the structural features should have the following form - for each structure set of features is a concatenation
+of representations for each specie. Representation for each specie is sum of NICE representations over the atoms with this specie in structure.</p>
+<p>In our case representation of each environment has size 200 + 200 + 200 + 10 = 610. And we have two atomic species - H and C. Thus shape of structures features should be [number_of_structures, 610 * 2 = 1220]:</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">train_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_structures</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span class="n">test_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">test_features</span><span class="p">,</span> <span class="n">test_structures</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">train_features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:01&lt;00:00, 8516.67it/s]
+100%|██████████| 5000/5000 [00:00&lt;00:00, 8821.33it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(10000, 1220)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<p>Energies are a part of the dataset we previously downloaded:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -686,8 +746,9 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 </pre></div>
 </div>
 </div>
+<p>And the last step is to do linear regression and plot learning curve.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -707,7 +768,7 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -724,11 +785,12 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 12/12 [00:25&lt;00:00,  2.15s/it]
+100%|██████████| 12/12 [00:45&lt;00:00,  3.78s/it]
 </pre></div></div>
 </div>
+<p>In this smallest setup best rmse appeared to be about 7%:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -741,9 +803,10 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[0.42476527899035144, 0.42796589781240785, 0.34952489077704013, 0.23182807845077727, 0.18056920495637674, 0.1626459002495877, 0.131175677112106, 0.11671606813507408, 0.0993609951213104, 0.08436996136277373, 0.07267630159243503, 0.0702358288818265]
+[0.4246769917146664, 0.42795557159896896, 0.34949830448562647, 0.23167750292004954, 0.1805004317933902, 0.16245873101544683, 0.13090501832712487, 0.1162899615967867, 0.09911964945838202, 0.08351690671342994, 0.07210771368850206, 0.06984120801871395]
 </pre></div></div>
 </div>
+<p>learnig curve looks like this:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -764,9 +827,12 @@ The animation.avconv_args rcparam was deprecated in Matplotlib 3.3 and will be r
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/symlinks_constructing_machine_learning_potential_14_0.png" src="../_images/symlinks_constructing_machine_learning_potential_14_0.png" />
+<img alt="../_images/symlinks_constructing_machine_learning_potential_28_0.png" src="../_images/symlinks_constructing_machine_learning_potential_28_0.png" />
 </div>
 </div>
+<p>The pipeline in this tutorial was designed to expose all intermediate steps, but it has one drawback - at some moment all atomic representations for whole dataset are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if dataset consist of large molecules. Thus, it is a good idea to calculate structural features by small
+blocks and get rid of atomic representations for each block immediatelly. For this purpose there is function nice.utilities.transform_sequentially.</p>
+<p>Full example can be found in examples/methane_home_pc or in examples/qm9_home_pc. Other than that and absence of markdown comments these notebooks are almost identical to this tutorial (in qm9 single transformer is used for all central species). Thus, we recommend to pick one of them as the code snippet.</p>
 </div>
 
 

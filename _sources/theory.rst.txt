@@ -2,7 +2,7 @@ Theory in a nutshell
 _____________________________
 
 One can use this toolbox as a black box which calculates proper atomic
-structure representations. In this case we refer reader to the :ref:`tutorial-label` along with examples folder to borrow 
+structure representations. In this case we refer reader to tutorials along with examples folder to borrow 
 appropriate hyperparameters for the real life scenarios. 
 
 In order to meaningfully select hypers or desing your calculations some understanding of 
@@ -10,9 +10,21 @@ what is going on is required. The most comprehensive description is given in [Re
 though might appear to be quite time consuming for people not from the field. Thus, this 
 section is designed to give short overview of the method without any proves and unnecesarry
 details.
-,
+
 For various purposes in atomistic machine learning, there is need to describe atomic environments
-by invariant or covariant values. Atomic environment is described by unordered set of 
+by invariant or covariant values. The most widespread case is construction of so-called
+machine learning potentials. In this case goal is to construct mapping function from atomistic structure,
+whether it is molecule, crystal or amorphous solid to energy of this configuration. Energy is 
+`extensive <https://en.wikipedia.org/wiki/Intensive_and_extensive_properties>`_ property, which allows to 
+represent total energy as a sum of atomic contributions which are defined by central atomic specie along with
+atomic environment. 
+
+Most of machine learning algorithms doesn't exhibit required symmetries such as rotational symmetry out of the box. 
+Thus, there is need to calculate atomic environment representation which is invariant with respect to certain transformations. 
+For prediction of other properties there is also need in covariant representations which transforms in certain way under rotations.
+
+
+Atomic environment is described by unordered set of 
 relative positions of neighbors within given cut-off radius along with their species 
 :math:`\{\{\vec{r_1}, \alpha_1\}, \{\vec{r_2}, \alpha_{2}\}... \{\vec{r_n}, \alpha_{n}\}\}`.
 The number of neighbors potentially can be varying. The goal is to provide description
@@ -196,6 +208,12 @@ To conclude, NICE consist of iterations each of three steps:
 1. Expansion - raising the body order by one using Clebsh-Gordan iteration :eq:`second_expansion`.
 2. Purification - getting rid of variance, which is explainable by previous body-order covariants.
 3. PCA - to group the most part of variance in small subset of components.
+
+
+In principle one can apply this machinery to other invariant/covariant machine learning tasks
+not related to atomistic machine learning.  The only difference is that in this case 
+input spherical expansion coefficients :math:`< n l m | \rho^1>` would be obtained from 
+some other sphere/ball signal, not from sum of gaussians as in case of atomistic machine learning. 
 
 In current implementation there is also duplicate branch of only invariants, 
 which allows to choose hyper parameters, such as the amount of components to expand,
