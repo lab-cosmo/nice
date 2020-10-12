@@ -1,4 +1,0 @@
-Calculating covariants
-----------------------
-
-some text

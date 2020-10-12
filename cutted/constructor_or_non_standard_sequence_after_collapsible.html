@@ -1,0 +1,716 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>&lt;no title&gt; &mdash; NICE  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/togglebutton.js"></script>
+        <script type="text/javascript">var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> NICE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Nice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../hello_user.html">NICE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hello_user.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory in a nutshell</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/constructing_machine_learning_potential.html">Constructing machine learning potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculating_covariants.html">Calculating covariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_insights_about_the_model.html">Getting insights about the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/sequential_fitting.html">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/custom_regressors_into_purifiers.html">Custom regressors into purifiers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Acknowledgements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../acknowledgements.html">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User guide (to be deleted)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html">User guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#Getting-coefficients">Getting coefficients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#Data-structure">Data structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#Compressors">Compressors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#Expansioner">Expansioner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#Purifiers:">Purifiers:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#StandardBlock">StandardBlock</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#StandardSequence">StandardSequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#Custom-regressors-into-purifiers">Custom regressors into purifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#Sequential-fitting">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#Non-standard-sequence">Non standard sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../symlinks/user_guide.html#Meet-definition-from-the-article">Meet definition from the article</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NICE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>&lt;no title&gt;</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/cutted/constructor_or_non_standard_sequence_after_collapsible.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.3rem;
+    padding-right: 0.3rem;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 0.3rem;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<p>up to this point coefficients for each central specie are 4 dimensional numpy array with indexing [environmental index, radial basis/specie index, lambda, m]</p>
+<p>Let’s focus on only H centered environments:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">coefficients</span> <span class="o">=</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">coefficients</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(4000, 10, 6, 11)
+</pre></div></div>
+</div>
+<p>The first step is to perform initial scaling, as it was discussed in the first tutorial. For this purposes there is class InitialScaler:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">initial_scaler</span> <span class="o">=</span> <span class="n">InitialScaler</span><span class="p">(</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;signal integral&#39;</span><span class="p">,</span> <span class="n">individually</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">initial_scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">initial_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>If individually is set to False this class requires fitting before transforming the data. Otherwise fitting is not required.</p>
+<p>Since we are going to track parity of covariants, i. e. keep even and odd features separated, we need to split them at the begining of our calculations:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span>  <span class="o">=</span> <span class="n">InitialTransformer</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_even_1</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;even features sizes: &quot;</span><span class="p">,</span> <span class="n">data_even_1</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;odd features sizes: &quot;</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;nice.nice_utilities.Data&#39;&gt;
+(4000, 10, 6, 11)
+even features sizes:  [10, 0, 10, 0, 10, 0]
+odd features sizes:  [0, 10, 0, 10, 0, 10]
+</pre></div></div>
+</div>
+<p>The result is couple of Data instances which was already discussed in the tutorial “Calculating covariants”.</p>
+<p>All spherical expansion coefficients with even l remain constant under reflections, i. e. are even covariants, while all spherical expansion coefficients with odd l changes sign under reflection, i. e. are odd covariants.</p>
+<p>PCA and purifiers blocks has two versions. One to transform single instance of data of certain parity, and the second is for the same transformation of both. For example:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAs</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="c1">#single parity version</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">)</span>
+<span class="n">data_even_1_t</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_even_1_t</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+
+<span class="n">pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">()</span> <span class="c1">#both version</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
+<span class="n">data_even_1_t</span><span class="p">,</span> <span class="n">data_odd_1_t</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[5 0 5 0 5 0]
+</pre></div></div>
+</div>
+<p>One common thing among PCA and purifiers blocks is num_to_fit semantics. Each class has num_to_fit argument in the initialization, which by default equals to ‘10x’. If num_to_fit is string of ‘number x’ format it would cause corresponding class use no more than number multiplier by number of components in case of pca, or number multiplier by number of coefficients in linear regression in case of purifiers data points. Data points are calculated as all entries of covariants. I. e. for
+lambda = 3 for example each environment would bring (3 * 2 + 1) data points, since dimensionality of single covariant vector is (2 * lambda + 1). If num_to_fit is int, it would do the same using the provided number as the upper bound for number of datapoints not depending on the actual number of pca components or linear regression coefficients. If total available number of data points is less than the number specified by num_to_fit class would raise warning, that there are not enough data.</p>
+<p>This is done because the overall model is very diverse, and different parts of the model requires very different amount of data for good fitting. Thus, it is a good idea to do such restrictions to speed up the process.</p>
+<p>In case of PCA if n_components specified in the constructor is less than the actual number of features given during the fit step, it would be decreased to actual number of features. But, if number of data points is less than number of components after this possible decreasement (which make it impossible to produce such amount of components) it would raise ValueError with demand to provide more data for fitting.</p>
+<p>In order to do PCA step in invariants branch there is class InvariantsPCA, which actually differs from sklearn.decomposition.PCA only by num_to_fit semantics:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">num_to_fit</span> <span class="o">=</span> <span class="s1">&#39;300x&#39;</span><span class="p">)</span>
+<span class="n">ar</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(400, 10)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 10, desired number of environments is 3000, actual number of environments is 400.
+  self.n_components, num_fit_now, X.shape[0]))
+</pre></div></div>
+</div>
+<p>For purifiers there are classes CovariantsPurifier, CovariantsPurifierBoth, InvariantsPurifier, and CovariantsIndividualPurifier. Their purpose is to transform data of single parity, both chunks of data, invariants, and single lambda channel respectively.</p>
+<p>Their fit and transform methods accept list of covariants/invariants of previous body orders along with current body order. For example: (Let’s pretend that we have already features of several body orders):</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">purifier</span> <span class="o">=</span> <span class="n">CovariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">purifier</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">],</span> <span class="n">data_even_1</span><span class="p">)</span>
+<span class="n">data_even_1_t</span> <span class="o">=</span> <span class="n">purifier</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">],</span> <span class="n">data_even_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>As it was already mentioned in the first tutorial purifiers can accept arbitrarily sklearn shaped linear regressors, i. e. with fit and predict methods. See tutorial “Custom regressors into purifiers” for example of such custom regressor.</p>
+<p>In order to do expansion with thresholding euristics it is necessary to get information how important are particular features. One way is to assing .importance_ property in the Data class (setter will be done in the next version of NICE). The other is to pass features through pca, which would automatically asign importances:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">()</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
+<span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>ThresholdExpansioner’s fit and transform methods accept two even-odd pair of datas. If first pair is of body order v1 and second pair is of body order v2, result would be of body order v1 + v2:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+
+<span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
+<span class="n">data_even_2</span><span class="p">,</span> <span class="n">data_odd_2</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span>\
+                                                <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_even_2</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_odd_2</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[ 70  69 165 142 176 121]
+[  0 124 112 178 140 150]
+</pre></div></div>
+</div>
+<p>The most time during the fitting is consumed for precomputing clebsch-gordan coefficients. Thus, in case of frequent expansioners fitting with same lambda_max, it is a good idea to precompute clebsch-gordan coefficients once, and after that just feed expansioners with them:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">clebsch</span> <span class="o">=</span> <span class="n">nice</span><span class="o">.</span><span class="n">clebsch_gordan</span><span class="o">.</span><span class="n">ClebschGordan</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># 5 is lamba max</span>
+</pre></div>
+</div>
+</div>
+<p>Now let’s go to 1024 body order!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+
+<span></span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span> <span class="o">=</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span>
+
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">)</span>
+    <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span>  <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">)</span>
+    <span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">,</span> <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">,</span> <span class="n">clebsch_gordan</span> <span class="o">=</span> <span class="n">clebsch</span><span class="p">)</span>
+    <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">,</span> <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">)</span>
+
+    <span class="c1"># very high body order cause numerical instabilities,</span>
+    <span class="c1"># and, thus, there is need to normalize data</span>
+    <span class="k">for</span> <span class="n">lambd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">even_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">even_factor</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">):</span> <span class="c1">#catch exact zeros</span>
+                <span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">/=</span> <span class="n">even_factor</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">odd_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">odd_factor</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">):</span> <span class="c1">#catch exact zeros</span>
+                <span class="n">data_odd_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">/=</span> <span class="n">odd_factor</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10/10 [00:04&lt;00:00,  2.16it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(4000, 28, 6, 11)
+[ 7 19 25 28 28 25]
+[ 8 18 24 26 28 26]
+</pre></div></div>
+</div>
+<p>Done!</p>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jigyasa Nigam, Sergey Pozdnyakov, Michele Ceriotti
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

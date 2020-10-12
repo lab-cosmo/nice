@@ -11,10 +11,10 @@ Subpackages
 Submodules
 ----------
 
-nice.ClebschGordan module
--------------------------
+nice.clebsch\_gordan module
+---------------------------
 
-.. automodule:: nice.ClebschGordan
+.. automodule:: nice.clebsch_gordan
    :members:
    :undoc-members:
    :show-inheritance:

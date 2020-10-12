@@ -1,0 +1,246 @@
+up to this point coefficients for each central specie are 4 dimensional
+numpy array with indexing [environmental index, radial basis/specie
+index, lambda, m]
+
+Let's focus on only H centered environments:
+
+.. code:: ipython3
+
+    coefficients = coefficients[1]
+    print(coefficients.shape)
+
+
+.. parsed-literal::
+
+    (4000, 10, 6, 11)
+
+
+The first step is to perform initial scaling, as it was discussed in the
+first tutorial. For this purposes there is class InitialScaler:
+
+.. code:: ipython3
+
+    initial_scaler = InitialScaler(mode = 'signal integral', individually = False)
+    initial_scaler.fit(coefficients)
+    coefficients = initial_scaler.transform(coefficients)
+
+If individually is set to False this class requires fitting before
+transforming the data. Otherwise fitting is not required.
+
+Since we are going to track parity of covariants, i. e. keep even and
+odd features separated, we need to split them at the begining of our
+calculations:
+
+.. code:: ipython3
+
+    data_even_1, data_odd_1  = InitialTransformer().transform(coefficients)
+    print(type(data_even_1))
+    print(data_even_1.covariants_.shape)
+    print("even features sizes: ", data_even_1.actual_sizes_)
+    print("odd features sizes: ", data_odd_1.actual_sizes_)
+
+
+.. parsed-literal::
+
+    <class 'nice.nice_utilities.Data'>
+    (4000, 10, 6, 11)
+    even features sizes:  [10, 0, 10, 0, 10, 0]
+    odd features sizes:  [0, 10, 0, 10, 0, 10]
+
+
+The result is couple of Data instances which was already discussed in
+the tutorial "Calculating covariants".
+
+All spherical expansion coefficients with even l remain constant under
+reflections, i. e. are even covariants, while all spherical expansion
+coefficients with odd l changes sign under reflection, i. e. are odd
+covariants.
+
+PCA and purifiers blocks has two versions. One to transform single
+instance of data of certain parity, and the second is for the same
+transformation of both. For example:
+
+.. code:: ipython3
+
+    pca = IndividualLambdaPCAs(n_components = 5) #single parity version
+    pca.fit(data_even_1)
+    data_even_1_t = pca.transform(data_even_1)
+    print(data_even_1_t.actual_sizes_)
+    
+    pca = IndividualLambdaPCAsBoth() #both version
+    pca.fit(data_even_1, data_odd_1)
+    data_even_1_t, data_odd_1_t = pca.transform(data_even_1, data_odd_1)
+
+
+
+.. parsed-literal::
+
+    [5 0 5 0 5 0]
+
+
+One common thing among PCA and purifiers blocks is num\_to\_fit
+semantics. Each class has num\_to\_fit argument in the initialization,
+which by default equals to '10x'. If num\_to\_fit is string of 'number
+x' format it would cause corresponding class use no more than number
+multiplier by number of components in case of pca, or number multiplier
+by number of coefficients in linear regression in case of purifiers data
+points. Data points are calculated as all entries of covariants. I. e.
+for lambda = 3 for example each environment would bring (3 \* 2 + 1)
+data points, since dimensionality of single covariant vector is (2 \*
+lambda + 1). If num\_to\_fit is int, it would do the same using the
+provided number as the upper bound for number of datapoints not
+depending on the actual number of pca components or linear regression
+coefficients. If total available number of data points is less than the
+number specified by num\_to\_fit class would raise warning, that there
+are not enough data.
+
+This is done because the overall model is very diverse, and different
+parts of the model requires very different amount of data for good
+fitting. Thus, it is a good idea to do such restrictions to speed up the
+process.
+
+In case of PCA if n\_components specified in the constructor is less
+than the actual number of features given during the fit step, it would
+be decreased to actual number of features. But, if number of data points
+is less than number of components after this possible decreasement
+(which make it impossible to produce such amount of components) it would
+raise ValueError with demand to provide more data for fitting.
+
+In order to do PCA step in invariants branch there is class
+InvariantsPCA, which actually differs from sklearn.decomposition.PCA
+only by num\_to\_fit semantics:
+
+.. code:: ipython3
+
+    pca = InvariantsPCA(num_to_fit = '300x')
+    ar  = np.random.rand(400, 10)
+    pca.fit(ar)
+    print(pca.transform(ar).shape)
+
+
+.. parsed-literal::
+
+    (400, 10)
+
+
+.. parsed-literal::
+
+    /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 10, desired number of environments is 3000, actual number of environments is 400.
+      self.n_components, num_fit_now, X.shape[0]))
+
+
+For purifiers there are classes CovariantsPurifier,
+CovariantsPurifierBoth, InvariantsPurifier, and
+CovariantsIndividualPurifier. Their purpose is to transform data of
+single parity, both chunks of data, invariants, and single lambda
+channel respectively.
+
+Their fit and transform methods accept list of covariants/invariants of
+previous body orders along with current body order. For example: (Let's
+pretend that we have already features of several body orders):
+
+.. code:: ipython3
+
+    purifier = CovariantsPurifier(max_take = 3)
+    purifier.fit([data_even_1, data_even_1], data_even_1)
+    data_even_1_t = purifier.transform([data_even_1, data_even_1], data_even_1)
+
+As it was already mentioned in the first tutorial purifiers can accept
+arbitrarily sklearn shaped linear regressors, i. e. with fit and predict
+methods. See tutorial "Custom regressors into purifiers" for example of
+such custom regressor.
+
+In order to do expansion with thresholding euristics it is necessary to
+get information how important are particular features. One way is to
+assing .importance\_ property in the Data class (setter will be done in
+the next version of NICE). The other is to pass features through pca,
+which would automatically asign importances:
+
+.. code:: ipython3
+
+    pca = IndividualLambdaPCAsBoth() 
+    pca.fit(data_even_1, data_odd_1)
+    data_even_1, data_odd_1 = pca.transform(data_even_1, data_odd_1)
+
+ThresholdExpansioner's fit and transform methods accept two even-odd
+pair of datas. If first pair is of body order v1 and second pair is of
+body order v2, result would be of body order v1 + v2:
+
+.. code:: ipython3
+
+    expansioner = ThresholdExpansioner(num_expand = 200)
+    
+    expansioner.fit(data_even_1, data_odd_1, data_even_1, data_odd_1)
+    data_even_2, data_odd_2 = expansioner.transform(data_even_1, data_odd_1,\
+                                                    data_even_1, data_odd_1)
+    print(data_even_2.actual_sizes_)
+    print(data_odd_2.actual_sizes_)
+
+
+.. parsed-literal::
+
+    [ 70  69 165 142 176 121]
+    [  0 124 112 178 140 150]
+
+
+The most time during the fitting is consumed for precomputing
+clebsch-gordan coefficients. Thus, in case of frequent expansioners
+fitting with same lambda\_max, it is a good idea to precompute
+clebsch-gordan coefficients once, and after that just feed expansioners
+with them:
+
+.. code:: ipython3
+
+    clebsch = nice.clebsch_gordan.ClebschGordan(5) # 5 is lamba max
+
+Now let's go to 1024 body order!
+
+.. code:: ipython3
+
+    
+    data_even_now, data_odd_now = data_even_1, data_odd_1
+    
+    
+    for _ in tqdm.tqdm(range(10)):        
+        pca = IndividualLambdaPCAsBoth(10)
+        pca.fit(data_even_now, data_odd_now)
+        data_even_now, data_odd_now  = pca.transform(data_even_now, data_odd_now)
+        expansioner = ThresholdExpansioner(50)
+        expansioner.fit(data_even_now, data_odd_now, data_even_now, data_odd_now, clebsch_gordan = clebsch)
+        data_even_now, data_odd_now = expansioner.transform(data_even_now, data_odd_now, data_even_now, data_odd_now)
+    
+        # very high body order cause numerical instabilities,
+        # and, thus, there is need to normalize data   
+        for lambd in range(6):
+            if (data_even_now.actual_sizes_[lambd] > 0):
+                even_factor = np.sqrt(np.mean(data_even_now.covariants_[:, :data_even_now.actual_sizes_[lambd], lambd] ** 2))
+                if (even_factor > 1e-15): #catch exact zeros
+                    data_even_now.covariants_[:, :data_even_now.actual_sizes_[lambd], lambd] /= even_factor
+    
+            if (data_odd_now.actual_sizes_[lambd] > 0):
+                odd_factor = np.sqrt(np.mean(data_odd_now.covariants_[:, :data_odd_now.actual_sizes_[lambd], lambd] ** 2))
+                if (odd_factor > 1e-15): #catch exact zeros
+                    data_odd_now.covariants_[:, :data_odd_now.actual_sizes_[lambd], lambd] /= odd_factor
+
+
+
+.. parsed-literal::
+
+    100%|██████████| 10/10 [00:04<00:00,  2.16it/s]
+
+
+.. code:: ipython3
+
+    print(data_even_now.covariants_.shape)
+    print(data_even_now.actual_sizes_)
+    print(data_odd_now.actual_sizes_)
+
+
+.. parsed-literal::
+
+    (4000, 28, 6, 11)
+    [ 7 19 25 28 28 25]
+    [ 8 18 24 26 28 26]
+
+
+Done!
