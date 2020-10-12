@@ -1,6 +1,6 @@
 from nice.blocks.compressors import IndividualLambdaPCAsBoth
 from nice.blocks.miscellaneous import InitialTransformer
-from nice.ClebschGordan import ClebschGordan, check_clebsch_gordan
+from nice.clebsch_gordan import ClebschGordan, check_clebsch_gordan
 
 from sklearn.exceptions import NotFittedError
 

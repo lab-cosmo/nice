@@ -1,6 +1,6 @@
 from nice.thresholding import get_thresholded_tasks
 from nice.nice_utilities import do_partial_expansion, Data, get_sizes
-from nice.ClebschGordan import ClebschGordan, check_clebsch_gordan
+from nice.clebsch_gordan import ClebschGordan, check_clebsch_gordan
 import numpy as np
 from sklearn.exceptions import NotFittedError
 
