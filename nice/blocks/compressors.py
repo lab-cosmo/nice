@@ -192,6 +192,11 @@ class InvariantsPCA(PCA):
         return self._my_representation()
     
     def process_input(self, X):
+        if (self.n_components is None):
+            self.n_components = X.shape[1]
+        if (self.n_components > X.shape[1]):
+            self.n_components = X.shape[1]
+       
         if type(self.num_to_fit_) is str:
             multiplier = int(parse("{}x", self.num_to_fit_)[0])
             num_fit_now = multiplier * self.n_components
@@ -214,17 +219,13 @@ class InvariantsPCA(PCA):
 
         return X[:num_fit_now]
 
-    def fit(self, X):
-        if self.n_components > X.shape[1]:
-            self.n_components = X.shape[1]
+    def fit(self, X):        
 
         res = super().fit(self.process_input(X))
         self.fitted_ = True
         return res
 
-    def fit_transform(self, X):
-        if self.n_components > X.shape[1]:
-            self.n_components = X.shape[1]
+    def fit_transform(self, X):        
         res = super().fit_transform(self.process_input(X))
         self.fitted_ = True
         return res
