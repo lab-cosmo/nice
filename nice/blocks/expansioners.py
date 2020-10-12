@@ -24,6 +24,12 @@ class ThresholdExpansioner:
             clebsch_gordan=None):
 
         self.l_max_ = first_even.covariants_.shape[2] - 1
+        
+        if (first_even.importances_ is None) or (first_odd.importances_ is None) \
+        or (second_even.importances_ is None) or (second_odd.importances_ is None):
+            raise ValueError("For thresholding importances of features should be specified")
+            
+            
         (
             self.task_even_even_,
             self.task_odd_odd_,
