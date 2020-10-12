@@ -178,7 +178,19 @@ class InvariantsPCA(PCA):
         self.num_to_fit_ = num_to_fit
         self.fitted_ = False
         return super().__init__(*args, **kwargs)
-
+    
+    def _my_representation(self):
+        if (self.fitted_):
+            return "Instance of InvariantsPCA, fitted"
+        else:
+            return "Instance of InvariantsPCA, not fitted"
+        
+    def __repr__(self):
+        return self._my_representation()
+    
+    def __str__(self):
+        return self._my_representation()
+    
     def process_input(self, X):
         if type(self.num_to_fit_) is str:
             multiplier = int(parse("{}x", self.num_to_fit_)[0])
