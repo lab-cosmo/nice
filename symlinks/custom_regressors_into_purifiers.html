@@ -552,7 +552,7 @@ methane.extxyz.gz   100%[===================&gt;]   1.13G  69.1MB/s    in 24s
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">LinAlgWarning</span>
 
-<span class="n">transformer</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">([</span><span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+<span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">([</span><span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
                                              <span class="kc">None</span><span class="p">,</span>
                                              <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
                                              <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
@@ -572,10 +572,10 @@ methane.extxyz.gz   100%[===================&gt;]   1.13G  69.1MB/s    in 24s
 <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
     <span class="c1"># a lot of ill conditioned matrices with super small alpha</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span> <span class="n">LinAlgWarning</span><span class="p">)</span>
-    <span class="n">transformer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+    <span class="n">nice</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
 
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">nice</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -587,13 +587,13 @@ methane.extxyz.gz   100%[===================&gt;]   1.13G  69.1MB/s    in 24s
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">for</span> <span class="n">lambd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">transformer</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nice</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span>
         <span class="n">even_purifier_</span><span class="o">.</span><span class="n">purifiers_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parity: even; lambda: </span><span class="si">{}</span><span class="s2">; best alpha: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lambd</span><span class="p">,</span> <span class="n">transformer</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parity: even; lambda: </span><span class="si">{}</span><span class="s2">; best alpha: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lambd</span><span class="p">,</span> <span class="n">nice</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span>
               <span class="n">even_purifier_</span><span class="o">.</span><span class="n">purifiers_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">))</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">transformer</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nice</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span>
         <span class="n">odd_purifier_</span><span class="o">.</span><span class="n">purifiers_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parity odd; lambda: </span><span class="si">{}</span><span class="s2">; best alpha: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lambd</span><span class="p">,</span> <span class="n">transformer</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parity odd; lambda: </span><span class="si">{}</span><span class="s2">; best alpha: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lambd</span><span class="p">,</span> <span class="n">nice</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span>
               <span class="n">odd_purifier_</span><span class="o">.</span><span class="n">purifiers_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -623,7 +623,7 @@ parity odd; lambda: 5; best alpha: 1e-25
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;best alpha of invariants purifier: &quot;</span><span class="p">,</span>
-      <span class="n">transformer</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">invariants_purifier_</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">)</span>
+      <span class="n">nice</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">invariants_purifier_</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

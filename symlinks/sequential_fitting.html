@@ -557,7 +557,7 @@ methane.extxyz.gz   100%[===================&gt;]   1.13G  76.9MB/s    in 21s
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">trans</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
+<span></span><span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">block_2</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
@@ -580,7 +580,7 @@ True
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">nice</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -599,9 +599,9 @@ False
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">trans</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">],</span>
+<span></span><span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">],</span>
                          <span class="n">guaranteed_parts_fitted_consistently</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nice</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -621,7 +621,7 @@ True
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">even_invariants_2</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+<span></span><span class="n">even_invariants_2</span> <span class="o">=</span> <span class="n">nice</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">even_invariants</span> <span class="o">-</span> <span class="n">even_invariants_2</span><span class="p">)))</span>
 </pre></div>
 </div>
@@ -648,8 +648,8 @@ True
 <span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">block_2</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 
-<span class="n">trans</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span> <span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
-<span class="n">trans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span> <span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
+<span class="n">nice</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>

@@ -25,7 +25,7 @@ intermediate shapes in the form of nested dictionary:
 
 .. code:: ipython3
 
-    intermediate_shapes = transformers[1].get_intermediate_shapes()
+    intermediate_shapes = nice[1].get_intermediate_shapes()
     
     for key in intermediate_shapes.keys():
         print(key, ':',  intermediate_shapes[key], end = '\n\n\n')
@@ -67,16 +67,16 @@ getters will be inserted in the next version of NICE)
     
     print("nu: ", 1)
     for i in range(6): # loop over lambda channels
-        if (transformers[6].initial_pca_ is not None):
-            if (transformers[6].initial_pca_.even_pca_.pcas_[i] is not None):
-                proper_log_plot(transformers[6].initial_pca_.even_pca_.pcas_[i].importances_,
+        if (nice[6].initial_pca_ is not None):
+            if (nice[6].initial_pca_.even_pca_.pcas_[i] is not None):
+                proper_log_plot(nice[6].initial_pca_.even_pca_.pcas_[i].importances_,
                                 color = colors[i], label = "lambda = {}".format(i))
     
     
     for i in range(6): # loop over lambda channels
-        if (transformers[6].initial_pca_ is not None):
-            if (transformers[6].initial_pca_.odd_pca_.pcas_[i] is not None):
-                proper_log_plot(transformers[6].initial_pca_.odd_pca_.pcas_[i].importances_,
+        if (nice[6].initial_pca_ is not None):
+            if (nice[6].initial_pca_.odd_pca_.pcas_[i] is not None):
+                proper_log_plot(nice[6].initial_pca_.odd_pca_.pcas_[i].importances_,
                                 '--', color = colors[i], label = "lambda = {}".format(i))
     
     plt.yscale('log')
@@ -84,18 +84,18 @@ getters will be inserted in the next version of NICE)
     plt.legend()
     plt.show()
         
-    for nu in range(len(transformers[6].blocks_)): # loop over body orders
+    for nu in range(len(nice[6].blocks_)): # loop over body orders
         print("nu: ", nu + 2)
         for i in range(6): # loop over lambda channels
-            if (transformers[6].blocks_[nu].covariants_pca_ is not None):
-                if (transformers[6].blocks_[nu].covariants_pca_.even_pca_.pcas_[i] is not None):
-                    proper_log_plot(transformers[6].blocks_[nu].covariants_pca_.even_pca_.pcas_[i].importances_, color = colors[i], label = "lambda = {}".format(i))
+            if (nice[6].blocks_[nu].covariants_pca_ is not None):
+                if (nice[6].blocks_[nu].covariants_pca_.even_pca_.pcas_[i] is not None):
+                    proper_log_plot(nice[6].blocks_[nu].covariants_pca_.even_pca_.pcas_[i].importances_, color = colors[i], label = "lambda = {}".format(i))
             
         
         for i in range(6): # loop over lambda channels
-            if (transformers[6].blocks_[nu].covariants_pca_ is not None):
-                if (transformers[6].blocks_[nu].covariants_pca_.odd_pca_.pcas_[i] is not None):
-                    proper_log_plot(transformers[6].blocks_[nu].covariants_pca_.odd_pca_.pcas_[i].importances_, '--', color = colors[i])
+            if (nice[6].blocks_[nu].covariants_pca_ is not None):
+                if (nice[6].blocks_[nu].covariants_pca_.odd_pca_.pcas_[i] is not None):
+                    proper_log_plot(nice[6].blocks_[nu].covariants_pca_.odd_pca_.pcas_[i].importances_, '--', color = colors[i])
         
         plt.yscale('log')
         plt.xscale('log')
@@ -171,11 +171,11 @@ explained\_variance\_ratio\_, but to variance of output:
 
 .. code:: ipython3
 
-    print(np.sum(transformers[6].blocks_[1].\
+    print(np.sum(nice[6].blocks_[1].\
                  covariants_pca_.even_pca_.pcas_[2].explained_variance_))
-    print(np.sum(transformers[6].blocks_[1].\
+    print(np.sum(nice[6].blocks_[1].\
                  covariants_pca_.even_pca_.pcas_[2].explained_variance_ratio_))
-    print(np.sum(transformers[6].blocks_[1].\
+    print(np.sum(nice[6].blocks_[1].\
                  covariants_pca_.even_pca_.pcas_[2].importances_))
 
 

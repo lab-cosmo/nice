@@ -260,7 +260,7 @@ shouldn’t left covariants branch of the last block empty)</p>
 <span class="p">}</span>
 
 <span class="c1">#our model:</span>
-<span class="k">def</span> <span class="nf">get_transformer</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">get_nice</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">StandardSequence</span><span class="p">([</span><span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
                                               <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
                                                   <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
@@ -299,13 +299,13 @@ shouldn’t left covariants branch of the last block empty)</p>
 
 <span class="n">test_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">test_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
 
-<span class="c1">#individual transformers for each atomic specie in dataset</span>
-<span class="n">transformers</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c1">#individual nice transformers for each atomic specie in the dataset</span>
+<span class="n">nice</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_transformer</span><span class="p">()</span>
+    <span class="n">nice</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_nice</span><span class="p">()</span>
 
 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="n">environments_for_fitting</span><span class="p">])</span>
+    <span class="n">nice</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="n">environments_for_fitting</span><span class="p">])</span>
 </pre></div>
 </div>
 <embed>
@@ -352,7 +352,7 @@ shouldn’t left covariants branch of the last block empty)</p>
 </embed></div>
 <p>Now we need to call .transform method with return_only_invariants =
 False, which is default value:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">,</span> <span class="n">invariants_even</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">,</span> <span class="n">invariants_even</span> <span class="o">=</span> <span class="n">nice</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>result is data_even, data_odd and invariants_even. First two objects

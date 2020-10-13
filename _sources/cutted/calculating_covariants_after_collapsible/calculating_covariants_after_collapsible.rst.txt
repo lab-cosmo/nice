@@ -3,7 +3,7 @@ False, which is default value:
 
 .. code:: ipython3
 
-    data_even, data_odd, invariants_even = transformers[1].transform(train_coefficients[1])
+    data_even, data_odd, invariants_even = nice[1].transform(train_coefficients[1])
 
 result is data\_even, data\_odd and invariants\_even. First two objects
 are covariants, the last is invariants.

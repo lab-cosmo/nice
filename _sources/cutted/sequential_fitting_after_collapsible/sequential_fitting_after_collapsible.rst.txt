@@ -41,7 +41,7 @@ At his moment we have all parts of this standard sequence fitted:
 
 .. code:: ipython3
 
-    trans = StandardSequence(initial_pca= initial_pca, blocks = [block_1, block_2])
+    nice = StandardSequence(initial_pca= initial_pca, blocks = [block_1, block_2])
     print(initial_pca.is_fitted())
     print(block_1.is_fitted())
     print(block_2.is_fitted())
@@ -63,7 +63,7 @@ what about full model?
 
 .. code:: ipython3
 
-    print(trans.is_fitted())
+    print(nice.is_fitted())
 
 
 .. raw:: html
@@ -87,9 +87,9 @@ guaranteed\_parts\_fitted\_consistently = True to the model:
 
 .. code:: ipython3
 
-    trans = StandardSequence(initial_pca= initial_pca, blocks = [block_1, block_2],
+    nice = StandardSequence(initial_pca= initial_pca, blocks = [block_1, block_2],
                              guaranteed_parts_fitted_consistently = True)
-    print(trans.is_fitted())
+    print(nice.is_fitted())
 
 
 .. raw:: html
@@ -113,7 +113,7 @@ Let's check consistency:
 
 .. code:: ipython3
 
-    even_invariants_2 = trans.transform(coefficients, return_only_invariants = True)[3]
+    even_invariants_2 = nice.transform(coefficients, return_only_invariants = True)[3]
     print(np.sum(np.abs(even_invariants - even_invariants_2)))
 
 
@@ -139,8 +139,8 @@ This also works in other direction:
     print(block_1.is_fitted())
     print(block_2.is_fitted())
     
-    trans = StandardSequence(initial_pca = initial_pca, blocks = [block_1, block_2])
-    trans.fit(coefficients)
+    nice = StandardSequence(initial_pca = initial_pca, blocks = [block_1, block_2])
+    nice.fit(coefficients)
     
     print(initial_pca.is_fitted())
     print(block_1.is_fitted())

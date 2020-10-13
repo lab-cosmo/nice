@@ -239,7 +239,7 @@ environments:</p>
 </pre></div>
 </div>
 <p>At his moment we have all parts of this standard sequence fitted:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trans</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">block_2</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
@@ -254,7 +254,7 @@ environments:</p>
 </p>
 </pre>
 </embed><p>what about full model?</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">nice</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 </pre></div>
 </div>
 <embed>
@@ -270,9 +270,9 @@ along with blocks, which were fitted based not on the same initial_pca,
 or with different initial_normalizer, or even on different data. In
 order to prevent it, there is requirement to pass additional flag
 guaranteed_parts_fitted_consistently = True to the model:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trans</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">],</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">],</span>
                          <span class="n">guaranteed_parts_fitted_consistently</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nice</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 </pre></div>
 </div>
 <embed>
@@ -287,7 +287,7 @@ guaranteed_parts_fitted_consistently is set to be True</p>
 guaranteed_parts_fitted_consistently = True make a pause and think
 twice.</p>
 <p>Let’s check consistency:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">even_invariants_2</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">even_invariants_2</span> <span class="o">=</span> <span class="n">nice</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">even_invariants</span> <span class="o">-</span> <span class="n">even_invariants_2</span><span class="p">)))</span>
 </pre></div>
 </div>
@@ -306,8 +306,8 @@ twice.</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">block_2</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 
-<span class="n">trans</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span> <span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
-<span class="n">trans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span> <span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
+<span class="n">nice</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>

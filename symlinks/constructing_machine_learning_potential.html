@@ -540,7 +540,7 @@ controlled by num_expand parameter. If it is not specified (or set to None) full
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1">#our model:</span>
-<span class="k">def</span> <span class="nf">get_transformer</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">get_nice</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">StandardSequence</span><span class="p">([</span><span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
                                               <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
                                                   <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
@@ -614,10 +614,10 @@ all species:  [1 6]
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">#individual transformers for each atomic specie in dataset</span>
-<span class="n">transformers</span> <span class="o">=</span> <span class="p">{}</span>
+<span></span><span class="c1">#individual nice transformers for each atomic specie in the dataset</span>
+<span class="n">nice</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_transformer</span><span class="p">()</span>
+    <span class="n">nice</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_nice</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -627,7 +627,7 @@ all species:  [1 6]
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="n">environments_for_fitting</span><span class="p">])</span>
+    <span class="n">nice</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="n">environments_for_fitting</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -650,7 +650,7 @@ all species:  [1 6]
   self.n_components, num_fit_now, X.shape[0]))
 </pre></div></div>
 </div>
-<p>It is not necessary to fit different transformers for each central specie, see for example qm9 examples in example folder</p>
+<p>It is not necessary to fit different nice transformers for each central specie, see for example qm9 examples in example folder</p>
 <p>Let’s calculate representations!:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
@@ -659,12 +659,12 @@ all species:  [1 6]
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">train_features</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">specie</span> <span class="ow">in</span> <span class="n">all_species</span><span class="p">:</span>
-    <span class="n">train_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span>
+    <span class="n">train_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">nice</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span>
                                                             <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 
 <span class="n">test_features</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">specie</span> <span class="ow">in</span> <span class="n">all_species</span><span class="p">:</span>
-    <span class="n">test_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span>
+    <span class="n">test_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">nice</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span>
                                                            <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -832,7 +832,7 @@ of representations for each specie. Representation for each specie is sum of NIC
 </div>
 <p>The pipeline in this tutorial was designed to expose all intermediate steps, but it has one drawback - at some moment all atomic representations for whole dataset are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if dataset consist of large molecules. Thus, it is a good idea to calculate structural features by small
 blocks and get rid of atomic representations for each block immediatelly. For this purpose there is function nice.utilities.transform_sequentially.</p>
-<p>Full example can be found in examples/methane_home_pc or in examples/qm9_home_pc. Other than that and absence of markdown comments these notebooks are almost identical to this tutorial (in qm9 single transformer is used for all central species). Thus, we recommend to pick one of them as the code snippet.</p>
+<p>Full example can be found in examples/methane_home_pc or in examples/qm9_home_pc. Other than that and absence of markdown comments these notebooks are almost identical to this tutorial (in qm9 single nice transformer is used for all central species). Thus, we recommend to pick one of them as the code snippet.</p>
 </div>
 
 

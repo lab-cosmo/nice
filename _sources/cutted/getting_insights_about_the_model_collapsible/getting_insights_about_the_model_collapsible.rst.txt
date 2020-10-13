@@ -34,7 +34,7 @@
     }
     
     #our model:
-    def get_transformer():
+    def get_nice():
         return StandardSequence([StandardBlock(ThresholdExpansioner(num_expand = 150),
                                                   CovariantsPurifierBoth(max_take = 10),
                                                       IndividualLambdaPCAsBoth(n_components = 50),
@@ -73,13 +73,13 @@
     
     test_coefficients = get_spherical_expansion(test_structures, HYPERS, all_species)
     
-    #individual transformers for each atomic specie in dataset
-    transformers = {}
+    #individual nice transformers for each atomic specie in the dataset
+    nice = {}
     for key in train_coefficients.keys():
-        transformers[key] = get_transformer()
+        nice[key] = get_transformer()
         
     for key in train_coefficients.keys():
-        transformers[key].fit(train_coefficients[key][:environments_for_fitting])
+        nice[key].fit(train_coefficients[key][:environments_for_fitting])
 
 
 .. raw:: html
