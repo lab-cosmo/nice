@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting insights about the model &mdash; NICE  documentation</title>
+  <title>Custom regressors into purifiers &mdash; NICE  documentation</title>
   
 
   
@@ -167,13 +167,13 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-      <li>Getting insights about the model</li>
+      <li>Custom regressors into purifiers</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/cutted/getting_insights_about_the_model_before_collapsible/getting_insights_about_the_model_before_collapsible.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/cutted/custom_regressors_into_purifiers_before_collapsible/custom_regressors_into_purifiers_before_collapsible.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -210,16 +210,18 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="getting-insights-about-the-model">
-<h1>Getting insights about the model<a class="headerlink" href="#getting-insights-about-the-model" title="Permalink to this headline">¶</a></h1>
-<p>In the first tutorial we calculated invariant representations of atomic
-environments and used them for prediction of energies.</p>
-<p>But it is always good to have some understanding about the model. In
-this tutorial it will be shown how to get spectrums of pca along with
-number of covariants after each transformation.</p>
-<p>First of all we need fitted model. This preliminary cell reproduces
-corresponding part of the first tutorial “constructing machine learning
-potential: (few hypers are changed)</p>
+<div class="section" id="custom-regressors-into-purifiers">
+<h1>Custom regressors into purifiers<a class="headerlink" href="#custom-regressors-into-purifiers" title="Permalink to this headline">¶</a></h1>
+<p>As it was already mentioned in the first tutorial, purifers can accept
+arbitrarily linear regressor form sklearn.linear_model. In order to
+feed it with custom linear regressor some requirements should be
+fulfilled. Firstly, it should have the same interface as linear
+regressors from sklearn with fit and predict methods. Secondly, it
+should fullfill sklearn requiremenets to make it possible to clone with
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.clone.html">sklearn.base.clone</a>
+function. This tutorial shows an example of such class.</p>
+<p>As before let’s calculate spherical expansion coefficients for H
+environments:</p>
 </div>
 
 

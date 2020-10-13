@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting insights about the model &mdash; NICE  documentation</title>
+  <title>&lt;no title&gt; &mdash; NICE  documentation</title>
   
 
   
@@ -167,13 +167,13 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-      <li>Getting insights about the model</li>
+      <li>&lt;no title&gt;</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/cutted/getting_insights_about_the_model_before_collapsible/getting_insights_about_the_model_before_collapsible.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/cutted/custom_regressors_into_purifiers_collapsible/custom_regressors_into_purifiers_collapsible.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -210,16 +210,58 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="getting-insights-about-the-model">
-<h1>Getting insights about the model<a class="headerlink" href="#getting-insights-about-the-model" title="Permalink to this headline">¶</a></h1>
-<p>In the first tutorial we calculated invariant representations of atomic
-environments and used them for prediction of energies.</p>
-<p>But it is always good to have some understanding about the model. In
-this tutorial it will be shown how to get spectrums of pca along with
-number of covariants after each transformation.</p>
-<p>First of all we need fitted model. This preliminary cell reproduces
-corresponding part of the first tutorial “constructing machine learning
-potential: (few hypers are changed)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># downloading dataset from https://archive.materialscloud.org/record/2020.110</span>
+
+<span class="o">!</span>wget <span class="s2">&quot;https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528&quot;</span> -O methane.extxyz.gz
+<span class="o">!</span>gunzip -k methane.extxyz.gz
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">ase.io</span>
+<span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="kn">from</span> <span class="nn">nice.blocks</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">nice.utilities</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">BayesianRidge</span>
+
+<span class="n">structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
+                         <span class="n">index</span> <span class="o">=</span> <span class="s1">&#39;0:1000&#39;</span><span class="p">)</span>
+
+<span class="n">HYPERS</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
+<span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="s1">&#39;max_angular&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="s1">&#39;gaussian_sigma_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Constant&#39;</span><span class="p">,</span>
+<span class="s1">&#39;gaussian_sigma_constant&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+<span class="s1">&#39;cutoff_smooth_width&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+<span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
+<span class="p">}</span>
+
+<span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">structures</span><span class="p">)</span>
+
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>--2020-10-13 18:57:00--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
+Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
+Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
+HTTP request sent, awaiting response... 302 FOUND
+Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602608280&amp;Signature=%2FSixu5PcmW3%2F6xIkn2KteOlFYjc%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+--2020-10-13 18:57:00--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602608280&amp;Signature=%2FSixu5PcmW3%2F6xIkn2KteOlFYjc%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.201, 148.187.25.200, 148.187.25.202
+Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.201|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1218139661 (1.1G) [application/octet-stream]
+Saving to: ‘methane.extxyz.gz’
+
+methane.extxyz.gz   100%[===================&gt;]   1.13G  69.1MB/s    in 24s
+
+2020-10-13 18:57:25 (47.9 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100%|██████████| 10/10 [00:00&lt;00:00, 86.21it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 287.96it/s]
+</pre></div>
 </div>
 
 

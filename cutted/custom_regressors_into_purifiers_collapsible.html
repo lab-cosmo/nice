@@ -173,7 +173,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/cutted/getting_insights_about_the_model_collapsible.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/cutted/custom_regressors_into_purifiers_collapsible.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -433,9 +433,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># cell to wrap in collapsible in future</span>
-
-<span class="c1"># downloading dataset from https://archive.materialscloud.org/record/2020.110</span>
+<span></span><span class="c1"># downloading dataset from https://archive.materialscloud.org/record/2020.110</span>
 
 <span class="o">!</span>wget <span class="s2">&quot;https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528&quot;</span> -O methane.extxyz.gz
 <span class="o">!</span>gunzip -k methane.extxyz.gz
@@ -448,14 +446,9 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">BayesianRidge</span>
 
-<span class="n">HARTREE_TO_EV</span> <span class="o">=</span> <span class="mf">27.211386245988</span>
-<span class="n">train_subset</span> <span class="o">=</span> <span class="s2">&quot;0:10000&quot;</span>    <span class="c1">#input for ase.io.read command</span>
-<span class="n">test_subset</span> <span class="o">=</span> <span class="s2">&quot;10000:15000&quot;</span>     <span class="c1">#input to ase.io.read command</span>
-<span class="n">environments_for_fitting</span> <span class="o">=</span> <span class="mi">1000</span>    <span class="c1">#number of environments to fit nice transfomers</span>
-<span class="n">grid</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span>
-         <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">7500</span><span class="p">,</span> <span class="mi">10000</span><span class="p">]</span> <span class="c1">#for learning curve</span>
+<span class="n">structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
+                         <span class="n">index</span> <span class="o">=</span> <span class="s1">&#39;0:1000&#39;</span><span class="p">)</span>
 
-<span class="c1">#HYPERS for librascal spherical expansion coefficients</span>
 <span class="n">HYPERS</span> <span class="o">=</span> <span class="p">{</span>
 <span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
 <span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
@@ -466,53 +459,10 @@ div.rendered_html tbody tr:hover {
 <span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
 <span class="p">}</span>
 
-<span class="c1">#our model:</span>
-<span class="k">def</span> <span class="nf">get_transformer</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">StandardSequence</span><span class="p">([</span><span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
-                                              <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
-                                                  <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                 <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
-                                                 <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                  <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)),</span>
-                             <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
-                                              <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
-                                                  <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                 <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
-                                                 <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                  <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)),</span>
-                            <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
-                                              <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
-                                                  <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                  <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
-                                              <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                 <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">))</span>
-                                   <span class="p">],</span>
-                            <span class="n">initial_scaler</span> <span class="o">=</span> <span class="n">InitialScaler</span><span class="p">(</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;signal integral&#39;</span><span class="p">,</span>
-                                                           <span class="n">individually</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-                          <span class="p">)</span>
+<span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">structures</span><span class="p">)</span>
 
-
-<span class="n">train_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
-                         <span class="n">index</span> <span class="o">=</span> <span class="n">train_subset</span><span class="p">)</span>
-
-<span class="n">test_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
-                         <span class="n">index</span> <span class="o">=</span> <span class="n">test_subset</span><span class="p">)</span>
-
-<span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">train_structures</span> <span class="o">+</span> <span class="n">test_structures</span><span class="p">)</span>
-
-<span class="n">train_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">train_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
-
-
-
-<span class="n">test_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">test_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
-
-<span class="c1">#individual transformers for each atomic specie in dataset</span>
-<span class="n">transformers</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_transformer</span><span class="p">()</span>
-
-<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="n">transformers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="n">environments_for_fitting</span><span class="p">])</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -521,21 +471,21 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2020-10-12 00:53:40--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
+--2020-10-13 18:57:00--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
 Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
 Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
 HTTP request sent, awaiting response... 302 FOUND
-Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602456880&amp;Signature=0VCx86AIK1v7hnHkwCf%2Bp7TF%2ByI%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
---2020-10-12 00:53:40--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602456880&amp;Signature=0VCx86AIK1v7hnHkwCf%2Bp7TF%2ByI%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
-Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.201, 148.187.25.202
-Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.200|:443... connected.
+Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602608280&amp;Signature=%2FSixu5PcmW3%2F6xIkn2KteOlFYjc%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+--2020-10-13 18:57:00--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602608280&amp;Signature=%2FSixu5PcmW3%2F6xIkn2KteOlFYjc%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.201, 148.187.25.200, 148.187.25.202
+Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.201|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 1218139661 (1.1G) [application/octet-stream]
 Saving to: ‘methane.extxyz.gz’
 
-methane.extxyz.gz   100%[===================&gt;]   1.13G  29.2MB/s    in 34s
+methane.extxyz.gz   100%[===================&gt;]   1.13G  69.1MB/s    in 24s
 
-2020-10-12 00:54:15 (34.3 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+2020-10-13 18:57:25 (47.9 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
 
 </pre></div></div>
 </div>
@@ -544,22 +494,8 @@ methane.extxyz.gz   100%[===================&gt;]   1.13G  29.2MB/s    in 34s
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:02&lt;00:00, 48.94it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 30.25it/s]
-100%|██████████| 50/50 [00:00&lt;00:00, 50.53it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 62.63it/s]
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
-  self.n_components, num_fit_now, X.shape[0]))
+100%|██████████| 10/10 [00:00&lt;00:00, 86.21it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 287.96it/s]
 </pre></div></div>
 </div>
 
