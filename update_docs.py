@@ -38,6 +38,68 @@ split('sequential_fitting.ipynb', 'docs/cutted/')
 split('custom_regressors_into_purifiers.ipynb', 'docs/cutted/')
 
 # converting notebooks to rst 
+
+def make_substitution(lines, index):
+    lines_before = lines[0:index]
+    end = len(lines)
+    for j in range(index + 1, len(lines)):
+        if not(lines[j].strip() == "" or lines[j].startswith('    ')):
+            end = j
+            break
+
+    lines_raw = lines[index + 1 : end]
+    raw_from = 0
+    for i in range(len(lines_raw)):
+        if (lines_raw[i].strip() != ''):
+            raw_from = i
+            break
+    lines_raw = lines_raw[raw_from:]
+    
+    raw_to = 0
+    for i in range(len(lines_raw)):
+        if (lines_raw[i].strip() != ''):
+            raw_to = i
+            
+    lines_raw = lines_raw[:raw_to]
+
+    
+    lines_for_insertion = [".. raw:: html\n",
+                           "\n",
+                           "<embed>\n",
+                           "<pre>\n",
+                           '<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >\n']
+    lines_for_insertion = lines_for_insertion + lines_raw     
+    lines_for_insertion = lines_for_insertion + ["</p>\n", "</pre>\n", "</embed>\n", '\n']
+                       
+    for i in range(1, len(lines_for_insertion)):
+        lines_for_insertion[i] = '    ' + lines_for_insertion[i]
+        
+    return lines_before + lines_for_insertion + lines[end:]   
+    
+    return lines[index : end]    
+        
+def get_bad_block(lines):   
+    for i in range(len(lines)):
+        if (lines[i].strip() == ".. parsed-literal::"):
+            return i
+    return None
+
+def iterate(lines):
+    while True:
+        index = get_bad_block(lines)
+        if index is None:
+            return lines
+        lines = make_substitution(lines, index)
+    
+def fix_awful_nvconvert_format(file):
+    lines = []
+    with open(file, "r") as f:
+        lines = list(f)
+    lines = iterate(lines)
+    with open(file, "w") as f:
+        for line in lines:
+            f.write(line)
+
 os.chdir('docs/cutted/')
 names = [name for name in os.listdir('.') if name.endswith('.ipynb')]
 
@@ -47,6 +109,7 @@ for name in names:
     os.system("cp {} {}/".format(name, dir_name))
     os.chdir(dir_name)
     os.system('jupyter nbconvert --to rst {}'.format(name))
+    fix_awful_nvconvert_format(name.split('.')[0] + '.rst')
     names_inner = os.listdir('.')
     for name_inner in names_inner:
         if (name_inner.endswith('_files')):  
