@@ -233,8 +233,9 @@ where keys are body order</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     (40000, 10)
+    (40000, 200)
     (40000, 200)
     (40000, 200)
 </p>
@@ -257,9 +258,10 @@ number of features is stored in .actual_sizes_:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     <class 'nice.nice_utilities.Data'>
     shape of even covariants array: (40000, 87, 6, 11)
+    actual sizes of even covariants: [22 55 73 83 87 76]
 </p>
 </pre>
 </embed><p>The same for odd covariants:</p>
@@ -269,8 +271,9 @@ number of features is stored in .actual_sizes_:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     shape of odd covariants array: (40000, 88, 6, 11)
+    actual sizes of odd covariants: [20 54 72 87 88 75]
 </p>
 </pre>
 </embed><p>There is one another point - that for each lambda channel size of
@@ -296,10 +299,11 @@ definitions:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     (40000, 87, 6, 11)
     [22 54 73 87 87 75]
     (40000, 88, 6, 11)
+    [20 55 72 83 88 76]
 </p>
 </pre>
 </embed><p>This transformation is symmetric, thus, we can use this it once again to

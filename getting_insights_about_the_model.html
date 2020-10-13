@@ -308,7 +308,7 @@ potential: (few hypers are changed)</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     --2020-10-12 00:53:40--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528
     Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
     Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
@@ -323,11 +323,12 @@ potential: (few hypers are changed)</p>
 
     methane.extxyz.gz   100%[===================>]   1.13G  29.2MB/s    in 34s
 
+    2020-10-12 00:54:15 (34.3 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
 </p>
 </pre>
 </embed><embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     100%|██████████| 100/100 [00:02<00:00, 48.94it/s]
     100%|██████████| 2/2 [00:00<00:00, 30.25it/s]
     100%|██████████| 50/50 [00:00<00:00, 50.53it/s]
@@ -343,6 +344,7 @@ potential: (few hypers are changed)</p>
     /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
       self.n_components, num_fit_now, X.shape[0]))
     /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+      self.n_components, num_fit_now, X.shape[0]))
 </p>
 </pre>
 </embed></div>
@@ -376,7 +378,7 @@ intermediate shapes in the form of nested dictionary:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     after initial transformer : [[10, 0, 10, 0, 10, 0], [0, 10, 0, 10, 0, 10]]
 
 
@@ -389,6 +391,7 @@ intermediate shapes in the form of nested dictionary:</p>
     block nu = 2 -> nu = 3 : {'after covariants expansioner': [[33, 51, 79, 88, 87, 73], [12, 65, 76, 88, 88, 80]], 'after covariants purifier': [[33, 51, 79, 88, 87, 73], [12, 65, 76, 88, 88, 80]], 'after covariants pca': [[33, 50, 50, 50, 50, 50], [12, 50, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
 
 
+    block nu = 3 -> nu = 4 : {'after covariants expansioner': [[19, 49, 57, 72, 66, 62], [25, 49, 65, 62, 73, 57]], 'after covariants purifier': [[19, 49, 57, 72, 66, 62], [25, 49, 65, 62, 73, 57]], 'after covariants pca': [[19, 49, 50, 50, 50, 50], [25, 49, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
 </p>
 </pre>
 </embed><p>spectrums of pcas can be accessed in the following way: (convenient
@@ -440,25 +443,29 @@ getters will be inserted in the next version of NICE)</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    nu:  1
 </p>
 </pre>
 </embed><img alt="_images/getting_insights_about_the_model_after_collapsible_4_11.png" src="_images/getting_insights_about_the_model_after_collapsible_4_11.png" />
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    nu:  2
 </p>
 </pre>
 </embed><img alt="_images/getting_insights_about_the_model_after_collapsible_4_31.png" src="_images/getting_insights_about_the_model_after_collapsible_4_31.png" />
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    nu:  3
 </p>
 </pre>
 </embed><img alt="_images/getting_insights_about_the_model_after_collapsible_4_51.png" src="_images/getting_insights_about_the_model_after_collapsible_4_51.png" />
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    nu:  4
 </p>
 </pre>
 </embed><img alt="_images/getting_insights_about_the_model_after_collapsible_4_71.png" src="_images/getting_insights_about_the_model_after_collapsible_4_71.png" />
@@ -483,9 +490,10 @@ explained_variance_ratio_, but to variance of output:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     0.015553507472993076
     0.979846667528322
+    1.0
 </p>
 </pre>
 </embed></div>

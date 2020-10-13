@@ -310,7 +310,7 @@ shouldn’t left covariants branch of the last block empty)</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     --2020-10-12 00:41:24--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528
     Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
     Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
@@ -325,11 +325,12 @@ shouldn’t left covariants branch of the last block empty)</p>
 
     methane.extxyz.gz   100%[===================>]   1.13G  30.7MB/s    in 28s
 
+    2020-10-12 00:41:53 (40.9 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
 </p>
 </pre>
 </embed><embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     100%|██████████| 100/100 [00:02<00:00, 49.96it/s]
     100%|██████████| 2/2 [00:00<00:00, 37.77it/s]
     100%|██████████| 50/50 [00:01<00:00, 48.32it/s]
@@ -345,6 +346,7 @@ shouldn’t left covariants branch of the last block empty)</p>
     /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
       self.n_components, num_fit_now, X.shape[0]))
     /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+      self.n_components, num_fit_now, X.shape[0]))
 </p>
 </pre>
 </embed></div>
@@ -371,8 +373,9 @@ where keys are body order</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     (40000, 10)
+    (40000, 200)
     (40000, 200)
     (40000, 200)
 </p>
@@ -395,9 +398,10 @@ number of features is stored in .actual_sizes_:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     <class 'nice.nice_utilities.Data'>
     shape of even covariants array: (40000, 87, 6, 11)
+    actual sizes of even covariants: [22 55 73 83 87 76]
 </p>
 </pre>
 </embed><p>The same for odd covariants:</p>
@@ -407,8 +411,9 @@ number of features is stored in .actual_sizes_:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     shape of odd covariants array: (40000, 88, 6, 11)
+    actual sizes of odd covariants: [20 54 72 87 88 75]
 </p>
 </pre>
 </embed><p>There is one another point - that for each lambda channel size of
@@ -434,10 +439,11 @@ definitions:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     (40000, 87, 6, 11)
     [22 54 73 87 87 75]
     (40000, 88, 6, 11)
+    [20 55 72 83 88 76]
 </p>
 </pre>
 </embed><p>This transformation is symmetric, thus, we can use this it once again to

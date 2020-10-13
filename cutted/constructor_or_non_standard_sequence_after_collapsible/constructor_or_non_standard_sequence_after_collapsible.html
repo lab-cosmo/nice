@@ -220,7 +220,8 @@ index, lambda, m]</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    (4000, 10, 6, 11)
 </p>
 </pre>
 </embed><p>The first step is to perform initial scaling, as it was discussed in the
@@ -244,10 +245,11 @@ calculations:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     <class 'nice.nice_utilities.Data'>
     (4000, 10, 6, 11)
     even features sizes:  [10, 0, 10, 0, 10, 0]
+    odd features sizes:  [0, 10, 0, 10, 0, 10]
 </p>
 </pre>
 </embed><p>The result is couple of Data instances which was already discussed in
@@ -271,7 +273,8 @@ transformation of both. For example:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    [5 0 5 0 5 0]
 </p>
 </pre>
 </embed><p>One common thing among PCA and purifiers blocks is num_to_fit
@@ -310,13 +313,15 @@ only by num_to_fit semantics:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    (400, 10)
 </p>
 </pre>
 </embed><embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 10, desired number of environments is 3000, actual number of environments is 400.
+      self.n_components, num_fit_now, X.shape[0]))
 </p>
 </pre>
 </embed><p>For purifiers there are classes CovariantsPurifier,
@@ -360,8 +365,9 @@ body order v2, result would be of body order v1 + v2:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     [ 70  69 165 142 176 121]
+    [  0 124 112 178 140 150]
 </p>
 </pre>
 </embed><p>The most time during the fitting is consumed for precomputing
@@ -400,7 +406,8 @@ with them:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    100%|██████████| 10/10 [00:04<00:00,  2.16it/s]
 </p>
 </pre>
 </embed><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -410,9 +417,10 @@ with them:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     (4000, 28, 6, 11)
     [ 7 19 25 28 28 25]
+    [ 8 18 24 26 28 26]
 </p>
 </pre>
 </embed><p>Done!</p>

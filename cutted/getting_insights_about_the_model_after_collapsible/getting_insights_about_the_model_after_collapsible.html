@@ -240,7 +240,7 @@ intermediate shapes in the form of nested dictionary:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     after initial transformer : [[10, 0, 10, 0, 10, 0], [0, 10, 0, 10, 0, 10]]
 
 
@@ -253,6 +253,7 @@ intermediate shapes in the form of nested dictionary:</p>
     block nu = 2 -> nu = 3 : {'after covariants expansioner': [[33, 51, 79, 88, 87, 73], [12, 65, 76, 88, 88, 80]], 'after covariants purifier': [[33, 51, 79, 88, 87, 73], [12, 65, 76, 88, 88, 80]], 'after covariants pca': [[33, 50, 50, 50, 50, 50], [12, 50, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
 
 
+    block nu = 3 -> nu = 4 : {'after covariants expansioner': [[19, 49, 57, 72, 66, 62], [25, 49, 65, 62, 73, 57]], 'after covariants purifier': [[19, 49, 57, 72, 66, 62], [25, 49, 65, 62, 73, 57]], 'after covariants pca': [[19, 49, 50, 50, 50, 50], [25, 49, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
 </p>
 </pre>
 </embed><p>spectrums of pcas can be accessed in the following way: (convenient
@@ -304,25 +305,29 @@ getters will be inserted in the next version of NICE)</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    nu:  1
 </p>
 </pre>
 </embed><img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_1.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_1.png" />
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    nu:  2
 </p>
 </pre>
 </embed><img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_3.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_3.png" />
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    nu:  3
 </p>
 </pre>
 </embed><img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_5.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_5.png" />
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    nu:  4
 </p>
 </pre>
 </embed><img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_7.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_7.png" />
@@ -347,9 +352,10 @@ explained_variance_ratio_, but to variance of output:</p>
 </div>
 <embed>
 <pre>
-<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
     0.015553507472993076
     0.979846667528322
+    1.0
 </p>
 </pre>
 </embed>
