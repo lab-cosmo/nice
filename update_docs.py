@@ -58,7 +58,7 @@ def make_substitution(lines, index):
     raw_to = 0
     for i in range(len(lines_raw)):
         if (lines_raw[i].strip() != ''):
-            raw_to = i
+            raw_to = i + 1
             
     lines_raw = lines_raw[:raw_to]
 
@@ -67,7 +67,7 @@ def make_substitution(lines, index):
                            "\n",
                            "<embed>\n",
                            "<pre>\n",
-                           '<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >\n']
+                           '<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >\n']
     lines_for_insertion = lines_for_insertion + lines_raw     
     lines_for_insertion = lines_for_insertion + ["</p>\n", "</pre>\n", "</embed>\n", '\n']
                        
