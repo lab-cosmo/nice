@@ -10,11 +10,15 @@ Let's focus on only H centered environments:
     print(coefficients.shape)
 
 
-.. parsed-literal::
-
-    (4000, 10, 6, 11)
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 The first step is to perform initial scaling, as it was discussed in the
 first tutorial. For this purposes there is class InitialScaler:
 
@@ -40,14 +44,18 @@ calculations:
     print("odd features sizes: ", data_odd_1.actual_sizes_)
 
 
-.. parsed-literal::
-
-    <class 'nice.nice_utilities.Data'>
-    (4000, 10, 6, 11)
-    even features sizes:  [10, 0, 10, 0, 10, 0]
-    odd features sizes:  [0, 10, 0, 10, 0, 10]
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        <class 'nice.nice_utilities.Data'>
+        (4000, 10, 6, 11)
+        even features sizes:  [10, 0, 10, 0, 10, 0]
+    </p>
+    </pre>
+    </embed>
+    
 The result is couple of Data instances which was already discussed in
 the tutorial "Calculating covariants".
 
@@ -73,11 +81,15 @@ transformation of both. For example:
 
 
 
-.. parsed-literal::
-
-    [5 0 5 0 5 0]
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 One common thing among PCA and purifiers blocks is num\_to\_fit
 semantics. Each class has num\_to\_fit argument in the initialization,
 which by default equals to '10x'. If num\_to\_fit is string of 'number
@@ -118,17 +130,25 @@ only by num\_to\_fit semantics:
     print(pca.transform(ar).shape)
 
 
-.. parsed-literal::
-
-    (400, 10)
-
-
-.. parsed-literal::
-
-    /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 10, desired number of environments is 3000, actual number of environments is 400.
-      self.n_components, num_fit_now, X.shape[0]))
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 10, desired number of environments is 3000, actual number of environments is 400.
+    </p>
+    </pre>
+    </embed>
+    
 For purifiers there are classes CovariantsPurifier,
 CovariantsPurifierBoth, InvariantsPurifier, and
 CovariantsIndividualPurifier. Their purpose is to transform data of
@@ -177,12 +197,16 @@ body order v2, result would be of body order v1 + v2:
     print(data_odd_2.actual_sizes_)
 
 
-.. parsed-literal::
-
-    [ 70  69 165 142 176 121]
-    [  0 124 112 178 140 150]
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        [ 70  69 165 142 176 121]
+    </p>
+    </pre>
+    </embed>
+    
 The most time during the fitting is consumed for precomputing
 clebsch-gordan coefficients. Thus, in case of frequent expansioners
 fitting with same lambda\_max, it is a good idea to precompute
@@ -224,11 +248,15 @@ Now let's go to 1024 body order!
 
 
 
-.. parsed-literal::
-
-    100%|██████████| 10/10 [00:04<00:00,  2.16it/s]
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 .. code:: ipython3
 
     print(data_even_now.covariants_.shape)
@@ -236,11 +264,15 @@ Now let's go to 1024 body order!
     print(data_odd_now.actual_sizes_)
 
 
-.. parsed-literal::
-
-    (4000, 28, 6, 11)
-    [ 7 19 25 28 28 25]
-    [ 8 18 24 26 28 26]
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        (4000, 28, 6, 11)
+        [ 7 19 25 28 28 25]
+    </p>
+    </pre>
+    </embed>
+    
 Done!

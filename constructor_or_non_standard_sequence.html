@@ -258,28 +258,32 @@ previous tutorials:</p>
 <span class="n">coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>--2020-10-12 21:26:57--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
-Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
-Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
-HTTP request sent, awaiting response... 302 FOUND
-Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602530877&amp;Signature=VYUS8wL0D0Oadx%2BwOI4W57%2BAO5Q%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
---2020-10-12 21:26:57--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602530877&amp;Signature=VYUS8wL0D0Oadx%2BwOI4W57%2BAO5Q%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
-Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.201, 148.187.25.202
-Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.200|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 1218139661 (1.1G) [application/octet-stream]
-Saving to: ‘methane.extxyz.gz’
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    --2020-10-12 21:26:57--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528
+    Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
+    Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
+    HTTP request sent, awaiting response... 302 FOUND
+    Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1602530877&Signature=VYUS8wL0D0Oadx%2BwOI4W57%2BAO5Q%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+    --2020-10-12 21:26:57--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1602530877&Signature=VYUS8wL0D0Oadx%2BwOI4W57%2BAO5Q%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+    Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.201, 148.187.25.202
+    Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.200|:443... connected.
+    HTTP request sent, awaiting response... 200 OK
+    Length: 1218139661 (1.1G) [application/octet-stream]
+    Saving to: ‘methane.extxyz.gz’
 
-methane.extxyz.gz   100%[===================&gt;]   1.13G  21.8MB/s    in 37s
+    methane.extxyz.gz   100%[===================>]   1.13G  21.8MB/s    in 37s
 
-2020-10-12 21:27:34 (31.5 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100%|██████████| 10/10 [00:00&lt;00:00, 29.15it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 162.26it/s]
-</pre></div>
-</div>
-</div>
+</p>
+</pre>
+</embed><embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    100%|██████████| 10/10 [00:00<00:00, 29.15it/s]
+</p>
+</pre>
+</embed></div>
 <p>up to this point coefficients for each central specie are 4 dimensional
 numpy array with indexing [environmental index, radial basis/specie
 index, lambda, m]</p>
@@ -288,10 +292,12 @@ index, lambda, m]</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">coefficients</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The first step is to perform initial scaling, as it was discussed in the
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+</p>
+</pre>
+</embed><p>The first step is to perform initial scaling, as it was discussed in the
 first tutorial. For this purposes there is class InitialScaler:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">initial_scaler</span> <span class="o">=</span> <span class="n">InitialScaler</span><span class="p">(</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;signal integral&#39;</span><span class="p">,</span> <span class="n">individually</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 <span class="n">initial_scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
@@ -310,13 +316,15 @@ calculations:</p>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;odd features sizes: &quot;</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;nice.nice_utilities.Data&#39;&gt;
-(4000, 10, 6, 11)
-even features sizes:  [10, 0, 10, 0, 10, 0]
-odd features sizes:  [0, 10, 0, 10, 0, 10]
-</pre></div>
-</div>
-<p>The result is couple of Data instances which was already discussed in
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    <class 'nice.nice_utilities.Data'>
+    (4000, 10, 6, 11)
+    even features sizes:  [10, 0, 10, 0, 10, 0]
+</p>
+</pre>
+</embed><p>The result is couple of Data instances which was already discussed in
 the tutorial “Calculating covariants”.</p>
 <p>All spherical expansion coefficients with even l remain constant under
 reflections, i. e. are even covariants, while all spherical expansion
@@ -335,10 +343,12 @@ transformation of both. For example:</p>
 <span class="n">data_even_1_t</span><span class="p">,</span> <span class="n">data_odd_1_t</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">5</span> <span class="mi">0</span> <span class="mi">5</span> <span class="mi">0</span> <span class="mi">5</span> <span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>One common thing among PCA and purifiers blocks is num_to_fit
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+</p>
+</pre>
+</embed><p>One common thing among PCA and purifiers blocks is num_to_fit
 semantics. Each class has num_to_fit argument in the initialization,
 which by default equals to ‘10x’. If num_to_fit is string of ‘number
 x’ format it would cause corresponding class use no more than number
@@ -372,14 +382,18 @@ only by num_to_fit semantics:</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">pozdn</span><span class="o">/.</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nice</span><span class="o">/</span><span class="n">blocks</span><span class="o">/</span><span class="n">compressors</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">218</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Amount</span> <span class="n">of</span> <span class="n">provided</span> <span class="n">data</span> <span class="ow">is</span> <span class="n">less</span> <span class="n">than</span> <span class="n">the</span> <span class="n">desired</span> <span class="n">one</span> <span class="n">to</span> <span class="n">fit</span> <span class="n">PCA</span><span class="o">.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">components</span> <span class="ow">is</span> <span class="mi">10</span><span class="p">,</span> <span class="n">desired</span> <span class="n">number</span> <span class="n">of</span> <span class="n">environments</span> <span class="ow">is</span> <span class="mi">3000</span><span class="p">,</span> <span class="n">actual</span> <span class="n">number</span> <span class="n">of</span> <span class="n">environments</span> <span class="ow">is</span> <span class="mf">400.</span>
-  <span class="bp">self</span><span class="o">.</span><span class="n">n_components</span><span class="p">,</span> <span class="n">num_fit_now</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-</pre></div>
-</div>
-<p>For purifiers there are classes CovariantsPurifier,
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+</p>
+</pre>
+</embed><embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    /home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 10, desired number of environments is 3000, actual number of environments is 400.
+</p>
+</pre>
+</embed><p>For purifiers there are classes CovariantsPurifier,
 CovariantsPurifierBoth, InvariantsPurifier, and
 CovariantsIndividualPurifier. Their purpose is to transform data of
 single parity, both chunks of data, invariants, and single lambda
@@ -418,11 +432,13 @@ body order v2, result would be of body order v1 + v2:</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">data_odd_2</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="mi">70</span>  <span class="mi">69</span> <span class="mi">165</span> <span class="mi">142</span> <span class="mi">176</span> <span class="mi">121</span><span class="p">]</span>
-<span class="p">[</span>  <span class="mi">0</span> <span class="mi">124</span> <span class="mi">112</span> <span class="mi">178</span> <span class="mi">140</span> <span class="mi">150</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>The most time during the fitting is consumed for precomputing
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    [ 70  69 165 142 176 121]
+</p>
+</pre>
+</embed><p>The most time during the fitting is consumed for precomputing
 clebsch-gordan coefficients. Thus, in case of frequent expansioners
 fitting with same lambda_max, it is a good idea to precompute
 clebsch-gordan coefficients once, and after that just feed expansioners
@@ -456,20 +472,24 @@ with them:</p>
                 <span class="n">data_odd_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">/=</span> <span class="n">odd_factor</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100%|██████████| 10/10 [00:04&lt;00:00,  2.16it/s]
-</pre></div>
-</div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+</p>
+</pre>
+</embed><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
-<span class="p">[</span> <span class="mi">7</span> <span class="mi">19</span> <span class="mi">25</span> <span class="mi">28</span> <span class="mi">28</span> <span class="mi">25</span><span class="p">]</span>
-<span class="p">[</span> <span class="mi">8</span> <span class="mi">18</span> <span class="mi">24</span> <span class="mi">26</span> <span class="mi">28</span> <span class="mi">26</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>Done!</p>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    (4000, 28, 6, 11)
+    [ 7 19 25 28 28 25]
+</p>
+</pre>
+</embed><p>Done!</p>
 </div>
 
 

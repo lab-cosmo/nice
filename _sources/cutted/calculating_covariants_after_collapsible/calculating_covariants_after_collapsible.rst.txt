@@ -28,14 +28,18 @@ where keys are body order
         print(invariants_even[key].shape)
 
 
-.. parsed-literal::
-
-    (40000, 10)
-    (40000, 200)
-    (40000, 200)
-    (40000, 200)
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        (40000, 10)
+        (40000, 200)
+        (40000, 200)
+    </p>
+    </pre>
+    </embed>
+    
 Returned covariants are covariants after last block, i. e. in our case
 of body order 4. (functionality to get all covariants of all body order
 from StandardSequence will be added in the next version of NICE)
@@ -56,13 +60,17 @@ number of features is stored in .actual\_sizes\_:
     print("actual sizes of even covariants: {}".format(data_even.actual_sizes_))
 
 
-.. parsed-literal::
-
-    <class 'nice.nice_utilities.Data'>
-    shape of even covariants array: (40000, 87, 6, 11)
-    actual sizes of even covariants: [22 55 73 83 87 76]
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        <class 'nice.nice_utilities.Data'>
+        shape of even covariants array: (40000, 87, 6, 11)
+    </p>
+    </pre>
+    </embed>
+    
 The same for odd covariants:
 
 .. code:: ipython3
@@ -71,12 +79,16 @@ The same for odd covariants:
     print("actual sizes of odd covariants: {}".format(data_odd.actual_sizes_))
 
 
-.. parsed-literal::
-
-    shape of odd covariants array: (40000, 88, 6, 11)
-    actual sizes of odd covariants: [20 54 72 87 88 75]
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        shape of odd covariants array: (40000, 88, 6, 11)
+    </p>
+    </pre>
+    </embed>
+    
 There is one another point - that for each lambda channel size of
 covariant vectors is (2 \* lambda + 1). These vectors are stored from
 the beginning. It means that meaningfull entries for each lambda are
@@ -103,14 +115,18 @@ definitions:
     print(data_pseudo.actual_sizes_)
 
 
-.. parsed-literal::
-
-    (40000, 87, 6, 11)
-    [22 54 73 87 87 75]
-    (40000, 88, 6, 11)
-    [20 55 72 83 88 76]
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        (40000, 87, 6, 11)
+        [22 54 73 87 87 75]
+        (40000, 88, 6, 11)
+    </p>
+    </pre>
+    </embed>
+    
 This transformation is symmetric, thus, we can use this it once again to
 go back from true and pseudo covariants to even and odd:
 

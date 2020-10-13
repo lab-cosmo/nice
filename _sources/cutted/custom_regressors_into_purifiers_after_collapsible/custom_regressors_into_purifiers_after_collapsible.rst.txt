@@ -90,21 +90,25 @@ lambda chanels in the final model:
                   odd_purifier_.purifiers_[lambd].regressor_.best_alpha_))
 
 
-.. parsed-literal::
-
-    parity: even; lambda: 0; best alpha: 1.5996073018614912e-19
-    parity: even; lambda: 1; best alpha: 3.1744774091092e-20
-    parity odd; lambda: 1; best alpha: 2.0944511431514688e-19
-    parity: even; lambda: 2; best alpha: 3.1744774091092e-20
-    parity odd; lambda: 2; best alpha: 1e-25
-    parity: even; lambda: 3; best alpha: 2.4244620170823406e-20
-    parity odd; lambda: 3; best alpha: 2.7423765732649412e-19
-    parity: even; lambda: 4; best alpha: 2.4244620170823406e-20
-    parity odd; lambda: 4; best alpha: 1.2216773489967981e-19
-    parity: even; lambda: 5; best alpha: 1e-25
-    parity odd; lambda: 5; best alpha: 1e-25
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        parity: even; lambda: 0; best alpha: 1.5996073018614912e-19
+        parity: even; lambda: 1; best alpha: 3.1744774091092e-20
+        parity odd; lambda: 1; best alpha: 2.0944511431514688e-19
+        parity: even; lambda: 2; best alpha: 3.1744774091092e-20
+        parity odd; lambda: 2; best alpha: 1e-25
+        parity: even; lambda: 3; best alpha: 2.4244620170823406e-20
+        parity odd; lambda: 3; best alpha: 2.7423765732649412e-19
+        parity: even; lambda: 4; best alpha: 2.4244620170823406e-20
+        parity odd; lambda: 4; best alpha: 1.2216773489967981e-19
+        parity: even; lambda: 5; best alpha: 1e-25
+    </p>
+    </pre>
+    </embed>
+    
 The same for InvariantsPurifier:
 
 .. code:: ipython3
@@ -113,7 +117,12 @@ The same for InvariantsPurifier:
           transformer.blocks_[1].invariants_purifier_.regressor_.best_alpha_)
 
 
-.. parsed-literal::
-
-    best alpha of invariants purifier:  1.381873305653628e-18
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    

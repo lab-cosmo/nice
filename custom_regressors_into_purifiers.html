@@ -258,28 +258,32 @@ environments:</p>
 <span class="n">coefficients</span> <span class="o">=</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>--2020-10-13 18:57:00--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
-Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
-Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
-HTTP request sent, awaiting response... 302 FOUND
-Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602608280&amp;Signature=%2FSixu5PcmW3%2F6xIkn2KteOlFYjc%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
---2020-10-13 18:57:00--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602608280&amp;Signature=%2FSixu5PcmW3%2F6xIkn2KteOlFYjc%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
-Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.201, 148.187.25.200, 148.187.25.202
-Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.201|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 1218139661 (1.1G) [application/octet-stream]
-Saving to: ‘methane.extxyz.gz’
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    --2020-10-13 18:57:00--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528
+    Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
+    Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
+    HTTP request sent, awaiting response... 302 FOUND
+    Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1602608280&Signature=%2FSixu5PcmW3%2F6xIkn2KteOlFYjc%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+    --2020-10-13 18:57:00--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1602608280&Signature=%2FSixu5PcmW3%2F6xIkn2KteOlFYjc%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+    Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.201, 148.187.25.200, 148.187.25.202
+    Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.201|:443... connected.
+    HTTP request sent, awaiting response... 200 OK
+    Length: 1218139661 (1.1G) [application/octet-stream]
+    Saving to: ‘methane.extxyz.gz’
 
-methane.extxyz.gz   100%[===================&gt;]   1.13G  69.1MB/s    in 24s
+    methane.extxyz.gz   100%[===================>]   1.13G  69.1MB/s    in 24s
 
-2020-10-13 18:57:25 (47.9 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100%|██████████| 10/10 [00:00&lt;00:00, 86.21it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 287.96it/s]
-</pre></div>
-</div>
-</div>
+</p>
+</pre>
+</embed><embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    100%|██████████| 10/10 [00:00<00:00, 86.21it/s]
+</p>
+</pre>
+</embed></div>
 <p>Our custom class looks like this:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_predict</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
@@ -363,28 +367,32 @@ lambda chanels in the final model:</p>
               <span class="n">odd_purifier_</span><span class="o">.</span><span class="n">purifiers_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">1.5996073018614912e-19</span>
-<span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">3.1744774091092e-20</span>
-<span class="n">parity</span> <span class="n">odd</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">2.0944511431514688e-19</span>
-<span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">2</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">3.1744774091092e-20</span>
-<span class="n">parity</span> <span class="n">odd</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">2</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">1e-25</span>
-<span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">3</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">2.4244620170823406e-20</span>
-<span class="n">parity</span> <span class="n">odd</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">3</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">2.7423765732649412e-19</span>
-<span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">4</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">2.4244620170823406e-20</span>
-<span class="n">parity</span> <span class="n">odd</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">4</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">1.2216773489967981e-19</span>
-<span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">5</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">1e-25</span>
-<span class="n">parity</span> <span class="n">odd</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">5</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">1e-25</span>
-</pre></div>
-</div>
-<p>The same for InvariantsPurifier:</p>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    parity: even; lambda: 0; best alpha: 1.5996073018614912e-19
+    parity: even; lambda: 1; best alpha: 3.1744774091092e-20
+    parity odd; lambda: 1; best alpha: 2.0944511431514688e-19
+    parity: even; lambda: 2; best alpha: 3.1744774091092e-20
+    parity odd; lambda: 2; best alpha: 1e-25
+    parity: even; lambda: 3; best alpha: 2.4244620170823406e-20
+    parity odd; lambda: 3; best alpha: 2.7423765732649412e-19
+    parity: even; lambda: 4; best alpha: 2.4244620170823406e-20
+    parity odd; lambda: 4; best alpha: 1.2216773489967981e-19
+    parity: even; lambda: 5; best alpha: 1e-25
+</p>
+</pre>
+</embed><p>The same for InvariantsPurifier:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;best alpha of invariants purifier: &quot;</span><span class="p">,</span>
       <span class="n">transformer</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">invariants_purifier_</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">best</span> <span class="n">alpha</span> <span class="n">of</span> <span class="n">invariants</span> <span class="n">purifier</span><span class="p">:</span>  <span class="mf">1.381873305653628e-18</span>
-</pre></div>
-</div>
-</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+</p>
+</pre>
+</embed></div>
 
 
            </div>

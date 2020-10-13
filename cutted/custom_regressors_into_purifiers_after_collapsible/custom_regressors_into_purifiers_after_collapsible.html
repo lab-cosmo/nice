@@ -293,28 +293,32 @@ lambda chanels in the final model:</p>
               <span class="n">odd_purifier_</span><span class="o">.</span><span class="n">purifiers_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">1.5996073018614912e-19</span>
-<span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">3.1744774091092e-20</span>
-<span class="n">parity</span> <span class="n">odd</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">2.0944511431514688e-19</span>
-<span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">2</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">3.1744774091092e-20</span>
-<span class="n">parity</span> <span class="n">odd</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">2</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">1e-25</span>
-<span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">3</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">2.4244620170823406e-20</span>
-<span class="n">parity</span> <span class="n">odd</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">3</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">2.7423765732649412e-19</span>
-<span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">4</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">2.4244620170823406e-20</span>
-<span class="n">parity</span> <span class="n">odd</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">4</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">1.2216773489967981e-19</span>
-<span class="n">parity</span><span class="p">:</span> <span class="n">even</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">5</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">1e-25</span>
-<span class="n">parity</span> <span class="n">odd</span><span class="p">;</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">5</span><span class="p">;</span> <span class="n">best</span> <span class="n">alpha</span><span class="p">:</span> <span class="mf">1e-25</span>
-</pre></div>
-</div>
-<p>The same for InvariantsPurifier:</p>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    parity: even; lambda: 0; best alpha: 1.5996073018614912e-19
+    parity: even; lambda: 1; best alpha: 3.1744774091092e-20
+    parity odd; lambda: 1; best alpha: 2.0944511431514688e-19
+    parity: even; lambda: 2; best alpha: 3.1744774091092e-20
+    parity odd; lambda: 2; best alpha: 1e-25
+    parity: even; lambda: 3; best alpha: 2.4244620170823406e-20
+    parity odd; lambda: 3; best alpha: 2.7423765732649412e-19
+    parity: even; lambda: 4; best alpha: 2.4244620170823406e-20
+    parity odd; lambda: 4; best alpha: 1.2216773489967981e-19
+    parity: even; lambda: 5; best alpha: 1e-25
+</p>
+</pre>
+</embed><p>The same for InvariantsPurifier:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;best alpha of invariants purifier: &quot;</span><span class="p">,</span>
       <span class="n">transformer</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">invariants_purifier_</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">best</span> <span class="n">alpha</span> <span class="n">of</span> <span class="n">invariants</span> <span class="n">purifier</span><span class="p">:</span>  <span class="mf">1.381873305653628e-18</span>
-</pre></div>
-</div>
-
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+</p>
+</pre>
+</embed>
 
            </div>
            

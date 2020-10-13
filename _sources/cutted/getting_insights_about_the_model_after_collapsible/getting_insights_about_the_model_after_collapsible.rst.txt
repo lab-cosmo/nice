@@ -31,25 +31,27 @@ intermediate shapes in the form of nested dictionary:
         print(key, ':',  intermediate_shapes[key], end = '\n\n\n')
 
 
-.. parsed-literal::
-
-    after initial transformer : [[10, 0, 10, 0, 10, 0], [0, 10, 0, 10, 0, 10]]
+.. raw:: html
     
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        after initial transformer : [[10, 0, 10, 0, 10, 0], [0, 10, 0, 10, 0, 10]]
+        
+        
+        after initial pca : [[10, 0, 10, 0, 10, 0], [0, 10, 0, 10, 0, 10]]
+        
+        
+        block nu = 1 -> nu = 2 : {'after covariants expansioner': [[52, 51, 121, 103, 131, 94], [0, 92, 82, 130, 104, 114]], 'after covariants purifier': [[52, 51, 121, 103, 131, 94], [0, 92, 82, 130, 104, 114]], 'after covariants pca': [[50, 50, 50, 50, 50, 50], [0, 50, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
+        
+        
+        block nu = 2 -> nu = 3 : {'after covariants expansioner': [[33, 51, 79, 88, 87, 73], [12, 65, 76, 88, 88, 80]], 'after covariants purifier': [[33, 51, 79, 88, 87, 73], [12, 65, 76, 88, 88, 80]], 'after covariants pca': [[33, 50, 50, 50, 50, 50], [12, 50, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
+        
+        
+    </p>
+    </pre>
+    </embed>
     
-    after initial pca : [[10, 0, 10, 0, 10, 0], [0, 10, 0, 10, 0, 10]]
-    
-    
-    block nu = 1 -> nu = 2 : {'after covariants expansioner': [[52, 51, 121, 103, 131, 94], [0, 92, 82, 130, 104, 114]], 'after covariants purifier': [[52, 51, 121, 103, 131, 94], [0, 92, 82, 130, 104, 114]], 'after covariants pca': [[50, 50, 50, 50, 50, 50], [0, 50, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
-    
-    
-    block nu = 2 -> nu = 3 : {'after covariants expansioner': [[33, 51, 79, 88, 87, 73], [12, 65, 76, 88, 88, 80]], 'after covariants purifier': [[33, 51, 79, 88, 87, 73], [12, 65, 76, 88, 88, 80]], 'after covariants pca': [[33, 50, 50, 50, 50, 50], [12, 50, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
-    
-    
-    block nu = 3 -> nu = 4 : {'after covariants expansioner': [[19, 49, 57, 72, 66, 62], [25, 49, 65, 62, 73, 57]], 'after covariants purifier': [[19, 49, 57, 72, 66, 62], [25, 49, 65, 62, 73, 57]], 'after covariants pca': [[19, 49, 50, 50, 50, 50], [25, 49, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
-    
-    
-
-
 spectrums of pcas can be accessed in the following way: (convenient
 getters will be inserted in the next version of NICE)
 
@@ -100,39 +102,51 @@ getters will be inserted in the next version of NICE)
         plt.show()
 
 
-.. parsed-literal::
-
-    nu:  1
-
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 .. image:: getting_insights_about_the_model_after_collapsible_files/getting_insights_about_the_model_after_collapsible_4_1.png
 
 
-.. parsed-literal::
-
-    nu:  2
-
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 .. image:: getting_insights_about_the_model_after_collapsible_files/getting_insights_about_the_model_after_collapsible_4_3.png
 
 
-.. parsed-literal::
-
-    nu:  3
-
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 .. image:: getting_insights_about_the_model_after_collapsible_files/getting_insights_about_the_model_after_collapsible_4_5.png
 
 
-.. parsed-literal::
-
-    nu:  4
-
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 .. image:: getting_insights_about_the_model_after_collapsible_files/getting_insights_about_the_model_after_collapsible_4_7.png
 
 
@@ -160,9 +174,14 @@ explained\_variance\_ratio\_, but to variance of output:
                  covariants_pca_.even_pca_.pcas_[2].importances_))
 
 
-.. parsed-literal::
-
-    0.015553507472993076
-    0.979846667528322
-    1.0
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        0.015553507472993076
+        0.979846667528322
+    </p>
+    </pre>
+    </embed>
+    

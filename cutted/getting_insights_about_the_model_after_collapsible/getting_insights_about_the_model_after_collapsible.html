@@ -238,22 +238,24 @@ intermediate shapes in the form of nested dictionary:</p>
     <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span>  <span class="n">intermediate_shapes</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">end</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">after</span> <span class="n">initial</span> <span class="n">transformer</span> <span class="p">:</span> <span class="p">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">]]</span>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    after initial transformer : [[10, 0, 10, 0, 10, 0], [0, 10, 0, 10, 0, 10]]
 
 
-<span class="n">after</span> <span class="n">initial</span> <span class="n">pca</span> <span class="p">:</span> <span class="p">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">]]</span>
+    after initial pca : [[10, 0, 10, 0, 10, 0], [0, 10, 0, 10, 0, 10]]
 
 
-<span class="n">block</span> <span class="n">nu</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-&gt;</span> <span class="n">nu</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;after covariants expansioner&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">52</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">121</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">131</span><span class="p">,</span> <span class="mi">94</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="mi">82</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">114</span><span class="p">]],</span> <span class="s1">&#39;after covariants purifier&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">52</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">121</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">131</span><span class="p">,</span> <span class="mi">94</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="mi">82</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">114</span><span class="p">]],</span> <span class="s1">&#39;after covariants pca&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]],</span> <span class="s1">&#39;after invariants expansioner&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;after invariants purifier&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;after invariants pca&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">}</span>
+    block nu = 1 -> nu = 2 : {'after covariants expansioner': [[52, 51, 121, 103, 131, 94], [0, 92, 82, 130, 104, 114]], 'after covariants purifier': [[52, 51, 121, 103, 131, 94], [0, 92, 82, 130, 104, 114]], 'after covariants pca': [[50, 50, 50, 50, 50, 50], [0, 50, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
 
 
-<span class="n">block</span> <span class="n">nu</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="n">nu</span> <span class="o">=</span> <span class="mi">3</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;after covariants expansioner&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">79</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">73</span><span class="p">],</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">80</span><span class="p">]],</span> <span class="s1">&#39;after covariants purifier&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">79</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">73</span><span class="p">],</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">80</span><span class="p">]],</span> <span class="s1">&#39;after covariants pca&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]],</span> <span class="s1">&#39;after invariants expansioner&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;after invariants purifier&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;after invariants pca&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">}</span>
+    block nu = 2 -> nu = 3 : {'after covariants expansioner': [[33, 51, 79, 88, 87, 73], [12, 65, 76, 88, 88, 80]], 'after covariants purifier': [[33, 51, 79, 88, 87, 73], [12, 65, 76, 88, 88, 80]], 'after covariants pca': [[33, 50, 50, 50, 50, 50], [12, 50, 50, 50, 50, 50]], 'after invariants expansioner': 300, 'after invariants purifier': 300, 'after invariants pca': 200}
 
 
-<span class="n">block</span> <span class="n">nu</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">-&gt;</span> <span class="n">nu</span> <span class="o">=</span> <span class="mi">4</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;after covariants expansioner&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">62</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">57</span><span class="p">]],</span> <span class="s1">&#39;after covariants purifier&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">62</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">57</span><span class="p">]],</span> <span class="s1">&#39;after covariants pca&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]],</span> <span class="s1">&#39;after invariants expansioner&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;after invariants purifier&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;after invariants pca&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">}</span>
-</pre></div>
-</div>
-<p>spectrums of pcas can be accessed in the following way: (convenient
+</p>
+</pre>
+</embed><p>spectrums of pcas can be accessed in the following way: (convenient
 getters will be inserted in the next version of NICE)</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">proper_log_plot</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;avoiding log(0)&#39;&#39;&#39;</span>
@@ -300,22 +302,30 @@ getters will be inserted in the next version of NICE)</p>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">1</span>
-</pre></div>
-</div>
-<img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_1.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_1.png" />
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">2</span>
-</pre></div>
-</div>
-<img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_3.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_3.png" />
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">3</span>
-</pre></div>
-</div>
-<img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_5.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_5.png" />
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nu</span><span class="p">:</span>  <span class="mi">4</span>
-</pre></div>
-</div>
-<img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_7.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_7.png" />
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+</p>
+</pre>
+</embed><img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_1.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_1.png" />
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+</p>
+</pre>
+</embed><img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_3.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_3.png" />
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+</p>
+</pre>
+</embed><img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_5.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_5.png" />
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+</p>
+</pre>
+</embed><img alt="../../_images/getting_insights_about_the_model_after_collapsible_4_7.png" src="../../_images/getting_insights_about_the_model_after_collapsible_4_7.png" />
 <p>(checks if pca instance is None are needed since it would be None if
 number of features for corresponding lambda channel would be zero after
 expansion step)</p>
@@ -335,12 +345,14 @@ explained_variance_ratio_, but to variance of output:</p>
              <span class="n">covariants_pca_</span><span class="o">.</span><span class="n">even_pca_</span><span class="o">.</span><span class="n">pcas_</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">importances_</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">0.015553507472993076</span>
-<span class="mf">0.979846667528322</span>
-<span class="mf">1.0</span>
-</pre></div>
-</div>
-
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    0.015553507472993076
+    0.979846667528322
+</p>
+</pre>
+</embed>
 
            </div>
            

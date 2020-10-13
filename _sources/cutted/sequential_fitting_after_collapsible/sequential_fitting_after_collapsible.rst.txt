@@ -6,11 +6,15 @@ environments:
     print(coefficients.shape)
 
 
-.. parsed-literal::
-
-    (4000, 10, 6, 11)
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 Let's do the first steps from standar sequence:
 
 .. code:: ipython3
@@ -42,13 +46,17 @@ At his moment we have all parts of this standard sequence fitted:
     print(block_2.is_fitted())
 
 
-.. parsed-literal::
-
-    True
-    True
-    True
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        True
+        True
+    </p>
+    </pre>
+    </embed>
+    
 what about full model?
 
 .. code:: ipython3
@@ -56,11 +64,15 @@ what about full model?
     print(trans.is_fitted())
 
 
-.. parsed-literal::
-
-    False
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 Nope.
 
 At this point there is very high probability to make a mistake.
@@ -77,11 +89,15 @@ guaranteed\_parts\_fitted\_consistently = True to the model:
     print(trans.is_fitted())
 
 
-.. parsed-literal::
-
-    True
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 Model is considered to be fitted if 1) all parts are fitted and 2) if
 guaranteed\_parts\_fitted\_consistently is set to be True
 
@@ -97,11 +113,15 @@ Let's check consistency:
     print(np.sum(np.abs(even_invariants - even_invariants_2)))
 
 
-.. parsed-literal::
-
-    0.0
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 This also works in other direction:
 
 .. code:: ipython3
@@ -122,16 +142,20 @@ This also works in other direction:
     print(block_2.is_fitted())
 
 
-.. parsed-literal::
-
-    False
-    False
-    False
-    True
-    True
-    True
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        False
+        False
+        False
+        True
+        True
+    </p>
+    </pre>
+    </embed>
+    
 StandardBlock behaves the same way:
 
 .. code:: ipython3
@@ -147,14 +171,18 @@ StandardBlock behaves the same way:
     print(pca.is_fitted())
 
 
-.. parsed-literal::
-
-    False
-    False
-    True
-    True
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+        False
+        False
+        True
+    </p>
+    </pre>
+    </embed>
+    
 .. code:: ipython3
 
     expansioner, pca = ThresholdExpansioner(100), IndividualLambdaPCAsBoth(20)
@@ -168,11 +196,15 @@ StandardBlock behaves the same way:
     print(block.is_fitted())
 
 
-.. parsed-literal::
-
-    True
-
-
+.. raw:: html
+    
+    <embed>
+    <pre>
+    <p style="margin-left: 5%;font-size:12px;line-height: 1.2" >
+    </p>
+    </pre>
+    </embed>
+    
 There is another group of blocks, which accepts classes such as
 sklearn.linear\_model.Ridge in the initialization. But in their case
 there is need to apply several distinct regressors, separatelly for each
