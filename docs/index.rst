@@ -23,7 +23,7 @@
    getting_insights_about_the_model
    constructor_or_non_standard_sequence  
    sequential_fitting
-   symlinks/custom_regressors_into_purifiers
+   custom_regressors_into_purifiers
 
 .. toctree::
    :glob:

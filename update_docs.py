@@ -35,6 +35,7 @@ split('calculating_covariants.ipynb', 'docs/cutted/')
 split('getting_insights_about_the_model.ipynb', 'docs/cutted/')
 split('constructor_or_non_standard_sequence.ipynb', 'docs/cutted/')
 split('sequential_fitting.ipynb', 'docs/cutted/')
+split('custom_regressors_into_purifiers.ipynb', 'docs/cutted/')
 
 # converting notebooks to rst 
 os.chdir('docs/cutted/')
