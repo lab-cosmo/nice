@@ -22,7 +22,7 @@
    calculating_covariants
    getting_insights_about_the_model
    constructor_or_non_standard_sequence  
-   symlinks/sequential_fitting
+   sequential_fitting
    symlinks/custom_regressors_into_purifiers
 
 .. toctree::

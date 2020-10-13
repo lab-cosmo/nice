@@ -40,9 +40,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Custom regressors into purifiers" href="custom_regressors_into_purifiers.html" />
-    <link rel="prev" title="Constructor or non standard sequence" href="../constructor_or_non_standard_sequence.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -93,12 +91,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory in a nutshell</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="constructing_machine_learning_potential.html">Constructing machine learning potential</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../calculating_covariants.html">Calculating covariants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting_insights_about_the_model.html">Getting insights about the model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../constructor_or_non_standard_sequence.html">Constructor or non standard sequence</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequential_fitting.html">Sequential fitting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_regressors_into_purifiers.html">Custom regressors into purifiers</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference guide</span></p>
@@ -432,12 +430,87 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Sequential-fitting">
 <h1>Sequential fitting<a class="headerlink" href="#Sequential-fitting" title="Permalink to this headline">¶</a></h1>
+<p>It is not always clear how to select good hyperparameters for calculations. In the second tutorial “Getting insights about the model” it was shown how to plot spectrums of PCA for all lambda channels and parities. This information along with the other one, such as regression accuracy might be usefull to select better hypers. Particulary, the most straghtforward way is to select number of pca components, in a such a way to cover the most part of variance, and do it successively from block to
+block.</p>
+<p>In this case it is very undesirable to fit all parts of the model, including not changed ones from scratch. One possible way around is to do all things by hand, as it was described in the tutorial “Constructor or non standard_sequence”, but there would be additional headache with packing resulting blocks into a single model with convenient .transform method. Nice toolbox has capabilities to do it very succinctly.</p>
+<p>First of all we need to get spherical expansion coefficients the same way as in previous tutorials:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># downloading dataset from https://archive.materialscloud.org/record/2020.110</span>
+
+<span class="o">!</span>wget <span class="s2">&quot;https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528&quot;</span> -O methane.extxyz.gz
+<span class="o">!</span>gunzip -k methane.extxyz.gz
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">ase.io</span>
+<span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="kn">from</span> <span class="nn">nice.blocks</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">nice.utilities</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">BayesianRidge</span>
+
+<span class="n">structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
+                         <span class="n">index</span> <span class="o">=</span> <span class="s1">&#39;0:1000&#39;</span><span class="p">)</span>
+
+<span class="n">HYPERS</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
+<span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="s1">&#39;max_angular&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="s1">&#39;gaussian_sigma_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Constant&#39;</span><span class="p">,</span>
+<span class="s1">&#39;gaussian_sigma_constant&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+<span class="s1">&#39;cutoff_smooth_width&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+<span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
+<span class="p">}</span>
+
+<span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">structures</span><span class="p">)</span>
+
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--2020-10-13 17:19:04--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
+Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
+Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
+HTTP request sent, awaiting response... 302 FOUND
+Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602602405&amp;Signature=l0lUk86eyc12NQPRaNot1WP6MAA%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+--2020-10-13 17:19:05--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602602405&amp;Signature=l0lUk86eyc12NQPRaNot1WP6MAA%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.201, 148.187.25.200, 148.187.25.202
+Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.201|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1218139661 (1.1G) [application/octet-stream]
+Saving to: ‘methane.extxyz.gz’
+
+methane.extxyz.gz   100%[===================&gt;]   1.13G  30.6MB/s    in 29s
+
+2020-10-13 17:19:34 (39.9 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10/10 [00:00&lt;00:00, 31.37it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 233.52it/s]
+</pre></div></div>
+</div>
+<p>coefficients are now spherical expansion coefficients for H centered environments:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;to be inserted&quot;</span><span class="p">)</span>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">coefficients</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -446,18 +519,212 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-to be inserted
+(4000, 10, 6, 11)
 </pre></div></div>
 </div>
+<p>Let’s do the first steps from standar sequence:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span><span class="n">even_0</span><span class="p">,</span> <span class="n">odd_0</span> <span class="o">=</span> <span class="n">InitialTransformer</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="n">initial_pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">()</span>
+<span class="n">initial_pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_0</span><span class="p">,</span> <span class="n">odd_0</span><span class="p">)</span>
+<span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span> <span class="o">=</span> <span class="n">initial_pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">even_0</span><span class="p">,</span> <span class="n">odd_0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<p>Now we can fit couple of standard blocks:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">block_1</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">block_1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+<span class="n">even_1</span><span class="p">,</span> <span class="n">odd_1</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">block_1</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+
+<span class="n">block_2</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">))</span>
+<span class="n">block_2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_1</span><span class="p">,</span> <span class="n">odd_1</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">even_invariants</span> <span class="o">=</span> <span class="n">block_2</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">even_1</span><span class="p">,</span> <span class="n">odd_1</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>At his moment we have all parts of this standard sequence fitted:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">trans</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_2</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+True
+True
+</pre></div></div>
+</div>
+<p>what about full model?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
+</div>
+<p>Nope.</p>
+<p>At this point there is very high probability to make a mistake. Particularly one can feed StandardSequence with some fitted initial_pca along with blocks, which were fitted based not on the same initial_pca, or with different initial_normalizer, or even on different data. In order to prevent it, there is requirement to pass additional flag guaranteed_parts_fitted_consistently = True to the model:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">trans</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">],</span>
+                         <span class="n">guaranteed_parts_fitted_consistently</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<p>Model is considered to be fitted if 1) all parts are fitted and 2) if guaranteed_parts_fitted_consistently is set to be True</p>
+<p><strong>Golden rule:</strong> Every time you pass guaranteed_parts_fitted_consistently = True make a pause and think twice.</p>
+<p>Let’s check consistency:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">even_invariants_2</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">even_invariants</span> <span class="o">-</span> <span class="n">even_invariants_2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.0
+</pre></div></div>
+</div>
+<p>This also works in other direction:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">initial_pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">()</span>
+<span class="n">block_1</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">block_2</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_2</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+
+<span class="n">trans</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span> <span class="o">=</span> <span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
+<span class="n">trans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_2</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+False
+False
+True
+True
+True
+</pre></div></div>
+</div>
+<p>StandardBlock behaves the same way:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">expansioner</span><span class="p">,</span> <span class="n">pca</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">expansioner</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+
+<span class="n">block</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">expansioner</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pca</span><span class="p">)</span>
+<span class="n">block</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">expansioner</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+False
+True
+True
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">expansioner</span><span class="p">,</span> <span class="n">pca</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+<span class="n">even_1</span><span class="p">,</span> <span class="n">odd_1</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_1</span><span class="p">,</span> <span class="n">odd_1</span><span class="p">)</span>
+
+<span class="n">block</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">expansioner</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pca</span><span class="p">,</span>
+                      <span class="n">guaranteed_parts_fitted_consistently</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<p>There is another group of blocks, which accepts classes such as sklearn.linear_model.Ridge in the initialization. But in their case there is need to apply several distinct regressors, separatelly for each lambda channel and parity. Thus, input regressor is clonned, and initial instances is not touched in any way. So, the material of this tutorials does not apply to purifiers.</p>
 </div>
 
 
@@ -465,15 +732,6 @@ to be inserted
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="custom_regressors_into_purifiers.html" class="btn btn-neutral float-right" title="Custom regressors into purifiers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../constructor_or_non_standard_sequence.html" class="btn btn-neutral float-left" title="Constructor or non standard sequence" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
