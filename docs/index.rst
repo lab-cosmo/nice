@@ -5,8 +5,7 @@
 
   
 
-.. include::
-   hello_user
+.. include:: hello_user.rst   
 
 .. toctree::
    :glob:
