@@ -275,14 +275,12 @@ i. e. [:, : lambda, :(2 * lambda + 1)] elements are valid</p>
 <dl class="function">
 <dt id="utilities.make_structural_features">
 <code class="sig-prename descclassname">utilities.</code><code class="sig-name descname">make_structural_features</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">structures</em>, <em class="sig-param">all_species</em>, <em class="sig-param">show_progress=True</em><span class="sig-paren">)</span><a class="headerlink" href="#utilities.make_structural_features" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>getting structural features suitable for linear regression which consist of sums</dt><dd><p>over atomic features</p>
-</dd>
-</dl>
+<dd><p>getting structural features suitable for linear regression which consist of sums      over atomic features</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>features</strong> – nested dictionary with atomic features. First level keys are central species,         second level keys are body orders. Entries are 2-dimensional numpy arrays.         structures: list of Ase atoms objects</p></li>
+<li><p><strong>features</strong> – nested dictionary with atomic features. First level keys are central species,         second level keys are body orders. Entries are 2-dimensional numpy arrays.</p></li>
+<li><p><strong>structures</strong> – list of Ase atoms objects</p></li>
 <li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.         If all species argument is the same for several calls of this function, resulting         blocks of structural features are guaranteed to be consistent with each other.           If for given block of structures there are no atoms of some particular specie,        features dictionary still have to contain key with this specie. It should contain         numpy arrays with shapes [0, number of features]. This is need to get proper placing        of features to fulfill consistency.</p></li>
 <li><p><strong>show_progress</strong> – whether or not show progress via tqdm</p></li>
 </ul>
@@ -300,8 +298,10 @@ i. e. [:, : lambda, :(2 * lambda + 1)] elements are valid</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nice</strong> – dictionary where keys are species and entries are nice transformers.        If you want to use single nice transformer to all environments regardless of central        specie just pass {key : nice_single for specie in all_species}        structures: list of Ase atoms objects</p></li>
-<li><p><strong>rascal_hypers</strong> – dictionary with parameters for librascal controlling spherical expansion.        Should be the same as used for fitting nice transformers        all_species: numpy array with ints of all unique species in the dataset.</p></li>
+<li><p><strong>nice</strong> – dictionary where keys are species and entries are nice transformers.        If you want to use single nice transformer to all environments regardless of central        specie just pass {key : nice_single for specie in all_species}</p></li>
+<li><p><strong>structures</strong> – list of Ase atoms objects</p></li>
+<li><p><strong>rascal_hypers</strong> – dictionary with parameters for librascal controlling spherical expansion.        Should be the same as used for fitting nice transformers</p></li>
+<li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.</p></li>
 <li><p><strong>block_size</strong> – size of chunks measured in number of environments</p></li>
 <li><p><strong>show_progress</strong> – whether or not show progress via tqdm</p></li>
 </ul>
