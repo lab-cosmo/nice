@@ -40,13 +40,5 @@
 
    acknowledgements
 
-.. toctree::
-   :glob:
-   :maxdepth: 1
-   :caption: User guide (to be deleted)
-
-   symlinks/user_guide
-
-
 
 
