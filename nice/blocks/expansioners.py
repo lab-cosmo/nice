@@ -6,6 +6,10 @@ from sklearn.exceptions import NotFittedError
 
 
 class ThresholdExpansioner:
+    ''' Block to do Clebsch-Gordan iteration. It uses two even-odd pairs of Data instances with covariants
+    to produce new ones. If first even-odd pair contains covariants of body order v1, and the second v2, body
+    order of the result would be v1 + v2. '''
+    
     def __init__(self, num_expand=None, mode="covariants", num_threads=None):
         if num_expand is None:
             self.num_expand_ = -1

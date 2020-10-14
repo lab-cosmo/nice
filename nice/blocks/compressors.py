@@ -24,6 +24,7 @@ def get_num_fit(desired_num, block_size):
 
 
 class IndividualLambdaPCAs:
+    ''' Block to do pca step for covariants of single parity. It operates with instances of Data class'''
     def __init__(self, n_components=None, num_to_fit="10x"):
         self.n_components_ = n_components
         self.num_to_fit_ = num_to_fit
@@ -150,6 +151,7 @@ class IndividualLambdaPCAs:
 
 
 class IndividualLambdaPCAsBoth:
+     ''' Block to do pca step for covariants of both parities. It operates with even-odd pairs of instances of Data class'''
     def __init__(self, *args, **kwargs):
         self.even_pca_ = IndividualLambdaPCAs(*args, **kwargs)
         self.odd_pca_ = IndividualLambdaPCAs(*args, **kwargs)
@@ -174,6 +176,7 @@ class IndividualLambdaPCAsBoth:
 
 
 class InvariantsPCA(PCA):
+    ''' Block to do pca step for invariants. It operates with 2d numpy arrays'''
     def __init__(self, *args, num_to_fit="10x", **kwargs):
         self.num_to_fit_ = num_to_fit
         self.fitted_ = False

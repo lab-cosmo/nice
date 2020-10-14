@@ -14,6 +14,7 @@ def check_if_all_fitted(parts):
 
 
 class StandardBlock():
+    '''Block for standard procedure of body order increasement step'''
     def __init__(self,
                  covariants_expansioner=None,
                  covariants_purifier=None,
@@ -218,6 +219,7 @@ class StandardBlock():
 
 
 class StandardSequence():
+    '''Block implementing logic of main NICE sequence'''
     def __init__(self,
                  blocks,
                  initial_pca=None,
