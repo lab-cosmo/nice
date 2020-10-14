@@ -26,6 +26,13 @@
    custom_regressors_into_purifiers
 
 .. toctree::
+   :glob:   
+   :maxdepth: 1
+   :caption: Examples
+
+   examples
+
+.. toctree::
    :glob:
    :maxdepth: 5
    :caption: Reference guide
