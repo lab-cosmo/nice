@@ -40,34 +40,34 @@ fingerprints are expressed as the functionals of :math:`\rho`.
 To deal with neighbor density functions spherical expansion coefficients are introduced:
 
 .. math::
-   < \{n, \alpha\} l m | \rho^1> =  \int d\vec{r} R_{n}(\vec{r}) Y_l^m(\hat{r}) \rho_{\alpha}(\vec{r})
+   < \{n, \alpha\} \lambda m | \rho^1> =  \int d\vec{r} R_{n}(\vec{r}) Y_{\lambda}^m(\hat{r}) \rho_{\alpha}(\vec{r})
 , where :math:`\hat{r}` is the unit direction vector, :math:`r = |\vec{r}|`, :math:`R_{n}(r)` is 
 some complete basis, not really matters which one particularly, 
-:math:`Y_l^m(\hat{r})` are
-`spherical harmonics <https://en.wikipedia.org/wiki/Spherical_harmonics>`_.  :math:`l` index runs from :math:`0` 
+:math:`Y_{\lambda}^m(\hat{r})` are
+`spherical harmonics <https://en.wikipedia.org/wiki/Spherical_harmonics>`_.  :math:`\lambda` index runs from :math:`0` 
 to :math:`+\inf`, 
-:math:`m` runs from :math:`-l` to :math:`l`.
+:math:`m` runs from :math:`-\lambda` to :math:`\lambda`.
 
 :math:`\{n, \alpha\}` indices never used separately from each other and, thus, for simplicity, 
 in further narrative we will refer to them as to just :math:`n`. 
 
-It is known how coefficients :math:`< n l m | \rho^1>` transforms under rotations of the environment.
+It is known how coefficients :math:`< n \lambda m | \rho^1>` transforms under rotations of the environment.
 Particulary coefficients with :math:`l = 0` remains constants under rotations, i. e. are invariants,
 while the general transformation rule is
 
 .. math::
-   < n l m | \hat{R} | \rho^1> = \sum\limits_{m'} D^l_{mm'} < n l m' | \rho^1>
+   < n \lambda m | \hat{R} | \rho^1> = \sum\limits_{m'} D^{\lambda}_{mm'} < n \lambda m' | \rho^1>
 
-where :math:`< n l m | \hat{R} | \rho^1>` are spherical expansion coefficients
+where :math:`< n \lambda m | \hat{R} | \rho^1>` are spherical expansion coefficients
 for the rotated environment, :math:`\hat{R}` is the rotation, described, for instance,
 by `Euler angles <https://en.wikipedia.org/wiki/Euler_angles>`_
-, :math:`D^l_{mm'}(\hat{R})` are
+, :math:`D^{\lambda}_{mm'}(\hat{R})` are
 `Wigner D matrices <https://en.wikipedia.org/wiki/Wigner_D-matrix>`_. 
 
 Let's look at this transformation more closely. First of all we see that spherical expansion
 coefficients of rotated environment depends only on coefficients of the initial environments
-with the same :math:`n` and :math:`l` indices. I. e. one can group coefficients into vectors 
-corresponding to fixed :math:`n` and :math:`l` of size :math:`2l + 1` and indexed by :math:`m`
+with the same :math:`n` and :math:`\lambda` indices. I. e. one can group coefficients into vectors 
+corresponding to fixed :math:`n` and :math:`\lambda` of size :math:`2 \lambda + 1` and indexed by :math:`m`
 index. The transformation itself is nothing else but matrix vector multiplication. 
 
 Within this framework we work only with this way of transformation. Further we will call 
@@ -85,7 +85,7 @@ construct linear combination of covariants.
 .. math:: 
    :label: first_expansion
 
-   {output}^l_m = \sum\limits_i (input_i)^l_m * q_i
+   {output}^{\lambda}_m = \sum\limits_i (input_i)^{\lambda}_m * q_i
 
    
    
@@ -99,7 +99,7 @@ iteration:
    {output}^{\lambda}_m  = \sum\limits_{m_1 m_2} <l_1 m_1; l_2 m_2| \lambda m>
     (first\:input)^{l_1}_{m_1} (second\:input)^{l_2}_{m_2}
 
-, there :math:`<l_1 m_1; l_2 m_2| l m>` are
+, there :math:`<l_1 m_1; l_2 m_2| \lambda m>` are
 `Clebsch-Gordan coefficients <https://en.wikipedia.org/wiki/Clebsch%E2%80%93Gordan_coefficients>`_. 
 
 Let's take a loot at the second construction rule in more detail. It takes as 
@@ -123,9 +123,9 @@ of body order :math:`\nu`. If we do Clebsch-Gordan iteration with covariants of 
 
 Consider the following procedure. Initially we 
 have :math:`\nu = 1`, and initial spherical expansion
-coefficients :math:`< n l m | \rho^1>` . Let's apply construction rule
+coefficients :math:`< n \lambda m | \rho^1>` . Let's apply construction rule
 :eq:`second_expansion` for each pair of spherical expansion coefficients,
-and for each possible :math:`\lambda`. The result would be set 
+and for each possible output :math:`\lambda`. The result would be set 
 of :math:`\nu=2` body order covariants. As the next step let's do the same 
 for each pair of the obtained :math:`\nu=2` covariants, and
 initial :math:`\nu=1` spherical expansion coefficients. The result would
@@ -181,7 +181,7 @@ variance in the dataset.
 
 It is clear that this way the most part of variance is keeped. Indeed,
 let's imagine that we had exact linear dependencies at some step, and, thus,
-after pca some components have exact zero variance. Substituting zero to 
+after pca some components have exact zero variance. Substituting vector with zeros to 
 expansion rule :eq:`second_expansion` we see that result is ... also zeros. 
 The same relates to small components - components with small variance 
 "give a birth" to components with also small variance, thus their neglecting,
@@ -212,7 +212,7 @@ To conclude, NICE consist of iterations each of three steps:
 
 In principle one can apply this machinery to other invariant/covariant machine learning tasks
 not related to atomistic machine learning.  The only difference is that in this case 
-input spherical expansion coefficients :math:`< n l m | \rho^1>` would be obtained from 
+input spherical expansion coefficients :math:`< n \lambda m | \rho^1>` would be obtained from 
 some other sphere/ball signal, not from sum of gaussians as in case of atomistic machine learning. 
 
 In current implementation there is also duplicate branch of only invariants, 
