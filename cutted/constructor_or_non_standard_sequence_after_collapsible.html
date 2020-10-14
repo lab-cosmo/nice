@@ -515,7 +515,8 @@ odd features sizes:  [0, 10, 0, 10, 0, 10]
 </pre></div></div>
 </div>
 <p>One common thing among PCA and purifiers blocks is num_to_fit semantics. Each class has num_to_fit argument in the initialization, which by default equals to ‘10x’. If num_to_fit is string of ‘number x’ format it would cause corresponding class use no more than number multiplier by number of components in case of pca, or number multiplier by number of coefficients in linear regression in case of purifiers data points. Data points are calculated as all entries of covariants. I. e. for
-lambda = 3 for example each environment would bring (3 * 2 + 1) data points, since dimensionality of single covariant vector is (2 * lambda + 1). If num_to_fit is int, it would do the same using the provided number as the upper bound for number of datapoints not depending on the actual number of pca components or linear regression coefficients. If total available number of data points is less than the number specified by num_to_fit class would raise warning, that there are not enough data.</p>
+lambda = 3 for example each environment would bring (3 * 2 + 1) data points, since dimensionality of single covariant vector is (2 * lambda + 1). If num_to_fit is int, it would do the same using the provided number as the upper bound for number of datapoints not depending on the actual number of pca components or linear regression coefficients. If total available number of data points is less than the number specified by num_to_fit class would raise warning, that there are not enough data.
+If num_to_fit is None corresponding block would always use all available data for fitting.</p>
 <p>This is done because the overall model is very diverse, and different parts of the model requires very different amount of data for good fitting. Thus, it is a good idea to do such restrictions to speed up the process.</p>
 <p>In case of PCA if n_components specified in the constructor is less than the actual number of features given during the fit step, it would be decreased to actual number of features. But, if number of data points is less than number of components after this possible decreasement (which make it impossible to produce such amount of components) it would raise ValueError with demand to provide more data for fitting.</p>
 <p>In order to do PCA step in invariants branch there is class InvariantsPCA, which actually differs from sklearn.decomposition.PCA only by num_to_fit semantics:</p>
@@ -606,12 +607,139 @@ lambda = 3 for example each environment would bring (3 * 2 + 1) data points, sin
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">clebsch</span> <span class="o">=</span> <span class="n">nice</span><span class="o">.</span><span class="n">clebsch_gordan</span><span class="o">.</span><span class="n">ClebschGordan</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># 5 is lamba max</span>
+
+<span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">clebsch_gordan</span> <span class="o">=</span> <span class="n">clebsch</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Now let’s go to 1024 body order!</p>
+<p>It might be usefull to investigate how actually usefull is thresholding heuristic in practice. For this purpose it is possible to get “raw importances” for output features which are multiplication of importances of input features which were used in Clebsch-Gordan iteration. In other words it is the criterion for selection itself.</p>
+<p>Let’s plot scatter plot which would show how selection criterion correlates with variance of output features for example. We will use invariants for simplicity:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">)</span>
+<span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">clebsch_gordan</span> <span class="o">=</span> <span class="n">clebsch</span><span class="p">)</span>
+<span class="n">invariants_even</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span>\
+                                                <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">invariants_even</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">variances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(((</span><span class="n">invariants_even</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">invariants_even</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span> <span class="mi">0</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">raw_importances</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">new_even_raw_importances_</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">raw_importances</span><span class="p">),</span> <span class="n">variances</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;raw importance&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;variance&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(4000, 200)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0, 0.5, &#39;variance&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/cutted_constructor_or_non_standard_sequence_after_collapsible_22_2.png" src="../_images/cutted_constructor_or_non_standard_sequence_after_collapsible_22_2.png" />
+</div>
+</div>
+<p>There is some correlation. Thus, tresholding heuristic works. Getters for raw importances might be inserted in next version of NICE.</p>
+<p>Standard block has the same input to fit and transform methods as TresholdExpansioner if it doesn’t contain purifers:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">block</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">block</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
+<span class="n">data_even_2</span><span class="p">,</span> <span class="n">data_odd_2</span><span class="p">,</span> <span class="n">invariants_even</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span>\
+                                                <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_even_2</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">invariants_even</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[10 10 10 10 10 10]
+None
+</pre></div></div>
+</div>
+<p>In this case invariants branch was None, and thus it returned None for invariants. This behavior is opposite to StandardSequence one, since it always returns invariants. If invariants branch of some block would be None it would return [:, :, 0, 0] part of covariants.</p>
+<p>If block contains invariants purifier, than old_even_invariants should be specified in fit and transform methods. If block contains covariants purifier, than old_even_covariants and old_odd_covariants should be specified.</p>
+<p>old_even_invariants should be list of 2 dimensional numpy arrays with previous invariants, old_even_covariants and old_odd_covariants should be lists with Data instances.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">block</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">),</span>
+                      <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
+                      <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                      <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
+                      <span class="kc">None</span><span class="p">)</span>
+
+<span class="n">block</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_2</span><span class="p">,</span> <span class="n">data_odd_2</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span>
+          <span class="n">old_even_invariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_even_1</span><span class="o">.</span><span class="n">get_invariants</span><span class="p">()],</span> <span class="c1"># returns [:, :, 0, 0] slice which is invariants</span>
+          <span class="n">old_even_covariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_even_1</span><span class="p">],</span> <span class="n">old_odd_covariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_odd_1</span><span class="p">])</span>
+
+<span class="n">data_even_3</span><span class="p">,</span> <span class="n">data_odd_3</span><span class="p">,</span> <span class="n">invariants_even_3</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_2</span><span class="p">,</span> <span class="n">data_odd_2</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span>
+          <span class="n">old_even_invariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_even_1</span><span class="o">.</span><span class="n">get_invariants</span><span class="p">()],</span> <span class="c1"># returns [:, :, 0, 0] slice which is invariants</span>
+          <span class="n">old_even_covariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_even_1</span><span class="p">],</span> <span class="n">old_odd_covariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_odd_1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>If block contains purifiers, but fit or transform methods are called without providing necessary data it would raise ValueError.</p>
+<p>One another usefull method is get_intermediate_shapes as in StandardSequence:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">get_intermediate_shapes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># it is a dictionary</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+after covariants expansioner [[33, 89, 125, 140, 141, 123], [28, 84, 123, 143, 143, 125]]
+after covariants purifier [[33, 89, 125, 140, 141, 123], [28, 84, 123, 143, 143, 125]]
+after invariants expansioner 200
+after invariants purifier 200
+</pre></div></div>
+</div>
+<p>StandardSequence was already discussed in first tutorial “Constructing machine learning potential”</p>
+<p>Now let’s go to 1024 body order!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -648,11 +776,11 @@ lambda = 3 for example each environment would bring (3 * 2 + 1) data points, sin
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 10/10 [00:04&lt;00:00,  2.16it/s]
+100%|██████████| 10/10 [00:05&lt;00:00,  1.76it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>

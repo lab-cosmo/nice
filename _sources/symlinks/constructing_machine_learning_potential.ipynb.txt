@@ -191,6 +191,35 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
+    "It is not necessary to always fill all transformation steps. For example the following block is valid:\n",
+    "\n",
+    "<pre>\n",
+    "StandardBlock(ThresholdExpansioner(num_expand = 150),\n",
+    "              None, \n",
+    "              IndividualLambdaPCAsBoth(n_components = 50), \n",
+    "              ThresholdExpansioner(num_expand =300, mode = 'invariants'), \n",
+    "              InvariantsPurifier(max_take = 50), \n",
+    "              None)\n",
+    "</pre>   \n",
+    "  \n",
+    "In this case purifying step in covariants branch and PCA step in invariants branch would be ommited. Covariants and invariants branches are independent. In case of not valid combinations, such as \n",
+    "\n",
+    "<pre>\n",
+    "StandardBlock(None, \n",
+    "              None,\n",
+    "              IndividualLambdaPCAsBoth(n_components = 50), \n",
+    "              ...)\n",
+    "</pre>              \n",
+    "\n",
+    "It would raise value error with the description of the problem during initialization.\n",
+    "\n",
+    "All intermediate blocks must compute covariants. Block is considered as computing covariants if it contains covariants expansioner and covariants pca. The latter is required since expansioners in subsequent blocks require not only covariants themselves, but also their importances for thresholdoing. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "In this cell we read structures, get set of all species in the dataset, and calculate spherical expansion. \n",
     "\n",
     "all species is given by the set of int, where 1 states for H, 2 for He and so on. \n",
@@ -432,9 +461,9 @@
     "def get_relative_performance(predictions, values):\n",
     "    return get_rmse(predictions, values) / get_standard_deviation(values)\n",
     "\n",
-    "def estimate_performance(clf, data_train, data_test, targets_train, targets_test):\n",
-    "    clf.fit(data_train, targets_train)\n",
-    "    return get_relative_performance(clf.predict(data_test), targets_test)"
+    "def estimate_performance(regressor, data_train, data_test, targets_train, targets_test):\n",
+    "    regressor.fit(data_train, targets_train)\n",
+    "    return get_relative_performance(regressor.predict(data_test), targets_test)"
    ]
   },
   {
@@ -522,7 +551,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The pipeline in this tutorial was designed to expose all intermediate steps, but it has one drawback - at some moment all atomic representations for whole dataset are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if dataset consist of large molecules. Thus, it is a good idea to calculate structural features by small blocks and get rid of atomic representations for each block immediatelly. For this purpose there is function nice.utilities.transform_sequentially. \n",
+    "The pipeline in this tutorial was designed to expose all intermediate steps, but it has one drawback - at some moment all atomic representations along with all intermediate covariants for whole dataset are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural invariant features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if dataset consist of large molecules. Thus, it is a good idea to calculate structural features by small blocks and get rid of atomic representations for each block immediatelly. For this purpose there is function nice.utilities.transform_sequentially. It has block_size parameter which controls the size of each chunk. The higher is this chunk the more RAM is required for calculations. But, on the other side for very small chunks slow python loops over lambda channels with invoking separate python classes for each lambda channel might become a bottleneck (all the other indices are handled either by numpy vectorization either by cython loops). The other reason for slow down is multiprocessing. Thus, transforming time per single environments monotonically decrease with the block_size and eventually goes to saturation. Default value for block_size parameter should be fine in most cases.\n",
     "\n",
     "Full example can be found in examples/methane_home_pc or in examples/qm9_home_pc. Other than that and absence of markdown comments these notebooks are almost identical to this tutorial (in qm9 single nice transformer is used for all central species). Thus, we recommend to pick one of them as the code snippet. "
    ]

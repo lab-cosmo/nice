@@ -566,6 +566,22 @@ controlled by num_expand parameter. If it is not specified (or set to None) full
 </pre></div>
 </div>
 </div>
+<p>It is not necessary to always fill all transformation steps. For example the following block is valid:</p>
+<pre>
+StandardBlock(ThresholdExpansioner(num_expand = 150),
+              None,
+              IndividualLambdaPCAsBoth(n_components = 50),
+              ThresholdExpansioner(num_expand =300, mode = 'invariants'),
+              InvariantsPurifier(max_take = 50),
+              None)
+</pre><p>In this case purifying step in covariants branch and PCA step in invariants branch would be ommited. Covariants and invariants branches are independent. In case of not valid combinations, such as</p>
+<pre>
+StandardBlock(None,
+              None,
+              IndividualLambdaPCAsBoth(n_components = 50),
+              ...)
+</pre><p>It would raise value error with the description of the problem during initialization.</p>
+<p>All intermediate blocks must compute covariants. Block is considered as computing covariants if it contains covariants expansioner and covariants pca. The latter is required since expansioners in subsequent blocks require not only covariants themselves, but also their importances for thresholdoing.</p>
 <p>In this cell we read structures, get set of all species in the dataset, and calculate spherical expansion.</p>
 <p>all species is given by the set of int, where 1 states for H, 2 for He and so on.</p>
 <p>coefficients is the dictionary where keys are central species, 1 and 6 in our case, and entries are numpy arrays shaped in the [environment_index, radial/specie index, l, m] way.</p>
@@ -761,9 +777,9 @@ of representations for each specie. Representation for each specie is sum of NIC
 <span class="k">def</span> <span class="nf">get_relative_performance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">get_rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="n">get_standard_deviation</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">estimate_performance</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">,</span> <span class="n">targets_test</span><span class="p">):</span>
-    <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">get_relative_performance</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test</span><span class="p">),</span> <span class="n">targets_test</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">estimate_performance</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">,</span> <span class="n">targets_test</span><span class="p">):</span>
+    <span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">get_relative_performance</span><span class="p">(</span><span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test</span><span class="p">),</span> <span class="n">targets_test</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -827,11 +843,12 @@ of representations for each specie. Representation for each specie is sum of NIC
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/symlinks_constructing_machine_learning_potential_28_0.png" src="../_images/symlinks_constructing_machine_learning_potential_28_0.png" />
+<img alt="../_images/symlinks_constructing_machine_learning_potential_29_0.png" src="../_images/symlinks_constructing_machine_learning_potential_29_0.png" />
 </div>
 </div>
-<p>The pipeline in this tutorial was designed to expose all intermediate steps, but it has one drawback - at some moment all atomic representations for whole dataset are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if dataset consist of large molecules. Thus, it is a good idea to calculate structural features by small
-blocks and get rid of atomic representations for each block immediatelly. For this purpose there is function nice.utilities.transform_sequentially.</p>
+<p>The pipeline in this tutorial was designed to expose all intermediate steps, but it has one drawback - at some moment all atomic representations along with all intermediate covariants for whole dataset are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural invariant features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if dataset consist of large molecules. Thus, it is a good
+idea to calculate structural features by small blocks and get rid of atomic representations for each block immediatelly. For this purpose there is function nice.utilities.transform_sequentially. It has block_size parameter which controls the size of each chunk. The higher is this chunk the more RAM is required for calculations. But, on the other side for very small chunks slow python loops over lambda channels with invoking separate python classes for each lambda channel might become a
+bottleneck (all the other indices are handled either by numpy vectorization either by cython loops). The other reason for slow down is multiprocessing. Thus, transforming time per single environments monotonically decrease with the block_size and eventually goes to saturation. Default value for block_size parameter should be fine in most cases.</p>
 <p>Full example can be found in examples/methane_home_pc or in examples/qm9_home_pc. Other than that and absence of markdown comments these notebooks are almost identical to this tutorial (in qm9 single nice transformer is used for all central species). Thus, we recommend to pick one of them as the code snippet.</p>
 </div>
 

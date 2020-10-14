@@ -216,6 +216,7 @@
 <dt id="blocks.grouping.StandardBlock">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.grouping.</code><code class="sig-name descname">StandardBlock</code><span class="sig-paren">(</span><em class="sig-param">covariants_expansioner=None</em>, <em class="sig-param">covariants_purifier=None</em>, <em class="sig-param">covariants_pca=None</em>, <em class="sig-param">invariants_expansioner=None</em>, <em class="sig-param">invariants_purifier=None</em>, <em class="sig-param">invariants_pca=None</em>, <em class="sig-param">guaranteed_parts_fitted_consistently=False</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.grouping.StandardBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block for standard procedure of body order increasement step</p>
 <dl class="method">
 <dt id="blocks.grouping.StandardBlock.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">first_even</em>, <em class="sig-param">first_odd</em>, <em class="sig-param">second_even</em>, <em class="sig-param">second_odd</em>, <em class="sig-param">old_even_covariants=None</em>, <em class="sig-param">old_odd_covariants=None</em>, <em class="sig-param">old_even_invariants=None</em>, <em class="sig-param">clebsch_gordan=None</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.grouping.StandardBlock.fit" title="Permalink to this definition">¶</a></dt>
@@ -242,6 +243,7 @@
 <dt id="blocks.grouping.StandardSequence">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.grouping.</code><code class="sig-name descname">StandardSequence</code><span class="sig-paren">(</span><em class="sig-param">blocks</em>, <em class="sig-param">initial_pca=None</em>, <em class="sig-param">initial_scaler=None</em>, <em class="sig-param">guaranteed_parts_fitted_consistently=False</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.grouping.StandardSequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block implementing logic of main NICE sequence</p>
 <dl class="method">
 <dt id="blocks.grouping.StandardSequence.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">coefficients</em>, <em class="sig-param">clebsch_gordan=None</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.grouping.StandardSequence.fit" title="Permalink to this definition">¶</a></dt>
@@ -270,151 +272,8 @@
 <dd></dd></dl>
 
 </div>
-<div class="section" id="module-blocks.compressors">
-<span id="compressors"></span><h1>Compressors<a class="headerlink" href="#module-blocks.compressors" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="blocks.compressors.IndividualLambdaPCAs">
-<em class="property">class </em><code class="sig-prename descclassname">blocks.compressors.</code><code class="sig-name descname">IndividualLambdaPCAs</code><span class="sig-paren">(</span><em class="sig-param">n_components=None</em>, <em class="sig-param">num_to_fit='10x'</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.IndividualLambdaPCAs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="method">
-<dt id="blocks.compressors.IndividualLambdaPCAs.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.IndividualLambdaPCAs.fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="blocks.compressors.IndividualLambdaPCAs.get_importances">
-<code class="sig-name descname">get_importances</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.IndividualLambdaPCAs.get_importances" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="blocks.compressors.IndividualLambdaPCAs.is_fitted">
-<code class="sig-name descname">is_fitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.IndividualLambdaPCAs.is_fitted" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="blocks.compressors.IndividualLambdaPCAs.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.IndividualLambdaPCAs.transform" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="blocks.compressors.IndividualLambdaPCAsBoth">
-<em class="property">class </em><code class="sig-prename descclassname">blocks.compressors.</code><code class="sig-name descname">IndividualLambdaPCAsBoth</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.IndividualLambdaPCAsBoth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="method">
-<dt id="blocks.compressors.IndividualLambdaPCAsBoth.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">data_even</em>, <em class="sig-param">data_odd</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.IndividualLambdaPCAsBoth.fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="blocks.compressors.IndividualLambdaPCAsBoth.is_fitted">
-<code class="sig-name descname">is_fitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.IndividualLambdaPCAsBoth.is_fitted" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="blocks.compressors.IndividualLambdaPCAsBoth.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data_even</em>, <em class="sig-param">data_odd</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.IndividualLambdaPCAsBoth.transform" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="blocks.compressors.InvariantsPCA">
-<em class="property">class </em><code class="sig-prename descclassname">blocks.compressors.</code><code class="sig-name descname">InvariantsPCA</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.InvariantsPCA" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._pca.PCA</span></code></p>
-<dl class="method">
-<dt id="blocks.compressors.InvariantsPCA.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.InvariantsPCA.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit the model with X.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>array-like</em><em>, </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Training data, where n_samples is the number of samples
-and n_features is the number of features.</p></li>
-<li><p><strong>y</strong> (<em>None</em>) – Ignored variable.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>self</strong> – Returns the instance itself.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>object</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="blocks.compressors.InvariantsPCA.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.InvariantsPCA.fit_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit the model with X and apply the dimensionality reduction on X.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>array-like</em><em>, </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Training data, where n_samples is the number of samples
-and n_features is the number of features.</p></li>
-<li><p><strong>y</strong> (<em>None</em>) – Ignored variable.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>X_new</strong> – Transformed values.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>array-like, shape (n_samples, n_components)</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>This method returns a Fortran-ordered array. To convert it to a
-C-ordered array, use ‘np.ascontiguousarray’.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="blocks.compressors.InvariantsPCA.is_fitted">
-<code class="sig-name descname">is_fitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.InvariantsPCA.is_fitted" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="blocks.compressors.InvariantsPCA.process_input">
-<code class="sig-name descname">process_input</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.InvariantsPCA.process_input" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="blocks.compressors.InvariantsPCA.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.InvariantsPCA.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply dimensionality reduction to X.</p>
-<p>X is projected on the first principal components previously extracted
-from a training set.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>array-like</em><em>, </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – New data, where n_samples is the number of samples
-and n_features is the number of features.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>X_new</strong></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>array-like, shape (n_samples, n_components)</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">IncrementalPCA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ipca</span> <span class="o">=</span> <span class="n">IncrementalPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ipca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="go">IncrementalPCA(batch_size=3, n_components=2)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ipca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="c1"># doctest: +SKIP</span>
-</pre></div>
-</div>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="blocks.compressors.get_num_fit">
-<code class="sig-prename descclassname">blocks.compressors.</code><code class="sig-name descname">get_num_fit</code><span class="sig-paren">(</span><em class="sig-param">desired_num</em>, <em class="sig-param">block_size</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.compressors.get_num_fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<div class="section" id="compressors">
+<h1>Compressors<a class="headerlink" href="#compressors" title="Permalink to this headline">¶</a></h1>
 </div>
 <div class="section" id="module-blocks.expansioners">
 <span id="expansioners"></span><h1>Expansioners<a class="headerlink" href="#module-blocks.expansioners" title="Permalink to this headline">¶</a></h1>
@@ -422,6 +281,9 @@ and n_features is the number of features.</p>
 <dt id="blocks.expansioners.ThresholdExpansioner">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.expansioners.</code><code class="sig-name descname">ThresholdExpansioner</code><span class="sig-paren">(</span><em class="sig-param">num_expand=None</em>, <em class="sig-param">mode='covariants'</em>, <em class="sig-param">num_threads=None</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.expansioners.ThresholdExpansioner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to do Clebsch-Gordan iteration. It uses two even-odd pairs of Data instances with covariants
+to produce new ones. If first even-odd pair contains covariants of body order v1, and the second v2, body
+order of the result would be v1 + v2.</p>
 <dl class="method">
 <dt id="blocks.expansioners.ThresholdExpansioner.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">first_even</em>, <em class="sig-param">first_odd</em>, <em class="sig-param">second_even</em>, <em class="sig-param">second_odd</em>, <em class="sig-param">clebsch_gordan=None</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.expansioners.ThresholdExpansioner.fit" title="Permalink to this definition">¶</a></dt>
@@ -446,6 +308,8 @@ and n_features is the number of features.</p>
 <dt id="blocks.purifiers.CovariantsIndividualPurifier">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.purifiers.</code><code class="sig-name descname">CovariantsIndividualPurifier</code><span class="sig-paren">(</span><em class="sig-param">regressor=None</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">max_take=None</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.purifiers.CovariantsIndividualPurifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify single covariants lambda channel. It operates with 3 dimensional numpy arrays
+with indexing [environmental_index, feature_index, m]</p>
 <dl class="method">
 <dt id="blocks.purifiers.CovariantsIndividualPurifier.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">old_blocks</em>, <em class="sig-param">new_block</em>, <em class="sig-param">l</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.purifiers.CovariantsIndividualPurifier.fit" title="Permalink to this definition">¶</a></dt>
@@ -467,6 +331,7 @@ and n_features is the number of features.</p>
 <dt id="blocks.purifiers.CovariantsPurifier">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.purifiers.</code><code class="sig-name descname">CovariantsPurifier</code><span class="sig-paren">(</span><em class="sig-param">regressor=None</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">max_take=None</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.purifiers.CovariantsPurifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify covariants of single parity. It operates with instances of Data class with covariants</p>
 <dl class="method">
 <dt id="blocks.purifiers.CovariantsPurifier.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">old_datas</em>, <em class="sig-param">new_data</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.purifiers.CovariantsPurifier.fit" title="Permalink to this definition">¶</a></dt>
@@ -488,6 +353,7 @@ and n_features is the number of features.</p>
 <dt id="blocks.purifiers.CovariantsPurifierBoth">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.purifiers.</code><code class="sig-name descname">CovariantsPurifierBoth</code><span class="sig-paren">(</span><em class="sig-param">regressor=None</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">max_take=None</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.purifiers.CovariantsPurifierBoth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify covariants of both parities. It operates with pairs of instances of Data class with covariants</p>
 <dl class="method">
 <dt id="blocks.purifiers.CovariantsPurifierBoth.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">old_datas_even</em>, <em class="sig-param">new_data_even</em>, <em class="sig-param">old_datas_odd</em>, <em class="sig-param">new_data_odd</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.purifiers.CovariantsPurifierBoth.fit" title="Permalink to this definition">¶</a></dt>
@@ -509,6 +375,7 @@ and n_features is the number of features.</p>
 <dt id="blocks.purifiers.InvariantsPurifier">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.purifiers.</code><code class="sig-name descname">InvariantsPurifier</code><span class="sig-paren">(</span><em class="sig-param">regressor=None</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">max_take=None</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.purifiers.InvariantsPurifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify invariants. It operates with numpy 2d arrays containing invariants</p>
 <dl class="method">
 <dt id="blocks.purifiers.InvariantsPurifier.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">old_blocks</em>, <em class="sig-param">new_block</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.purifiers.InvariantsPurifier.fit" title="Permalink to this definition">¶</a></dt>
@@ -533,6 +400,9 @@ and n_features is the number of features.</p>
 <dt id="blocks.miscellaneous.InitialScaler">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.miscellaneous.</code><code class="sig-name descname">InitialScaler</code><span class="sig-paren">(</span><em class="sig-param">mode='signal integral'</em>, <em class="sig-param">individually=False</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.miscellaneous.InitialScaler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to scale initial spherical expansion coefficients in a certain way. It allows to both
+normalize coefficients for each environment individually, and to multiply whole array to single
+scaling factor, thus, preserving information about relative scale</p>
 <dl class="method">
 <dt id="blocks.miscellaneous.InitialScaler.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">coefficients</em><span class="sig-paren">)</span><a class="headerlink" href="#blocks.miscellaneous.InitialScaler.fit" title="Permalink to this definition">¶</a></dt>
@@ -554,6 +424,8 @@ and n_features is the number of features.</p>
 <dt id="blocks.miscellaneous.InitialTransformer">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.miscellaneous.</code><code class="sig-name descname">InitialTransformer</code><a class="headerlink" href="#blocks.miscellaneous.InitialTransformer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Utility block to split spherical expansion coefficients stored in the form of single numpy array to
+even-odd pair of Data instances</p>
 <dl class="method">
 <dt id="blocks.miscellaneous.InitialTransformer.is_fitted">
 <code class="sig-name descname">is_fitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blocks.miscellaneous.InitialTransformer.is_fitted" title="Permalink to this definition">¶</a></dt>
@@ -570,6 +442,7 @@ and n_features is the number of features.</p>
 <dt id="blocks.miscellaneous.ParityDefinitionChanger">
 <em class="property">class </em><code class="sig-prename descclassname">blocks.miscellaneous.</code><code class="sig-name descname">ParityDefinitionChanger</code><a class="headerlink" href="#blocks.miscellaneous.ParityDefinitionChanger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to change parity definition from even-odd to true-pseudo and vice versa</p>
 <dl class="method">
 <dt id="blocks.miscellaneous.ParityDefinitionChanger.is_fitted">
 <code class="sig-name descname">is_fitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#blocks.miscellaneous.ParityDefinitionChanger.is_fitted" title="Permalink to this definition">¶</a></dt>
