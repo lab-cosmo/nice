@@ -6,6 +6,17 @@ from multiprocessing import Pool, cpu_count
 import warnings
 
 def get_all_species(structures):
+    ''' returning all unique atomic species among the structures
+    
+    Args:
+        structures: list of ase atoms objects
+        
+    Returns:
+        sorted numpy array with ints with all unique species in the format where 
+        1 states for H, 2 for He and so on. (inherits from ase function 
+        atoms_object.get_atomic_numbers())
+        
+    '''
     all_species = []
     for structure in structures:
         all_species.append(np.array(structure.get_atomic_numbers()))
@@ -15,6 +26,18 @@ def get_all_species(structures):
     
 
 def get_compositional_features(structures, all_species):
+    ''' returning compositional features suitable for linear regression which contains information
+    about the number of atoms with particular species in the structure
+    
+    Args:
+        structures: list of Ase atoms objects
+        all_species: numpy array with ints of all unique species in the dataset. 
+        If all species argument is the same for several calls of this function, resulting 
+        blocks of compositional features are guaranteed to be consisted with each other
+        
+    Return:
+        numpy array with shape [len(structures), len(all_species)] with compositional features
+    '''
     result = np.zeros([len(structures), len(all_species)])
     for i, structure in tqdm.tqdm(enumerate(structures)):
         species_now = structure.get_atomic_numbers()
@@ -25,6 +48,22 @@ def get_compositional_features(structures, all_species):
 
 def get_spherical_expansion(structures, rascal_hypers, all_species, 
                             task_size = 100, num_threads = None, show_progress = True):  
+    
+    '''returning spherical expansion coefficients
+    
+     Args:
+        structures: list of Ase atoms objects
+        rascal_hypers: dictionary with parameters for librascal controlling spherical expansion
+        all_species: numpy array with ints of all unique species in the dataset. 
+        If all species argument is the same for several calls of this function, resulting 
+        blocks of spherical expansion coefficients are guaranteed to be consisted with each other
+        
+    Return:
+        dictionary in which keys are elements of all_speceis, and entries are numpy arrays with indexing
+        [environmental index, radial basis/neighbor specie index, lambda, m] with spherical expansion coefficients for 
+        environments around atoms with specie indicated in key. Coefficients are stored from the beginning,
+        i. e. [:, : lambda, :(2 * lambda + 1)] elements are valid
+    '''
     hypers = copy.deepcopy(rascal_hypers)
     
     if ('expansion_by_species_method' in hypers.keys()):
@@ -67,7 +106,24 @@ def get_spherical_expansion(structures, rascal_hypers, all_species,
 
 
 def make_structural_features(features, structures, all_species, show_progress=True):
-   
+     ''' returning structural features suitable for linear regression which consist of sums 
+     over atomic features
+    
+    Args:
+        features: nested dictionary with atomic features. First level keys are central species, 
+        second level keys are body orders. Entries are 2-dimensional numpy arrays. 
+        structures: list of Ase atoms objects
+        all_species: numpy array with ints of all unique species in the dataset. 
+        If all species argument is the same for several calls of this function, resulting 
+        blocks of structural features are guaranteed to be consistent with each other.        
+        If for given block of structures there are no atoms of some particular specie,
+        features dictionary still have to contain key with this specie. It should contain 
+        numpy arrays with shapes [0, number of features]. This is need to get proper placing
+        of features to fulfill consistency.
+        
+    Return:
+        numpy array with shape [len(structures), number of structural features] with structural features
+    '''
 
     for specie in all_species:
         if (specie not in features.keys()):
@@ -115,19 +171,37 @@ def make_structural_features(features, structures, all_species, show_progress=Tr
 
     return result
 
-def transform_sequentially(transformers, structures, HYPERS, all_species, 
+def transform_sequentially(nice, structures, rascal_hypers, all_species, 
                            block_size = 500, show_progress = True):
+     ''' transforming structures into structural features by chunks in order to use less amount of RAM
+    
+    Args:
+        nice: dictionary where keys are species and entries are nice transformers.
+        If you want to use single nice transformer to all environments regardless of central
+        specie just pass {key : nice_single for specie in all_species}
+        structures: list of Ase atoms objects
+        rascal_hypers: dictionary with parameters for librascal controlling spherical expansion.
+        Should be the same as used for fitting nice transformers
+        all_species: numpy array with ints of all unique species in the dataset. 
+        block_size: size of chunks measured in number of environments
+        show_progress: whether show or not progress via tqdm
+        
+        
+    Return:
+        numpy array with shape [len(structures), number of structural features] with structural features
+    '''
+        
     pieces = []
     
     for i in tqdm.tqdm(range(0, len(structures), block_size), disable = not show_progress):
         now = {}        
         coefficients = get_spherical_expansion(structures[i : i + block_size],
-                                                            HYPERS,
+                                                            rascal_hypers,
                                                             all_species,
                                                             show_progress = False)
         for specie in all_species:
             if (coefficients[specie].shape[0] != 0):
-                now[specie] = transformers[specie].transform(coefficients[specie],
+                now[specie] = nice[specie].transform(coefficients[specie],
                                                           return_only_invariants = True)
             else:
                 # determining size of output
@@ -135,7 +209,7 @@ def transform_sequentially(transformers, structures, HYPERS, all_species,
                 dummy_shape = list(dummy_shape)
                 dummy_shape[0] = 1
                 dummy_data = np.ones(dummy_shape)
-                dummy_output = transformers[specie].transform(dummy_data,
+                dummy_output = nice[specie].transform(dummy_data,
                                                               return_only_invariants = True)
                 current_block = {}
                 for key in dummy_output.keys():
