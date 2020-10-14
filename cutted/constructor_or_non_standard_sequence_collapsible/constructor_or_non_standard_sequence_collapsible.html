@@ -84,10 +84,8 @@
               
             
             
-              <p class="caption"><span class="caption-text">Nice</span></p>
+              <p class="caption"><span class="caption-text">Theory in a nutshell</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../hello_user.html">NICE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../hello_user.html#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../theory.html">Theory in a nutshell</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
@@ -212,17 +210,16 @@
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">BayesianRidge</span>
 
-<span class="n">structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
-                         <span class="n">index</span> <span class="o">=</span> <span class="s1">&#39;0:1000&#39;</span><span class="p">)</span>
+<span class="n">structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;0:1000&#39;</span><span class="p">)</span>
 
 <span class="n">HYPERS</span> <span class="o">=</span> <span class="p">{</span>
-<span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
-<span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-<span class="s1">&#39;max_angular&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-<span class="s1">&#39;gaussian_sigma_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Constant&#39;</span><span class="p">,</span>
-<span class="s1">&#39;gaussian_sigma_constant&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
-<span class="s1">&#39;cutoff_smooth_width&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
-<span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
+    <span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
+    <span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;max_angular&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;gaussian_sigma_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Constant&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;gaussian_sigma_constant&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="s1">&#39;cutoff_smooth_width&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
 <span class="p">}</span>
 
 <span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">structures</span><span class="p">)</span>
@@ -233,28 +230,28 @@
 <embed>
 <pre>
 <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-    --2020-10-14 17:08:41--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528
+    --2020-10-14 21:04:38--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528
     Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
     Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
     HTTP request sent, awaiting response... 302 FOUND
-    Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1602688181&Signature=KFHV80D8Kv7bhdHmDvIGIwH5TbM%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
-    --2020-10-14 17:08:41--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1602688181&Signature=KFHV80D8Kv7bhdHmDvIGIwH5TbM%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+    Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1602702338&Signature=%2BW5BcV4kYmjkwE01%2FO9%2FEymZiTY%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+    --2020-10-14 21:04:38--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Expires=1602702338&Signature=%2BW5BcV4kYmjkwE01%2FO9%2FEymZiTY%3D&AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
     Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.202, 148.187.25.201
     Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.200|:443... connected.
     HTTP request sent, awaiting response... 200 OK
     Length: 1218139661 (1.1G) [application/octet-stream]
     Saving to: ‘methane.extxyz.gz’
 
-    methane.extxyz.gz   100%[===================>]   1.13G  11.9MB/s    in 46s
+    methane.extxyz.gz   100%[===================>]   1.13G  80.7MB/s    in 35s
 
-    2020-10-14 17:09:27 (25.3 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+    2020-10-14 21:05:13 (33.4 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
 </p>
 </pre>
 </embed><embed>
 <pre>
 <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-    100%|██████████| 10/10 [00:00<00:00, 44.03it/s]
-    100%|██████████| 2/2 [00:00<00:00, 91.79it/s]
+    100%|██████████| 10/10 [00:00<00:00, 44.15it/s]
+    100%|██████████| 2/2 [00:00<00:00, 326.51it/s]
 </p>
 </pre>
 </embed>

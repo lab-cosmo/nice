@@ -25,7 +25,7 @@ first tutorial. For this purposes there is class InitialScaler:
 
 .. code:: ipython3
 
-    initial_scaler = InitialScaler(mode = 'signal integral', individually = False)
+    initial_scaler = InitialScaler(mode='signal integral', individually=False)
     initial_scaler.fit(coefficients)
     coefficients = initial_scaler.transform(coefficients)
 
@@ -38,7 +38,7 @@ calculations:
 
 .. code:: ipython3
 
-    data_even_1, data_odd_1  = InitialTransformer().transform(coefficients)
+    data_even_1, data_odd_1 = InitialTransformer().transform(coefficients)
     print(type(data_even_1))
     print(data_even_1.covariants_.shape)
     print("even features sizes: ", data_even_1.actual_sizes_)
@@ -72,15 +72,14 @@ transformation of both. For example:
 
 .. code:: ipython3
 
-    pca = IndividualLambdaPCAs(n_components = 5) #single parity version
+    pca = IndividualLambdaPCAs(n_components=5)  #single parity version
     pca.fit(data_even_1)
     data_even_1_t = pca.transform(data_even_1)
     print(data_even_1_t.actual_sizes_)
     
-    pca = IndividualLambdaPCAsBoth() #both version
+    pca = IndividualLambdaPCAsBoth()  #both version
     pca.fit(data_even_1, data_odd_1)
     data_even_1_t, data_odd_1_t = pca.transform(data_even_1, data_odd_1)
-
 
 
 .. raw:: html
@@ -128,8 +127,8 @@ only by num\_to\_fit semantics:
 
 .. code:: ipython3
 
-    pca = InvariantsPCA(num_to_fit = '300x')
-    ar  = np.random.rand(400, 10)
+    pca = InvariantsPCA(num_to_fit='300x')
+    ar = np.random.rand(400, 10)
     pca.fit(ar)
     print(pca.transform(ar).shape)
 
@@ -167,7 +166,7 @@ pretend that we have already features of several body orders):
 
 .. code:: ipython3
 
-    purifier = CovariantsPurifier(max_take = 3)
+    purifier = CovariantsPurifier(max_take=3)
     purifier.fit([data_even_1, data_even_1], data_even_1)
     data_even_1_t = purifier.transform([data_even_1, data_even_1], data_even_1)
 
@@ -184,7 +183,7 @@ which would automatically asign importances:
 
 .. code:: ipython3
 
-    pca = IndividualLambdaPCAsBoth() 
+    pca = IndividualLambdaPCAsBoth()
     pca.fit(data_even_1, data_odd_1)
     data_even_1, data_odd_1 = pca.transform(data_even_1, data_odd_1)
 
@@ -194,7 +193,7 @@ body order v2, result would be of body order v1 + v2:
 
 .. code:: ipython3
 
-    expansioner = ThresholdExpansioner(num_expand = 200)
+    expansioner = ThresholdExpansioner(num_expand=200)
     
     expansioner.fit(data_even_1, data_odd_1, data_even_1, data_odd_1)
     data_even_2, data_odd_2 = expansioner.transform(data_even_1, data_odd_1,\
@@ -222,10 +221,14 @@ with them:
 
 .. code:: ipython3
 
-    clebsch = nice.clebsch_gordan.ClebschGordan(5) # 5 is lamba max
+    clebsch = nice.clebsch_gordan.ClebschGordan(5)  # 5 is lamba max
     
-    expansioner = ThresholdExpansioner(num_expand = 200)
-    expansioner.fit(data_even_1, data_odd_1, data_even_1, data_odd_1, clebsch_gordan = clebsch)
+    expansioner = ThresholdExpansioner(num_expand=200)
+    expansioner.fit(data_even_1,
+                    data_odd_1,
+                    data_even_1,
+                    data_odd_1,
+                    clebsch_gordan=clebsch)
 
 It might be usefull to investigate how actually usefull is thresholding
 heuristic in practice. For this purpose it is possible to get "raw
@@ -239,14 +242,19 @@ invariants for simplicity:
 
 .. code:: ipython3
 
-    expansioner = ThresholdExpansioner(num_expand = 200, mode = 'invariants')
-    expansioner.fit(data_even_1, data_odd_1, data_even_1, data_odd_1, clebsch_gordan = clebsch)
+    expansioner = ThresholdExpansioner(num_expand=200, mode='invariants')
+    expansioner.fit(data_even_1,
+                    data_odd_1,
+                    data_even_1,
+                    data_odd_1,
+                    clebsch_gordan=clebsch)
     invariants_even, _ = expansioner.transform(data_even_1, data_odd_1,\
                                                     data_even_1, data_odd_1)
     
     print(invariants_even.shape)
     
-    variances = np.mean(((invariants_even - np.mean(invariants_even, axis= 0)) ** 2), axis = 0)
+    variances = np.mean(((invariants_even - np.mean(invariants_even, axis=0))**2),
+                        axis=0)
     raw_importances = expansioner.new_even_raw_importances_
     
     plt.plot(np.sqrt(raw_importances), variances, 'o')
@@ -287,8 +295,8 @@ TresholdExpansioner if it doesn't contain purifers:
 
 .. code:: ipython3
 
-    block = StandardBlock(ThresholdExpansioner(num_expand = 200), None,
-                          IndividualLambdaPCAsBoth(n_components = 10))
+    block = StandardBlock(ThresholdExpansioner(num_expand=200), None,
+                          IndividualLambdaPCAsBoth(n_components=10))
     block.fit(data_even_1, data_odd_1, data_even_1, data_odd_1)
     data_even_2, data_odd_2, invariants_even = block.transform(data_even_1, data_odd_1,\
                                                     data_even_1, data_odd_1)
@@ -323,20 +331,30 @@ should be lists with Data instances.
 
 .. code:: ipython3
 
-    block = StandardBlock(ThresholdExpansioner(num_expand = 200), 
-                          CovariantsPurifierBoth(max_take = 10),
-                          None, 
-                          ThresholdExpansioner(num_expand = 200, mode = 'invariants'), 
-                          InvariantsPurifier(max_take = 10), 
-                          None)
+    block = StandardBlock(ThresholdExpansioner(num_expand=200),
+                          CovariantsPurifierBoth(max_take=10), None,
+                          ThresholdExpansioner(num_expand=200, mode='invariants'),
+                          InvariantsPurifier(max_take=10), None)
     
-    block.fit(data_even_2, data_odd_2, data_even_1, data_odd_1, 
-              old_even_invariants = [data_even_1.get_invariants()], # returns [:, :, 0, 0] slice which is invariants
-              old_even_covariants = [data_even_1], old_odd_covariants = [data_odd_1])
+    block.fit(
+        data_even_2,
+        data_odd_2,
+        data_even_1,
+        data_odd_1,
+        old_even_invariants=[data_even_1.get_invariants()
+                             ],  # returns [:, :, 0, 0] slice which is invariants
+        old_even_covariants=[data_even_1],
+        old_odd_covariants=[data_odd_1])
     
-    data_even_3, data_odd_3, invariants_even_3 = block.transform(data_even_2, data_odd_2, data_even_1, data_odd_1, 
-              old_even_invariants = [data_even_1.get_invariants()], # returns [:, :, 0, 0] slice which is invariants
-              old_even_covariants = [data_even_1], old_odd_covariants = [data_odd_1])
+    data_even_3, data_odd_3, invariants_even_3 = block.transform(
+        data_even_2,
+        data_odd_2,
+        data_even_1,
+        data_odd_1,
+        old_even_invariants=[data_even_1.get_invariants()
+                             ],  # returns [:, :, 0, 0] slice which is invariants
+        old_even_covariants=[data_even_1],
+        old_odd_covariants=[data_odd_1])
 
 If block contains purifiers, but fit or transform methods are called
 without providing necessary data it would raise ValueError.
@@ -346,7 +364,8 @@ StandardSequence:
 
 .. code:: ipython3
 
-    for key, value in block.get_intermediate_shapes().items(): # it is a dictionary
+    for key, value in block.get_intermediate_shapes().items(
+    ):  # it is a dictionary
         print(key, value)
 
 
@@ -370,31 +389,36 @@ Now let's go to 1024 body order!
 
 .. code:: ipython3
 
-    
     data_even_now, data_odd_now = data_even_1, data_odd_1
     
-    
-    for _ in tqdm.tqdm(range(10)):        
+    for _ in tqdm.tqdm(range(10)):
         pca = IndividualLambdaPCAsBoth(10)
         pca.fit(data_even_now, data_odd_now)
-        data_even_now, data_odd_now  = pca.transform(data_even_now, data_odd_now)
+        data_even_now, data_odd_now = pca.transform(data_even_now, data_odd_now)
         expansioner = ThresholdExpansioner(50)
-        expansioner.fit(data_even_now, data_odd_now, data_even_now, data_odd_now, clebsch_gordan = clebsch)
-        data_even_now, data_odd_now = expansioner.transform(data_even_now, data_odd_now, data_even_now, data_odd_now)
+        expansioner.fit(data_even_now,
+                        data_odd_now,
+                        data_even_now,
+                        data_odd_now,
+                        clebsch_gordan=clebsch)
+        data_even_now, data_odd_now = expansioner.transform(
+            data_even_now, data_odd_now, data_even_now, data_odd_now)
     
         # very high body order cause numerical instabilities,
-        # and, thus, there is need to normalize data   
+        # and, thus, there is need to normalize data
         for lambd in range(6):
-            if (data_even_now.actual_sizes_[lambd] > 0):
-                even_factor = np.sqrt(np.mean(data_even_now.covariants_[:, :data_even_now.actual_sizes_[lambd], lambd] ** 2))
-                if (even_factor > 1e-15): #catch exact zeros
-                    data_even_now.covariants_[:, :data_even_now.actual_sizes_[lambd], lambd] /= even_factor
-    
-            if (data_odd_now.actual_sizes_[lambd] > 0):
-                odd_factor = np.sqrt(np.mean(data_odd_now.covariants_[:, :data_odd_now.actual_sizes_[lambd], lambd] ** 2))
-                if (odd_factor > 1e-15): #catch exact zeros
-                    data_odd_now.covariants_[:, :data_odd_now.actual_sizes_[lambd], lambd] /= odd_factor
-
+            size = data_even_now.actual_sizes_[lambd]
+            if (size > 0):
+                even_factor = np.sqrt(
+                    np.mean(data_even_now.covariants_[:, :size, lambd]**2))
+                if (even_factor > 1e-15):  #catch exact zeros
+                    data_even_now.covariants_[:, :size, lambd] /= even_factor
+            size = data_odd_now.actual_sizes_[lambd]
+            if (size > 0):
+                odd_factor = np.sqrt(
+                    np.mean(data_odd_now.covariants_[:, :size, lambd]**2))
+                if (odd_factor > 1e-15):  #catch exact zeros
+                    data_odd_now.covariants_[:, :size, lambd] /= odd_factor
 
 
 .. raw:: html
@@ -402,7 +426,7 @@ Now let's go to 1024 body order!
     <embed>
     <pre>
     <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-        100%|██████████| 10/10 [00:05<00:00,  1.76it/s]
+        100%|██████████| 10/10 [00:06<00:00,  1.62it/s]
     </p>
     </pre>
     </embed>

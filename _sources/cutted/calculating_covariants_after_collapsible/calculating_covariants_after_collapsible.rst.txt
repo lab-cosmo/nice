@@ -109,7 +109,8 @@ definitions:
 
 .. code:: ipython3
 
-    data_true, data_pseudo = ParityDefinitionChanger().transform(data_even, data_odd)
+    data_true, data_pseudo = ParityDefinitionChanger().transform(
+        data_even, data_odd)
     
     print(data_true.covariants_.shape)
     print(data_true.actual_sizes_)
@@ -136,7 +137,8 @@ go back from true and pseudo covariants to even and odd:
 
 .. code:: ipython3
 
-    data_even, data_odd = ParityDefinitionChanger().transform(data_true, data_pseudo)
+    data_even, data_odd = ParityDefinitionChanger().transform(
+        data_true, data_pseudo)
 
 There is one another discrepancy - covariants defined in the nice
 article, are smaller by the factor of (2 \* lambda + 1). Thus, the last

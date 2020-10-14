@@ -28,7 +28,7 @@ intermediate shapes in the form of nested dictionary:
     intermediate_shapes = nice[1].get_intermediate_shapes()
     
     for key in intermediate_shapes.keys():
-        print(key, ':',  intermediate_shapes[key], end = '\n\n\n')
+        print(key, ':', intermediate_shapes[key], end='\n\n\n')
 
 
 .. raw:: html
@@ -63,40 +63,52 @@ getters will be inserted in the next version of NICE)
         plt.plot(np.arange(len(array)) + 1, array, *args, **kwargs)
         plt.ylim([1e-3, 1e0])
     
+    
     colors = ['r', 'g', 'b', 'orange', 'yellow', 'purple']
     
     print("nu: ", 1)
-    for i in range(6): # loop over lambda channels
+    for i in range(6):  # loop over lambda channels
         if (nice[6].initial_pca_ is not None):
             if (nice[6].initial_pca_.even_pca_.pcas_[i] is not None):
-                proper_log_plot(nice[6].initial_pca_.even_pca_.pcas_[i].importances_,
-                                color = colors[i], label = "lambda = {}".format(i))
+                proper_log_plot(
+                    nice[6].initial_pca_.even_pca_.pcas_[i].importances_,
+                    color=colors[i],
+                    label="lambda = {}".format(i))
     
-    
-    for i in range(6): # loop over lambda channels
+    for i in range(6):  # loop over lambda channels
         if (nice[6].initial_pca_ is not None):
             if (nice[6].initial_pca_.odd_pca_.pcas_[i] is not None):
-                proper_log_plot(nice[6].initial_pca_.odd_pca_.pcas_[i].importances_,
-                                '--', color = colors[i], label = "lambda = {}".format(i))
+                proper_log_plot(
+                    nice[6].initial_pca_.odd_pca_.pcas_[i].importances_,
+                    '--',
+                    color=colors[i],
+                    label="lambda = {}".format(i))
     
     plt.yscale('log')
     plt.xscale('log')
     plt.legend()
     plt.show()
-        
-    for nu in range(len(nice[6].blocks_)): # loop over body orders
+    
+    for nu in range(len(nice[6].blocks_)):  # loop over body orders
         print("nu: ", nu + 2)
-        for i in range(6): # loop over lambda channels
+        for i in range(6):  # loop over lambda channels
             if (nice[6].blocks_[nu].covariants_pca_ is not None):
-                if (nice[6].blocks_[nu].covariants_pca_.even_pca_.pcas_[i] is not None):
-                    proper_log_plot(nice[6].blocks_[nu].covariants_pca_.even_pca_.pcas_[i].importances_, color = colors[i], label = "lambda = {}".format(i))
-            
-        
-        for i in range(6): # loop over lambda channels
+                if (nice[6].blocks_[nu].covariants_pca_.even_pca_.pcas_[i]
+                        is not None):
+                    proper_log_plot(nice[6].blocks_[nu].covariants_pca_.even_pca_.
+                                    pcas_[i].importances_,
+                                    color=colors[i],
+                                    label="lambda = {}".format(i))
+    
+        for i in range(6):  # loop over lambda channels
             if (nice[6].blocks_[nu].covariants_pca_ is not None):
-                if (nice[6].blocks_[nu].covariants_pca_.odd_pca_.pcas_[i] is not None):
-                    proper_log_plot(nice[6].blocks_[nu].covariants_pca_.odd_pca_.pcas_[i].importances_, '--', color = colors[i])
-        
+                if (nice[6].blocks_[nu].covariants_pca_.odd_pca_.pcas_[i]
+                        is not None):
+                    proper_log_plot(nice[6].blocks_[nu].covariants_pca_.odd_pca_.
+                                    pcas_[i].importances_,
+                                    '--',
+                                    color=colors[i])
+    
         plt.yscale('log')
         plt.xscale('log')
         plt.legend()
@@ -184,9 +196,9 @@ explained\_variance\_ratio\_, but to variance of output:
     <embed>
     <pre>
     <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-        0.015553507472993076
-        0.979846667528322
-        1.0
+        0.015553507468061698
+        0.9798466672175845
+        0.9999999999999999
     </p>
     </pre>
     </embed>

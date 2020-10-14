@@ -84,10 +84,8 @@
               
             
             
-              <p class="caption"><span class="caption-text">Nice</span></p>
+              <p class="caption"><span class="caption-text">Theory in a nutshell</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../hello_user.html">NICE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../hello_user.html#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../theory.html">Theory in a nutshell</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
@@ -277,7 +275,8 @@ to inversion as (-1)^lambda, while all covariants in the pseudo group
 are transformed as (-1) ^ (lambda + 1).</p>
 <p>There is special class - ParityDefinitionChanger to switch between these
 definitions:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+    <span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">data_true</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data_true</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
@@ -297,7 +296,8 @@ definitions:</p>
 </pre>
 </embed><p>This transformation is symmetric, thus, we can use this it once again to
 go back from true and pseudo covariants to even and odd:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+    <span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>There is one another discrepancy - covariants defined in the nice

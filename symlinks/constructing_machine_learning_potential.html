@@ -86,10 +86,8 @@
               
             
             
-              <p class="caption"><span class="caption-text">Nice</span></p>
+              <p class="caption"><span class="caption-text">Theory in a nutshell</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../hello_user.html">NICE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../hello_user.html#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory in a nutshell</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
@@ -439,21 +437,21 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2020-10-11 22:55:57--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
+--2020-10-14 20:50:41--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
 Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.96.41
 Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.96.41|:443... connected.
 HTTP request sent, awaiting response... 302 FOUND
-Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602449817&amp;Signature=ipI5BxoFpZfU08isT3SnYOzzOzg%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
---2020-10-11 22:55:57--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602449817&amp;Signature=ipI5BxoFpZfU08isT3SnYOzzOzg%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
-Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.201, 148.187.25.202
-Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.200|:443... connected.
+Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602701501&amp;Signature=Hpb9jDESy%2FXw16jzHN27Ro9YFyk%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893 [following]
+--2020-10-14 20:50:41--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Expires=1602701501&amp;Signature=Hpb9jDESy%2FXw16jzHN27Ro9YFyk%3D&amp;AWSAccessKeyId=ee64314446074ed3ab5f375a522a4893
+Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.202, 148.187.25.200, 148.187.25.201
+Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.202|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 1218139661 (1.1G) [application/octet-stream]
 Saving to: ‘methane.extxyz.gz’
 
-methane.extxyz.gz   100%[===================&gt;]   1.13G  54.2MB/s    in 26s
+methane.extxyz.gz   100%[===================&gt;]   1.13G  38.4MB/s    in 27s
 
-2020-10-11 22:56:23 (44.3 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+2020-10-14 20:51:08 (43.8 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
 
 </pre></div></div>
 </div>
@@ -484,21 +482,21 @@ data to be fitted, and fitting process requires noticiable amount of RAM, thus, 
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">HARTREE_TO_EV</span> <span class="o">=</span> <span class="mf">27.211386245988</span>
-<span class="n">train_subset</span> <span class="o">=</span> <span class="s2">&quot;0:10000&quot;</span>    <span class="c1">#input for ase.io.read command</span>
-<span class="n">test_subset</span> <span class="o">=</span> <span class="s2">&quot;10000:15000&quot;</span>     <span class="c1">#input to ase.io.read command</span>
-<span class="n">environments_for_fitting</span> <span class="o">=</span> <span class="mi">1000</span>    <span class="c1">#number of environments to fit nice transfomers</span>
-<span class="n">grid</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span>
-         <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">7500</span><span class="p">,</span> <span class="mi">10000</span><span class="p">]</span> <span class="c1">#for learning curve</span>
+<span class="n">train_subset</span> <span class="o">=</span> <span class="s2">&quot;0:10000&quot;</span>  <span class="c1">#input for ase.io.read command</span>
+<span class="n">test_subset</span> <span class="o">=</span> <span class="s2">&quot;10000:15000&quot;</span>  <span class="c1">#input to ase.io.read command</span>
+<span class="n">environments_for_fitting</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1">#number of environments to fit nice transfomers</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">7500</span><span class="p">,</span>
+        <span class="mi">10000</span><span class="p">]</span>  <span class="c1">#for learning curve</span>
 
 <span class="c1">#HYPERS for librascal spherical expansion coefficients</span>
 <span class="n">HYPERS</span> <span class="o">=</span> <span class="p">{</span>
-<span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
-<span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-<span class="s1">&#39;max_angular&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-<span class="s1">&#39;gaussian_sigma_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Constant&#39;</span><span class="p">,</span>
-<span class="s1">&#39;gaussian_sigma_constant&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
-<span class="s1">&#39;cutoff_smooth_width&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
-<span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
+    <span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
+    <span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;max_angular&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;gaussian_sigma_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Constant&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;gaussian_sigma_constant&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="s1">&#39;cutoff_smooth_width&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -530,28 +528,26 @@ controlled by num_expand parameter. If it is not specified (or set to None) full
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1">#our model:</span>
 <span class="k">def</span> <span class="nf">get_nice</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">StandardSequence</span><span class="p">([</span><span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
-                                              <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
-                                                  <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                 <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
-                                                 <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                  <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)),</span>
-                             <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
-                                              <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
-                                                  <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                 <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
-                                                 <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                  <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)),</span>
-                            <span class="n">StandardBlock</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span>
-                                             <span class="kc">None</span><span class="p">,</span>
-                                                  <span class="kc">None</span><span class="p">,</span>
-                                                  <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
-                                              <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
-                                                 <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">200</span><span class="p">))</span>
-                                   <span class="p">],</span>
-                            <span class="n">initial_scaler</span> <span class="o">=</span> <span class="n">InitialScaler</span><span class="p">(</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;signal integral&#39;</span><span class="p">,</span>
-                                                           <span class="n">individually</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-                          <span class="p">)</span>
+    <span class="k">return</span> <span class="n">StandardSequence</span><span class="p">([</span>
+        <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">150</span><span class="p">),</span>
+                      <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+                      <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+                      <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                      <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+                      <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">200</span><span class="p">)),</span>
+        <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">150</span><span class="p">),</span>
+                      <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+                      <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+                      <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                      <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+                      <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">200</span><span class="p">)),</span>
+        <span class="n">StandardBlock</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                      <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+                      <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">200</span><span class="p">))</span>
+    <span class="p">],</span>
+                            <span class="n">initial_scaler</span><span class="o">=</span><span class="n">InitialScaler</span><span class="p">(</span>
+                                <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;signal integral&#39;</span><span class="p">,</span> <span class="n">individually</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -579,18 +575,17 @@ StandardBlock(None,
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">train_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
-                         <span class="n">index</span> <span class="o">=</span> <span class="n">train_subset</span><span class="p">)</span>
+<span></span><span class="n">train_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">train_subset</span><span class="p">)</span>
 
-<span class="n">test_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span>
-                         <span class="n">index</span> <span class="o">=</span> <span class="n">test_subset</span><span class="p">)</span>
+<span class="n">test_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">test_subset</span><span class="p">)</span>
 
 <span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">train_structures</span> <span class="o">+</span> <span class="n">test_structures</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;all species: &quot;</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
-<span class="n">train_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">train_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span class="n">train_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">train_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span>
+                                             <span class="n">all_species</span><span class="p">)</span>
 
-
-<span class="n">test_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">test_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span class="n">test_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">test_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span>
+                                            <span class="n">all_species</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -607,10 +602,10 @@ all species:  [1 6]
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:01&lt;00:00, 52.42it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 30.58it/s]
-100%|██████████| 50/50 [00:00&lt;00:00, 51.26it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 74.03it/s]
+100%|██████████| 100/100 [00:01&lt;00:00, 50.84it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 31.36it/s]
+100%|██████████| 50/50 [00:01&lt;00:00, 48.03it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 96.74it/s]
 </pre></div></div>
 </div>
 <p>We are going to fit two NICE transformers on environments around H and C atoms separatelly. the following cells create them and perfom fitting:</p>
@@ -641,17 +636,17 @@ all species:  [1 6]
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
   self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
   self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
   self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
   self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
   self.n_components, num_fit_now, X.shape[0]))
-/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:201: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+/home/pozdn/.local/lib/python3.6/site-packages/nice/blocks/compressors.py:218: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
   self.n_components, num_fit_now, X.shape[0]))
 </pre></div></div>
 </div>
@@ -664,13 +659,13 @@ all species:  [1 6]
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">train_features</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">specie</span> <span class="ow">in</span> <span class="n">all_species</span><span class="p">:</span>
-    <span class="n">train_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">nice</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span>
-                                                            <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">train_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">nice</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+        <span class="n">train_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span> <span class="n">return_only_invariants</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">test_features</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">specie</span> <span class="ow">in</span> <span class="n">all_species</span><span class="p">:</span>
     <span class="n">test_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">nice</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span>
-                                                           <span class="n">return_only_invariants</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+                                                   <span class="n">return_only_invariants</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -705,8 +700,10 @@ of representations for each specie. Representation for each specie is sum of NIC
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">train_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_structures</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
-<span class="n">test_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">test_features</span><span class="p">,</span> <span class="n">test_structures</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span></span><span class="n">train_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_structures</span><span class="p">,</span>
+                                          <span class="n">all_species</span><span class="p">)</span>
+<span class="n">test_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">test_features</span><span class="p">,</span> <span class="n">test_structures</span><span class="p">,</span>
+                                         <span class="n">all_species</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">train_features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -716,8 +713,8 @@ of representations for each specie. Representation for each specie is sum of NIC
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 10000/10000 [00:01&lt;00:00, 8516.67it/s]
-100%|██████████| 5000/5000 [00:00&lt;00:00, 8821.33it/s]
+100%|██████████| 10000/10000 [00:00&lt;00:00, 11580.60it/s]
+100%|██████████| 5000/5000 [00:00&lt;00:00, 11854.32it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -747,7 +744,6 @@ of representations for each specie. Representation for each specie is sum of NIC
 
 <span class="n">test_energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">structure</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">test_structures</span><span class="p">]</span>
 <span class="n">test_energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_energies</span><span class="p">)</span> <span class="o">*</span> <span class="n">HARTREE_TO_EV</span>
-
 </pre></div>
 </div>
 </div>
@@ -758,15 +754,19 @@ of representations for each specie. Representation for each specie is sum of NIC
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">get_rmse</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">first</span> <span class="o">-</span> <span class="n">second</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">first</span> <span class="o">-</span> <span class="n">second</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
 
 <span class="k">def</span> <span class="nf">get_standard_deviation</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">values</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">values</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">values</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">values</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
 
 <span class="k">def</span> <span class="nf">get_relative_performance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">get_rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="n">get_standard_deviation</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">estimate_performance</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">,</span> <span class="n">targets_test</span><span class="p">):</span>
+
+<span class="k">def</span> <span class="nf">estimate_performance</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">,</span>
+                         <span class="n">targets_test</span><span class="p">):</span>
     <span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">get_relative_performance</span><span class="p">(</span><span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test</span><span class="p">),</span> <span class="n">targets_test</span><span class="p">)</span>
 </pre></div>
@@ -779,9 +779,10 @@ of representations for each specie. Representation for each specie is sum of NIC
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
-    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">estimate_performance</span><span class="p">(</span><span class="n">BayesianRidge</span><span class="p">(),</span> <span class="n">train_features</span><span class="p">[:</span><span class="n">el</span><span class="p">],</span>
-                                       <span class="n">test_features</span><span class="p">,</span> <span class="n">train_energies</span><span class="p">[:</span><span class="n">el</span><span class="p">],</span>
-                                       <span class="n">test_energies</span><span class="p">))</span>
+    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">estimate_performance</span><span class="p">(</span><span class="n">BayesianRidge</span><span class="p">(),</span> <span class="n">train_features</span><span class="p">[:</span><span class="n">el</span><span class="p">],</span>
+                             <span class="n">test_features</span><span class="p">,</span> <span class="n">train_energies</span><span class="p">[:</span><span class="n">el</span><span class="p">],</span>
+                             <span class="n">test_energies</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -790,7 +791,7 @@ of representations for each specie. Representation for each specie is sum of NIC
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 12/12 [00:45&lt;00:00,  3.78s/it]
+100%|██████████| 12/12 [00:47&lt;00:00,  3.92s/it]
 </pre></div></div>
 </div>
 <p>In this smallest setup best rmse appeared to be about 7%:</p>
@@ -808,7 +809,7 @@ of representations for each specie. Representation for each specie is sum of NIC
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[0.4246769917146664, 0.42795557159896896, 0.34949830448562647, 0.23167750292004954, 0.1805004317933902, 0.16245873101544683, 0.13090501832712487, 0.1162899615967867, 0.09911964945838202, 0.08351690671342994, 0.07210771368850206, 0.06984120801871395]
+[0.42464701726115345, 0.42792751363241127, 0.34957126556673074, 0.23224927808993065, 0.18092624722851186, 0.1633574614154897, 0.1314667448310553, 0.11714993044911277, 0.09993264376552576, 0.0841500827643375, 0.07236090702297093, 0.07000616505682997]
 </pre></div></div>
 </div>
 <p>learnig curve looks like this:</p>

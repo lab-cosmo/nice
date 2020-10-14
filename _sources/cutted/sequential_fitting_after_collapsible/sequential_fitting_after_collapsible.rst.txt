@@ -29,11 +29,13 @@ Now we can fit couple of standard blocks:
 
 .. code:: ipython3
 
-    block_1 = StandardBlock(ThresholdExpansioner(100), None, IndividualLambdaPCAsBoth(20))
+    block_1 = StandardBlock(ThresholdExpansioner(100), None,
+                            IndividualLambdaPCAsBoth(20))
     block_1.fit(even_0_t, odd_0_t, even_0_t, odd_0_t)
     even_1, odd_1, _ = block_1.transform(even_0_t, odd_0_t, even_0_t, odd_0_t)
     
-    block_2 = StandardBlock(None, None, None, ThresholdExpansioner(100, mode = 'invariants'))
+    block_2 = StandardBlock(None, None, None,
+                            ThresholdExpansioner(100, mode='invariants'))
     block_2.fit(even_1, odd_1, even_0_t, odd_0_t)
     _, _, even_invariants = block_2.transform(even_1, odd_1, even_0_t, odd_0_t)
 
@@ -41,7 +43,7 @@ At his moment we have all parts of this standard sequence fitted:
 
 .. code:: ipython3
 
-    nice = StandardSequence(initial_pca= initial_pca, blocks = [block_1, block_2])
+    nice = StandardSequence(initial_pca=initial_pca, blocks=[block_1, block_2])
     print(initial_pca.is_fitted())
     print(block_1.is_fitted())
     print(block_2.is_fitted())
@@ -87,8 +89,9 @@ guaranteed\_parts\_fitted\_consistently = True to the model:
 
 .. code:: ipython3
 
-    nice = StandardSequence(initial_pca= initial_pca, blocks = [block_1, block_2],
-                             guaranteed_parts_fitted_consistently = True)
+    nice = StandardSequence(initial_pca=initial_pca,
+                            blocks=[block_1, block_2],
+                            guaranteed_parts_fitted_consistently=True)
     print(nice.is_fitted())
 
 
@@ -113,7 +116,8 @@ Let's check consistency:
 
 .. code:: ipython3
 
-    even_invariants_2 = nice.transform(coefficients, return_only_invariants = True)[3]
+    even_invariants_2 = nice.transform(coefficients,
+                                       return_only_invariants=True)[3]
     print(np.sum(np.abs(even_invariants - even_invariants_2)))
 
 
@@ -132,14 +136,16 @@ This also works in other direction:
 .. code:: ipython3
 
     initial_pca = IndividualLambdaPCAsBoth()
-    block_1 = StandardBlock(ThresholdExpansioner(100), None, IndividualLambdaPCAsBoth(20))
-    block_2 = StandardBlock(None, None, None, ThresholdExpansioner(100, mode = 'invariants'))
+    block_1 = StandardBlock(ThresholdExpansioner(100), None,
+                            IndividualLambdaPCAsBoth(20))
+    block_2 = StandardBlock(None, None, None,
+                            ThresholdExpansioner(100, mode='invariants'))
     
     print(initial_pca.is_fitted())
     print(block_1.is_fitted())
     print(block_2.is_fitted())
     
-    nice = StandardSequence(initial_pca = initial_pca, blocks = [block_1, block_2])
+    nice = StandardSequence(initial_pca=initial_pca, blocks=[block_1, block_2])
     nice.fit(coefficients)
     
     print(initial_pca.is_fitted())
@@ -197,8 +203,10 @@ StandardBlock behaves the same way:
     even_1, odd_1 = expansioner.transform(even_0_t, odd_0_t, even_0_t, odd_0_t)
     pca.fit(even_1, odd_1)
     
-    block = StandardBlock(expansioner, None, pca, 
-                          guaranteed_parts_fitted_consistently = True)
+    block = StandardBlock(expansioner,
+                          None,
+                          pca,
+                          guaranteed_parts_fitted_consistently=True)
     
     print(block.is_fitted())
 

@@ -84,10 +84,8 @@
               
             
             
-              <p class="caption"><span class="caption-text">Nice</span></p>
+              <p class="caption"><span class="caption-text">Theory in a nutshell</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../hello_user.html">NICE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../hello_user.html#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory in a nutshell</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
@@ -443,7 +441,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">initial_scaler</span> <span class="o">=</span> <span class="n">InitialScaler</span><span class="p">(</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;signal integral&#39;</span><span class="p">,</span> <span class="n">individually</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span></span><span class="n">initial_scaler</span> <span class="o">=</span> <span class="n">InitialScaler</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;signal integral&#39;</span><span class="p">,</span> <span class="n">individually</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">initial_scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
 <span class="n">coefficients</span> <span class="o">=</span> <span class="n">initial_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
 </pre></div>
@@ -456,7 +454,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span>  <span class="o">=</span> <span class="n">InitialTransformer</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+<span></span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span> <span class="o">=</span> <span class="n">InitialTransformer</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data_even_1</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;even features sizes: &quot;</span><span class="p">,</span> <span class="n">data_even_1</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
@@ -483,15 +481,14 @@ odd features sizes:  [0, 10, 0, 10, 0, 10]
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAs</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="c1">#single parity version</span>
+<span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAs</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>  <span class="c1">#single parity version</span>
 <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">)</span>
 <span class="n">data_even_1_t</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data_even_1_t</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
 
-<span class="n">pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">()</span> <span class="c1">#both version</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">()</span>  <span class="c1">#both version</span>
 <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
 <span class="n">data_even_1_t</span><span class="p">,</span> <span class="n">data_odd_1_t</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </div>
@@ -514,8 +511,8 @@ If num_to_fit is None corresponding block would always use all available data fo
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">num_to_fit</span> <span class="o">=</span> <span class="s1">&#39;300x&#39;</span><span class="p">)</span>
-<span class="n">ar</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">num_to_fit</span><span class="o">=</span><span class="s1">&#39;300x&#39;</span><span class="p">)</span>
+<span class="n">ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
@@ -545,7 +542,7 @@ If num_to_fit is None corresponding block would always use all available data fo
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">purifier</span> <span class="o">=</span> <span class="n">CovariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span></span><span class="n">purifier</span> <span class="o">=</span> <span class="n">CovariantsPurifier</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">purifier</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">],</span> <span class="n">data_even_1</span><span class="p">)</span>
 <span class="n">data_even_1_t</span> <span class="o">=</span> <span class="n">purifier</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">],</span> <span class="n">data_even_1</span><span class="p">)</span>
 </pre></div>
@@ -570,7 +567,7 @@ If num_to_fit is None corresponding block would always use all available data fo
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+<span></span><span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
 
 <span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
 <span class="n">data_even_2</span><span class="p">,</span> <span class="n">data_odd_2</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span>\
@@ -595,10 +592,14 @@ If num_to_fit is None corresponding block would always use all available data fo
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">clebsch</span> <span class="o">=</span> <span class="n">nice</span><span class="o">.</span><span class="n">clebsch_gordan</span><span class="o">.</span><span class="n">ClebschGordan</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># 5 is lamba max</span>
+<span></span><span class="n">clebsch</span> <span class="o">=</span> <span class="n">nice</span><span class="o">.</span><span class="n">clebsch_gordan</span><span class="o">.</span><span class="n">ClebschGordan</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># 5 is lamba max</span>
 
-<span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
-<span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">clebsch_gordan</span> <span class="o">=</span> <span class="n">clebsch</span><span class="p">)</span>
+<span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span>
+                <span class="n">data_odd_1</span><span class="p">,</span>
+                <span class="n">data_even_1</span><span class="p">,</span>
+                <span class="n">data_odd_1</span><span class="p">,</span>
+                <span class="n">clebsch_gordan</span><span class="o">=</span><span class="n">clebsch</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -609,14 +610,19 @@ If num_to_fit is None corresponding block would always use all available data fo
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">)</span>
-<span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">clebsch_gordan</span> <span class="o">=</span> <span class="n">clebsch</span><span class="p">)</span>
+<span></span><span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">)</span>
+<span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span>
+                <span class="n">data_odd_1</span><span class="p">,</span>
+                <span class="n">data_even_1</span><span class="p">,</span>
+                <span class="n">data_odd_1</span><span class="p">,</span>
+                <span class="n">clebsch_gordan</span><span class="o">=</span><span class="n">clebsch</span><span class="p">)</span>
 <span class="n">invariants_even</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span>\
                                                 <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">invariants_even</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-<span class="n">variances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(((</span><span class="n">invariants_even</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">invariants_even</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span> <span class="mi">0</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">variances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(((</span><span class="n">invariants_even</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">invariants_even</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">raw_importances</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">new_even_raw_importances_</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">raw_importances</span><span class="p">),</span> <span class="n">variances</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
@@ -658,8 +664,8 @@ Text(0, 0.5, &#39;variance&#39;)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">block</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span>
-                      <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">10</span><span class="p">))</span>
+<span></span><span class="n">block</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">200</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 <span class="n">block</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
 <span class="n">data_even_2</span><span class="p">,</span> <span class="n">data_odd_2</span><span class="p">,</span> <span class="n">invariants_even</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span>\
                                                 <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">)</span>
@@ -685,20 +691,30 @@ None
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">block</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">),</span>
-                      <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
-                      <span class="kc">None</span><span class="p">,</span>
-                      <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
-                      <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">),</span>
-                      <span class="kc">None</span><span class="p">)</span>
+<span></span><span class="n">block</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">200</span><span class="p">),</span>
+                      <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                      <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
 
-<span class="n">block</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_2</span><span class="p">,</span> <span class="n">data_odd_2</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span>
-          <span class="n">old_even_invariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_even_1</span><span class="o">.</span><span class="n">get_invariants</span><span class="p">()],</span> <span class="c1"># returns [:, :, 0, 0] slice which is invariants</span>
-          <span class="n">old_even_covariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_even_1</span><span class="p">],</span> <span class="n">old_odd_covariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_odd_1</span><span class="p">])</span>
+<span class="n">block</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">data_even_2</span><span class="p">,</span>
+    <span class="n">data_odd_2</span><span class="p">,</span>
+    <span class="n">data_even_1</span><span class="p">,</span>
+    <span class="n">data_odd_1</span><span class="p">,</span>
+    <span class="n">old_even_invariants</span><span class="o">=</span><span class="p">[</span><span class="n">data_even_1</span><span class="o">.</span><span class="n">get_invariants</span><span class="p">()</span>
+                         <span class="p">],</span>  <span class="c1"># returns [:, :, 0, 0] slice which is invariants</span>
+    <span class="n">old_even_covariants</span><span class="o">=</span><span class="p">[</span><span class="n">data_even_1</span><span class="p">],</span>
+    <span class="n">old_odd_covariants</span><span class="o">=</span><span class="p">[</span><span class="n">data_odd_1</span><span class="p">])</span>
 
-<span class="n">data_even_3</span><span class="p">,</span> <span class="n">data_odd_3</span><span class="p">,</span> <span class="n">invariants_even_3</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_2</span><span class="p">,</span> <span class="n">data_odd_2</span><span class="p">,</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span><span class="p">,</span>
-          <span class="n">old_even_invariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_even_1</span><span class="o">.</span><span class="n">get_invariants</span><span class="p">()],</span> <span class="c1"># returns [:, :, 0, 0] slice which is invariants</span>
-          <span class="n">old_even_covariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_even_1</span><span class="p">],</span> <span class="n">old_odd_covariants</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_odd_1</span><span class="p">])</span>
+<span class="n">data_even_3</span><span class="p">,</span> <span class="n">data_odd_3</span><span class="p">,</span> <span class="n">invariants_even_3</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+    <span class="n">data_even_2</span><span class="p">,</span>
+    <span class="n">data_odd_2</span><span class="p">,</span>
+    <span class="n">data_even_1</span><span class="p">,</span>
+    <span class="n">data_odd_1</span><span class="p">,</span>
+    <span class="n">old_even_invariants</span><span class="o">=</span><span class="p">[</span><span class="n">data_even_1</span><span class="o">.</span><span class="n">get_invariants</span><span class="p">()</span>
+                         <span class="p">],</span>  <span class="c1"># returns [:, :, 0, 0] slice which is invariants</span>
+    <span class="n">old_even_covariants</span><span class="o">=</span><span class="p">[</span><span class="n">data_even_1</span><span class="p">],</span>
+    <span class="n">old_odd_covariants</span><span class="o">=</span><span class="p">[</span><span class="n">data_odd_1</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -709,7 +725,8 @@ None
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">get_intermediate_shapes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># it is a dictionary</span>
+<span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">get_intermediate_shapes</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">(</span>
+<span class="p">):</span>  <span class="c1"># it is a dictionary</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -732,31 +749,36 @@ after invariants purifier 200
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-
 <span></span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span> <span class="o">=</span> <span class="n">data_even_1</span><span class="p">,</span> <span class="n">data_odd_1</span>
-
 
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
     <span class="n">pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">)</span>
-    <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span>  <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">)</span>
+    <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">)</span>
     <span class="n">expansioner</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
-    <span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">,</span> <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">,</span> <span class="n">clebsch_gordan</span> <span class="o">=</span> <span class="n">clebsch</span><span class="p">)</span>
-    <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">,</span> <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">)</span>
+    <span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_even_now</span><span class="p">,</span>
+                    <span class="n">data_odd_now</span><span class="p">,</span>
+                    <span class="n">data_even_now</span><span class="p">,</span>
+                    <span class="n">data_odd_now</span><span class="p">,</span>
+                    <span class="n">clebsch_gordan</span><span class="o">=</span><span class="n">clebsch</span><span class="p">)</span>
+    <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+        <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">,</span> <span class="n">data_even_now</span><span class="p">,</span> <span class="n">data_odd_now</span><span class="p">)</span>
 
     <span class="c1"># very high body order cause numerical instabilities,</span>
     <span class="c1"># and, thus, there is need to normalize data</span>
     <span class="k">for</span> <span class="n">lambd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="n">even_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">even_factor</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">):</span> <span class="c1">#catch exact zeros</span>
-                <span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">/=</span> <span class="n">even_factor</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="n">odd_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">odd_factor</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">):</span> <span class="c1">#catch exact zeros</span>
-                <span class="n">data_odd_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">/=</span> <span class="n">odd_factor</span>
-
+        <span class="n">size</span> <span class="o">=</span> <span class="n">data_even_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">even_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">size</span><span class="p">,</span> <span class="n">lambd</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">even_factor</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">):</span>  <span class="c1">#catch exact zeros</span>
+                <span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">size</span><span class="p">,</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">/=</span> <span class="n">even_factor</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">data_odd_now</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">odd_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_odd_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">size</span><span class="p">,</span> <span class="n">lambd</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">odd_factor</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">):</span>  <span class="c1">#catch exact zeros</span>
+                <span class="n">data_odd_now</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">size</span><span class="p">,</span> <span class="n">lambd</span><span class="p">]</span> <span class="o">/=</span> <span class="n">odd_factor</span>
 </pre></div>
 </div>
 </div>
@@ -765,7 +787,7 @@ after invariants purifier 200
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 10/10 [00:05&lt;00:00,  1.76it/s]
+100%|██████████| 10/10 [00:06&lt;00:00,  1.62it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
