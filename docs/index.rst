@@ -5,12 +5,14 @@
 
   
 
+.. include::
+   hello_user
+
 .. toctree::
    :glob:
    :maxdepth: 1
-   :caption: Nice
-	
-   hello_user
+   :caption: Theory in a nutshell
+
    theory    
 
 .. toctree::
