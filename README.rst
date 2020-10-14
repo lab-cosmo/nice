@@ -32,4 +32,4 @@ References
 
 If you are using NICE please cite `this article <https://aip.scitation.org/doi/10.1063/5.0021116>`_. 
 
-Nigam, Jigyasa, Sergey Pozdnyakov, and Michele Ceriotti. "Recursive evaluation and iterative contraction of N-body equivariant features." The Journal of Chemical Physics 153.12 (2020): 121101.
+[1] Nigam, Jigyasa, Sergey Pozdnyakov, and Michele Ceriotti. "Recursive evaluation and iterative contraction of N-body equivariant features." The Journal of Chemical Physics 153.12 (2020): 121101.
