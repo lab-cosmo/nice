@@ -1,7 +1,7 @@
 Utilities
 =========
 
-.. automodule:: nice.utilities
+.. automodule:: utilities
    :members:
    :undoc-members:
    :show-inheritance:
