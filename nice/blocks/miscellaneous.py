@@ -97,7 +97,6 @@ class InitialScaler():
     '''Block to scale initial spherical expansion coefficients in a certain way. It allows to both
     normalize coefficients for each environment individually, and to multiply whole array to single 
     scaling factor, thus, preserving information about relative scale'''
-    
     def __init__(self, mode="signal integral", individually=False):
         self.individually_ = individually
 
@@ -175,7 +174,6 @@ class InitialScaler():
 class InitialTransformer():
     '''Utility block to split spherical expansion coefficients stored in the form of single numpy array to 
     even-odd pair of Data instances'''
-    
     def __init__(self):
         self.fitted_ = True
 
