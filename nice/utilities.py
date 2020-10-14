@@ -127,12 +127,12 @@ def make_structural_features(features,
                              structures,
                              all_species,
                              show_progress=True):
-    ''' getting structural features suitable for linear regression which consist of sums 
+    ''' getting structural features suitable for linear regression which consist of sums \
      over atomic features
     
     Args:
         features: nested dictionary with atomic features. First level keys are central species, \
-        second level keys are body orders. Entries are 2-dimensional numpy arrays. \
+        second level keys are body orders. Entries are 2-dimensional numpy arrays. 
         structures: list of Ase atoms objects
         all_species: numpy array with ints of all unique species in the dataset. \
         If all species argument is the same for several calls of this function, resulting \
@@ -206,10 +206,10 @@ def transform_sequentially(nice,
     Args:
         nice: dictionary where keys are species and entries are nice transformers.\
         If you want to use single nice transformer to all environments regardless of central\
-        specie just pass {key : nice_single for specie in all_species}\
+        specie just pass {key : nice_single for specie in all_species}
         structures: list of Ase atoms objects
         rascal_hypers: dictionary with parameters for librascal controlling spherical expansion.\
-        Should be the same as used for fitting nice transformers\
+        Should be the same as used for fitting nice transformers
         all_species: numpy array with ints of all unique species in the dataset. 
         block_size: size of chunks measured in number of environments
         show_progress: whether or not show progress via tqdm
