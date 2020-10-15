@@ -4,13 +4,13 @@
 NICE
 ====
 
-NICE (N-body Iteratively Contracted Equivariants) is a set of tools designed for calculation of 
-invariant and covariant atomic structure representations. It allows to
-automatically select most informative combinations of high order spectrum elements
-and perform their efficient computation using recurrence relations. 
+NICE (N-body Iteratively Contracted Equivariants) is a set of tools designed for the calculation of 
+invariant and covariant atomic structure representations. It allows for
+automatic selection of the most informative combinations of high order spectrum elements
+and performs their efficient computation using recurrence relations. 
 
-Though being designed specifically for atomistic machine learning, NICE in principle 
-can be applied to other machine learning tasks which involves signals in a ball or on a sphere   with necessasity to produce invariant or covariant output. 
+Although it is designed specifically for atomistic machine learning, NICE in principle 
+can be applied to other machine learning tasks, such as those which involve signals in a ball or on a sphere, all which require invariant or covariant outputs. 
 
 ++++++++++++
 Installation
@@ -24,12 +24,12 @@ Installation
 Documentation
 +++++++++++++
 
-Documentation is `here <https://serfg.github.io/nice/>`_
+Documentation can be found `here <https://serfg.github.io/nice/>`_
 
 ++++++++++
 References
 ++++++++++
 
-If you are using NICE please cite `this article <https://aip.scitation.org/doi/10.1063/5.0021116>`_. 
+If you are using NICE, please cite `this article <https://aip.scitation.org/doi/10.1063/5.0021116>`_. 
 
-[1] Nigam, Jigyasa, Sergey Pozdnyakov, and Michele Ceriotti. "Recursive evaluation and iterative contraction of N-body equivariant features." The Journal of Chemical Physics 153.12 (2020): 121101.
+[1] Jigyasa Nigam, Sergey Pozdnyakov, and Michele Ceriotti. "Recursive evaluation and iterative contraction of N-body equivariant features." The Journal of Chemical Physics 153.12 (2020): 121101.
