@@ -471,11 +471,11 @@ methane.extxyz.gz   100%[===================&gt;]   1.13G  38.4MB/s    in 27s
 </div>
 </div>
 <p>In the following cell parameters which control subsequent calculations along with hyperparamters of the model are defined.</p>
-<p>Total amount of structures in the methane dataset is very huge, thus it is good idea to select smaller amount to speed up calculations.</p>
-<p>Two out of three steps of NICE requires data to be fitted. In the PCA step atomic environments are used to determine matrix of linear transformation which would allow to preserve the most amount of information for <strong>this particular dataset</strong>. In purifers eliminated correlations are also dataset specific. Though, it is absolutelly not necessary to use the same amount of data to fit NICE transformer and to fit subsequent machine learning model. Typically NICE transformer requires less amount of
-data to be fitted, and fitting process requires noticiable amount of RAM, thus, it is good idea to restrict amount of data for this step, which is controleed by environments_for_fitting variable.</p>
-<p>grid defines numbers of training configurations for which error would be estimated in order to get an idea how good is the model depending on the number of training configurations. (yep, NICE transformer uses more data for fitting for few first point, but it is just a tutorial)</p>
-<p>in HYPERS dictionary parameters for initial spherical expansion are defined. For more detail we refer reader to <a class="reference external" href="https://github.com/cosmo-epfl/librascal">librascal</a> documentation.</p>
+<p>Total amount of structures in the methane dataset is huge, thus it is a good idea to select smaller amount of structures to speed up the calculations.</p>
+<p>Two out of the three steps of NICE require data to be fitted. In the PCA step atomic environments are used to determine matrix of linear transformation which would allow preservation of the most amount of information for <strong>this particular dataset</strong>. In purifiers eliminated correlations are also dataset specific. Although, it is absolutely not necessary to use the same amount of data to fit NICE transformer and to fit subsequent machine learning model. Typically, NICE transformer requires less
+amount of data to be fitted. In addition, fitting process requires a noticeable amount of RAM, thus, it is a good idea to restrict the amount of data for this step, which is controlled by <strong>environments_for_fitting variable</strong>.</p>
+<p><strong>grid</strong> defines the set of numbers of training configurations for which error would be estimated in order to get an idea of how good is the model is depending on the number of training configurations. (yep, NICE transformer uses more data for fitting for few first points, but it is just a tutorial)</p>
+<p>In HYPERS dictionary parameters for initial spherical expansion are defined. For more detail we refer the reader to <a class="reference external" href="https://github.com/cosmo-epfl/librascal">librascal</a> documentation.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -501,26 +501,29 @@ data to be fitted, and fitting process requires noticiable amount of RAM, thus, 
 </pre></div>
 </div>
 </div>
-<p>This cell is the most important one. Our model is defined here. As was mentioned before NICE is the sequence of standard transformations, there each increases body order by 1. The classes which implements this logic are StandardBlock and StandardSequence.</p>
-<p>StandardSequence consist of 1) initial scaler 2) initial pca and of 3) sequence of standard blocks.</p>
-<p>Let’s imagine uniform multiplication of spherical expansion coefficients by some constant k. In this case covariants of order k would change as *= k ^(body order). In other words relative scale of different body orders would change. This might affect subsequent regression, so it is a good idea to fix the scale in some proper way. This is done by initial scaler. It has two mods - “signal integral” and “variance”. In the first case it scales coefficients such a way to make integral of squared
-corresponding signal over the ball to be one. In the second case it assures variance of coefficient’s entries to be ones. In practice first mod gives better results. Second parameter to this class is to scale coefficients individually, i. e. separately for each environment or globally, thus preserving information about scale of signals in relation to each other.</p>
-<p>Initial pca is the same pca which is applied in each block, more details about it later. It is the first transformation to coefficients after initial scaler.</p>
-<p>As already mentioned in theory each block consist of two branches - for covariants and for invariants. Each branch consist of expansion, purification and pca step. During the expansion step in each block features of next body order are produced by Clebsch-Gordan iteration between features from the previous block and spherical expansion coefficients after initial_pca. In case of full expansion, each with each, number of features after this transformation would be incredibly huge, as it was
-already discussed in theory. Thus, thresholding heuristic is used. For each feature information how important it is is stored during the calculations. In standard sequence this importances are just explained variance ratios after PCA step. During expansion for each pair of covariant vectors “pair importance” is defined as the multiplication of previously discussed single feature importances, and after that only fixed amount of most important input pairs produce output. This fixed amount is
-controlled by num_expand parameter. If it is not specified (or set to None) full expansion, each with each, would be performed.</p>
-<p>The nature of purifier step was discussed in the theory. Parameter max_take controls the amount of features to take for purification from previous body orders. (Features are alwas stored in descending order of importance, and it uses first ones). If max_take is not specified (None) it would use all available features. One additional parameter is linear regressor to use. For example</p>
+<div class="line-block">
+<div class="line">This cell is the most important one. Our model is defined here. As was mentioned before,</div>
+<div class="line">NICE is the sequence of standard transformations, where each increases the body order by 1. The classes which implement this logic are <strong>StandardBlock</strong> and <strong>StandardSequence</strong>.</div>
+</div>
+<p><strong>StandardSequence</strong> consist of 1) <strong>initial scaler</strong> 2) <strong>initial pca</strong> and of 3) sequence of <strong>standard blocks</strong>.</p>
+<p>Let’s imagine uniform multiplication of spherical expansion coefficients by some constant k. In this case, covariants of order k would change as *= k ^(body order). In other words, the relative scale of different body orders would change. This might affect subsequent regression, so it is a good idea to fix the scale in some proper way. This is done by <strong>initial scaler</strong>. It has two modes - “<strong>signal integral</strong>” and “<strong>variance</strong>”. In the first case, it scales coefficients in such a way to make
+integral of squared corresponding signal over the ball to be one. In the second case, it assures the variance of coefficient’s entries to be one. In practice, the first mode gives better results. Second parameter to this class is to scale coefficients individually, i. e. separately for each environment or globally, thus preserving information about scale of signals in relation with each other.</p>
+<p><strong>Initial pca</strong> is the same pca which is applied in each block, more details about it later. It is the first transformation to coefficients after <strong>initial scaler</strong>.</p>
+<p>As already mentioned in the theory, each block consist of two branches - for covariants and for invariants. Each branch consists of expansion, purification and pca steps. During the expansion step in each block, features of next body order are produced by Clebsch-Gordan iteration between features from the previous block and spherical expansion coefficients after <strong>initial_pca</strong>. In case of full expansion, (each with each), the number of features after the transformation would be incredibly
+huge, as it was already discussed in the theory. Thus, thresholding heuristic is used. For each feature, information how important it is, is stored during the calculations. In standard sequence these importances are just explained variance ratios after the PCA step. During expansion for each pair of covariant vectors “pair importance” is defined as the multiplication of previously discussed single feature <strong>importances</strong>, and after that only a fixed amount of most important input pairs produce
+output. This fixed amount is controlled by <strong>num_expand</strong> parameter. If it is not specified (or set to <strong>None</strong>) full expansion (each with each) will be performed.</p>
+<p>The nature of purifier step was discussed in the theory. Parameter <strong>max_take</strong> controls the number of features to take for purification from previous body orders. (Features are always stored in descending order of importance, and it uses the first ones first). If <strong>max_take</strong> is not specified (<strong>None</strong>) it would use all available features. One additional parameter is linear regressor to use. For example</p>
 <p>from sklearn.linear_model import Ridge CovariantsPurifierBoth(regressor = Ridge(alpha = 42, fit_intercept = False), max_take = 10)</p>
 <p>or</p>
 <p>from sklearn.linear_model import Lars InvariantsPurifier(regressor = Lars(n_nonzero_coefs = 7), max_take = 10)</p>
 <p>Default one is Ridge(alpha = 1e-12) without fitting intercept for covariants purifier and with fitting intercept for invariants purifier.</p>
-<p><strong>*Important!*</strong> always put fit_intercept = False to regressor in covariants purifer. Otherwise resulting features would not be covariants, since vector with constant entries is not covariant. (it is not checked automatically, since corresponding parameter might have different name from “fit_intercept”)</p>
-<p>Custom regressors can be feeded into purifiers, more details about it in tutorial “Custom regressors into purifiers”</p>
+<p><strong>*Important!*</strong> always put <strong>fit_intercept = False</strong> to regressor in covariants purifer, otherwise resulting features would not be covariants, since the vector with constant entries is not covariant. (it is not checked automatically, since corresponding parameter might have a different name from “fit_intercept”)</p>
+<p>Custom regressors can be fed into purifiers, more details about it in tutorial “Custom regressors into purifiers”</p>
 <p>Parameter of pca states for the number of output features. If it is not specified (None) full pca would be performed.</p>
 <p>Both in name of classes states for the fact that transformations are done simultaneously on even and odd features (more details about it in the tutorials “Calculating covariants” (what are even and odd features?) and “Constructor or non standard sequence” (classes to work with no separation?)).</p>
-<p>Individual in IndividualLambdaPCAsBoth states for the fact that transformations are independent for each lambda channel.</p>
-<p>Since we are interested only in invariants, it is not necessary for last block to calculate covariants. Thus corresponding branch is filled with None-s.</p>
-<p>In this example parameters of covariant and invariant branches (such as num_expand in expansioners) are not dramatically different, but in real life calculations they usually differ from each other dramatically, see examples folder.</p>
+<p>Individual in <strong>IndividualLambdaPCAsBoth</strong> stands for the fact that transformations are independent for each lambda channel.</p>
+<p>Since we are interested only in invariants, it is not necessary for the last block to calculate covariants. Thus, corresponding branch is filled with Nones.</p>
+<p>In this example parameters of covariant and invariant branches (such as <strong>num_expand</strong> in expansioners) are not dramatically different, but in real life calculations they usually differ from each other dramatically (see examples folder).</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -551,7 +554,7 @@ controlled by num_expand parameter. If it is not specified (or set to None) full
 </pre></div>
 </div>
 </div>
-<p>It is not necessary to always fill all transformation steps. For example the following block is valid:</p>
+<p>It is not necessary to always fill all the transformation steps. For example, the following block is valid:</p>
 <pre>
 StandardBlock(ThresholdExpansioner(num_expand = 150),
               None,
@@ -559,17 +562,17 @@ StandardBlock(ThresholdExpansioner(num_expand = 150),
               ThresholdExpansioner(num_expand =300, mode = 'invariants'),
               InvariantsPurifier(max_take = 50),
               None)
-</pre><p>In this case purifying step in covariants branch and PCA step in invariants branch would be ommited. Covariants and invariants branches are independent. In case of not valid combinations, such as</p>
+</pre><p>In this case purifying step in covariants branch and PCA step in invariants branch would be omitted. Covariants and invariants branches are independent. In case of invalid combinations, such as</p>
 <pre>
 StandardBlock(None,
               None,
               IndividualLambdaPCAsBoth(n_components = 50),
               ...)
 </pre><p>It would raise value error with the description of the problem during initialization.</p>
-<p>All intermediate blocks must compute covariants. Block is considered as computing covariants if it contains covariants expansioner and covariants pca. The latter is required since expansioners in subsequent blocks require not only covariants themselves, but also their importances for thresholdoing.</p>
-<p>In this cell we read structures, get set of all species in the dataset, and calculate spherical expansion.</p>
-<p>all species is given by the set of int, where 1 states for H, 2 for He and so on.</p>
-<p>coefficients is the dictionary where keys are central species, 1 and 6 in our case, and entries are numpy arrays shaped in the [environment_index, radial/specie index, l, m] way.</p>
+<p>All intermediate blocks must compute covariants. A block is considered to be computing covariants if it contains covariant expansioner and covariant pca. The latter is required since expansioners in subsequent blocks require not only covariants themselves, but also their <strong>importances</strong> for thresholding.</p>
+<p>In this cell we read the structures, get a set of all the species in the dataset, and calculate the spherical expansion.</p>
+<p><strong>all_species</strong> is a numpy array with ints, where 1 is H, 2 is He and so on.</p>
+<p><strong>coefficients</strong> is the dictionary where the keys are central species, 1 and 6 in our case, and entries are numpy arrays shaped in the <strong>[environment_index, radial/specie index, l, m]</strong> way.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -608,7 +611,7 @@ all species:  [1 6]
 100%|██████████| 2/2 [00:00&lt;00:00, 96.74it/s]
 </pre></div></div>
 </div>
-<p>We are going to fit two NICE transformers on environments around H and C atoms separatelly. the following cells create them and perfom fitting:</p>
+<p>We are going to fit two NICE transformers on environments around both the H and C atoms separately. The following cells create them and perform the fitting:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -669,8 +672,8 @@ all species:  [1 6]
 </pre></div>
 </div>
 </div>
-<p>Result is nested dictionary. First level keys are central species, inner level keys are body orders. Inside are numpy arrays with shapes [environment_index, invariant_index]:</p>
-<p>In this case number of train structures is 10k, and each consist of 4 H atoms. Thus, total amount of H centered environments is 40k</p>
+<p>The result is a nested dictionary. The first level keys are central species, and the inner level keys are body orders. Inside are <strong>numpy arrays</strong> with shapes <strong>[environment_index, invariant_index]</strong>:</p>
+<p>In this case number of training structures is 10k, and each structure consists of 4 H atoms. Thus, the total number of H centered environments is 40k.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -692,9 +695,9 @@ all species:  [1 6]
 4 : (40000, 200)
 </pre></div></div>
 </div>
-<p>Now we need to prepare to subsequent linear regression. As it was already discussed in theory energy is extensive property, and thus it is given as sum of atomic contributions. Each atomic contribution depends on 1) central specie and 2) environment. Thus, it is straighforward to see that if each atomic contribution is given by linear combination of previously calculated NICE features, the structural features should have the following form - for each structure set of features is a concatenation
-of representations for each specie. Representation for each specie is sum of NICE representations over the atoms with this specie in structure.</p>
-<p>In our case representation of each environment has size 200 + 200 + 200 + 10 = 610. And we have two atomic species - H and C. Thus shape of structures features should be [number_of_structures, 610 * 2 = 1220]:</p>
+<p>Now we need to prepare to subsequent linear regression. As it was already discussed in theory, energy is an extensive property, and thus it is given as a sum of atomic contributions. Each atomic contribution depends on 1) the central specie and 2) the environment. Thus, it is straightforward to see that if each atomic contribution is given by linear combination of previously calculated NICE features, the structural features should have the following form - for each structure, the set of features
+is a concatenation of representations for each specie. Representation for each specie is a sum of NICE representations over the atoms with this specie in the structure.</p>
+<p>In our case, representation of each environment has a size 200 + 200 + 200 + 10 = 610. And we have two atomic species - H and C. Thus, the shape of structural features should be <strong>[number_of_structures, 610 * 2 = 1220]</strong>:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
@@ -812,7 +815,7 @@ of representations for each specie. Representation for each specie is sum of NIC
 [0.42464701726115345, 0.42792751363241127, 0.34957126556673074, 0.23224927808993065, 0.18092624722851186, 0.1633574614154897, 0.1314667448310553, 0.11714993044911277, 0.09993264376552576, 0.0841500827643375, 0.07236090702297093, 0.07000616505682997]
 </pre></div></div>
 </div>
-<p>learnig curve looks like this:</p>
+<p>The learning curve looks like this:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -836,10 +839,10 @@ of representations for each specie. Representation for each specie is sum of NIC
 <img alt="../_images/symlinks_constructing_machine_learning_potential_29_0.png" src="../_images/symlinks_constructing_machine_learning_potential_29_0.png" />
 </div>
 </div>
-<p>The pipeline in this tutorial was designed to expose all intermediate steps, but it has one drawback - at some moment all atomic representations along with all intermediate covariants for whole dataset are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural invariant features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if dataset consist of large molecules. Thus, it is a good
-idea to calculate structural features by small blocks and get rid of atomic representations for each block immediatelly. For this purpose there is function nice.utilities.transform_sequentially. It has block_size parameter which controls the size of each chunk. The higher is this chunk the more RAM is required for calculations. But, on the other side for very small chunks slow python loops over lambda channels with invoking separate python classes for each lambda channel might become a
-bottleneck (all the other indices are handled either by numpy vectorization either by cython loops). The other reason for slow down is multiprocessing. Thus, transforming time per single environments monotonically decrease with the block_size and eventually goes to saturation. Default value for block_size parameter should be fine in most cases.</p>
-<p>Full example can be found in examples/methane_home_pc or in examples/qm9_home_pc. Other than that and absence of markdown comments these notebooks are almost identical to this tutorial (in qm9 single nice transformer is used for all central species). Thus, we recommend to pick one of them as the code snippet.</p>
+<p>The pipeline in this tutorial was designed to explain all the intermediate steps, but it has one drawback - at some moment all atomic representations along with all intermediate covariants for the whole dataset are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural invariant features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if dataset consist of large molecules. Thus, it is a
+good idea to calculate structural features by small blocks and get rid of atomic representations for each block immediately. For this purpose there is a function <strong>nice.utilities.transform_sequentially</strong>. It has a parameter <strong>block_size</strong> that controls the size of each chunk. The higher is this chunk the more RAM is required for calculations. But, on the other hand for very small chunks slow python loops over lambda channels with invoking separate python classes for each lambda channel might
+become a bottleneck (all the other indices are handled either by numpy vectorization either by cython loops). The other reason for slowdown is multiprocessing. Thus, transforming time per single environments monotonically decrease with the <strong>block_size</strong> and eventually goes to saturation. Default value for <strong>block_size</strong> parameter should be fine in most cases.</p>
+<p>Full example can be found in examples/methane_home_pc or in examples/qm9_home_pc. Other than that and absence of markdown comments these notebooks are almost identical to this tutorial (in qm9 single nice transformer is used for all central species). Thus, we recommend picking one of them as the code snippet.</p>
 </div>
 
 

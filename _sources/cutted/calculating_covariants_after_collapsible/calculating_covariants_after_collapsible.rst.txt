@@ -1,26 +1,26 @@
-Now we need to call .transform method with return\_only\_invariants =
-False, which is default value:
+Now we need to call **.transform** method with
+**return\_only\_invariants = False**, which is the default value:
 
 .. code:: ipython3
 
     data_even, data_odd, invariants_even = nice[1].transform(train_coefficients[1])
 
-result is data\_even, data\_odd and invariants\_even. First two objects
-are covariants, the last is invariants.
+Result is **data\_even**, **data\_odd** and **invariants\_even**. The
+first two objects are covariants, the last is invariants.
 
 There is one another important symmetry in addition to translational and
-rotational one. Usually atomic properties, such as energy, transform in
-certain way also with respect to inversion. Particularly, energy is
-invariant with respect to it.
+rotational one. Usually atomic properties, such as energy, also
+transform in certain way with respect to inversion. Particularly, energy
+is invariant with respect to it.
 
-In NICE features are separated in two groups - the ones which are
+In NICE, features are separated in two groups - the ones which are
 invariant with respect to inversion, and the ones which change their
-sign. The first are called even, second are called odd.
+sign. The first ones are called even, the second ones are called odd.
 
 Now let's take a look at the returned objects more closely:
 
-invariants is the same object as in the previous tutorial - dictionary,
-where keys are body order
+**Invariants** is the same object as in the previous tutorial -
+dictionary, where keys are body order.
 
 .. code:: ipython3
 
@@ -41,18 +41,20 @@ where keys are body order
     </pre>
     </embed>
     
-Returned covariants are covariants after last block, i. e. in our case
-of body order 4. (functionality to get all covariants of all body order
-from StandardSequence will be added in the next version of NICE)
+Returned covariants are covariants after the last block, i. e. in our
+case of body order 4. (functionality to get all covariants of all body
+order from **StandardSequence** will be added in the next version of
+NICE)
 
 Even covariants are packed in the class Data, which has two relevant
-fields - .covariants\_ and .actual\_sizes\_. (getters are also to be
-added in the next version) First is np.array with covariants themselves.
-It has following indexing -[environmental\_index, feature\_index,
-lambda, m]. But the problem is that for each lambda channel actual
-number of features is different. Thus, shape of this array doesn't
-reflect real number of meaningfull entries. Information about actual
-number of features is stored in .actual\_sizes\_:
+fields - **.covariants\_** and **.actual\_sizes\_**. (getters are also
+to be added in the next version) First is np.array with covariants
+themselves. It has following indexing -**[environmental\_index,
+feature\_index, lambda, m]**. But the problem is that for each lambda
+channel the actual number of features is different. Thus, the shape of
+this array doesn't reflect the real number of meaningful entries.
+Information about actual number of features is stored in
+**.actual\_sizes\_**:
 
 .. code:: ipython3
 
@@ -73,7 +75,7 @@ number of features is stored in .actual\_sizes\_:
     </pre>
     </embed>
     
-The same for odd covariants:
+It is the same for odd covariants:
 
 .. code:: ipython3
 
@@ -92,20 +94,21 @@ The same for odd covariants:
     </pre>
     </embed>
     
-There is one another point - that for each lambda channel size of
-covariant vectors is (2 \* lambda + 1). These vectors are stored from
-the beginning. It means that meaningfull entries for each lambda are
-located in [:, :, lambda, :(2 \* lambda + 1)]
+There is one other point - for each lambda channel the size of covariant
+vectors is (2 \* lambda + 1). These vectors are stored from the
+beginning. It means that the meaningful entries for each lambda are
+located in **[:, :, lambda, :(2 \* lambda + 1)]**
 
 In the `nice
-article <https://aip.scitation.org/doi/10.1063/5.0021116>`__ other
-definition of parity is used. Covariants are splitted into true and
-pseudo groups. All covariants in true group are transformed with respect
-to inversion as (-1)^lambda, while all covariants in the pseudo group
-are transformed as (-1) ^ (lambda + 1).
+article <https://aip.scitation.org/doi/10.1063/5.0021116>`__ another
+definition of **parity** is used. Covariants are split into **true** and
+**pseudo** groups. All the covariants in the **true** group are
+transformed with respect to inversion as (-1)^lambda, while all the
+covariants in the **pseudo** group are transformed as (-1) ^ (lambda +
+1).
 
-There is special class - ParityDefinitionChanger to switch between these
-definitions:
+There is a special class - **ParityDefinitionChanger** to switch between
+these definitions:
 
 .. code:: ipython3
 
@@ -132,17 +135,17 @@ definitions:
     </pre>
     </embed>
     
-This transformation is symmetric, thus, we can use this it once again to
-go back from true and pseudo covariants to even and odd:
+Since this transformation is symmetric, we can use this once again to go
+back from the true and pseudo covariants to even and odd:
 
 .. code:: ipython3
 
     data_even, data_odd = ParityDefinitionChanger().transform(
         data_true, data_pseudo)
 
-There is one another discrepancy - covariants defined in the nice
-article, are smaller by the factor of (2 \* lambda + 1). Thus, the last
-step to get full compliance is the following:
+There is one other discrepancy - covariants defined in the nice article,
+are smaller by the factor of (2 \* lambda + 1). Thus, the last step to
+get full compliance is the following:
 
 .. code:: ipython3
 

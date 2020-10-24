@@ -415,13 +415,13 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<p>As it was discussed in the first tutorial ThresholdExpansioner sorts all pairs of inputs by their pairwise importances and after that produces the output only for fixed number of most important pairs. This number is controlled by num_expand.</p>
-<p>But, there are two reasons, why real number of covariants after ThresholdEpansioner might be different from the speciefied one. 1) some pairs of input covariants produce features not to all lambda channels. Particularly, pair of inpur covariants with some l1 and l2 produces covariants only to lambda channels where |l1 - l2| &lt;= lambda &lt;= l1 + l2. Thus, real number of features after ThresholdExpanioner would be smaller than specified one in num_expand.</p>
+<p>As it was discussed in the first tutorial, <strong>ThresholdExpansioner</strong> sorts all pairs of inputs by their pairwise importances and after that produces the output only for fixed number of most important pairs. This number is controlled by <strong>num_expand</strong>.</p>
+<p>However, there are two reasons, why the real number of covariants after <strong>ThresholdEpansioner</strong> might be different from the specified one. 1) Some pairs of input covariants do not produce features to all lambda channels. Particularly, pair of input covariants with some l1 and l2 produces covariants only to lambda channels where |l1 - l2| &lt;= lambda &lt;= l1 + l2. Thus, real number of features after <strong>ThresholdExpanioner</strong> would be smaller than specified one in <strong>num_expand</strong>.</p>
 <ol class="arabic simple" start="2">
-<li><p>Pairwise importances can have a lot of collisions. For instance it is impossible to select such threshold to filter out exactly 3 pairs from the set of pairs with the following importances [1, 1, 2, 2]. It is possible to filter out either 0, either 2, either 4, but not exactly 3.</p></li>
+<li><p>Pairwise importances can have a lot of collisions. For instance, it is impossible to select such a threshold to filter out exactly 3 pairs from the set of pairs with the following importances [1, 1, 2, 2]. It is possible to filter out either 0, either 2, either 4, but not exactly 3.</p></li>
 </ol>
-<p>Thus, it is good idea to have possibility to have a look at the actual amount of intermediate features.</p>
-<p>StandardSequence has method get_intermediat_shapes(). It returns intermediate shapes in the form of nested dictionary:</p>
+<p>Thus, it is a good idea to have possibility to look at the actual amount of intermediate features.</p>
+<p><strong>StandardSequence</strong> has a method <strong>get_intermediat_shapes()</strong>. It returns intermediate shapes in the form of nested dictionary:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -456,7 +456,7 @@ block nu = 3 -&gt; nu = 4 : {&#39;after covariants expansioner&#39;: [[19, 49, 5
 
 </pre></div></div>
 </div>
-<p>spectrums of pcas can be accessed in the following way: (convenient getters will be inserted in the next version of NICE)</p>
+<p>Spectrums of pcas can be accessed in the following way: (convenient getters will be inserted in the next version of NICE)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -580,9 +580,9 @@ nu:  4
 <img alt="../_images/cutted_getting_insights_about_the_model_after_collapsible_4_7.png" src="../_images/cutted_getting_insights_about_the_model_after_collapsible_4_7.png" />
 </div>
 </div>
-<p>(checks if pca instance is None are needed since it would be None if number of features for corresponding lambda channel would be zero after expansion step)</p>
-<p>inner class for single Lambda channel inherits from sklearn.decomposition.TruncatedSVD (PCA without centering the data, which would break covariant transformation). Thus, in addition to .importances_, .explained_variance_ and .explained_variance_ratio_ are also accesible.</p>
-<p>importances_ (which are used by subsequent TresholdExpansioners) are explained_variance_ normalized not to variance of input as explained_variance_ratio_, but to variance of output:</p>
+<p>(checks if pca instance is <strong>None</strong> are needed since it would be <strong>None</strong> if the number of features for corresponding lambda channel would be zero after the expansion step)</p>
+<p>inner class for single Lambda channel inherits from sklearn.decomposition.TruncatedSVD (PCA without centering the data, which would break covariant transformation). Thus, in addition to <strong>.importances_</strong>, <strong>.explained_variance_</strong> and <strong>.explained_variance_ratio_</strong> are also accesible.</p>
+<p><strong>importances_</strong> (which are used by subsequent <strong>TresholdExpansioners</strong>) are <strong>explained_variance_</strong> normalized not to variance of input as <strong>explained_variance_ratio_</strong>, but to variance of output:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>

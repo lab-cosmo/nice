@@ -1,27 +1,27 @@
-As it was discussed in the first tutorial ThresholdExpansioner sorts all
-pairs of inputs by their pairwise importances and after that produces
-the output only for fixed number of most important pairs. This number is
-controlled by num\_expand.
+As it was discussed in the first tutorial, **ThresholdExpansioner**
+sorts all pairs of inputs by their pairwise importances and after that
+produces the output only for fixed number of most important pairs. This
+number is controlled by **num\_expand**.
 
-But, there are two reasons, why real number of covariants after
-ThresholdEpansioner might be different from the speciefied one. 1) some
-pairs of input covariants produce features not to all lambda channels.
-Particularly, pair of inpur covariants with some l1 and l2 produces
-covariants only to lambda channels where \|l1 - l2\| <= lambda <= l1 +
-l2. Thus, real number of features after ThresholdExpanioner would be
-smaller than specified one in num\_expand.
+However, there are two reasons, why the real number of covariants after
+**ThresholdEpansioner** might be different from the specified one. 1)
+Some pairs of input covariants do not produce features to all lambda
+channels. Particularly, pair of input covariants with some l1 and l2
+produces covariants only to lambda channels where \|l1 - l2\| <= lambda
+<= l1 + l2. Thus, real number of features after **ThresholdExpanioner**
+would be smaller than specified one in **num\_expand**.
 
-2) Pairwise importances can have a lot of collisions. For instance it is
-   impossible to select such threshold to filter out exactly 3 pairs
-   from the set of pairs with the following importances [1, 1, 2, 2]. It
-   is possible to filter out either 0, either 2, either 4, but not
-   exactly 3.
+2) Pairwise importances can have a lot of collisions. For instance, it
+   is impossible to select such a threshold to filter out exactly 3
+   pairs from the set of pairs with the following importances [1, 1, 2,
+   2]. It is possible to filter out either 0, either 2, either 4, but
+   not exactly 3.
 
-Thus, it is good idea to have possibility to have a look at the actual
-amount of intermediate features.
+Thus, it is a good idea to have possibility to look at the actual amount
+of intermediate features.
 
-StandardSequence has method get\_intermediat\_shapes(). It returns
-intermediate shapes in the form of nested dictionary:
+**StandardSequence** has a method **get\_intermediat\_shapes()**. It
+returns intermediate shapes in the form of nested dictionary:
 
 .. code:: ipython3
 
@@ -53,7 +53,7 @@ intermediate shapes in the form of nested dictionary:
     </pre>
     </embed>
     
-spectrums of pcas can be accessed in the following way: (convenient
+Spectrums of pcas can be accessed in the following way: (convenient
 getters will be inserted in the next version of NICE)
 
 .. code:: ipython3
@@ -167,19 +167,20 @@ getters will be inserted in the next version of NICE)
 .. image:: getting_insights_about_the_model_after_collapsible_files/getting_insights_about_the_model_after_collapsible_4_7.png
 
 
-(checks if pca instance is None are needed since it would be None if
-number of features for corresponding lambda channel would be zero after
-expansion step)
+(checks if pca instance is **None** are needed since it would be
+**None** if the number of features for corresponding lambda channel
+would be zero after the expansion step)
 
 inner class for single Lambda channel inherits from
 sklearn.decomposition.TruncatedSVD (PCA without centering the data,
 which would break covariant transformation). Thus, in addition to
-.importances\_, .explained\_variance\_ and .explained\_variance\_ratio\_
-are also accesible.
+**.importances\_**, **.explained\_variance\_** and
+**.explained\_variance\_ratio\_** are also accesible.
 
-importances\_ (which are used by subsequent TresholdExpansioners) are
-explained\_variance\_ normalized not to variance of input as
-explained\_variance\_ratio\_, but to variance of output:
+**importances\_** (which are used by subsequent
+**TresholdExpansioners**) are **explained\_variance\_** normalized not
+to variance of input as **explained\_variance\_ratio\_**, but to
+variance of output:
 
 .. code:: ipython3
 

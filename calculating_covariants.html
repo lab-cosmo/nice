@@ -201,16 +201,16 @@
 </style>
 <div class="section" id="calculating-covariants">
 <h1>Calculating covariants<a class="headerlink" href="#calculating-covariants" title="Permalink to this headline">¶</a></h1>
-<p>In the previous tutorial we calculated invariant representation of
-atomic environment and used to for prediction of energies - invariant
+<p>In the previous tutorial, we calculated invariant representations of
+atomic environments and used them for prediction of energies - invariant
 properties.</p>
-<p>In case when there is need to predict covariant properties covariants
+<p>In case when there is need to predict covariant properties, covariants
 instead of invariants are required. This tutorial shows how to calculate
 them.</p>
-<p>First of all we need to get fitted instance of model as in the previous
-tutorial. It is done by the following preliminaries cell: (with the only
-difference that since we want to calculate covariants, we clearly
-shouldn’t left covariants branch of the last block empty)</p>
+<p>First of all, we need to get <strong>fitted</strong> instance of model as in the
+previous tutorial. It is done by the following preliminaries cell: (with
+the only difference that since we want to calculate covariants, we
+clearly shouldn’t leave covariants branch of the last block empty)</p>
 <div class="toggle admonition">
 <p class="admonition-title">Preliminaries</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cell to wrap in collapsible in future</span>
@@ -335,23 +335,23 @@ shouldn’t left covariants branch of the last block empty)</p>
 </p>
 </pre>
 </embed></div>
-<p>Now we need to call .transform method with return_only_invariants =
-False, which is default value:</p>
+<p>Now we need to call <strong>.transform</strong> method with
+<strong>return_only_invariants = False</strong>, which is the default value:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">,</span> <span class="n">invariants_even</span> <span class="o">=</span> <span class="n">nice</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>result is data_even, data_odd and invariants_even. First two objects
-are covariants, the last is invariants.</p>
+<p>Result is <strong>data_even</strong>, <strong>data_odd</strong> and <strong>invariants_even</strong>. The
+first two objects are covariants, the last is invariants.</p>
 <p>There is one another important symmetry in addition to translational and
-rotational one. Usually atomic properties, such as energy, transform in
-certain way also with respect to inversion. Particularly, energy is
-invariant with respect to it.</p>
-<p>In NICE features are separated in two groups - the ones which are
+rotational one. Usually atomic properties, such as energy, also
+transform in certain way with respect to inversion. Particularly, energy
+is invariant with respect to it.</p>
+<p>In NICE, features are separated in two groups - the ones which are
 invariant with respect to inversion, and the ones which change their
-sign. The first are called even, second are called odd.</p>
+sign. The first ones are called even, the second ones are called odd.</p>
 <p>Now let’s take a look at the returned objects more closely:</p>
-<p>invariants is the same object as in the previous tutorial - dictionary,
-where keys are body order</p>
+<p><strong>Invariants</strong> is the same object as in the previous tutorial -
+dictionary, where keys are body order.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">invariants_even</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">invariants_even</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
@@ -365,17 +365,19 @@ where keys are body order</p>
     (40000, 200)
 </p>
 </pre>
-</embed><p>Returned covariants are covariants after last block, i. e. in our case
-of body order 4. (functionality to get all covariants of all body order
-from StandardSequence will be added in the next version of NICE)</p>
+</embed><p>Returned covariants are covariants after the last block, i. e. in our
+case of body order 4. (functionality to get all covariants of all body
+order from <strong>StandardSequence</strong> will be added in the next version of
+NICE)</p>
 <p>Even covariants are packed in the class Data, which has two relevant
-fields - .covariants_ and .actual_sizes_. (getters are also to be
-added in the next version) First is np.array with covariants themselves.
-It has following indexing -[environmental_index, feature_index,
-lambda, m]. But the problem is that for each lambda channel actual
-number of features is different. Thus, shape of this array doesn’t
-reflect real number of meaningfull entries. Information about actual
-number of features is stored in .actual_sizes_:</p>
+fields - <strong>.covariants_</strong> and <strong>.actual_sizes_</strong>. (getters are also
+to be added in the next version) First is np.array with covariants
+themselves. It has following indexing -<strong>[environmental_index,
+feature_index, lambda, m]</strong>. But the problem is that for each lambda
+channel the actual number of features is different. Thus, the shape of
+this array doesn’t reflect the real number of meaningful entries.
+Information about actual number of features is stored in
+<strong>.actual_sizes_</strong>:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">data_even</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape of even covariants array: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;actual sizes of even covariants: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">))</span>
@@ -389,7 +391,7 @@ number of features is stored in .actual_sizes_:</p>
     actual sizes of even covariants: [22 55 73 83 87 76]
 </p>
 </pre>
-</embed><p>The same for odd covariants:</p>
+</embed><p>It is the same for odd covariants:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape of odd covariants array: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;actual sizes of odd covariants: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">))</span>
 </pre></div>
@@ -401,18 +403,19 @@ number of features is stored in .actual_sizes_:</p>
     actual sizes of odd covariants: [20 54 72 87 88 75]
 </p>
 </pre>
-</embed><p>There is one another point - that for each lambda channel size of
-covariant vectors is (2 * lambda + 1). These vectors are stored from
-the beginning. It means that meaningfull entries for each lambda are
-located in [:, :, lambda, :(2 * lambda + 1)]</p>
+</embed><p>There is one other point - for each lambda channel the size of covariant
+vectors is (2 * lambda + 1). These vectors are stored from the
+beginning. It means that the meaningful entries for each lambda are
+located in <strong>[:, :, lambda, :(2 * lambda + 1)]</strong></p>
 <p>In the <a class="reference external" href="https://aip.scitation.org/doi/10.1063/5.0021116">nice
-article</a> other
-definition of parity is used. Covariants are splitted into true and
-pseudo groups. All covariants in true group are transformed with respect
-to inversion as (-1)^lambda, while all covariants in the pseudo group
-are transformed as (-1) ^ (lambda + 1).</p>
-<p>There is special class - ParityDefinitionChanger to switch between these
-definitions:</p>
+article</a> another
+definition of <strong>parity</strong> is used. Covariants are split into <strong>true</strong> and
+<strong>pseudo</strong> groups. All the covariants in the <strong>true</strong> group are
+transformed with respect to inversion as (-1)^lambda, while all the
+covariants in the <strong>pseudo</strong> group are transformed as (-1) ^ (lambda +
+1).</p>
+<p>There is a special class - <strong>ParityDefinitionChanger</strong> to switch between
+these definitions:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
     <span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">)</span>
 
@@ -432,15 +435,15 @@ definitions:</p>
     [20 55 72 83 88 76]
 </p>
 </pre>
-</embed><p>This transformation is symmetric, thus, we can use this it once again to
-go back from true and pseudo covariants to even and odd:</p>
+</embed><p>Since this transformation is symmetric, we can use this once again to go
+back from the true and pseudo covariants to even and odd:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
     <span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>There is one another discrepancy - covariants defined in the nice
-article, are smaller by the factor of (2 * lambda + 1). Thus, the last
-step to get full compliance is the following:</p>
+<p>There is one other discrepancy - covariants defined in the nice article,
+are smaller by the factor of (2 * lambda + 1). Thus, the last step to
+get full compliance is the following:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">lambd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
     <span class="n">data_true</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_true</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span>
                           <span class="n">lambd</span><span class="p">,</span> <span class="p">:(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">/=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
