@@ -166,11 +166,10 @@ cpdef do_partial_expansion_covariants(const double[:, :, :, :, :] clebsch_gordan
         for task_ind in range(tasks.shape[0]):            
             first_ind, l1 = tasks[task_ind, 0], tasks[task_ind, 1]
             second_ind, l2 = tasks[task_ind, 2], tasks[task_ind, 3]
-            for lambd in range(abs_c(l1 - l2), min_c(l1 + l2, l_max) + 1):
-               
-                single_contraction(clebsch_gordan, &first_covariants[env_ind, first_ind, l1, 0], l1, 
-                                   &second_covariants[env_ind, second_ind, l2, 0], l2,
-                                   lambd, &res[env_ind, res_actual_sizes[lambd] + placing[task_ind, lambd], lambd, 0], buff_now)
+            lambd = tasks[task_ind, 4]
+            single_contraction(clebsch_gordan, &first_covariants[env_ind, first_ind, l1, 0], l1,
+                               &second_covariants[env_ind, second_ind, l2, 0], l2,
+                               lambd, &res[env_ind, res_actual_sizes[lambd] + placing[task_ind, lambd], lambd, 0], buff_now)
                 
     cdef int[:] sizes = get_sizes_covariants(l_max, tasks)
     for lambd in range(l_max + 1):
@@ -201,7 +200,6 @@ cpdef do_partial_expansion_invariants(const double[:, :, :, :, :] clebsch_gordan
             first_ind, l1 = tasks[task_ind, 0], tasks[task_ind, 1]
             second_ind, l2 = tasks[task_ind, 2], tasks[task_ind, 3]
             if (l1 == l2):
-               
                 single_contraction(clebsch_gordan, &first_covariants[env_ind, first_ind, l1, 0], l1, 
                                    &second_covariants[env_ind, second_ind, l2, 0], l2,
                                    0, &res[env_ind, res_actual_sizes[0] + placing[task_ind], 0], buff_now)
@@ -233,9 +231,8 @@ cpdef get_sizes_covariants(int l_max, const int[:, :] tasks):
     cdef int lambd, l1, l2
         
     for task_ind in range(tasks.shape[0]):
-        l1, l2 = tasks[task_ind, 1], tasks[task_ind, 3]
-        for lambd in range(abs_c(l1 - l2), min_c(l1 + l2, l_max) + 1):
-            sizes_view[lambd] += 1
+        lambd = tasks[task_ind, 4]
+        sizes_view[lambd] += 1
     return sizes
     
 def get_sizes(l_max, tasks, mode):
@@ -254,10 +251,10 @@ cdef int[:, :] get_placing_covariants(int l_max, const int[:, :] tasks):
     cdef int task_ind, lambd, l1, l2
     
     for task_ind in range(tasks.shape[0]):
-        l1, l2 = tasks[task_ind, 1], tasks[task_ind, 3]
-        for lambd in range(abs_c(l1 - l2), min_c(l1 + l2, l_max) + 1):
-            result_view[task_ind, lambd] = now[lambd]
-            now[lambd] += 1
+        #l1, l2 = tasks[task_ind, 1], tasks[task_ind, 3]
+        lambd = tasks[task_ind, 4]
+        result_view[task_ind, lambd] = now[lambd]
+        now[lambd] += 1
     return result
 
 @cython.boundscheck(False)
