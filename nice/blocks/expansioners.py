@@ -19,6 +19,54 @@ class ThresholdExpansioner:
         self.num_threads_ = num_threads
         self.fitted_ = False
 
+    def apply_subselection(self, even_subselection, odd_subselection):
+        if not self.fitted_:
+            raise NotFittedError(
+                "Expansioner must be fitted before applying subselection".
+                format(type(self).__name__))
+        even_mask = np.zeros([self.task_even_even_.shape[0][0] + self.task_odd_odd_.shape[0][0]], dtype = bool)
+        odd_mask = np.zeros([self.task_even_odd_.shape[0][0] + self.task_odd_even_.shape[0][0]], dtype = bool)
+        if self.mode_ == "covariants":
+            even_multipliers, odd_multipliers = [], []
+            for lambd in range(self.l_max_ + 1):
+                even_submask = even_mask[np.concatenate([(self.task_even_even_[0][:, 4] == lambd),
+                                                 (self.task_odd_odd_[0][:, 4] == lambd)], axis = 0)]
+
+                odd_submask = odd_mask[np.concatenate([(self.task_even_odd_[0][:, 4] == lambd),
+                                                         (self.task_odd_even_[0][:, 4] == lambd)], axis=0)]
+                even_submask[:] = even_subselection[lambd][0]
+                odd_submask[:] = odd_subselection[lambd][0]
+
+                even_multipliers.append(even_subselection[lambd][0])
+                odd_multipliers.append(odd_subselection[lambd][0])
+
+        else:
+            even_mask = even_subselection[0]
+            odd_mask = odd_subselection[0]
+            even_multipliers = even_subselection[1]
+            odd_multipliers = odd_subselection[1]
+
+        self.task_even_even_[0] = self.task_even_even_[0][even_mask[:self.task_even_even_[0].shape[0]]]
+        self.task_odd_odd_[0] = self.task_odd_odd_[0][even_mask[self.task_even_even_[0].shape[0]:]]
+
+        self.task_even_odd_[0] = self.task_even_odd_[0][odd_mask[:self.task_even_odd_[0].shape[0]]]
+        self.task_odd_even_[0] = self.task_odd_even_[0][odd_mask[self.task_odd_even_[0].shape[0]:]]
+
+        self.new_even_size_ = np.max(
+            get_sizes(self.l_max_, self.task_even_even_[0], self.mode_) +
+            get_sizes(self.l_max_, self.task_odd_odd_[0], self.mode_))
+
+        self.new_odd_size_ = np.max(
+            get_sizes(self.l_max_, self.task_even_odd_[0], self.mode_) +
+            get_sizes(self.l_max_, self.task_odd_even_[0], self.mode_))
+
+        self.new_even_raw_importances_ = self.new_even_raw_importances_[even_mask]
+        self.new_odd_raw_importances_ = self.new_odd_raw_importances_[odd_mask]
+
+        self.even_multipliers_ = even_multipliers
+        self.odd_multipliers_ = odd_multipliers
+
+
     def fit(self,
             first_even,
             first_odd,
@@ -148,10 +196,23 @@ class ThresholdExpansioner:
             num_threads=self.num_threads_,
         )
         if self.mode_ == "covariants":
+            for lambd in range(self.l_max_ + 1):
+                if (self.even_multipliers_ is not None):
+                    new_even[:, :new_even_actual_sizes[lambd], lambd, :] = new_even[:, :new_even_actual_sizes[lambd], lambd, :] * \
+                        self.even_multipliers_[lambd]
+                if (self.odd_multipliers_ is not None):
+                    new_odd[:, :new_odd_actual_sizes[lambd], lambd, :] = new_odd[:, :new_odd_actual_sizes[lambd], lambd,:] * \
+                                                                       self.odd_multipliers_[lambd]
+
             return Data(new_even,
                         new_even_actual_sizes), Data(new_odd,
                                                      new_odd_actual_sizes)
         else:
+            if (self.even_multipliers_ is not None):
+                new_even[:, :new_even_actual_sizes[0], 0] = new_even[:, :new_even_actual_sizes[0], 0] * self.even_multipliers_
+            if (self.odd_multipliers_ is not None):
+                new_odd[:, :new_odd_actual_sizes[0], 0] = new_odd[:, :new_odd_actual_sizes[0],
+                                                            0] * self.odd_multipliers_
             return (
                 new_even[:, :new_even_actual_sizes[0], 0],
                 new_odd[:, :new_odd_actual_sizes[0], 0],

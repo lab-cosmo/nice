@@ -14,7 +14,7 @@ class InvariantsVarianceSelector:
         indices = np.argsort(variances)[::-1]
         mask = np.zeros([invariants.shape[1]], dtype = np.bool)
         mask[indices[:self.n_components_]] = True
-        return mask, np.ones([self.n_components_], dtype = np.bool)
+        return [mask, np.ones([self.n_components_], dtype = np.bool)]
 
 
 #for comparing purposes
@@ -29,7 +29,7 @@ class InvariantsRandomSelector:
         indices = np.random.permutation(invariants.shape[1])
         mask = np.zeros([invariants.shape[1]], dtype=np.bool)
         mask[indices[:self.n_components_]] = True
-        return mask, np.ones([self.n_components_], dtype=np.bool)
+        return [mask, np.ones([self.n_components_], dtype=np.bool)]
 
 
 class IndividualSelector:
