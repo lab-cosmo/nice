@@ -365,16 +365,34 @@ cdef double*** get_buff(int num_threads, int l_max):
     return new_same_parity_features, new_other_parity_features'''
 
 class Data:
-    def __init__(self, covariants, actual_sizes, importances = None):
+    def __init__(self, covariants, actual_sizes):
         self.covariants_ = covariants
         self.actual_sizes_ = actual_sizes
-        self.importances_ = importances       
-        
+
+    @staticmethod
+    def get_amplitude(values, lambd):
+        return np.sqrt((2 * lambd + 1) * np.mean((values[:, :, :(2 * lambd + 1)]) ** 2, axis = (0, 2)))
+
+    def get_sorted_amplitudes(self, order = 'ascending'):
+        amplitudes = self.get_amplitudes()
+        for lambd in range(self.covariants_.shape[2]):
+            amplitudes[:self.actual_sizes_[lambd], lambd] = np.sort(amplitudes[:self.actual_sizes_[lambd], lambd])
+            if order == 'descending':
+                amplitudes[:self.actual_sizes_[lambd], lambd] = (amplitudes[:self.actual_sizes_[lambd], lambd])[::-1]
+        return amplitudes
+
+    def get_amplitudes(self):
+        result = np.empty([self.covariants_.shape[1], self.covariants_.shape[2]])
+        for lambd in range(self.covariants_.shape[2]):
+            result[:self.actual_sizes_[lambd], lambd] = Data.get_amplitude(self.covariants_[:, :self.actual_sizes_[lambd],
+                                                                         lambd, :(2 * lambd + 1)], lambd)
+        return result
+
     def get_invariants(self):
         return self.covariants_[:, :self.actual_sizes_[0], 0, 0]
     
     def __getitem__(self, sliced): #only env dim slice should be used
-        return Data(self.covariants_[sliced], self.actual_sizes_[sliced], self.importances_)
+        return Data(self.covariants_[sliced], self.actual_sizes_[sliced])
         '''args = [self.covariants_[sliced], self.actual_sizes_[sliced]]
         if (self.importances_ is None):
             args.append(None)

@@ -5,15 +5,30 @@ import numpy as np
 from sklearn.exceptions import NotFittedError
 
 
+def amplitudes_criterion(data):
+    return data.get_amplitudes()
+
+
+def standardized_amplitudes_criterion(data):
+    amplitudes = data.get_amplitudes()
+    for lambd in range(amplitudes.shape[1]):
+        amplitudes[:data.actual_sizes_[lambd], lambd] /= np.sqrt(2 * lambd + 1)
+    return amplitudes
+
 class ThresholdExpansioner:
     ''' Block to do Clebsch-Gordan iteration. It uses two even-odd pairs of Data instances with covariants
     to produce new ones. If first even-odd pair contains covariants of body order v1, and the second v2, body
     order of the result would be v1 + v2. '''
-    def __init__(self, num_expand=None, mode="covariants", num_threads=None):
+    def __init__(self, num_expand=None, mode="covariants", criterion = "standardized_amplitudes", num_threads=None):
         if num_expand is None:
             self.num_expand_ = -1
         else:
             self.num_expand_ = num_expand
+        if criterion == "amplitudes":
+            self.criterion_ = amplitudes_criterion
+        else:
+            if criterion == "standardized_amplitudes":
+                self.criterion_ = standardized_amplitudes_criterion
 
         self.mode_ = mode
         self.num_threads_ = num_threads
@@ -60,9 +75,6 @@ class ThresholdExpansioner:
             get_sizes(self.l_max_, self.task_even_odd_[0], self.mode_) +
             get_sizes(self.l_max_, self.task_odd_even_[0], self.mode_))
 
-        self.new_even_raw_importances_ = self.new_even_raw_importances_[even_mask]
-        self.new_odd_raw_importances_ = self.new_odd_raw_importances_[odd_mask]
-
         self.even_multipliers_ = even_multipliers
         self.odd_multipliers_ = odd_multipliers
 
@@ -76,17 +88,13 @@ class ThresholdExpansioner:
 
         self.l_max_ = first_even.covariants_.shape[2] - 1
 
-        if (first_even.importances_ is None) or (first_odd.importances_ is None) \
-        or (second_even.importances_ is None) or (second_odd.importances_ is None):
-            raise ValueError(
-                "For thresholding importances of features should be specified")
-
         (
             self.task_even_even_,
             self.task_odd_odd_,
             self.task_even_odd_,
             self.task_odd_even_,
         ) = get_thresholded_tasks(
+            self.criterion_,
             first_even,
             first_odd,
             second_even,
@@ -110,10 +118,9 @@ class ThresholdExpansioner:
             get_sizes(self.l_max_, self.task_even_odd_[0], self.mode_) +
             get_sizes(self.l_max_, self.task_odd_even_[0], self.mode_))
 
-        self.new_even_raw_importances_ = np.concatenate(
-            [self.task_even_even_[1], self.task_odd_odd_[1]], axis=0)
-        self.new_odd_raw_importances_ = np.concatenate(
-            [self.task_even_odd_[1], self.task_odd_even_[1]], axis=0)
+        self.even_multipliers_ = None
+        self.odd_multipliers_ = None
+
         self.fitted_ = True
 
     def transform(self, first_even, first_odd, second_even, second_odd):

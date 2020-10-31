@@ -3,6 +3,7 @@ cimport cython
 import numpy as np
 #from cython.parallel cimport prange
 from nice_utilities cimport min_c, abs_c, max_c
+from nice_utilities import Data
 cdef double sqrt_2 = sqrt(2.0)
 #from nice_utilities import Data
 
@@ -80,47 +81,72 @@ cdef get_thresholded_task_covariants(double[:, :] first_importances, int[:] firs
    
     return [ans[:pos], raw_importances[:pos]]                       
                        
-                                      
-cpdef get_thresholded_tasks(first_even, first_odd, second_even, second_odd, int desired_num, int l_max, mode_string):
+
+'''cpdef get_sorted(data):
+    amplitudes = data.get_amplitudes()
+    indices = np.empty(amplitudes.shape)
+    invert_indices = np.empty(amplitudes.shape)
+
+    new_covariants = np.empty(data.covariants_.shape)
+    for lambd in range(amplitudes.shape[1]):
+        indices[:data.actual_sizes_[lambd], lambd] = np.argsort(amplitudes[:data.actual_sizes_[lambd], lambd])
+        new_covariants[:, :data.actual_sizes_[lambd], lambd, :(2 * lambd + 1)] = \
+            data.covariants_[:, indices[:data.actual_sizes_[lambd], lambd], lambd, :(2 * lambd + 1)]
+
+
+        invert_indices[indices[:data.actual_sizes_[lambd], lambd], lambd] = np.arange(data.actual_sizes_[lambd])
+
+    return Data(new_covariants, data.actual_sizes_), invert_indices'''
+
+
+cpdef sort_importances(importances, sizes):
+    for lambd in range(importances.shape[1]):
+        importances[:sizes[lambd], lambd] = np.sort(importances[:sizes[lambd], lambd])[::-1]
+    return importances
+
+cpdef get_thresholded_tasks(criterion, first_even, first_odd, second_even, second_odd, int desired_num, int l_max, mode_string):
     
     cdef Mode mode
     if mode_string == 'covariants':
         mode = Mode.covariants
     if mode_string == 'invariants':
         mode = Mode.invariants
-  
+
+
+
     cdef double threshold_even
     cdef int num_even_even, num_odd_odd
-    threshold_even, num_even_even, num_odd_odd = get_threshold(l_max, first_even.importances_, first_even.actual_sizes_,
-                                                               second_even.importances_, second_even.actual_sizes_,
-                                                               first_odd.importances_, first_odd.actual_sizes_,
-                                                               second_odd.importances_, second_odd.actual_sizes_,
+    threshold_even, num_even_even, num_odd_odd = get_threshold(l_max, sort_importances(criterion(first_even), first_even.actual_sizes_),
+                                                               first_even.actual_sizes_,
+                                                               sort_importances(criterion(second_even), second_even.actual_sizes_), second_even.actual_sizes_,
+                                                               sort_importances(criterion(first_odd), first_odd.actual_sizes_), first_odd.actual_sizes_,
+                                                               sort_importances(criterion(second_odd), second_odd.actual_sizes_), second_odd.actual_sizes_,
                                                                desired_num, mode)
-    
+
     cdef double threshold_odd
     cdef int num_even_odd, num_odd_even
-    threshold_odd, num_even_odd, num_odd_even = get_threshold(l_max, first_even.importances_, first_even.actual_sizes_,
-                                                              second_odd.importances_, second_odd.actual_sizes_,
-                                                              first_odd.importances_, first_odd.actual_sizes_,
-                                                              second_even.importances_, second_even.actual_sizes_,
+    threshold_odd, num_even_odd, num_odd_even = get_threshold(l_max, sort_importances(criterion(first_even), first_even.actual_sizes_), first_even.actual_sizes_,
+                                                              sort_importances(criterion(second_odd), second_odd.actual_sizes_), second_odd.actual_sizes_,
+                                                              sort_importances(criterion(first_odd), first_odd.actual_sizes_), first_odd.actual_sizes_,
+                                                              sort_importances(criterion(second_even), second_even.actual_sizes_), second_even.actual_sizes_,
                                                               desired_num, mode)        
       
+
     
-    
-    task_even_even = get_thresholded_task(first_even.importances_, first_even.actual_sizes_,
-                                          second_even.importances_, second_even.actual_sizes_, 
+    task_even_even = get_thresholded_task(criterion(first_even), first_even.actual_sizes_,
+                                          criterion(second_even), second_even.actual_sizes_,
                                           threshold_even, num_even_even, l_max, mode)
     
-    task_odd_odd = get_thresholded_task(first_odd.importances_, first_odd.actual_sizes_,
-                                        second_odd.importances_, second_odd.actual_sizes_,
+    task_odd_odd = get_thresholded_task(criterion(first_odd), first_odd.actual_sizes_,
+                                        criterion(second_odd), second_odd.actual_sizes_,
                                         threshold_even, num_odd_odd, l_max, mode)
     
-    task_even_odd = get_thresholded_task(first_even.importances_, first_even.actual_sizes_,
-                                         second_odd.importances_, second_odd.actual_sizes_,
+    task_even_odd = get_thresholded_task(criterion(first_even), first_even.actual_sizes_,
+                                         criterion(second_odd), second_odd.actual_sizes_,
                                          threshold_odd, num_even_odd, l_max, mode)
     
-    task_odd_even = get_thresholded_task(first_odd.importances_, first_odd.actual_sizes_,
-                                         second_even.importances_, second_even.actual_sizes_,
+    task_odd_even = get_thresholded_task(criterion(first_odd), first_odd.actual_sizes_,
+                                         criterion(second_even), second_even.actual_sizes_,
                                          threshold_odd, num_odd_even, l_max, mode)
     
     return task_even_even, task_odd_odd, task_even_odd, task_odd_even
@@ -135,8 +161,10 @@ cdef get_threshold(int l_max, double[:, :] first_importances_1, int[:] first_act
     
     
     if (desired_num == -1):
-        num_1_1 = get_total_num_full(l_max, first_importances_1, first_actual_sizes_1, second_importances_1, second_actual_sizes_1, -1.0, mode, Question.n_tasks)
-        num_2_2 = get_total_num_full(l_max, first_importances_2, first_actual_sizes_2, second_importances_2, second_actual_sizes_2, -1.0, mode, Question.n_tasks)
+        num_1_1 = get_total_num_full(l_max, first_importances_1, first_actual_sizes_1,
+                                     second_importances_1, second_actual_sizes_1, -1.0, mode, Question.n_tasks)
+        num_2_2 = get_total_num_full(l_max, first_importances_2, first_actual_sizes_2,
+                                     second_importances_2, second_actual_sizes_2, -1.0, mode, Question.n_tasks)
         return -1.0, num_1_1, num_2_2
     
     cdef double left = -1.0
@@ -250,7 +278,7 @@ cdef int get_total_num_full_covariants(int l_max, double[:, :] first_importances
             if (first_actual_sizes[l1] > 0) and (second_actual_sizes[l2] > 0):
                 now = get_total_num(first_importances[:first_actual_sizes[l1], l1],
                                      second_importances[:second_actual_sizes[l2], l2], threshold)
-                if (question == Question.n_pairs):
+                if question == Question.n_pairs:
                     res += now
                 else:
                     res += now *  (min_c(l1 + l2, l_max)  - abs_c(l1 - l2) + 1)

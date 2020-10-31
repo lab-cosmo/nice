@@ -30,26 +30,6 @@ class IndividualLambdaPCAs:
         self.num_to_fit_ = num_to_fit
         self.fitted_ = False
 
-    def get_importances(self):
-        if not self.fitted_:
-            raise NotFittedError(
-                ("instance of {} is not fitted. "
-                 "Thus importances are not available.").format(
-                     type(self).__name__))
-        result = np.empty([self.max_n_components_, self.l_max_ + 1])
-        for lambd in range(self.l_max_ + 1):
-            if self.pcas_[lambd] is not None:
-                result[:self.pcas_[lambd].n_components,
-                       lambd] = self.pcas_[lambd].importances_
-
-        actual_sizes = []
-        for lambd in range(self.l_max_ + 1):
-            if self.pcas_[lambd] is not None:
-                actual_sizes.append(self.pcas_[lambd].n_components)
-            else:
-                actual_sizes.append(0)
-        return result
-
     def fit(self, data):
 
         self.l_max_ = data.covariants_.shape[2] - 1
@@ -120,7 +100,7 @@ class IndividualLambdaPCAs:
             else:
                 self.pcas_.append(None)
         self.fitted_ = True
-        self.importances_ = self.get_importances()
+
 
     def transform(self, data):
         if not self.fitted_:
@@ -144,7 +124,7 @@ class IndividualLambdaPCAs:
             else:
                 new_actual_sizes[lambd] = 0
 
-        return Data(result, new_actual_sizes, importances=self.importances_)
+        return Data(result, new_actual_sizes)
 
     def is_fitted(self):
         return self.fitted_

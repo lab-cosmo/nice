@@ -4,8 +4,7 @@ from nice.packing import pack_dense, unpack_dense
 
 from sklearn.decomposition import TruncatedSVD #not center the data
 class UnrollingIndividualPCA(TruncatedSVD):
-    def __init__(self, *args, normalize_importances = True, **kwargs):
-        self.normalize_importances_ = normalize_importances
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)     
         
     def fit(self, *args):
@@ -24,12 +23,8 @@ class UnrollingIndividualPCA(TruncatedSVD):
         if (self.n_components == n_feat):
             packed = pack_dense(covariants, l, n_feat, n_feat + 1)
         res = super().fit_transform(packed)
-        
-        self.importances_ = np.mean(res * res, axis = 0)
-        if (self.normalize_importances_):
-            self.importances_ = self.importances_ / np.sum(self.importances_)
-        indices = np.argsort(self.importances_)[::-1]
-        self.importances_ = self.importances_[indices]
+
+        indices = np.argsort(self.explained_variance_)[::-1]
         self.components_ = self.components_[indices]
         self.explained_variance_ = self.explained_variance_[indices]
         self.explained_variance_ratio_ = self.explained_variance_ratio_[indices]
@@ -52,12 +47,12 @@ class UnrollingIndividualPCA(TruncatedSVD):
             packed = pack_dense(covariants, l, n_feat, n_feat + 1)   
             
         res = super().fit_transform(packed)        
-        self.importances_ = np.mean(res * res, axis = 0)
-        if (self.normalize_importances_):
-            self.importances_ = self.importances_ / np.sum(self.importances_)
-        indices = np.argsort(self.importances_)[::-1]
-        self.importances_ = self.importances_[indices]
+
+        indices = np.argsort(self.explained_variance_)[::-1]
         self.components_ = self.components_[indices]
+        self.explained_variance_ = self.explained_variance_[indices]
+        self.explained_variance_ratio_ = self.explained_variance_ratio_[indices]
+        self.singular_values_ = self.singular_values_[indices]
         
         res = super().transform(packed)
         return unpack_dense(res, covariants.shape[0],
@@ -65,7 +60,6 @@ class UnrollingIndividualPCA(TruncatedSVD):
     
         
     def transform(self, *args):
-        
         
         if (len(args) == 1):
             return super().transform(args)

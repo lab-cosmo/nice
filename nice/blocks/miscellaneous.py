@@ -55,42 +55,10 @@ class ParityDefinitionChanger():
                     1)] = first_data.covariants_[:, :new_second_sizes[lambd],
                                                  lambd, :(2 * lambd + 1)]
 
-        if (first_data.importances_ is None) or (second_data.importances_ is
-                                                 None):
-            new_first_importances = None
-            new_second_importances = None
-        else:
-            new_first_importances = np.empty(
-                [np.max(new_first_sizes), l_max + 1])
-            new_second_importances = np.empty(
-                [np.max(new_second_sizes), l_max + 1])
 
-            for lambd in range(l_max + 1):
-                if (lambd % 2 == 0):
-                    new_first_importances[:new_first_sizes[
-                        lambd], lambd] = first_data.importances_[:
-                                                                 new_first_sizes[
-                                                                     lambd],
-                                                                 lambd]
-                    new_second_importances[:new_second_sizes[
-                        lambd], lambd] = second_data.importances_[:
-                                                                  new_second_sizes[
-                                                                      lambd],
-                                                                  lambd]
-                else:
-                    new_first_importances[:new_first_sizes[
-                        lambd], lambd] = second_data.importances_[:
-                                                                  new_first_sizes[
-                                                                      lambd],
-                                                                  lambd]
-                    new_second_importances[:new_second_sizes[
-                        lambd], lambd] = first_data.importances_[:
-                                                                 new_second_sizes[
-                                                                     lambd],
-                                                                 lambd]
 
-        return Data(new_first_covariants, new_first_sizes, new_first_importances), \
-               Data(new_second_covariants, new_second_sizes, new_second_importances)
+        return Data(new_first_covariants, new_first_sizes), \
+               Data(new_second_covariants, new_second_sizes)
 
 
 class InitialScaler():
@@ -192,8 +160,8 @@ class InitialTransformer():
         ]
 
         return Data(even_coefficients,
-                    even_coefficients_sizes), Data(odd_coefficients,
-                                                   odd_coefficients_sizes)
+                    np.array(even_coefficients_sizes, dtype = np.int32)), Data(odd_coefficients,
+                                                   np.array(odd_coefficients_sizes, dtype = np.int32))
 
     def is_fitted(self):
         return self.fitted_

@@ -12,6 +12,11 @@ from sklearn.exceptions import NotFittedError
 
 DEFAULT_LINEAR_REGRESSOR = Ridge(alpha=1e-12)
 
+def get_biggest_indices(values, lambd, num_need):
+    amplitudes = Data.get_amplitude(values, lambd)
+    indices = np.argsort(amplitudes)[::-1]
+    indices = indices[:num_need]
+    return indices
 
 class InvariantsPurifier:
     ''' Block to purify invariants. It operates with numpy 2d arrays containing invariants'''
@@ -56,18 +61,23 @@ class InvariantsPurifier:
                               total_num, num_fit_now, new_block.shape[0]))
 
         if (self.max_take_ is None):
+            self.indices_ = None
             restricted_blocks = [
                 old_block[:num_fit_now, :] for old_block in old_blocks
             ]
         else:
             if (type(self.max_take_) is int):
+                self.indices_ = [get_biggest_indices(old_block[:num_fit_now, :, np.newaxis], 0, self.max_take_)
+                                 for old_block in old_blocks]
                 restricted_blocks = [
-                    old_block[:num_fit_now, :self.max_take_]
-                    for old_block in old_blocks
+                    old_block[:num_fit_now, indices]
+                    for old_block, indices in zip(old_blocks, self.indices_)
                 ]
             else:
+                self.indices_ = [get_biggest_indices(old_blocks[i][:num_fit_now, :, np.newaxis], 0, self.max_take_[i])
+                                 for i in range(len(old_blocks))]
                 restricted_blocks = [
-                    old_blocks[i][:num_fit_now, :self.max_take_[i]]
+                    old_blocks[i][:num_fit_now, self.indices_[i]]
                     for i in range(len(old_blocks))
                 ]
 
@@ -83,15 +93,18 @@ class InvariantsPurifier:
                 format(type(self).__name__))
 
         if (self.max_take_ is None):
-            restricted_blocks = [old_block[:, :] for old_block in old_blocks]
+            restricted_blocks = [
+                old_block[:, :] for old_block in old_blocks
+            ]
         else:
             if (type(self.max_take_) is int):
                 restricted_blocks = [
-                    old_block[:, :self.max_take_] for old_block in old_blocks
+                    old_block[:, indices]
+                    for old_block, indices in zip(old_blocks, self.indices_)
                 ]
             else:
                 restricted_blocks = [
-                    old_blocks[i][:, :self.max_take_[i]]
+                    old_blocks[i][:, self.indices_[i]]
                     for i in range(len(old_blocks))
                 ]
 
@@ -157,6 +170,7 @@ class CovariantsIndividualPurifier:
             num_fit_now = (num_fit_now // (l + 1)) + 1
 
         if (self.max_take_ is None):
+            self.indices_ = None
             old_blocks_reshaped = []
             for old_block in old_blocks:
                 old_blocks_reshaped.append(
@@ -167,13 +181,13 @@ class CovariantsIndividualPurifier:
                 size_now = self.max_take_
             else:
                 size_now = self.max_take_[i]
-
+            self.indices_ = [get_biggest_indices(old_block[:num_fit_now, :, :], l, size_now)
+                                 for old_block in old_blocks]
             old_blocks_reshaped = []
-            for old_block in old_blocks:
+            for old_block, indices in zip(old_blocks, self.indices_):
                 old_blocks_reshaped.append(
                     pack_dense(
-                        old_block[:num_fit_now, :min(size_now, old_block.
-                                                     shape[1])], l,
+                        old_block[:num_fit_now, indices], l,
                         min(size_now, old_block.shape[1]),
                         min(size_now, old_block.shape[1])))
 
@@ -201,10 +215,10 @@ class CovariantsIndividualPurifier:
             else:
                 size_now = self.max_take_[i]
             old_blocks_reshaped = []
-            for old_block in old_blocks:
+            for old_block, indices in zip(old_blocks, self.indices_):
                 old_blocks_reshaped.append(
                     pack_dense(
-                        old_block[:, :min(size_now, old_block.shape[1])], l,
+                        old_block[:, indices], l,
                         min(size_now, old_block.shape[1]),
                         min(size_now, old_block.shape[1])))
 
@@ -281,14 +295,13 @@ class CovariantsPurifier:
                 "instance of {} is not fitted. It can not transform anything".
                 format(type(self).__name__))
         ans = Data(np.empty(new_data.covariants_.shape),
-                   np.copy(new_data.actual_sizes_),
-                   importances=None)
+                   np.copy(new_data.actual_sizes_))
 
         for l in range(self.l_max_ + 1):
             if (self.purifiers_[l] is not None):
                 old_blocks_now = [
                     old_data.covariants_[:, :old_data.actual_sizes_[l], l, :]
-                    for old_data in old_datas
+                    for old_data in old_datas if (old_data.actual_sizes_[l] > 0)
                 ]
                 new_block_now = new_data.covariants_[:, :new_data.
                                                      actual_sizes_[l], l, :]
