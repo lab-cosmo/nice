@@ -14,7 +14,7 @@ class InvariantsVarianceSelector:
         indices = np.argsort(variances)[::-1]
         mask = np.zeros([invariants.shape[1]], dtype = np.bool)
         mask[indices[:self.n_components_]] = True
-        return [mask, np.ones([self.n_components_], dtype = np.bool)]
+        return [mask, np.ones([self.n_components_])]
 
 
 #for comparing purposes
@@ -29,7 +29,7 @@ class InvariantsRandomSelector:
         indices = np.random.permutation(invariants.shape[1])
         mask = np.zeros([invariants.shape[1]], dtype=np.bool)
         mask[indices[:self.n_components_]] = True
-        return [mask, np.ones([self.n_components_], dtype=np.bool)]
+        return [mask, np.ones([self.n_components_])]
 
 
 class IndividualSelector:
@@ -38,9 +38,7 @@ class IndividualSelector:
 
     def get_subselection(self, covariants, l, previous):
         covariants_p = pack_dense(covariants, l, covariants.shape[1], covariants.shape[1])
-        previous = np.concatenate(previous, axis = 1)
-        previous_p = pack_dense(previous, l, previous.shape[1], previous.shape[1])
-
+        previous_p = [pack_dense(el, l, el.shape[1], el.shape[1]) for el in previous]
         return self.base_.get_subselection(covariants_p, previous_p)
 
 
@@ -52,12 +50,12 @@ class CovariantsSelector:
         ans = []
         for lambd in range(data.covariants_.shape[2]):
             if (data.actual_sizes_[lambd] > 0):
-                previous_now = [el.covariants_[:, el.actual_sizes_[lambd], lambd, :] for el in previous
+                previous_now = [el.covariants_[:, :el.actual_sizes_[lambd], lambd, :] for el in previous
                                 if el.actual_sizes_[lambd] > 0]
 
-                mask, multipliers = self.base_.get_subselection(data.covariants_[:, data.actual_sizes_[lambd], lambd, :],
-                                                              previous_now)
-                ans.append(mask, multipliers)
+                mask, multipliers = IndividualSelector(self.base_).get_subselection(data.covariants_[:, :data.actual_sizes_[lambd], lambd, :],
+                                                              lambd, previous_now)
+                ans.append([mask, multipliers])
             else:
                 ans.append([np.array([], dtype = bool), np.array([])])
 
