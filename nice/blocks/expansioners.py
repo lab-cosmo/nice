@@ -39,21 +39,25 @@ class ThresholdExpansioner:
             raise NotFittedError(
                 "Expansioner must be fitted before applying subselection".
                 format(type(self).__name__))
-        even_mask = np.zeros([self.task_even_even_.shape[0][0] + self.task_odd_odd_.shape[0][0]], dtype = bool)
-        odd_mask = np.zeros([self.task_even_odd_.shape[0][0] + self.task_odd_even_.shape[0][0]], dtype = bool)
+
         if self.mode_ == "covariants":
+            even_mask = np.zeros([self.task_even_even_[0].shape[0] + self.task_odd_odd_[0].shape[0]], dtype=bool)
+            odd_mask = np.zeros([self.task_even_odd_[0].shape[0] + self.task_odd_even_[0].shape[0]], dtype=bool)
+
             even_multipliers, odd_multipliers = [], []
             for lambd in range(self.l_max_ + 1):
-                even_submask = even_mask[np.concatenate([(self.task_even_even_[0][:, 4] == lambd),
-                                                 (self.task_odd_odd_[0][:, 4] == lambd)], axis = 0)]
+                even_positions = np.concatenate([(self.task_even_even_[0][:, 4] == lambd),
+                                                 (self.task_odd_odd_[0][:, 4] == lambd)], axis = 0)
 
-                odd_submask = odd_mask[np.concatenate([(self.task_even_odd_[0][:, 4] == lambd),
-                                                         (self.task_odd_even_[0][:, 4] == lambd)], axis=0)]
-                even_submask[:] = even_subselection[lambd][0]
-                odd_submask[:] = odd_subselection[lambd][0]
+                odd_positions = np.concatenate([(self.task_even_odd_[0][:, 4] == lambd),
+                                                         (self.task_odd_even_[0][:, 4] == lambd)], axis=0)
 
-                even_multipliers.append(even_subselection[lambd][0])
-                odd_multipliers.append(odd_subselection[lambd][0])
+                even_mask[even_positions] = even_subselection[lambd][0]
+
+                odd_mask[odd_positions] = odd_subselection[lambd][0]
+
+                even_multipliers.append(even_subselection[lambd][1])
+                odd_multipliers.append(odd_subselection[lambd][1])
 
         else:
             even_mask = even_subselection[0]
@@ -61,12 +65,22 @@ class ThresholdExpansioner:
             even_multipliers = even_subselection[1]
             odd_multipliers = odd_subselection[1]
 
-        self.task_even_even_[0] = self.task_even_even_[0][even_mask[:self.task_even_even_[0].shape[0]]]
-        self.task_odd_odd_[0] = self.task_odd_odd_[0][even_mask[self.task_even_even_[0].shape[0]:]]
+        #print(even_mask.shape, self.task_even_even_[0].shape, self.task_odd_odd_[0].shape, self.task_even_even_[0].shape[0], even_mask[self.task_even_even_[0].shape[0]:].shape)
+        #print(self.task_even_even_[0].shape)
+        #print(self.task_odd_odd_[0].shape)
+        first_submask = even_mask[:self.task_even_even_[0].shape[0]]
+        second_submask = even_mask[self.task_even_even_[0].shape[0]:]
+        self.task_even_even_[0] = self.task_even_even_[0][first_submask]
+        #print(self.task_odd_odd_[0].shape, submask.shape)
+        self.task_odd_odd_[0] = self.task_odd_odd_[0][second_submask]
 
-        self.task_even_odd_[0] = self.task_even_odd_[0][odd_mask[:self.task_even_odd_[0].shape[0]]]
-        self.task_odd_even_[0] = self.task_odd_even_[0][odd_mask[self.task_odd_even_[0].shape[0]:]]
+        first_submask = odd_mask[:self.task_even_odd_[0].shape[0]]
+        second_submask = odd_mask[self.task_even_odd_[0].shape[0]:]
+        self.task_even_odd_[0] = self.task_even_odd_[0][first_submask]
+        self.task_odd_even_[0] = self.task_odd_even_[0][second_submask]
 
+        #print(self.task_even_even_[0].shape)
+        #print(self.task_odd_odd_[0].shape)
         self.new_even_size_ = np.max(
             get_sizes(self.l_max_, self.task_even_even_[0], self.mode_) +
             get_sizes(self.l_max_, self.task_odd_odd_[0], self.mode_))
@@ -205,11 +219,13 @@ class ThresholdExpansioner:
         if self.mode_ == "covariants":
             for lambd in range(self.l_max_ + 1):
                 if (self.even_multipliers_ is not None):
-                    new_even[:, :new_even_actual_sizes[lambd], lambd, :] = new_even[:, :new_even_actual_sizes[lambd], lambd, :] * \
-                        self.even_multipliers_[lambd]
+                    #print(new_even_actual_sizes)
+                    #print(self.even_multipliers_[lambd].shape)
+                    new_even[:, :new_even_actual_sizes[lambd], lambd, :(2 * lambd + 1)] = new_even[:, :new_even_actual_sizes[lambd], lambd, :(2 * lambd + 1)] * \
+                                                                                          (self.even_multipliers_[lambd])[np.newaxis, :, np.newaxis]
                 if (self.odd_multipliers_ is not None):
-                    new_odd[:, :new_odd_actual_sizes[lambd], lambd, :] = new_odd[:, :new_odd_actual_sizes[lambd], lambd,:] * \
-                                                                       self.odd_multipliers_[lambd]
+                    new_odd[:, :new_odd_actual_sizes[lambd], lambd, :(2 * lambd + 1)] = new_odd[:, :new_odd_actual_sizes[lambd], lambd,:(2 * lambd + 1)] * \
+                                                                                        (self.odd_multipliers_[lambd])[np.newaxis, :, np.newaxis]
 
             return Data(new_even,
                         new_even_actual_sizes), Data(new_odd,
