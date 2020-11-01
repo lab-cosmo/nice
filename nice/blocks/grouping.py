@@ -1,7 +1,7 @@
 from nice.blocks.compressors import IndividualLambdaPCAsBoth
 from nice.blocks.miscellaneous import InitialTransformer
 from nice.clebsch_gordan import ClebschGordan, check_clebsch_gordan
-
+import numpy as np
 from sklearn.exceptions import NotFittedError
 
 
@@ -17,9 +17,11 @@ class StandardBlock():
     '''Block for standard procedure of body order increasement step'''
     def __init__(self,
                  covariants_expansioner=None,
+                 covariants_selector = None,
                  covariants_purifier=None,
                  covariants_pca=None,
                  invariants_expansioner=None,
+                 invariants_selector = None,
                  invariants_purifier=None,
                  invariants_pca=None,
                  guaranteed_parts_fitted_consistently=False):
@@ -29,6 +31,10 @@ class StandardBlock():
             if self.covariants_expansioner_.mode_ != 'covariants':
                 raise ValueError(
                     "mode of covariants expansioner should be covariants")
+
+        self.covariants_selector_ = covariants_selector
+        if (self.covariants_expansioner_ is None) and (self.covariants_selector_ is not None):
+            raise ValueError("can not subselect covariants without covariants")
 
         self.covariants_purifier_ = covariants_purifier
         if (self.covariants_purifier_
@@ -45,6 +51,10 @@ class StandardBlock():
             if self.invariants_expansioner_.mode_ != 'invariants':
                 raise ValueError(
                     "mode of invariants expansioner should be invariants")
+
+        self.invariants_selector_ = invariants_selector
+        if (self.invariants_expansioner_ is None) and (self.invariants_selector_ is not None):
+            raise ValueError("can not subselect invariants without invariants")
 
         self.invariants_purifier_ = invariants_purifier
         if (self.invariants_purifier_
@@ -127,6 +137,30 @@ class StandardBlock():
                 list(transformed_odd.actual_sizes_)
             ]
 
+        if (self.covariants_selector_ is not None):
+            subselection = self.covariants_selector_.get_subselection(transformed_even, old_even_covariants,
+                                                                      transformed_odd, old_odd_covariants)
+            self.covariants_expansioner_.apply_subselection(subselection[0], subselection[1])
+            transformed_even, transformed_odd = self.covariants_expansioner_.transform(
+                first_even, first_odd, second_even, second_odd)
+            self.intermediate_shapes_['after covariants expansioner'] = [
+                list(transformed_even.actual_sizes_),
+                list(transformed_odd.actual_sizes_)
+            ]
+            if (self.covariants_purifier_ is not None):
+                self.covariants_purifier_.fit(old_even_covariants,
+                                              transformed_even, old_odd_covariants,
+                                              transformed_odd)
+                transformed_even, transformed_odd = self.covariants_purifier_.transform(
+                    old_even_covariants, transformed_even, old_odd_covariants,
+                    transformed_odd)
+                self.intermediate_shapes_['after covariants purifier'] = [
+                    list(transformed_even.actual_sizes_),
+                    list(transformed_odd.actual_sizes_)
+                ]
+
+
+
         if (self.covariants_pca_ is not None):
             self.covariants_pca_.fit(transformed_even, transformed_odd)
             transformed_even, transformed_odd = self.covariants_pca_.transform(
@@ -142,7 +176,7 @@ class StandardBlock():
                                              second_even,
                                              second_odd,
                                              clebsch_gordan=self.clebsch_)
-            invariants_even, _ = self.invariants_expansioner_.transform(
+            invariants_even, invariants_odd = self.invariants_expansioner_.transform(
                 first_even, first_odd, second_even, second_odd)
             self.intermediate_shapes_[
                 'after invariants expansioner'] = invariants_even.shape[1]
@@ -157,6 +191,24 @@ class StandardBlock():
                 old_even_invariants, invariants_even)
             self.intermediate_shapes_[
                 'after invariants purifier'] = invariants_even.shape[1]
+
+        if (self.invariants_selector_ is not None):
+            even_subselection = self.invariants_selector_.get_subselection(invariants_even, old_even_invariants)
+            odd_mask = np.zeros([invariants_odd.shape[1]], dtype = bool)
+            odd_weights = np.array([])
+            self.invariants_expansioner_.apply_subselection(even_subselection, [odd_mask, odd_weights])
+
+            invariants_even, _ = self.invariants_expansioner_.transform(
+                first_even, first_odd, second_even, second_odd)
+            self.intermediate_shapes_[
+                'after invariants expansioner'] = invariants_even.shape[1]
+
+            if (self.invariants_purifier_ is not None):
+                self.invariants_purifier_.fit(old_even_invariants, invariants_even)
+                invariants_even = self.invariants_purifier_.transform(
+                    old_even_invariants, invariants_even)
+                self.intermediate_shapes_[
+                    'after invariants purifier'] = invariants_even.shape[1]
 
         if (self.invariants_pca_ is not None):
             self.invariants_pca_.fit(invariants_even)
