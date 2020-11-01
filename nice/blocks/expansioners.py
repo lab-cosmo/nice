@@ -232,13 +232,13 @@ class ThresholdExpansioner:
                                                      new_odd_actual_sizes)
         else:
             if (self.even_multipliers_ is not None):
-                new_even[:, :new_even_actual_sizes[0], 0] = new_even[:, :new_even_actual_sizes[0], 0] * self.even_multipliers_
+                new_even[:, :new_even_actual_sizes[0], 0] = new_even[:, :new_even_actual_sizes[0], 0] * self.even_multipliers_[np.newaxis, :]
             if (self.odd_multipliers_ is not None):
                 new_odd[:, :new_odd_actual_sizes[0], 0] = new_odd[:, :new_odd_actual_sizes[0],
-                                                            0] * self.odd_multipliers_
+                                                            0] * self.odd_multipliers_[np.newaxis, :]
             return (
                 new_even[:, :new_even_actual_sizes[0], 0],
-                new_odd[:, :new_odd_actual_sizes[0], 0],
+                new_odd[:, :new_odd_actual_sizes[0], 0]
             )
 
     def is_fitted(self):
