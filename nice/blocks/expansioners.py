@@ -74,10 +74,18 @@ class ThresholdExpansioner:
         #print(self.task_odd_odd_[0].shape, submask.shape)
         self.task_odd_odd_[0] = self.task_odd_odd_[0][second_submask]
 
+        self.task_even_even_[1] = self.task_even_even_[1][first_submask]
+        self.task_odd_odd_[1] = self.task_odd_odd_[1][second_submask]
+
+
         first_submask = odd_mask[:self.task_even_odd_[0].shape[0]]
         second_submask = odd_mask[self.task_even_odd_[0].shape[0]:]
         self.task_even_odd_[0] = self.task_even_odd_[0][first_submask]
         self.task_odd_even_[0] = self.task_odd_even_[0][second_submask]
+
+        self.task_even_odd_[1] = self.task_even_odd_[1][first_submask]
+        self.task_odd_even_[1] = self.task_odd_even_[1][second_submask]
+
 
         #print(self.task_even_even_[0].shape)
         #print(self.task_odd_odd_[0].shape)
@@ -89,9 +97,16 @@ class ThresholdExpansioner:
             get_sizes(self.l_max_, self.task_even_odd_[0], self.mode_) +
             get_sizes(self.l_max_, self.task_odd_even_[0], self.mode_))
 
+        self.even_criterions_ = np.concatenate(
+            [self.task_even_even_[1], self.task_odd_odd_[1]], axis=0)
+        self.odd_criterions_ = np.concatenate(
+            [self.task_even_odd_[1], self.task_odd_even_[1]], axis=0)
+
         self.even_multipliers_ = even_multipliers
         self.odd_multipliers_ = odd_multipliers
 
+    def get_criterions(self):
+        return self.even_criterions_, self.odd_criterions_
 
     def fit(self,
             first_even,
@@ -131,6 +146,11 @@ class ThresholdExpansioner:
         self.new_odd_size_ = np.max(
             get_sizes(self.l_max_, self.task_even_odd_[0], self.mode_) +
             get_sizes(self.l_max_, self.task_odd_even_[0], self.mode_))
+
+        self.even_criterions_ = np.concatenate(
+            [self.task_even_even_[1], self.task_odd_odd_[1]], axis=0)
+        self.odd_criterions_ = np.concatenate(
+            [self.task_even_odd_[1], self.task_odd_even_[1]], axis=0)
 
         self.even_multipliers_ = None
         self.odd_multipliers_ = None
