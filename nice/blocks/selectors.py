@@ -2,7 +2,7 @@ import numpy as np
 from nice.packing import pack_dense, unpack_dense
 
 
-class InvariantsAmplitudeSelector:
+class AmplitudeSelector:
     def __init__(self, n_components):
         self.n_components_ = n_components
 
@@ -18,7 +18,7 @@ class InvariantsAmplitudeSelector:
 
 
 #for comparing purposes
-class InvariantsRandomSelector:
+class RandomSelector:
     def __init__(self, n_components):
         self.n_components_ = n_components
 
