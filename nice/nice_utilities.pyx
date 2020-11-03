@@ -371,7 +371,9 @@ class Data:
 
     @staticmethod
     def get_amplitude(values, lambd):
-        return np.sqrt((2 * lambd + 1) * np.mean((values[:, :, :(2 * lambd + 1)]) ** 2, axis = (0, 2)))
+        amplitudes =  np.sum((values[:, :, :(2 * lambd + 1)]) ** 2, axis = 2)
+        return np.mean(amplitudes, axis = 0)
+
 
     def get_sorted_amplitudes(self, order = 'ascending'):
         amplitudes = self.get_amplitudes()
