@@ -19,7 +19,8 @@ class ThresholdExpansioner:
     ''' Block to do Clebsch-Gordan iteration. It uses two even-odd pairs of Data instances with covariants
     to produce new ones. If first even-odd pair contains covariants of body order v1, and the second v2, body
     order of the result would be v1 + v2. '''
-    def __init__(self, num_expand=None, mode="covariants", criterion = "standardized_amplitudes", num_threads=None):
+    def __init__(self, num_expand=None, lambda_max = None, mode="covariants",
+                 criterion = "standardized_amplitudes", num_threads=None):
         if num_expand is None:
             self.num_expand_ = -1
         else:
@@ -30,6 +31,7 @@ class ThresholdExpansioner:
             if criterion == "standardized_amplitudes":
                 self.criterion_ = standardized_amplitudes_criterion
 
+        self.lambda_max_ = lambda_max
         self.mode_ = mode
         self.num_threads_ = num_threads
         self.fitted_ = False
@@ -45,7 +47,7 @@ class ThresholdExpansioner:
             odd_mask = np.zeros([self.task_even_odd_[0].shape[0] + self.task_odd_even_[0].shape[0]], dtype=bool)
 
             even_multipliers, odd_multipliers = [], []
-            for lambd in range(self.l_max_ + 1):
+            for lambd in range(self.lambda_max_ + 1):
                 even_positions = np.concatenate([(self.task_even_even_[0][:, 4] == lambd),
                                                  (self.task_odd_odd_[0][:, 4] == lambd)], axis = 0)
 
@@ -90,12 +92,12 @@ class ThresholdExpansioner:
         #print(self.task_even_even_[0].shape)
         #print(self.task_odd_odd_[0].shape)
         self.new_even_size_ = np.max(
-            get_sizes(self.l_max_, self.task_even_even_[0], self.mode_) +
-            get_sizes(self.l_max_, self.task_odd_odd_[0], self.mode_))
+            get_sizes(self.lambda_max_, self.task_even_even_[0], self.mode_) +
+            get_sizes(self.lambda_max_, self.task_odd_odd_[0], self.mode_))
 
         self.new_odd_size_ = np.max(
-            get_sizes(self.l_max_, self.task_even_odd_[0], self.mode_) +
-            get_sizes(self.l_max_, self.task_odd_even_[0], self.mode_))
+            get_sizes(self.lambda_max_, self.task_even_odd_[0], self.mode_) +
+            get_sizes(self.lambda_max_, self.task_odd_even_[0], self.mode_))
 
         self.even_criterions_ = np.concatenate(
             [self.task_even_even_[1], self.task_odd_odd_[1]], axis=0)
@@ -114,8 +116,11 @@ class ThresholdExpansioner:
             second_even,
             second_odd,
             clebsch_gordan=None):
-
-        self.l_max_ = first_even.covariants_.shape[2] - 1
+        if self.lambda_max_ is None:
+            self.lambda_max_ = max(first_even.covariants_.shape[2],
+                                   first_odd.covariants_.shape[2],
+                                   second_even.covariants_.shape[2],
+                                   second_odd.covariants_.shape[2]) - 1
 
         (
             self.task_even_even_,
@@ -129,23 +134,31 @@ class ThresholdExpansioner:
             second_even,
             second_odd,
             self.num_expand_,
-            self.l_max_,
+            self.lambda_max_,
             self.mode_,
         )
 
+        clebsch_need = max(max(first_even.covariants_.shape[2],
+                                   first_odd.covariants_.shape[2],
+                                   second_even.covariants_.shape[2],
+                                   second_odd.covariants_.shape[2]) - 1,
+                           self.lambda_max_)
         if clebsch_gordan is None:
-            self.clebsch_ = ClebschGordan(self.l_max_)
+            self.clebsch_ = ClebschGordan(clebsch_need)
         else:
-            check_clebsch_gordan(clebsch_gordan, self.l_max_)
-            self.clebsch_ = clebsch_gordan
+            try:
+                check_clebsch_gordan(clebsch_gordan, clebsch_need)
+                self.clebsch_ = clebsch_gordan
+            except:
+                self.clebsch_ = ClebschGordan(clebsch_need)
 
         self.new_even_size_ = np.max(
-            get_sizes(self.l_max_, self.task_even_even_[0], self.mode_) +
-            get_sizes(self.l_max_, self.task_odd_odd_[0], self.mode_))
+            get_sizes(self.lambda_max_, self.task_even_even_[0], self.mode_) +
+            get_sizes(self.lambda_max_, self.task_odd_odd_[0], self.mode_))
 
         self.new_odd_size_ = np.max(
-            get_sizes(self.l_max_, self.task_even_odd_[0], self.mode_) +
-            get_sizes(self.l_max_, self.task_odd_even_[0], self.mode_))
+            get_sizes(self.lambda_max_, self.task_even_odd_[0], self.mode_) +
+            get_sizes(self.lambda_max_, self.task_odd_even_[0], self.mode_))
 
         self.even_criterions_ = np.concatenate(
             [self.task_even_even_[1], self.task_odd_odd_[1]], axis=0)
@@ -167,14 +180,14 @@ class ThresholdExpansioner:
             new_even = np.empty([
                 first_even.covariants_.shape[0],
                 self.new_even_size_,
-                self.l_max_ + 1,
-                2 * self.l_max_ + 1,
+                self.lambda_max_ + 1,
+                2 * self.lambda_max_ + 1,
             ])
             new_odd = np.empty([
                 first_even.covariants_.shape[0],
                 self.new_odd_size_,
-                self.l_max_ + 1,
-                2 * self.l_max_ + 1,
+                self.lambda_max_ + 1,
+                2 * self.lambda_max_ + 1,
             ])
         else:
             new_even = np.empty(
@@ -183,8 +196,8 @@ class ThresholdExpansioner:
                 [first_even.covariants_.shape[0], self.new_odd_size_, 1])
 
         if self.mode_ == "covariants":
-            new_even_actual_sizes = np.zeros([self.l_max_ + 1], dtype=np.int32)
-            new_odd_actual_sizes = np.zeros([self.l_max_ + 1], dtype=np.int32)
+            new_even_actual_sizes = np.zeros([self.lambda_max_ + 1], dtype=np.int32)
+            new_odd_actual_sizes = np.zeros([self.lambda_max_ + 1], dtype=np.int32)
         else:
             new_even_actual_sizes = np.zeros([1], dtype=np.int32)
             new_odd_actual_sizes = np.zeros([1], dtype=np.int32)
@@ -193,7 +206,7 @@ class ThresholdExpansioner:
             self.clebsch_.precomputed_,
             first_even.covariants_,
             second_even.covariants_,
-            self.l_max_,
+            self.lambda_max_,
             self.task_even_even_[0],
             new_even,
             new_even_actual_sizes,
@@ -205,7 +218,7 @@ class ThresholdExpansioner:
             self.clebsch_.precomputed_,
             first_odd.covariants_,
             second_odd.covariants_,
-            self.l_max_,
+            self.lambda_max_,
             self.task_odd_odd_[0],
             new_even,
             new_even_actual_sizes,
@@ -217,7 +230,7 @@ class ThresholdExpansioner:
             self.clebsch_.precomputed_,
             first_even.covariants_,
             second_odd.covariants_,
-            self.l_max_,
+            self.lambda_max_,
             self.task_even_odd_[0],
             new_odd,
             new_odd_actual_sizes,
@@ -229,7 +242,7 @@ class ThresholdExpansioner:
             self.clebsch_.precomputed_,
             first_odd.covariants_,
             second_even.covariants_,
-            self.l_max_,
+            self.lambda_max_,
             self.task_odd_even_[0],
             new_odd,
             new_odd_actual_sizes,
@@ -237,7 +250,7 @@ class ThresholdExpansioner:
             num_threads=self.num_threads_,
         )
         if self.mode_ == "covariants":
-            for lambd in range(self.l_max_ + 1):
+            for lambd in range(self.lambda_max_ + 1):
                 if (self.even_multipliers_ is not None):
                     #print(new_even_actual_sizes)
                     #print(self.even_multipliers_[lambd].shape)

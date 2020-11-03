@@ -139,7 +139,7 @@ def do_partial_expansion(clebsch_gordan, first_covariants, second_covariants, l_
     if (num_threads is None):
         num_threads = cpu_count()
     if (mode == "invariants"):
-        do_partial_expansion_invariants(clebsch_gordan, first_covariants, second_covariants, l_max,
+        do_partial_expansion_invariants(clebsch_gordan, first_covariants, second_covariants,
                                         tasks, res, res_actual_sizes, num_threads)
     if (mode == "covariants"):
         do_partial_expansion_covariants(clebsch_gordan, first_covariants, second_covariants, l_max,
@@ -155,8 +155,8 @@ cpdef do_partial_expansion_covariants(const double[:, :, :, :, :] clebsch_gordan
     cdef int n_envs = first_covariants.shape[0]
     cdef int env_ind, first_ind, second_ind, lambd, l1, l2
     cdef int task_ind
-    
-    buff = get_buff(num_threads, l_max)
+
+    buff = get_buff(num_threads, max_c(max_c(first_covariants.shape[2], second_covariants.shape[2]), l_max))
     cdef double** buff_now
     
     cdef int[:, :] placing = get_placing_covariants(l_max, tasks)
@@ -182,17 +182,17 @@ cpdef do_partial_expansion_covariants(const double[:, :, :, :, :] clebsch_gordan
 cpdef do_partial_expansion_invariants(const double[:, :, :, :, :] clebsch_gordan,
                         double[:, :, :, :] first_covariants,                       
                         double[:, :, :, :] second_covariants,                       
-                        int l_max, int [:, :] tasks, 
+                        int [:, :] tasks,
                         double[:, :, :] res, int[:] res_actual_sizes, int num_threads): #last dim is dummy for m
     
     cdef int n_envs = first_covariants.shape[0]
     cdef int env_ind, first_ind, second_ind, l1, l2
     cdef int task_ind
     
-    buff = get_buff(num_threads, l_max)
+    buff = get_buff(num_threads, max_c(first_covariants.shape[2], second_covariants.shape[2]))
     cdef double** buff_now
     
-    cdef int[:] placing = get_placing_invariants(l_max, tasks)
+    cdef int[:] placing = get_placing_invariants(tasks)
         
     for env_ind in prange(n_envs, nogil = True, schedule = "static", num_threads = num_threads):
         buff_now = buff[threadid()]
@@ -204,13 +204,13 @@ cpdef do_partial_expansion_invariants(const double[:, :, :, :, :] clebsch_gordan
                                    &second_covariants[env_ind, second_ind, l2, 0], l2,
                                    0, &res[env_ind, res_actual_sizes[0] + placing[task_ind], 0], buff_now)
                 
-    res_actual_sizes[0] += get_size_invariants(l_max, tasks)
+    res_actual_sizes[0] += get_size_invariants(tasks)
     delete_buff(buff, num_threads)
 
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cpdef get_size_invariants(int l_max, int[:, :] tasks):
+cpdef get_size_invariants(int[:, :] tasks):
     cdef int size = 0
     
     cdef int task_ind
@@ -237,7 +237,7 @@ cpdef get_sizes_covariants(int l_max, const int[:, :] tasks):
     
 def get_sizes(l_max, tasks, mode):
     if (mode == 'invariants'):
-        return get_size_invariants(l_max, tasks)
+        return get_size_invariants(tasks)
     if (mode == 'covariants'):
         return get_sizes_covariants(l_max, tasks)
     
@@ -259,7 +259,7 @@ cdef int[:, :] get_placing_covariants(int l_max, const int[:, :] tasks):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef int[:] get_placing_invariants(int l_max, const int[:, :] tasks):
+cdef int[:] get_placing_invariants(const int[:, :] tasks):
     cdef int now = 0
     result = np.zeros([tasks.shape[0]], dtype = np.int32)
     cdef int[:] result_view = result
@@ -274,7 +274,7 @@ cdef int[:] get_placing_invariants(int l_max, const int[:, :] tasks):
 
 def get_placing(l_max, tasks, mode):
     if (mode == 'invariants'):
-        return get_placing_invariants(l_max, tasks)
+        return get_placing_invariants(tasks)
     if (mode == 'covariants'):
         return get_placing_covariants(l_max, tasks)
     

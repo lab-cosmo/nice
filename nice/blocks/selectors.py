@@ -51,7 +51,7 @@ class CovariantsSelector:
         for lambd in range(data.covariants_.shape[2]):
             if (data.actual_sizes_[lambd] > 0):
                 previous_now = [el.covariants_[:, :el.actual_sizes_[lambd], lambd, :] for el in previous
-                                if el.actual_sizes_[lambd] > 0]
+                                if (lambd < el.actual_sizes_.shape[0]) and (el.actual_sizes_[lambd] > 0)]
 
                 mask, multipliers = self.base_.get_subselection(data.covariants_[:, :data.actual_sizes_[lambd], lambd, :],
                                                               lambd, previous_now)

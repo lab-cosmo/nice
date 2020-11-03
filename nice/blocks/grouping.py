@@ -99,12 +99,9 @@ class StandardBlock():
             clebsch_gordan=None):
 
         self.intermediate_shapes_ = {}
-        self.l_max_ = first_even.covariants_.shape[2] - 1
-        if clebsch_gordan is None:
-            self.clebsch_ = ClebschGordan(self.l_max_)
-        else:
-            check_clebsch_gordan(clebsch_gordan, self.l_max_)
-            self.clebsch_ = clebsch_gordan
+        self.clebsch_ = clebsch_gordan
+
+
 
         if (self.covariants_expansioner_ is not None):
             self.covariants_expansioner_.fit(first_even,
@@ -303,12 +300,8 @@ class StandardSequence():
 
     def fit(self, coefficients, clebsch_gordan=None):
         self.intermediate_shapes_ = {}
-        self.l_max_ = coefficients.shape[2] - 1
-        if clebsch_gordan is None:
-            self.clebsch_ = ClebschGordan(self.l_max_)
-        else:
-            check_clebsch_gordan(clebsch_gordan, self.l_max_)
-            self.clebsch_ = clebsch_gordan
+
+        self.clebsch_ = clebsch_gordan
 
         if (self.initial_scaler_ is not None):
             self.initial_scaler_.fit(coefficients)

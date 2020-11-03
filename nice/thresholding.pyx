@@ -23,11 +23,11 @@ cdef get_thresholded_task(double[:, :] first_importances, int[:] first_actual_si
     if mode == Mode.invariants:
         return get_thresholded_task_invariants(first_importances, first_actual_sizes,
                                     second_importances, second_actual_sizes,
-                                    threshold, known_num, l_max)
+                                    threshold, known_num)
     
 cdef get_thresholded_task_invariants(double[:, :] first_importances, int[:] first_actual_sizes,
                            double[:, :] second_importances, int[:] second_actual_sizes,
-                           double threshold, int known_num, int l_max):
+                           double threshold, int known_num):
     
     ans = np.empty([known_num, 5], dtype = np.int32)
     
@@ -37,8 +37,8 @@ cdef get_thresholded_task_invariants(double[:, :] first_importances, int[:] firs
     
     cdef int l, first_ind, second_ind, lambd
     cdef int pos = 0
-   
-    for l in range(l_max + 1):       
+
+    for l in range(min_c(first_actual_sizes.shape[0], second_actual_sizes.shape[0])):
         for first_ind in range(first_actual_sizes[l]):
             for second_ind in range(second_actual_sizes[l]):
                 if (first_importances[first_ind, l] * second_importances[second_ind, l] >= threshold):
@@ -65,8 +65,8 @@ cdef get_thresholded_task_covariants(double[:, :] first_importances, int[:] firs
     cdef int l1, l2, first_ind, second_ind, lambd
     cdef int pos = 0
    
-    for l1 in range(l_max + 1):
-        for l2 in range(l_max + 1):
+    for l1 in range(first_actual_sizes.shape[0]):
+        for l2 in range(second_actual_sizes.shape[0]):
             for first_ind in range(first_actual_sizes[l1]):
                 for second_ind in range(second_actual_sizes[l2]):
                     if (first_importances[first_ind, l1] * second_importances[second_ind, l2] >= threshold):
@@ -281,7 +281,9 @@ cdef int get_total_num_full_covariants(int l_max, double[:, :] first_importances
                 if question == Question.n_pairs:
                     res += now
                 else:
-                    res += now *  (min_c(l1 + l2, l_max)  - abs_c(l1 - l2) + 1)
+                    n_lambdas = (min_c(l1 + l2, l_max)  - abs_c(l1 - l2) + 1)
+                    if (n_lambdas > 0):
+                        res += now *  n_lambdas
             
     return res
         

@@ -270,7 +270,7 @@ class CovariantsPurifier:
         for l in range(self.l_max_ + 1):
             old_blocks_now = []
             for old_data in old_datas:
-                if (old_data.actual_sizes_[l] > 0):
+                if (l < len(old_data.actual_sizes_)) and (old_data.actual_sizes_[l] > 0):
                     old_blocks_now.append(
                         old_data.covariants_[:, :old_data.actual_sizes_[l],
                                              l, :])
@@ -280,7 +280,8 @@ class CovariantsPurifier:
 
             old_total_size = 0
             for old_data in old_datas:
-                old_total_size += old_data.actual_sizes_[l]
+                if l < len(old_data.actual_sizes_):
+                    old_total_size += old_data.actual_sizes_[l]
             new_size = new_data.actual_sizes_[l]
             if (old_total_size == 0) or (new_size == 0):
                 self.purifiers_[l] = None
@@ -301,7 +302,7 @@ class CovariantsPurifier:
             if (self.purifiers_[l] is not None):
                 old_blocks_now = [
                     old_data.covariants_[:, :old_data.actual_sizes_[l], l, :]
-                    for old_data in old_datas if (old_data.actual_sizes_[l] > 0)
+                    for old_data in old_datas if (l < len(old_data.actual_sizes_)) and (old_data.actual_sizes_[l] > 0)
                 ]
                 new_block_now = new_data.covariants_[:, :new_data.
                                                      actual_sizes_[l], l, :]
