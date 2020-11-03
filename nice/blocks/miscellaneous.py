@@ -65,8 +65,9 @@ class InitialScaler():
     '''Block to scale initial spherical expansion coefficients in a certain way. It allows to both
     normalize coefficients for each environment individually, and to multiply whole array to single 
     scaling factor, thus, preserving information about relative scale'''
-    def __init__(self, mode="signal integral", individually=False):
+    def __init__(self, mode="signal integral", individually=False, lambda_multipliers = None):
         self.individually_ = individually
+        self.lambda_multipliers_ = lambda_multipliers
 
         if self.individually_:
             self.fitted_ = True
@@ -124,6 +125,14 @@ class InitialScaler():
             raise NotFittedError("instance of {} is not fitted. "
                                  "It can not transform anything.".format(
                                      type(self).__name__))
+
+        result = np.copy(coefficients)
+        if (self.lambda_multipliers_ is not None):
+            if (coefficients.shape[2] > len(self.lambda_multipliers_)):
+                raise ValueError("not enough lambda multipliers provided")
+            for lambd in range(coefficients.shape[2]):
+                result[:, :, lambd, :(2 * lambd + 1)] *= self.lambda_multipliers_[lambd]
+
         if (self.individually_):
             if (self.mode_ == "signal integral"):
                 multipliers = self._get_signal_integral_multiplier(
@@ -131,9 +140,9 @@ class InitialScaler():
 
             if (self.mode_ == "variance"):
                 multipliers = self._get_variance_multiplier(coefficients)
-            return coefficients * multipliers
+            return result * multipliers
         else:
-            return coefficients * self.multiplier_
+            return result * self.multiplier_
 
     def is_fitted(self):
         return self.fitted_
