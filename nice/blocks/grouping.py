@@ -1,6 +1,6 @@
-from nice.transformers.compressors import IndividualLambdaPCAsBoth
-from nice.transformers.miscellaneous import InitialTransformer
-from nice.ClebschGordan import ClebschGordan, check_clebsch_gordan
+from nice.blocks.compressors import IndividualLambdaPCAsBoth
+from nice.blocks.miscellaneous import InitialTransformer
+from nice.clebsch_gordan import ClebschGordan, check_clebsch_gordan
 
 from sklearn.exceptions import NotFittedError
 
@@ -14,6 +14,7 @@ def check_if_all_fitted(parts):
 
 
 class StandardBlock():
+    '''Block for standard procedure of body order increasement step'''
     def __init__(self,
                  covariants_expansioner=None,
                  covariants_purifier=None,
@@ -218,6 +219,7 @@ class StandardBlock():
 
 
 class StandardSequence():
+    '''Block implementing logic of main NICE sequence'''
     def __init__(self,
                  blocks,
                  initial_pca=None,

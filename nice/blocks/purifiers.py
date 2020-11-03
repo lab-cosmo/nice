@@ -14,6 +14,7 @@ DEFAULT_LINEAR_REGRESSOR = Ridge(alpha=1e-12)
 
 
 class InvariantsPurifier:
+    ''' Block to purify invariants. It operates with numpy 2d arrays containing invariants'''
     def __init__(self, regressor=None, num_to_fit='10x', max_take=None):
         if (regressor is None):
             self.regressor_ = clone(DEFAULT_LINEAR_REGRESSOR)
@@ -103,6 +104,8 @@ class InvariantsPurifier:
 
 
 class CovariantsIndividualPurifier:
+    '''Block to purify single covariants lambda channel. It operates with 3 dimensional numpy arrays
+    with indexing [environmental_index, feature_index, m]'''
     def __init__(self, regressor=None, num_to_fit='10x', max_take=None):
         if (regressor is None):
             self.regressor_ = clone(DEFAULT_LINEAR_REGRESSOR)
@@ -217,6 +220,7 @@ class CovariantsIndividualPurifier:
 
 
 class CovariantsPurifier:
+    '''Block to purify covariants of single parity. It operates with instances of Data class with covariants'''
     def __init__(self, regressor=None, num_to_fit='10x', max_take=None):
         if (regressor is None):
             self.regressor_ = clone(DEFAULT_LINEAR_REGRESSOR)
@@ -278,7 +282,7 @@ class CovariantsPurifier:
                 format(type(self).__name__))
         ans = Data(np.empty(new_data.covariants_.shape),
                    np.copy(new_data.actual_sizes_),
-                   importances=np.copy(new_data.importances_))
+                   importances=None)
 
         for l in range(self.l_max_ + 1):
             if (self.purifiers_[l] is not None):
@@ -304,6 +308,7 @@ class CovariantsPurifier:
 
 
 class CovariantsPurifierBoth:
+    '''Block to purify covariants of both parities. It operates with pairs of instances of Data class with covariants'''
     def __init__(self, regressor=None, num_to_fit='10x', max_take=None):
         self.num_to_fit_ = num_to_fit
         self.max_take_ = max_take

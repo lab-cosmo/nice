@@ -5,7 +5,7 @@ from nice.unrolling_individual_pca import UnrollingIndividualPCA
 
 from nice.thresholding import get_thresholded_tasks
 from nice.nice_utilities import do_partial_expansion, Data, get_sizes
-from nice.ClebschGordan import ClebschGordan, check_clebsch_gordan
+from nice.clebsch_gordan import ClebschGordan, check_clebsch_gordan
 from nice.packing import unite_parallel, subtract_parallel
 from nice.packing import pack_dense, unpack_dense
 from parse import parse
@@ -24,6 +24,7 @@ def get_num_fit(desired_num, block_size):
 
 
 class IndividualLambdaPCAs:
+    ''' Block to do pca step for covariants of single parity. It operates with instances of Data class'''
     def __init__(self, n_components=None, num_to_fit="10x"):
         self.n_components_ = n_components
         self.num_to_fit_ = num_to_fit
@@ -150,6 +151,7 @@ class IndividualLambdaPCAs:
 
 
 class IndividualLambdaPCAsBoth:
+    ''' Block to do pca step for covariants of both parities. It operates with even-odd pairs of instances of Data class'''
     def __init__(self, *args, **kwargs):
         self.even_pca_ = IndividualLambdaPCAs(*args, **kwargs)
         self.odd_pca_ = IndividualLambdaPCAs(*args, **kwargs)
@@ -174,12 +176,30 @@ class IndividualLambdaPCAsBoth:
 
 
 class InvariantsPCA(PCA):
+    ''' Block to do pca step for invariants. It operates with 2d numpy arrays'''
     def __init__(self, *args, num_to_fit="10x", **kwargs):
         self.num_to_fit_ = num_to_fit
         self.fitted_ = False
         return super().__init__(*args, **kwargs)
 
+    def _my_representation(self):
+        if (self.fitted_):
+            return "Instance of InvariantsPCA, fitted"
+        else:
+            return "Instance of InvariantsPCA, not fitted"
+
+    def __repr__(self):
+        return self._my_representation()
+
+    def __str__(self):
+        return self._my_representation()
+
     def process_input(self, X):
+        if (self.n_components is None):
+            self.n_components = X.shape[1]
+        if (self.n_components > X.shape[1]):
+            self.n_components = X.shape[1]
+
         if type(self.num_to_fit_) is str:
             multiplier = int(parse("{}x", self.num_to_fit_)[0])
             num_fit_now = multiplier * self.n_components
@@ -203,16 +223,12 @@ class InvariantsPCA(PCA):
         return X[:num_fit_now]
 
     def fit(self, X):
-        if self.n_components > X.shape[1]:
-            self.n_components = X.shape[1]
 
         res = super().fit(self.process_input(X))
         self.fitted_ = True
         return res
 
     def fit_transform(self, X):
-        if self.n_components > X.shape[1]:
-            self.n_components = X.shape[1]
         res = super().fit_transform(self.process_input(X))
         self.fitted_ = True
         return res

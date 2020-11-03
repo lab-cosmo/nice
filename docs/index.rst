@@ -3,29 +3,50 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+  
 
-
-.. toctree::
-   :glob:
-   :maxdepth: 1
-   :caption: Nice
-
-   preambule.rst
+.. include:: hello_user.rst   
 
 .. toctree::
    :glob:
    :maxdepth: 1
-   :caption: Tutorial
+   :caption: Theory in a nutshell
 
-   symlinks/methane_home_pc_tutorial
+   theory    
 
 .. toctree::
    :glob:
    :maxdepth: 1
-   :caption: User guide
+   :caption: Tutorials
 
-   symlinks/user_guide
+   symlinks/constructing_machine_learning_potential
+   calculating_covariants
+   getting_insights_about_the_model
+   constructor_or_non_standard_sequence  
+   sequential_fitting
+   custom_regressors_into_purifiers
 
+.. toctree::
+   :glob:   
+   :maxdepth: 1
+   :caption: Examples
+
+   examples
+
+.. toctree::
+   :glob:
+   :maxdepth: 5
+   :caption: Reference guide
+
+   blocks
+   utilities
+
+.. toctree::
+   :glob:   
+   :maxdepth: 1
+   :caption: Acknowledgements
+
+   acknowledgements
 
 
 

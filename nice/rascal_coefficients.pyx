@@ -1,7 +1,6 @@
 import numpy as np
 cimport cython
 from nice_utilities cimport single_contraction, min_c, abs_c, max_c
-from naive cimport compute_powerspectrum
 from libc.math cimport sin, M_PI, sqrt, fmax
 import tqdm
 import rascal
@@ -63,29 +62,7 @@ cpdef convert_rascal_coefficients(double[:, :] coefficients, int n_max, int n_ty
                     now += 1
     return ans
 
-'''@cython.boundscheck(False)
-@cython.wraparound(False)
-cpdef normalize_by_ps(double[:, :, :, :] coefficients):
-    cdef int n_envs = coefficients.shape[0]
-    cdef int n_radial = coefficients.shape[1]
-    cdef int l_max = coefficients.shape[2] - 1
-    cdef int env_ind
-    cdef int i, n, l, m
-    cdef double self_kernel 
-    cdef double multiplier
-    
-    for env_ind in range(n_envs):
-        ps_now = compute_powerspectrum(coefficients[env_ind], l_max)
-        self_kernel = 0.0
-        for i in range(ps_now.shape[0]):
-            self_kernel += ps_now[i] * ps_now[i]        
-        multiplier = sqrt(sqrt(self_kernel))        
-        for n in range(n_radial):
-            for l in range(l_max + 1):
-                for m in range(2 * l + 1):
-                    coefficients[env_ind, n, l, m] /= multiplier'''
-                    
- 
+   
 
 def process_structures(structures, delta = 0.1):   
     """Satisfying librascal desire of having all atoms 
@@ -134,47 +111,5 @@ def get_rascal_coefficients(structures, HYPERS, n_types):
 def get_rascal_coefficients_stared(task):
     return get_rascal_coefficients(*task)
 
-def get_rascal_coefficients_parallelized(structures, rascal_hypers, task_size = 100, num_threads = None, show_progress = True):  
-    hypers = copy.deepcopy(rascal_hypers)
-    
-    if ('expansion_by_species_method' in hypers.keys()):
-        if (hypers['expansion_by_species_method'] != 'user defined'):
-            raise ValueError("for proper packing spherical expansion coefficients into [env index, radial/specie index, l, m] shape output should be uniform, thus 'expansion_by_species_method' must be 'user defined'")
-            
-    hypers['expansion_by_species_method'] = 'user defined'
-    
-    
-    all_species = []
-    for structure in structures:
-        all_species.append(structure.get_atomic_numbers())
-    all_species = np.concatenate(all_species, axis = 0)
-    species = np.unique(all_species)
-    all_species = all_species.astype(np.int32)
-    species = species.astype(np.int32)
-    if ('global_species' not in hypers.keys()):
-        hypers['global_species'] = [int(specie) for specie in species]
-    else:
-        for specie in species:
-            if (specie not in hypers['global_species']):
-                warnings.warn("atom with type {} is presented in the dataset but it is not listed in the global_species, adding it".format(specie))
-                hypers['global_species'].append(int(specie))
-            
-        species = np.array(hypers['global_species']).astype(np.int32)
-                
-      
-                              
-    
-    if (num_threads is None):
-        num_threads = cpu_count()
-    
-    p = Pool(num_threads) 
-    tasks = []
-    for i in range(0, len(structures), task_size):
-        tasks.append([structures[i : i + task_size], hypers, len(species)])  
-        
-    result = [res for res in tqdm.tqdm(p.imap(get_rascal_coefficients_stared, tasks), total = len(tasks), disable = not show_progress)]
-    p.close()
-    p.join()
-    result = np.concatenate(result, axis = 0)
-    return split_by_central_specie(all_species, species, result, show_progress = show_progress)
+
             
