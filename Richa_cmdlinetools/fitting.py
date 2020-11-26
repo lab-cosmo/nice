@@ -76,7 +76,7 @@ def main():
     nblocks = args.blocks
     
     #get_NICE inputs
-    numexcov = args.numexpcov
+    numexpcov = args.numexpcov
     numexpinv = args.numexpinv
     maxtakecov = args.maxtakecov
     maxtakeinv = args.maxtakeinv
@@ -118,8 +118,9 @@ def main():
     f. InvariantsPCA --> Invariant [Block to do pca step for invariants. It operates with 2d numpy arrays]
 
     """
-    sb = [ ]
+    #sb = [ ]
     def get_nice():
+        sb = [ ]
         numax = nblocks;
         for nu in range(1, numax-1): # this starts from nu=2 actually
             sb.append(
@@ -132,7 +133,7 @@ def main():
                          )
                          
     # at the last order, we only need invariants
-        sb.append(
+            sb.append(
                 StandardBlock(None, None, None,
                          ThresholdExpansioner(num_expand=numexpinv, mode='invariants'),
                          InvariantsPurifier(max_take=maxtakeinv),
