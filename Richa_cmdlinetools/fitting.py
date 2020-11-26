@@ -1,5 +1,6 @@
 import pickle
 import sys, os, argparse
+import ase
 import ase.io as ase_io
 import numpy as np
 import tqdm
@@ -45,6 +46,7 @@ def main():
     parser.add_argument('--maxtakeinv', type=int, default=None, help='Number of features to be considered for purification step.')
     parser.add_argument('--ncompcov', type=int, default=None, help='Number of components for the PCA step.')
     parser.add_argument('--ncompinv', type=int, default=None, help='Number of components for the PCA step.')
+    parser.add_argument('--blocks', type=int, default=1,help='Number of blocks to break the calculation into.')
     parser.add_argument('--json', type=str, default='{}', help='Additional hypers, as JSON string')
     
     
@@ -71,6 +73,7 @@ def main():
     l = args.max_angular
     sig = args.gaussian_sigma_constant
     json_hypers = json.loads(args.json)
+    nblocks = args.blocks
     
     #get_NICE inputs
     numexcov = args.numexpcov
@@ -117,7 +120,7 @@ def main():
     """
     sb = [ ]
     def get_nice():
-        numax = 4;
+        numax = nblocks;
         for nu in range(1, numax-1): # this starts from nu=2 actually
             sb.append(
                 StandardBlock(ThresholdExpansioner(num_expand=numexpcov),
@@ -136,7 +139,7 @@ def main():
                          InvariantsPCA(n_components=ncompinv)) 
                          )
     
-    return StandardSequence(sb,initial_scaler=InitialScaler(mode='signal integral', individually=True))
+        return StandardSequence(sb,initial_scaler=InitialScaler(mode='signal integral', individually=True))
     
     
     
@@ -158,9 +161,11 @@ def main():
         nice = {}
         for key in train_coefficients.keys():
             nice[key] = get_nice()
+       
     else:
         #Now that we have the coefficients, we want to fit a single nice transformer irrespective of the specie
         #1. Take all coefficients for each specie and merge all the coefficients together.Then based on the user-defined number of environments to be used for fitting, we choose the required number of coefficients.
+        nice = {}
         all_coefficients = [train_coefficients[key] for key in train_coefficients.keys()]
         all_coefficients = np.concatenate(all_coefficients, axis=0)
         np.random.shuffle(all_coefficients)
