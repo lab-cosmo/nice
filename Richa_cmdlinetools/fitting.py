@@ -30,17 +30,15 @@ def main():
         
     formatter = lambda prog: argparse.HelpFormatter(prog, max_help_position=22)
     parser = argparse.ArgumentParser(description=main.__doc__, formatter_class=formatter)
-    #parser = argparse.ArgumentParser(description='Trial- to check where the main.__doc__ is', formatter_class=formatter)
     parser.add_argument('input', type=str, default="", nargs="?", help='XYZ file to load')
     parser.add_argument('-o', '--output', type=str, default="", help='Output files prefix. Defaults to input filename with stripped extension')
     parser.add_argument('-w','--which_output', type=int, default=1, help='1 for getting a different NICE for each species or else a single NICE for all species')
     parser.add_argument('--train_subset', type=str, default="0:10000", help='Index for reading the file for training in ASE format')
-    #parser.add_argument('--test_subset', type=str, default="10000:15000", help='Index for reading the file for testing in ASE format')
     parser.add_argument('--environments_for_fitting', type=int, default=1000, help='Number of environments for fitting')
     parser.add_argument('--interaction_cutoff', type=int, default=6.3, help='Interaction cut-off')
     parser.add_argument('--max_radial', type=int, default=5, help='Number of radial channels')
     parser.add_argument('--max_angular', type=int, default=5, help='Number of angular momentum channels')
-    parser.add_argument('--gaussian_sigma_constant', type=int, default=6.3, help='Gaussian smearing')
+    parser.add_argument('--gaussian_sigma_constant', type=float, default=6.3, help='Gaussian smearing')
     parser.add_argument('--numexpcov', type=int, default=150, help='Number of the most important input pairs to be considered for expansion.')
     parser.add_argument('--numexpinv', type=int, default=300, help='Number of the most important input pairs to be considered for expansion.')
     parser.add_argument('--maxtakecov', type=int, default=None, help='Number of features to be considered for purification step.')
@@ -50,21 +48,13 @@ def main():
     parser.add_argument('--json', type=str, default='{}', help='Additional hypers, as JSON string')
     
     
-    #parser.add_argument('--select', type=str, default=":", help='Selection of input frames. ASE format.')
-    #parser.add_argument('--nice', type=str, default="nice.pickle", help='Definition of the NICE contraction. Output from optimize_nice.py')
-    #parser.add_argument('--blocks', type=int, default=1, help='Number of blocks to break the calculation into.')
-    
     args = parser.parse_args()
     
     #File inputs
     filename = args.input
     output   = args.output
     whichoutput = args.which_output
-    #select   = args.select    
-    #nice     = args.nice
-    #nblocks  = args.blocks
-    
-        
+   
     #filename = 'methane.extxyz'
     #output = 'out'
     #select = ':'    
@@ -73,8 +63,6 @@ def main():
     
     #ASE read inputs
     train_subset = args.train_subset
-    #train_subset_num = [int(s) for s in re.findall(r'\b\d+\b', train_subset)][1]
-    #test_subset = args.test_subset
     environments_for_fitting = args.environments_for_fitting
     
     #Hyper inputs
@@ -96,20 +84,11 @@ def main():
     #Output file
     if output == "":
         output = os.path.splitext(filename)[0]
+        print(output)
         
         
     #Some constants    
     HARTREE_TO_EV = 27.211386245988
-    
-    #grid = [] #for learning curve, should there be a pattern in forming this grid
-    #gr1=1;
-    #grid_point=0;
-    #While grid_point<train_subset_num: 
-    #    grid_point=102.44*math.exp(gr1*0.3837);
-    #    grid.append(grid_point)
-    #    gr1+=1
-        
-    #print("Using the grid:",grid)
     
     #Building HYPERS
     HYPERS = { **{
@@ -164,8 +143,6 @@ def main():
     #Reading the file into training and testing  
     print("Loading structures for train ", filename, " frames: ", train_subset)    
     train_structures = ase.io.read(filename, index=train_subset)
-    #print("Loading structures for test ", filename, " frames: ", test_subset)
-    #test_structures = ase.io.read(filename, index=test_subset)
     
     all_species = get_all_species(train_structures)
     
@@ -175,7 +152,6 @@ def main():
         environments around atoms with specie indicated in key.
     """
     train_coefficients = get_spherical_expansion(train_structures, HYPERS, all_species)
-    #test_coefficients = get_spherical_expansion(test_structures, HYPERS, all_species)
     
     if args.which_output:
         #individual nice transformers for each atomic specie in the dataset
