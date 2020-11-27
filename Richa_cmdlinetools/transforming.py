@@ -1,5 +1,6 @@
 import pickle
 import sys, os, argparse
+import ase
 import ase.io as ase_io
 import numpy as np
 import json
@@ -19,7 +20,7 @@ def main():
     parser.add_argument('-o', '--output', type=str, default="",help='Output files prefix. Defaults to input filename with stripped extension')
     parser.add_argument('--train_subset', type=str, default="0:10000", help='Index for reading the file for training in ASE format')
     parser.add_argument('--nice', type=str, default="nice.pickle", help='Definition of the NICE contraction. Output from fitting.py')
-    parser.add_argument('--blocks', type=int, default=1,help='Number of blocks to break the calculation into.')
+    #parser.add_argument('--blocks', type=int, default=1,help='Number of blocks to break the calculation into.')
     
     args = parser.parse_args()
     
@@ -27,7 +28,7 @@ def main():
     output = args.output
     select = args.train_subset   
     nice = args.nice
-    nblocks = args.blocks
+    #nblocks = args.blocks
     HARTREE_TO_EV = 27.211386245988
     
     if output == "":
@@ -35,27 +36,40 @@ def main():
         
     print("Loading structures ", filename, " frames: ", select)
     train_structures = ase_io.read(filename, index=select)
-    all_species = get_all_species(train_structures)
+    #for testing only
+    test_structures = ase_io.read(filename, index="10000:15000")
+    #all_species = get_all_species(train_structures)
+    all_species = get_all_species(train_structures+test_structures)
     
     aa = pickle.load(open(nice, "rb"))
-    hypers = aa["HYPERS"]
+    hypers = aa["hypers"]
+    print(hypers)
     nice = aa["NICE"]
     
     #Getting the features and energies
-    train_features = transform_sequentially(nice, train_structures, HYPERS, all_species)
+    train_features = transform_sequentially(nice, train_structures, hypers, all_species)
+    #for testing only
+    test_features = transform_sequentially(nice, test_structures, hypers, all_species)
     
     ''' getting compositional features suitable for linear regression which contains information
     about the number of atoms with particular species in the structure
     '''
     train_c_features = get_compositional_features(train_structures, all_species)
+    test_c_features = get_compositional_features(test_structures, all_species)
     train_features = np.concatenate([train_features, train_c_features], axis=1)
-    train_energies = [structure.info['U0'] for structure in train_structures]
+    test_features = np.concatenate([test_features, test_c_features], axis=1)
+    train_energies = [structure.info['energy'] for structure in train_structures]
     train_energies = np.array(train_energies) * HARTREE_TO_EV
+    test_energies = [structure.info['energy'] for structure in test_structures]
+    test_energies = np.array(test_energies) * HARTREE_TO_EV
     
     pickle.dump( { 
-               "FEATURES" : train_feature, 
-               "CFEATURES": train_c_features,
-                "ENERGIES": train_energies,
+               "features" : train_features, 
+               "cfeatures": train_c_features,
+                "energies": train_energies,
+                "testfeatures" : test_features, 
+               "testcfeatures": test_c_features,
+                "testenergies": test_energies,
              }, open(output+".pickle", "wb"))
 
         
