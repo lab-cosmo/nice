@@ -43,13 +43,13 @@ def main():
     
     aa = pickle.load(open(nice, "rb"))
     hypers = aa["hypers"]
-    print(hypers)
     nice = aa["NICE"]
-    
+    #print("nice and hypers from pickle ")
     #Getting the features and energies
     train_features = transform_sequentially(nice, train_structures, hypers, all_species)
     #for testing only
     test_features = transform_sequentially(nice, test_structures, hypers, all_species)
+    #print("Features done")
     
     ''' getting compositional features suitable for linear regression which contains information
     about the number of atoms with particular species in the structure
