@@ -40,8 +40,8 @@ def main():
     parser.add_argument('--max_radial', type=int, default=5, help='Number of radial channels')
     parser.add_argument('--max_angular', type=int, default=5, help='Number of angular momentum channels')
     parser.add_argument('--gaussian_sigma_constant', type=float, default=6.3, help='Gaussian smearing')
-    parser.add_argument('--numexpcov', type=int, default=150, help='Number of the most important input pairs to be considered for expansion.')
-    parser.add_argument('--numexpinv', type=int, default=300, help='Number of the most important input pairs to be considered for expansion.')
+    parser.add_argument('--numexpcov', type=int, default=None, help='Number of the most important input pairs to be considered for expansion.')
+    parser.add_argument('--numexpinv', type=int, default=None, help='Number of the most important input pairs to be considered for expansion.')
     parser.add_argument('--maxtakecov', type=int, default=None, help='Number of features to be considered for purification step.')
     parser.add_argument('--maxtakeinv', type=int, default=None, help='Number of features to be considered for purification step.')
     parser.add_argument('--ncompcov', type=int, default=None, help='Number of components for the PCA step.')
@@ -76,13 +76,12 @@ def main():
     nblocks = args.blocks
     
     #get_NICE inputs
-    numexpcov = args.numexpcov
-    numexpinv = args.numexpinv
+    numexpcov  = args.numexpcov
+    numexpinv  = args.numexpinv
     maxtakecov = args.maxtakecov
     maxtakeinv = args.maxtakeinv
-    ncompcov = args.ncompcov
-    ncompinv = args.ncompinv
-    
+    ncompcov   = args.ncompcov
+    ncompinv   = args.ncompinv
     
     #Output file
     if output == "":
@@ -131,7 +130,7 @@ def main():
                       InvariantsPurifier(max_take=maxtakeinv),
                       InvariantsPCA(n_components=ncompinv)) 
                          )
-                         
+        
     # at the last order, we only need invariants
         sb.append(
                 StandardBlock(None, None, None,
@@ -178,15 +177,6 @@ def main():
         nice_single.fit(all_coefficients)
         #3. Irrespective of the central specie, we use the same nice transformer
         nice = {specie: nice_single for specie in all_species}
-    
-    #HYPERS["ncompcov"] = ncompcov
-    #HYPERS["ncompinv"] = ncompinv
-    #HYPERS["numexpcov"] = numexpcov
-    #HYPERS["numexpinv"] = numexpinv               
-    #HYPERS["reference-file"] = filename
-    #HYPERS["reference-sel"] = train_subset
-    
-    print(HYPERS)
     
     print("Dumping NICE model")    
     pickle.dump( { 
