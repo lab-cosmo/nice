@@ -36,7 +36,7 @@ def main():
     parser.add_argument('-w','--which_output', type=int, default=1, help='1 for getting a different NICE for each species or else a single NICE for all species')
     parser.add_argument('--train_subset', type=str, default="0:10000", help='Index for reading the file for training in ASE format')
     parser.add_argument('--environments_for_fitting', type=int, default=1000, help='Number of environments for fitting')
-    parser.add_argument('--interaction_cutoff', type=int, default=6.3, help='Interaction cut-off')
+    parser.add_argument('--interaction_cutoff', type=float, default=6.3, help='Interaction cut-off')
     parser.add_argument('--max_radial', type=int, default=5, help='Number of radial channels')
     parser.add_argument('--max_angular', type=int, default=5, help='Number of angular momentum channels')
     parser.add_argument('--gaussian_sigma_constant', type=float, default=6.3, help='Gaussian smearing')
@@ -46,7 +46,7 @@ def main():
     parser.add_argument('--maxtakeinv', type=int, default=None, help='Number of features to be considered for purification step.')
     parser.add_argument('--ncompcov', type=int, default=None, help='Number of components for the PCA step.')
     parser.add_argument('--ncompinv', type=int, default=None, help='Number of components for the PCA step.')
-    parser.add_argument('--blocks', type=int, default=1,help='Number of blocks to break the calculation into.')
+    parser.add_argument('--blocks', type=int, default=1, help='Number of blocks to break the calculation into.')
     parser.add_argument('--json', type=str, default='{}', help='Additional hypers, as JSON string')
     
     
@@ -120,8 +120,8 @@ def main():
     """
     #sb = [ ]
     def get_nice():
-        sb = [ ]
         numax = nblocks;
+        sb = [ ]
         for nu in range(1, numax-1): # this starts from nu=2 actually
             sb.append(
                 StandardBlock(ThresholdExpansioner(num_expand=numexpcov),
@@ -133,7 +133,7 @@ def main():
                          )
                          
     # at the last order, we only need invariants
-            sb.append(
+        sb.append(
                 StandardBlock(None, None, None,
                          ThresholdExpansioner(num_expand=numexpinv, mode='invariants'),
                          InvariantsPurifier(max_take=maxtakeinv),
@@ -162,6 +162,8 @@ def main():
         nice = {}
         for key in train_coefficients.keys():
             nice[key] = get_nice()
+        for key in train_coefficients.keys():
+            nice[key].fit(train_coefficients[key][:environments_for_fitting])
        
     else:
         #Now that we have the coefficients, we want to fit a single nice transformer irrespective of the specie
@@ -177,16 +179,18 @@ def main():
         #3. Irrespective of the central specie, we use the same nice transformer
         nice = {specie: nice_single for specie in all_species}
     
-    HYPERS["ncompcov"] = ncompcov
-    HYPERS["ncompinv"] = ncompinv
-    HYPERS["numexpcov"] = numexpcov
-    HYPERS["numexpinv"] = numexpinv               
-    HYPERS["reference-file"] = filename
-    HYPERS["reference-sel"] = train_subset
+    #HYPERS["ncompcov"] = ncompcov
+    #HYPERS["ncompinv"] = ncompinv
+    #HYPERS["numexpcov"] = numexpcov
+    #HYPERS["numexpinv"] = numexpinv               
+    #HYPERS["reference-file"] = filename
+    #HYPERS["reference-sel"] = train_subset
+    
+    print(HYPERS)
     
     print("Dumping NICE model")    
     pickle.dump( { 
-               "HYPERS" : HYPERS, 
+               "hypers" : HYPERS, 
                "NICE": nice,
              }, open(output+".pickle", "wb"))
     
