@@ -90,46 +90,75 @@ def main():
     maxtakeinv = []
     ncompcov   = []
     ncompinv   = []
-    for nu in range(0, nblocks-1): 
-        if list_numexpcov[nu] == "":
-            numexpcov.append(None)
-        else:
-            numexpcov.append(int(list_numexpcov[nu]))
+    
+    if len(list_numexpcov ) == 1:
+        for nu in range(0, nblocks-1):
+            numexpcov.append(int(list_numexpcov[0]))
+    else:
+        for nu in range(0, nblocks-1): 
+            if list_numexpcov[nu] == "":
+                numexpcov.append(None)
+            else:
+                numexpcov.append(int(list_numexpcov[nu]))
     
     #print("This is numexpcov", numexpcov)
-    for nu in range(0, nblocks-1): 
-        if list_numexpinv[nu] == "":
-            numexpinv.append(None)
-        else:
-            numexpinv.append(int(list_numexpinv[nu]))
+    
+    if len(list_numexpinv ) == 1:
+        for nu in range(0, nblocks-1):
+            numexpinv.append(int(list_numexpinv[0]))
+    else:
+        for nu in range(0, nblocks-1): 
+            if list_numexpinv[nu] == "":
+                numexpinv.append(None)
+            else:
+                numexpinv.append(int(list_numexpinv[nu]))
     
     #print("This is numexpinv", numexpinv)
-    for nu in range(0, nblocks-1): 
-        if list_maxtakecov[nu] == "":
-            maxtakecov.append(None)
-        else:
-            maxtakecov.append(int(list_maxtakecov[nu]))
+    if len(list_maxtakecov)==1:
+        for nu in range(0,nblocks-1):
+            maxtakecov.append(int(list_maxtakecov[0]))
+    else:
+        for nu in range(0, nblocks-1): 
+            if list_maxtakecov[nu] == "":
+                maxtakecov.append(None)
+            else:
+                maxtakecov.append(int(list_maxtakecov[nu]))
     
     #print("This is maxtakecov", maxtakecov)
-    for nu in range(0, nblocks-1): 
-        if list_maxtakeinv[nu] == "":
-            maxtakeinv.append(None)
-        else:
-            maxtakeinv.append(int(list_maxtakeinv[nu]))
+    
+    if len(list_maxtakeinv)==1:
+        for nu in range(0,nblocks-1):
+            maxtakeinv.append(int(list_maxtakeinv[0]))
+    else:
+        for nu in range(0, nblocks-1): 
+            if list_maxtakeinv[nu] == "":
+                maxtakeinv.append(None)
+            else:
+                maxtakeinv.append(int(list_maxtakeinv[nu]))
     
     #print("This is maxtakeinv", maxtakeinv)
-    for nu in range(0, nblocks-1): 
-        if list_ncompcov[nu] == "":
-            ncompcov.append(None)
-        else:
-            ncompcov.append(int(list_ncompcov[nu]))
+    
+    if len(list_ncompcov)==1:
+        for nu in range(0,nblocks-1):
+            ncompcov.append(int(list_ncompcov[0]))
+    else:
+        for nu in range(0, nblocks-1): 
+            if list_ncompcov[nu] == "":
+                ncompcov.append(None)
+            else:
+                ncompcov.append(int(list_ncompcov[nu]))
     
     #print("This is ncompcov", ncompcov)
-    for nu in range(0, nblocks-1): 
-        if list_ncompinv[nu] == "":
-            ncompinv.append(None)
-        else:
-            ncompinv.append(int(list_ncompinv[nu]))
+    
+    if len(list_ncompinv)==1:
+        for nu in range(0,nblocks-1):
+            ncompinv.append(int(list_ncompinv[0]))
+    else:
+        for nu in range(0, nblocks-1): 
+            if list_ncompinv[nu] == "":
+                ncompinv.append(None)
+            else:
+                ncompinv.append(int(list_ncompinv[nu]))
     
     #print("This is ncompinv", ncompinv)
     
@@ -233,13 +262,9 @@ def main():
         nice = {specie: nice_single for specie in all_species}
     
     print("Dumping NICE model")
-    print(HYPERS)
-    print(nice)
-    np.savez(output+".npz", hypers = HYPERS, NICE = nice, allow_pickle=False)
-    #_ = output.seek(0)
-    #outfile = np.load(output)
-    #print("This is np hypers",outfile['hypers'])
-    #print("This is np nice", outfile['NICE'])
+    with open(output+".npy", 'wb') as f:
+        np.save(f, HYPERS)
+        np.save(f, nice)
     #pickle.dump( { 
     #           "hypers" : HYPERS, 
     #           "NICE": nice,
