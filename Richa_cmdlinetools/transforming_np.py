@@ -41,10 +41,16 @@ def main():
     all_species = get_all_species(train_structures)
     #all_species = get_all_species(train_structures+test_structures)
     
-    aanp = np.load(nice,allow_pickle=True)
-    aa = dict(zip(('hypers','NICE'), (aanp[k] for k in aanp)))
-    hypers = aa['hypers']
-    nice = aa['NICE']
+    with open(nice, 'rb') as f:
+        hypers1 = np.load(f, allow_pickle=True)
+        nice1 = np.load(f, allow_pickle=True)
+    
+    hypers=hypers1.tolist()
+    nice=nice1.tolist()
+    
+    #aa = pickle.load(open(nice, "rb"))
+    #hypers = aa["hypers"]
+    #nice = aa["NICE"]
     
     #Getting the features and energies
     train_features = transform_sequentially(nice, train_structures, hypers, all_species)
@@ -61,11 +67,15 @@ def main():
     train_energies = np.array(train_energies) * HARTREE_TO_EV
     
     #Will change this to numpy array when I get the previous numpy arrays to work.
-    pickle.dump( { 
-               "features" : train_features, 
-               "cfeatures": train_c_features,
-                "energies": train_energies,
-                }, open(output+".pickle", "wb"))
+    with open(output+".npy", 'wb') as f:
+        np.save(f, train_features)
+        np.save(f, train_c_features)
+        np.save(f, train_energies)
+    #pickle.dump( { 
+    #           "features" : train_features, 
+    #           "cfeatures": train_c_features,
+    #            "energies": train_energies,
+    #            }, open(output+".pickle", "wb"))
 
         
 if __name__ == '__main__':
