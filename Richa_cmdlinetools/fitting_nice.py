@@ -14,18 +14,12 @@ def main():
     Command-line utility to optimize features. The output is a numpy array of hyper parameters and NICE model. We need the following from the user:
     1. The database file. 
     2. The name for final output file.
-    2. Index for training commands for ase.io.read commands.
-    3. The number of environments to fit nice transfomers
-    4. Input for HYPERS parameters required from user. Keeping 'gaussian_sigma_type': 'Constant','cutoff_smooth_width': 0.3, and 'radial_basis': 'GTO'
-    5. Input for standardblocks- 
-        Covariants: num_expand: Number of the most important input pairs to be considered for expansion.
-                    max_take: Number of features to be considered for purification step. The default value is None.
-                    n_components: Number of components for the PCA step. Default value None takes number of components equal to the number of covariants for each individual lambda.
-        Invariants: num_expand: Number of the most important input pairs to be considered for expansion.
-                    max_take: Number of features to be considered for purification step. The default value is None.
-                    n_components: Number of components for the PCA step. Default value None takes number of components equal to the number of covariants for each individual lambda.
-     6. The desired number of blocks in the StandardBlocks. The last block only considers invariants irrespective of the user entry.
-     7. Any additional hypers (json)
+    3. Index for training commands for ase.io.read commands.
+    4. The number of environments to fit nice transfomers
+    5. Input for HYPERS parameters. Keeping 'gaussian_sigma_type': 'Constant','cutoff_smooth_width': 0.3, and 'radial_basis': 'GTO'
+    6. Input for standardblocks: num_expand, max_take, and n_components for covariants and invariants. Can be a single number (to be considered for all blocks) or a list (separate for each block)
+     7. The desired number of blocks in the StandardBlocks. The last block only considers invariants irrespective of the user entry.
+     8. Any additional hypers (json)
                     
     """
         
@@ -40,12 +34,12 @@ def main():
     parser.add_argument('--max_radial', type=int, default=5, help='Number of radial channels')
     parser.add_argument('--max_angular', type=int, default=5, help='Number of angular momentum channels')
     parser.add_argument('--gaussian_sigma_constant', type=float, default=6.3, help='Gaussian smearing')
-    parser.add_argument('--numexpcov', type=str, default=None, required=True, help='Number of the most important input pairs to be considered for expansion.')
-    parser.add_argument('--numexpinv', type=str, default=None, required=True, help='Number of the most important input pairs to be considered for expansion.')
-    parser.add_argument('--maxtakecov', type=str, default=None, required=True, help='Number of features to be considered for purification step.')
-    parser.add_argument('--maxtakeinv', type=str, default=None, required=True, help='Number of features to be considered for purification step.')
-    parser.add_argument('--ncompcov', type=str, default=None, required=True, help='Number of components for the PCA step.')
-    parser.add_argument('--ncompinv', type=str, default=None, required=True, help='Number of components for the PCA step.')
+    parser.add_argument('--numexpcov', type=str, default=None, required=True, help='Number of the most important input pairs to be considered for expansion for covariants. Either a number or list')
+    parser.add_argument('--numexpinv', type=str, default=None, required=True, help='Number of the most important input pairs to be considered for expansion for invariants. Either a number or list')
+    parser.add_argument('--maxtakecov', type=str, default=None, required=True, help='Number of features to be considered for purification step for covariants. Either a number or list')
+    parser.add_argument('--maxtakeinv', type=str, default=None, required=True, help='Number of features to be considered for purification step for invariants. Either a number or list')
+    parser.add_argument('--ncompcov', type=str, default=None, required=True, help='Number of components for the PCA step for covariants. Either a number or list')
+    parser.add_argument('--ncompinv', type=str, default=None, required=True, help='Number of components for the PCA step for invariants. Either a number or list')
     parser.add_argument('--blocks', type=int, default=1, help='Number of blocks to break the calculation into.')
     parser.add_argument('--json', type=str, default='{}', help='Additional hypers, as JSON string')
         
