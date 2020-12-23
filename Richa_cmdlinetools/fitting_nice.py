@@ -34,13 +34,13 @@ def main():
     parser.add_argument('--max_radial', type=int, default=5, help='Number of radial channels')
     parser.add_argument('--max_angular', type=int, default=5, help='Number of angular momentum channels')
     parser.add_argument('--gaussian_sigma_constant', type=float, default=6.3, help='Gaussian smearing')
-    parser.add_argument('--numexpcov', type=str, default=None, required=True, help='Number of the most important input pairs to be considered for expansion for covariants. Either a number or list')
-    parser.add_argument('--numexpinv', type=str, default=None, required=True, help='Number of the most important input pairs to be considered for expansion for invariants. Either a number or list')
-    parser.add_argument('--maxtakecov', type=str, default=None, required=True, help='Number of features to be considered for purification step for covariants. Either a number or list')
-    parser.add_argument('--maxtakeinv', type=str, default=None, required=True, help='Number of features to be considered for purification step for invariants. Either a number or list')
-    parser.add_argument('--ncompcov', type=str, default=None, required=True, help='Number of components for the PCA step for covariants. Either a number or list')
-    parser.add_argument('--ncompinv', type=str, default=None, required=True, help='Number of components for the PCA step for invariants. Either a number or list')
-    parser.add_argument('--blocks', type=int, default=1, help='Number of blocks to break the calculation into.')
+    parser.add_argument('--numexpcov', type=str, default=None, required=True, help='Number of the most important input pairs for expansion of covariants. Either a list "Num,Num,Num" or a number for each block "Num".')
+    parser.add_argument('--numexpinv', type=str, default=None, required=True, help='Number of the most important input pairs for expansion of invariants. Either a list "Num,Num,Num" or a number for each block "Num".')
+    parser.add_argument('--maxtakecov', type=str, default=None, required=True, help='Number of features to be considered for purification step for covariants. Either a list "Num,Num,Num" or a number for each block "Num".')
+    parser.add_argument('--maxtakeinv', type=str, default=None, required=True, help='Number of features to be considered for purification step for invariants. Either a list "Num,Num,Num" or a number for each block "Num".')
+    parser.add_argument('--ncompcov', type=str, default=None, required=True, help='Number of components for the PCA step for covariants. Either a list "Num,Num,Num" or a number for each block "Num".')
+    parser.add_argument('--ncompinv', type=str, default=None, required=True, help='Number of components for the PCA step for invariants. Either a list "Num,Num,Num" or a number for each block "Num".')
+    parser.add_argument('--blocks', type=int, default=1, help='Number of blocks that run the NICE sequence')
     parser.add_argument('--json', type=str, default='{}', help='Additional hypers, as JSON string')
         
     args = parser.parse_args()
@@ -182,14 +182,14 @@ def main():
                       InvariantsPurifier(max_take=maxtakeinv[nu-1]),
                       InvariantsPCA(n_components=ncompinv[nu-1])) 
                          )
-        
+            print("This is expansion ", ThresholdExpansioner(num_expand=numexpcov[nu-1]), "for nu", nu)
         sb.append(
                 StandardBlock(None, None, None,
                          ThresholdExpansioner(num_expand=numexpinv[numax-2], mode='invariants'),
                          InvariantsPurifier(max_take=maxtakeinv[numax-2]),
                          InvariantsPCA(n_components=ncompinv[numax-2])) 
                          )
-    
+        print("This is a standard block ", sb)
         return StandardSequence(sb,initial_scaler=InitialScaler(mode='signal integral', individually=True))
     
     
@@ -198,6 +198,7 @@ def main():
     print("Loading structures for training ", filename, " frames: ", train_subset)    
     train_structures = ase.io.read(filename, index=train_subset)
     all_species = get_all_species(train_structures)
+    print("These are all the specie indexes in the structure ", all_species)
     
     """
     [environmental index, radial basis/neighbor specie index, lambda, m] with spherical expansion coefficients for 
@@ -205,7 +206,8 @@ def main():
     """
     
     train_coefficients = get_spherical_expansion(train_structures, HYPERS, all_species)
-    
+    print("------------------------------------------------------------------------------- ")
+    print("These are the spherical expansion coefficients ", train_coefficients.keys)
     
     if args.which_output:
         #individual nice transformers for each atomic specie in the dataset
@@ -214,6 +216,8 @@ def main():
             nice[key] = get_nice()
         for key in train_coefficients.keys():
             nice[key].fit(train_coefficients[key][:environments_for_fitting])
+        
+        print("This is the model ", nice)
        
     else:
         #a single nice transformer irrespective of the specie
