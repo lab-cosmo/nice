@@ -1,6 +1,6 @@
 Introduction
 ============
-There are two command line tools that can implement the NICE sequence to output features. Details of the theory behind the NICE sequence can be read "`here <https://serfg.github.io/nice/theory.html>_`". The first tool takes inputs from users for fitting a model using the NICE sequence. The output NICE model from first tool can be input by the second tool to predict features for the dataset. An example to achieve this using a "`methane <https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528>`_ database" is given below.
+There are two command line tools that can implement the NICE sequence to output features. Details of the theory behind the NICE sequence can be read "`here <https://serfg.github.io/nice/theory.html>`_". The first tool takes inputs from users for fitting a model using the NICE sequence. The output NICE model from first tool can be input by the second tool to predict features for the dataset. An example to achieve this using a "`methane <https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528>`_ database" is given below.
 
 .. code-block:: python
     wget "https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528" -O methane.extxyz.gz
