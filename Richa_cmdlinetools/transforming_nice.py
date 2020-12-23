@@ -22,8 +22,7 @@ def main():
     parser.add_argument('input', type=str, default="", nargs="?",help='XYZ file to load')
     parser.add_argument('-o', '--output', type=str, default="",help='Output files prefix. Defaults to input filename with stripped extension')
     parser.add_argument('--index', type=str, default="0:10000", help='Index for reading the file in ASE format')
-    parser.add_argument('--nice', type=str, default="nice.pickle", help='Definition of the NICE contraction. Output from fitting.py')
-    #parser.add_argument('--blocks', type=int, default=1,help='Number of blocks to break the calculation into.')
+    parser.add_argument('--nice', type=str, default="nice.pickle", help='NICE model output from fitting_nice.py')
     
     args = parser.parse_args()
     
