@@ -1,7 +1,7 @@
 ============
 Introduction
 ============
-There are two command line tools that can implement the NICE sequence to output features. Details of the theory behind the NICE sequence can be read "`here <https://serfg.github.io/nice/theory.html>`_". The first tool takes inputs from users for fitting a model using the NICE sequence. The output NICE model from first tool can be input by the second tool to predict features for the dataset. An example to achieve this using a "`methane <https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528>`_ database" is given below:
+There are two command line tools that can implement the NICE sequence to output features. Details of the theory behind the NICE sequence can be read "`here <https://serfg.github.io/nice/theory.html>`_". The first tool takes inputs from users for fitting a model using the NICE sequence. The output NICE model from first tool can be input by the second tool to predict features for the dataset. An example to achieve this using a "`methane <https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528>`_ database" is given below.
 
 .. code:: python
         
@@ -11,7 +11,7 @@ There are two command line tools that can implement the NICE sequence to output 
 
 Now, that we have the database downloaded and unzipped in the same folder, we can use it as an input. 
 
-*fitting_nice.py*
+*Functioning of fitting_nice.py*
 -----------------
 
 To get a fitted model for the given "methane.extxyz" database, we need to provide the following inputs:
@@ -94,7 +94,7 @@ The output of this command line tool is:
     2. Fitted NICE model
 
 
-*transforming_nice.py*
+*Functioning of transforming_nice.py*
 ----------------------
 
 To get the predicted features for the same "methane.extxyz" database, we need to provide the following inputs:
@@ -119,12 +119,17 @@ For the dataset, the output of this command line tool are the prediceted:
     3. Energies,
 in the same output file specified earlier *"out_transform"*. Now these features are ready to be used.
 
-*Relative Error*
+*Calculating Relative Error*
 ----------------
 
-To get the relative error, we can define the following functions in a new python notebook:
+We start with the database file *"methane.extxyz"* downloaded in the folder. To get the relative error, we can define the following functions in a new python notebook:
 
 .. code-block:: python
+
+    import numpy as np
+    import tqdm
+    from matplotlib import pyplot as plt
+    from sklearn.linear_model import BayesianRidge
 
     def get_rmse(first, second):
     return np.sqrt(np.mean((first - second) ** 2))
@@ -159,22 +164,26 @@ Now, for the given example, we need the training and testing (or predicted) feat
 
     .. code-block:: python
 
-        python3 transforming_nice.py methane.extxyz -o out_transform_train --index "10000:15000" --nice nice_output
+        python3 transforming_nice.py methane.extxyz -o out_transform_test --index "10000:15000" --nice nice_output
 
-    4. Note that in this database, the energies of the structure are defined and can be directly sourced. HARTREE_TO_EV is defined as *27.211386245988*
-
-    .. code-block:: python
-
-        train_energies = [structure.info['energy'] for structure in train_structures]
-        train_energies = np.array(train_energies) * HARTREE_TO_EV
-    
-        test_energies = [structure.info['energy'] for structure in test_structures]
-        test_energies = np.array(test_energies) * HARTREE_TO_EV
+    4. Note that in this database, the energies of the structure are defined and can be directly sourced in the output file.
 
     5. Now running the defined functions,
 
     .. code-block:: python
 
+        with open("out_transform_test.npy", 'rb') as f:
+            test_features = np.load(f, allow_pickle=True)
+            test_c_features = np.load(f, allow_pickle=True)
+            test_energies = np.load(f, allow_pickle=True)
+        
+        with open("out_transform1.npy", 'rb') as f:
+            train_features = np.load(f, allow_pickle=True)
+            train_c_features = np.load(f, allow_pickle=True)
+            train_energies = np.load(f, allow_pickle=True)
+
+        grid = [150, 200, 350, 500, 750, 1000, 1500, 2000, 3000, 5000, 7500,
+        10000]
         errors = []
         for el in tqdm.tqdm(grid):
             errors.append(estimate_performance(BayesianRidge(), train_features[:el],
@@ -193,3 +202,5 @@ Now, for the given example, we need the training and testing (or predicted) feat
         plt.show()
 
 This gives the following relative error plot as a function of number of structures: 
+
+    
