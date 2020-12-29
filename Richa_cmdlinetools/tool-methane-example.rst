@@ -205,5 +205,5 @@ Now, for the given example, we need the training and testing (or predicted) feat
 
 This gives the following relative error plot as a function of number of structures: 
 
-.. image:: plot.png
+.. image:: plot1.png
     
