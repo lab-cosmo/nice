@@ -12,24 +12,28 @@ There are two command line tools that can implement the NICE sequence to output 
 Now, that we have the database downloaded and unzipped in the same folder, we can use it as an input. 
 
 *Functioning of fitting_nice.py*
------------------
+--------------------------------
 
 To get a fitted model for the given "methane.extxyz" database, we need to provide the following inputs:
 
-    1. The database file.
-    2. The name for final output file. *(-o)*
-    3. The type of NICE model to be fitted *(-w)*. It can be:
-        a. A different NICE model centered around each specie (1)
-        b. A single NICE model irrespective of the specie (2)
-    4. Index for ase.io.read commands *(--train_subset)*. This is the subset of the database used for training. 
-    5. The number of environments to fit nice transfomers *(--environments_for_fitting)*.
-    6. Input for spherical expansion parameters *(--interaction_cutoff, --max_radial, --max_angular, --gaussian_sigma_constant)*. Keeping 'gaussian_sigma_type': 'Constant','cutoff_smooth_width': 0.3, and 'radial_basis': 'GTO'
-    7. Input for standardblocks for covariants (cov) and invariants (inv). These can be in form of a single value for all blocks or in the form of a list of different values for each block. 
-        *Number of the most important input pairs for expansion *(--numexpcov, --numexpinv)*
-        *Number of features to be considered for purification step *(--maxtakecov, --maxtakeinv)*
-        *Number of components for the PCA step *(--ncompcov, --ncompinv)*
-    8. The desired number of blocks in the StandardBlocks *(--blocks)*.
-    9. Any additional hypers *(--json)*
+1. The database file.
+2. The name for final output file. *(-o)*
+3. The type of NICE model to be fitted *(-w)*. It can be:
+
+    - A different NICE model centered around each specie (1)
+    - A single NICE model irrespective of the specie (2)
+
+4. Index for ase.io.read commands *(--train_subset)*. This is the subset of the database used for training. 
+5. The number of environments to fit nice transfomers *(--environments_for_fitting)*.
+6. Input for spherical expansion parameters *(--interaction_cutoff, --max_radial, --max_angular, --gaussian_sigma_constant)*. Keeping 'gaussian_sigma_type': 'Constant','cutoff_smooth_width': 0.3, and 'radial_basis': 'GTO'
+7. Input for standardblocks for covariants (cov) and invariants (inv). These can be in form of a single value for all blocks or in the form of a list of different values for each block. 
+        
+    - Number of the most important input pairs for expansion *(--numexpcov, --numexpinv)*
+    - Number of features to be considered for purification step *(--maxtakecov, --maxtakeinv)*
+    - Number of components for the PCA step *(--ncompcov, --ncompinv)*
+
+8. The desired number of blocks in the StandardBlocks *(--blocks)*.
+9. Any additional hypers *(--json)*
 
 So, the input can be given as:
 
@@ -95,14 +99,14 @@ The output of this command line tool is:
 
 
 *Functioning of transforming_nice.py*
-----------------------
+-------------------------------------
 
 To get the predicted features for the same "methane.extxyz" database, we need to provide the following inputs:
 
-    1. The database file.
-    2. The name for final output file. *(-o)*
-    3. Index for ase.io.read commands *(--index)*. This is the subset of the database of which the features will be output.
-    4. Output from *fitting_nice.py*, i.e. parameters for spherical expansion, and the fitted NICE model. *(--nice)*
+1. The database file.
+2. The name for final output file. *(-o)*
+3. Index for ase.io.read commands *(--index)*. This is the subset of the database of which the features will be output.
+4. Output from *fitting_nice.py*, i.e. parameters for spherical expansion, and the fitted NICE model. *(--nice)*
 
 User can input these like:
 
@@ -158,8 +162,6 @@ Now, for the given example, we need the training and testing (or predicted) feat
 
         python3 transforming_nice.py methane.extxyz -o out_transform_train --index "0:10000" --nice nice_output
 
-    In the same notebook, we can:
-
     3. And, for the test_features, we use the output of *1* again as done in *2*, for a diffrent subset of the database.
 
     .. code-block:: python
@@ -203,4 +205,5 @@ Now, for the given example, we need the training and testing (or predicted) feat
 
 This gives the following relative error plot as a function of number of structures: 
 
+.. image:: plot.png
     
