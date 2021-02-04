@@ -6,6 +6,7 @@ from cython.parallel import prange, threadid
 from multiprocessing import cpu_count
 from libc.stdlib cimport malloc, free
 import warnings
+import os
 
 cdef double sqrt_2 = sqrt(2.0)
 
@@ -137,7 +138,7 @@ def do_partial_expansion(clebsch_gordan, first_covariants, second_covariants, l_
     res = process_contiguousness(res)
     
     if (num_threads is None):
-        num_threads = cpu_count()
+        num_threads = len(os.sched_getaffinity(0))
     if (mode == "invariants"):
         do_partial_expansion_invariants(clebsch_gordan, first_covariants, second_covariants, l_max,
                                         tasks, res, res_actual_sizes, num_threads)

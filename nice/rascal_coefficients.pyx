@@ -4,6 +4,7 @@ from nice_utilities cimport single_contraction, min_c, abs_c, max_c
 from libc.math cimport sin, M_PI, sqrt, fmax
 import tqdm
 import rascal
+import os
 from ase import Atoms
 from rascal.representations import SphericalInvariants as SOAP
 from rascal.representations import SphericalExpansion as SPH
