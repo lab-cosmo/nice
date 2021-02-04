@@ -258,6 +258,16 @@
 <em class="property">class </em><code class="sig-prename descclassname">nice.nice_utilities.</code><code class="sig-name descname">Data</code><a class="headerlink" href="#nice.nice_utilities.Data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="attribute">
+<dt id="nice.nice_utilities.Data.get_amplitude">
+<code class="sig-name descname">get_amplitude</code><a class="headerlink" href="#nice.nice_utilities.Data.get_amplitude" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nice.nice_utilities.Data.get_amplitudes">
+<code class="sig-name descname">get_amplitudes</code><a class="headerlink" href="#nice.nice_utilities.Data.get_amplitudes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="nice.nice_utilities.Data.get_invariants">
 <code class="sig-name descname">get_invariants</code><a class="headerlink" href="#nice.nice_utilities.Data.get_invariants" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -445,27 +455,100 @@ inside the cell even if structure is not periodic.
 <dl class="function">
 <dt id="nice.utilities.get_all_species">
 <code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">get_all_species</code><span class="sig-paren">(</span><em class="sig-param">structures</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.get_all_species" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>getting all unique atomic species among the structures</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>structures</strong> – list of ase atoms objects</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sorted numpy array with ints with all unique species in the format where
+1 states for H, 2 for He and so on. (inherits from ase function
+atoms_object.get_atomic_numbers())</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="nice.utilities.get_compositional_features">
 <code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">get_compositional_features</code><span class="sig-paren">(</span><em class="sig-param">structures</em>, <em class="sig-param">all_species</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.get_compositional_features" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>getting compositional features suitable for linear regression which contains information
+about the number of atoms with particular species in the structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structures</strong> – list of Ase atoms objects</p></li>
+<li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.         If all species argument is the same for several calls of this function, resulting         blocks of compositional features are guaranteed to be consisted with each other</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy array with shape [len(structures), len(all_species)] with compositional features</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="nice.utilities.get_spherical_expansion">
 <code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">get_spherical_expansion</code><span class="sig-paren">(</span><em class="sig-param">structures</em>, <em class="sig-param">rascal_hypers</em>, <em class="sig-param">all_species</em>, <em class="sig-param">task_size=100</em>, <em class="sig-param">num_threads=None</em>, <em class="sig-param">show_progress=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.get_spherical_expansion" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>getting spherical expansion coefficients</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structures</strong> – list of Ase atoms objects</p></li>
+<li><p><strong>rascal_hypers</strong> – dictionary with parameters for librascal controlling spherical expansion</p></li>
+<li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.         If all species argument is the same for several calls of this function, resulting         blocks of spherical expansion coefficients are guaranteed to be consisted with each other</p></li>
+<li><p><strong>task_size</strong> – number of structures in chunk for multiprocessing</p></li>
+<li><p><strong>num_threads</strong> – number of threads in multiprocessing. If None than all available         (len(os.sched_getaffinity(0))) threads are used</p></li>
+<li><p><strong>show_progress</strong> – whether or not show progress via tqdm</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary in which keys are elements of all_speceis and entries are numpy arrays with indexing
+[environmental index, radial basis/neighbor specie index, lambda, m] with spherical expansion coefficients for
+environments around atoms with specie indicated in key. Coefficients are stored from the beginning,
+i. e. [:, : lambda, :(2 * lambda + 1)] elements are valid</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="nice.utilities.make_structural_features">
 <code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">make_structural_features</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">structures</em>, <em class="sig-param">all_species</em>, <em class="sig-param">show_progress=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.make_structural_features" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>getting structural features suitable for linear regression which consist of sums      over atomic features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> – nested dictionary with atomic features. First level keys are central species,         second level keys are body orders. Entries are 2-dimensional numpy arrays.</p></li>
+<li><p><strong>structures</strong> – list of Ase atoms objects</p></li>
+<li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.         If all species argument is the same for several calls of this function, resulting         blocks of structural features are guaranteed to be consistent with each other.           If for given block of structures there are no atoms of some particular specie,        features dictionary still have to contain key with this specie. It should contain         numpy arrays with shapes [0, number of features]. This is need to get proper placing        of features to fulfill consistency.</p></li>
+<li><p><strong>show_progress</strong> – whether or not show progress via tqdm</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy array with shape [len(structures), number of structural features] with structural features</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="nice.utilities.transform_sequentially">
-<code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">transform_sequentially</code><span class="sig-paren">(</span><em class="sig-param">transformers</em>, <em class="sig-param">structures</em>, <em class="sig-param">HYPERS</em>, <em class="sig-param">all_species</em>, <em class="sig-param">block_size=500</em>, <em class="sig-param">show_progress=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.transform_sequentially" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">nice.utilities.</code><code class="sig-name descname">transform_sequentially</code><span class="sig-paren">(</span><em class="sig-param">nice</em>, <em class="sig-param">structures</em>, <em class="sig-param">rascal_hypers</em>, <em class="sig-param">all_species</em>, <em class="sig-param">block_size=500</em>, <em class="sig-param">show_progress=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.transform_sequentially" title="Permalink to this definition">¶</a></dt>
+<dd><p>transforming structures into structural features by chunks in order to use less amount of RAM</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nice</strong> – dictionary where keys are species and entries are nice transformers.        If you want to use single nice transformer to all environments regardless of central        specie just pass {key : nice_single for specie in all_species}</p></li>
+<li><p><strong>structures</strong> – list of Ase atoms objects</p></li>
+<li><p><strong>rascal_hypers</strong> – dictionary with parameters for librascal controlling spherical expansion.        Should be the same as used for fitting nice transformers</p></li>
+<li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.</p></li>
+<li><p><strong>block_size</strong> – size of chunks measured in number of environments</p></li>
+<li><p><strong>show_progress</strong> – whether or not show progress via tqdm</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy array with shape [len(structures), number of structural features] with structural features</p>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="module-nice">

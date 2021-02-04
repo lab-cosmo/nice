@@ -208,6 +208,7 @@
 <dt id="nice.blocks.compressors.IndividualLambdaPCAs">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.compressors.</code><code class="sig-name descname">IndividualLambdaPCAs</code><span class="sig-paren">(</span><em class="sig-param">n_components=None</em>, <em class="sig-param">num_to_fit='10x'</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to do pca step for covariants of single parity. It operates with instances of Data class</p>
 <dl class="method">
 <dt id="nice.blocks.compressors.IndividualLambdaPCAs.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAs.fit" title="Permalink to this definition">¶</a></dt>
@@ -234,6 +235,7 @@
 <dt id="nice.blocks.compressors.IndividualLambdaPCAsBoth">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.compressors.</code><code class="sig-name descname">IndividualLambdaPCAsBoth</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAsBoth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to do pca step for covariants of both parities. It operates with even-odd pairs of instances of Data class</p>
 <dl class="method">
 <dt id="nice.blocks.compressors.IndividualLambdaPCAsBoth.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">data_even</em>, <em class="sig-param">data_odd</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAsBoth.fit" title="Permalink to this definition">¶</a></dt>
@@ -255,6 +257,7 @@
 <dt id="nice.blocks.compressors.InvariantsPCA">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.compressors.</code><code class="sig-name descname">InvariantsPCA</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.InvariantsPCA" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._pca.PCA</span></code></p>
+<p>Block to do pca step for invariants. It operates with 2d numpy arrays</p>
 <dl class="method">
 <dt id="nice.blocks.compressors.InvariantsPCA.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.InvariantsPCA.fit" title="Permalink to this definition">¶</a></dt>
@@ -354,6 +357,9 @@ and n_features is the number of features.</p>
 <dt id="nice.blocks.expansioners.ThresholdExpansioner">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.expansioners.</code><code class="sig-name descname">ThresholdExpansioner</code><span class="sig-paren">(</span><em class="sig-param">num_expand=None</em>, <em class="sig-param">mode='covariants'</em>, <em class="sig-param">num_threads=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.expansioners.ThresholdExpansioner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to do Clebsch-Gordan iteration. It uses two even-odd pairs of Data instances with covariants
+to produce new ones. If first even-odd pair contains covariants of body order v1, and the second v2, body
+order of the result would be v1 + v2.</p>
 <dl class="method">
 <dt id="nice.blocks.expansioners.ThresholdExpansioner.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">first_even</em>, <em class="sig-param">first_odd</em>, <em class="sig-param">second_even</em>, <em class="sig-param">second_odd</em>, <em class="sig-param">clebsch_gordan=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.expansioners.ThresholdExpansioner.fit" title="Permalink to this definition">¶</a></dt>
@@ -378,6 +384,7 @@ and n_features is the number of features.</p>
 <dt id="nice.blocks.grouping.StandardBlock">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.grouping.</code><code class="sig-name descname">StandardBlock</code><span class="sig-paren">(</span><em class="sig-param">covariants_expansioner=None</em>, <em class="sig-param">covariants_purifier=None</em>, <em class="sig-param">covariants_pca=None</em>, <em class="sig-param">invariants_expansioner=None</em>, <em class="sig-param">invariants_purifier=None</em>, <em class="sig-param">invariants_pca=None</em>, <em class="sig-param">guaranteed_parts_fitted_consistently=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block for standard procedure of body order increasement step</p>
 <dl class="method">
 <dt id="nice.blocks.grouping.StandardBlock.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">first_even</em>, <em class="sig-param">first_odd</em>, <em class="sig-param">second_even</em>, <em class="sig-param">second_odd</em>, <em class="sig-param">old_even_covariants=None</em>, <em class="sig-param">old_odd_covariants=None</em>, <em class="sig-param">old_even_invariants=None</em>, <em class="sig-param">clebsch_gordan=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardBlock.fit" title="Permalink to this definition">¶</a></dt>
@@ -404,6 +411,7 @@ and n_features is the number of features.</p>
 <dt id="nice.blocks.grouping.StandardSequence">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.grouping.</code><code class="sig-name descname">StandardSequence</code><span class="sig-paren">(</span><em class="sig-param">blocks</em>, <em class="sig-param">initial_pca=None</em>, <em class="sig-param">initial_scaler=None</em>, <em class="sig-param">guaranteed_parts_fitted_consistently=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardSequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block implementing logic of main NICE sequence</p>
 <dl class="method">
 <dt id="nice.blocks.grouping.StandardSequence.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">coefficients</em>, <em class="sig-param">clebsch_gordan=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardSequence.fit" title="Permalink to this definition">¶</a></dt>
@@ -438,6 +446,9 @@ and n_features is the number of features.</p>
 <dt id="nice.blocks.miscellaneous.InitialScaler">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.miscellaneous.</code><code class="sig-name descname">InitialScaler</code><span class="sig-paren">(</span><em class="sig-param">mode='signal integral'</em>, <em class="sig-param">individually=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.InitialScaler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to scale initial spherical expansion coefficients in a certain way. It allows to both
+normalize coefficients for each environment individually, and to multiply whole array to single
+scaling factor, thus, preserving information about relative scale</p>
 <dl class="method">
 <dt id="nice.blocks.miscellaneous.InitialScaler.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">coefficients</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.InitialScaler.fit" title="Permalink to this definition">¶</a></dt>
@@ -459,6 +470,8 @@ and n_features is the number of features.</p>
 <dt id="nice.blocks.miscellaneous.InitialTransformer">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.miscellaneous.</code><code class="sig-name descname">InitialTransformer</code><a class="headerlink" href="#nice.blocks.miscellaneous.InitialTransformer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Utility block to split spherical expansion coefficients stored in the form of single numpy array to
+even-odd pair of Data instances</p>
 <dl class="method">
 <dt id="nice.blocks.miscellaneous.InitialTransformer.is_fitted">
 <code class="sig-name descname">is_fitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.InitialTransformer.is_fitted" title="Permalink to this definition">¶</a></dt>
@@ -475,6 +488,7 @@ and n_features is the number of features.</p>
 <dt id="nice.blocks.miscellaneous.ParityDefinitionChanger">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.miscellaneous.</code><code class="sig-name descname">ParityDefinitionChanger</code><a class="headerlink" href="#nice.blocks.miscellaneous.ParityDefinitionChanger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to change parity definition from even-odd to true-pseudo and vice versa</p>
 <dl class="method">
 <dt id="nice.blocks.miscellaneous.ParityDefinitionChanger.is_fitted">
 <code class="sig-name descname">is_fitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.ParityDefinitionChanger.is_fitted" title="Permalink to this definition">¶</a></dt>
@@ -494,6 +508,8 @@ and n_features is the number of features.</p>
 <dt id="nice.blocks.purifiers.CovariantsIndividualPurifier">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.purifiers.</code><code class="sig-name descname">CovariantsIndividualPurifier</code><span class="sig-paren">(</span><em class="sig-param">regressor=None</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">max_take=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsIndividualPurifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify single covariants lambda channel. It operates with 3 dimensional numpy arrays
+with indexing [environmental_index, feature_index, m]</p>
 <dl class="method">
 <dt id="nice.blocks.purifiers.CovariantsIndividualPurifier.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">old_blocks</em>, <em class="sig-param">new_block</em>, <em class="sig-param">l</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsIndividualPurifier.fit" title="Permalink to this definition">¶</a></dt>
@@ -515,6 +531,7 @@ and n_features is the number of features.</p>
 <dt id="nice.blocks.purifiers.CovariantsPurifier">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.purifiers.</code><code class="sig-name descname">CovariantsPurifier</code><span class="sig-paren">(</span><em class="sig-param">regressor=None</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">max_take=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify covariants of single parity. It operates with instances of Data class with covariants</p>
 <dl class="method">
 <dt id="nice.blocks.purifiers.CovariantsPurifier.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">old_datas</em>, <em class="sig-param">new_data</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifier.fit" title="Permalink to this definition">¶</a></dt>
@@ -536,6 +553,7 @@ and n_features is the number of features.</p>
 <dt id="nice.blocks.purifiers.CovariantsPurifierBoth">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.purifiers.</code><code class="sig-name descname">CovariantsPurifierBoth</code><span class="sig-paren">(</span><em class="sig-param">regressor=None</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">max_take=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifierBoth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify covariants of both parities. It operates with pairs of instances of Data class with covariants</p>
 <dl class="method">
 <dt id="nice.blocks.purifiers.CovariantsPurifierBoth.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">old_datas_even</em>, <em class="sig-param">new_data_even</em>, <em class="sig-param">old_datas_odd</em>, <em class="sig-param">new_data_odd</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifierBoth.fit" title="Permalink to this definition">¶</a></dt>
@@ -557,6 +575,7 @@ and n_features is the number of features.</p>
 <dt id="nice.blocks.purifiers.InvariantsPurifier">
 <em class="property">class </em><code class="sig-prename descclassname">nice.blocks.purifiers.</code><code class="sig-name descname">InvariantsPurifier</code><span class="sig-paren">(</span><em class="sig-param">regressor=None</em>, <em class="sig-param">num_to_fit='10x'</em>, <em class="sig-param">max_take=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.InvariantsPurifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify invariants. It operates with numpy 2d arrays containing invariants</p>
 <dl class="method">
 <dt id="nice.blocks.purifiers.InvariantsPurifier.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">old_blocks</em>, <em class="sig-param">new_block</em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.InvariantsPurifier.fit" title="Permalink to this definition">¶</a></dt>

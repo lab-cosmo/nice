@@ -246,7 +246,7 @@ about the number of atoms with particular species in the structure</p>
 <li><p><strong>rascal_hypers</strong> – dictionary with parameters for librascal controlling spherical expansion</p></li>
 <li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.         If all species argument is the same for several calls of this function, resulting         blocks of spherical expansion coefficients are guaranteed to be consisted with each other</p></li>
 <li><p><strong>task_size</strong> – number of structures in chunk for multiprocessing</p></li>
-<li><p><strong>num_threads</strong> – number of threads in multiprocessing. If None than all available         (multiprocessing.cpu_count()) threads are used</p></li>
+<li><p><strong>num_threads</strong> – number of threads in multiprocessing. If None than all available         (len(os.sched_getaffinity(0))) threads are used</p></li>
 <li><p><strong>show_progress</strong> – whether or not show progress via tqdm</p></li>
 </ul>
 </dd>
