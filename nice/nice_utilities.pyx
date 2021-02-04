@@ -372,8 +372,24 @@ class Data:
     def __init__(self, covariants, actual_sizes, importances = None):
         self.covariants_ = covariants
         self.actual_sizes_ = actual_sizes
-        self.importances_ = importances       
+        if importances is not None:
+            self.importances_ = importances
+        else:
+            self.importances_ = self.get_amplitudes()
         
+    @staticmethod
+    def get_amplitude(values, lambd):
+        amplitudes =  np.sum((values[:, :, :(2 * lambd + 1)]) ** 2, axis = 2)
+        return np.mean(amplitudes, axis = 0)
+    
+
+    def get_amplitudes(self):
+        result = np.empty([self.covariants_.shape[1], self.covariants_.shape[2]])
+        for lambd in range(self.covariants_.shape[2]):
+            result[:self.actual_sizes_[lambd], lambd] = Data.get_amplitude(self.covariants_[:, :self.actual_sizes_[lambd],
+                                                                         lambd, :(2 * lambd + 1)], lambd)
+        return result
+    
     def get_invariants(self):
         return self.covariants_[:, :self.actual_sizes_[0], 0, 0]
     
