@@ -54,6 +54,7 @@ def get_spherical_expansion(structures,
                             all_species,
                             task_size=100,
                             num_threads=None,
+                            split_by_central_specie = True,
                             show_progress=True):
     '''getting spherical expansion coefficients
     
@@ -66,6 +67,7 @@ def get_spherical_expansion(structures,
         task_size: number of structures in chunk for multiprocessing
         num_threads: number of threads in multiprocessing. If None than all available \
         (len(os.sched_getaffinity(0))) threads are used
+        split_by_central_specie: whether group or not spherical expansion coefficients by central specie
         show_progress: whether or not show progress via tqdm
        
     Return:
@@ -120,8 +122,11 @@ def get_spherical_expansion(structures,
     p.close()
     p.join()
     result = np.concatenate(result, axis=0)
-    return nice.rascal_coefficients.split_by_central_specie(
-        species_list, all_species, result, show_progress=show_progress)
+    if (split_by_central_specie):
+        return nice.rascal_coefficients.split_by_central_specie(
+            species_list, all_species, result, show_progress=show_progress)
+    else:
+        return result
 
 
 def make_structural_features(features,
