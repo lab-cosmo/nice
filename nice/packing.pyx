@@ -1,4 +1,5 @@
 cimport cython
+import os
 import numpy as np
 from cython.parallel import prange
 from multiprocessing import cpu_count
@@ -13,7 +14,7 @@ cpdef pack_dense(double[:, :, :] covariants, int l,
                  int n_feat, int desired_n_feat, num_threads = None):
     cdef int num_threads_int
     if (num_threads is None):
-        num_threads_int = cpu_count()
+        num_threads_int = len(os.sched_getaffinity(0))
     else:
         num_threads_int = num_threads
     
@@ -81,7 +82,7 @@ cdef transform_inplace(double[:, :, :] covariants, double[:, :] components,
 cpdef unpack_dense(double[:, :] packed, int n_envs, int l, int n_feat, num_threads = None):
     cdef int num_threads_int
     if (num_threads is None):
-        num_threads_int = cpu_count()
+        num_threads_int = len(os.sched_getaffinity(0))
     else:
         num_threads_int = num_threads
         
@@ -113,7 +114,7 @@ cpdef unpack_dense(double[:, :] packed, int n_envs, int l, int n_feat, num_threa
 cpdef copy_parallel(double[:, :] source, double[:, :] destination, num_threads = None):
     cdef int num_threads_int
     if (num_threads is None):
-        num_threads_int = cpu_count()
+        num_threads_int = len(os.sched_getaffinity(0))
     else:
         num_threads_int = num_threads
         
@@ -148,7 +149,7 @@ cpdef subtract_parallel(double[:, :] a, double[:, :] b, num_threads = None):
     
     cdef int num_threads_int
     if (num_threads is None):
-        num_threads_int = cpu_count()
+        num_threads_int = len(os.sched_getaffinity(0))
     else:
         num_threads_int = num_threads
         

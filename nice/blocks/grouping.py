@@ -56,8 +56,7 @@ class StandardBlock():
                 is not None) and (self.invariants_expansioner_ is None):
             raise ValueError("can not do pca over not existing invariants")
 
-        if (self.covariants_expansioner_ is not None) and (self.covariants_pca_
-                                                           is not None):
+        if (self.covariants_expansioner_ is not None):
             self.higher_body_orders_possible_ = True
         else:
             self.higher_body_orders_possible_ = False

@@ -2,6 +2,7 @@ import tqdm
 import numpy as np
 import nice.rascal_coefficients
 import copy
+import os
 from multiprocessing import Pool, cpu_count
 import warnings
 
@@ -53,6 +54,7 @@ def get_spherical_expansion(structures,
                             all_species,
                             task_size=100,
                             num_threads=None,
+                            split_by_central_specie = True,
                             show_progress=True):
     '''getting spherical expansion coefficients
     
@@ -64,7 +66,8 @@ def get_spherical_expansion(structures,
         blocks of spherical expansion coefficients are guaranteed to be consisted with each other
         task_size: number of structures in chunk for multiprocessing
         num_threads: number of threads in multiprocessing. If None than all available \
-        (multiprocessing.cpu_count()) threads are used
+        (len(os.sched_getaffinity(0))) threads are used
+        split_by_central_specie: whether group or not spherical expansion coefficients by central specie
         show_progress: whether or not show progress via tqdm
        
     Return:
@@ -103,7 +106,7 @@ def get_spherical_expansion(structures,
         all_species = np.array(hypers['global_species']).astype(np.int32)
 
     if (num_threads is None):
-        num_threads = cpu_count()
+        num_threads = len(os.sched_getaffinity(0))
 
     p = Pool(num_threads)
     tasks = []
@@ -119,8 +122,11 @@ def get_spherical_expansion(structures,
     p.close()
     p.join()
     result = np.concatenate(result, axis=0)
-    return nice.rascal_coefficients.split_by_central_specie(
-        species_list, all_species, result, show_progress=show_progress)
+    if (split_by_central_specie):
+        return nice.rascal_coefficients.split_by_central_specie(
+            species_list, all_species, result, show_progress=show_progress)
+    else:
+        return result
 
 
 def make_structural_features(features,
