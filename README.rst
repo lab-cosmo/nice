@@ -24,7 +24,7 @@ Installation
 Documentation
 +++++++++++++
 
-Documentation can be found `here <https://cosmo-epfl.github.io/nice/>`_
+Documentation can be found `here <https://lab-cosmo.github.io/nice/>`_
 
 ++++++++++
 References
