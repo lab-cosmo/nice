@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; NICE  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> NICE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Theory in a nutshell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../theory.html">Theory in a nutshell</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../symlinks/constructing_machine_learning_potential.html">Constructing machine learning potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../calculating_covariants.html">Calculating covariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_insights_about_the_model.html">Getting insights about the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../constructor_or_non_standard_sequence.html">Constructor or non standard sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sequential_fitting.html">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_regressors_into_purifiers.html">Custom regressors into purifiers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Acknowledgements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../acknowledgements.html">Acknowledgements</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NICE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/cutted/sequential_fitting_after_collapsible/sequential_fitting_after_collapsible.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<p>coefficients are now spherical expansion coefficients for H centered
+environments:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">coefficients</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    (4000, 10, 6, 11)
+</p>
+</pre>
+</embed><p>Let’s do the first steps from standar sequence:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">even_0</span><span class="p">,</span> <span class="n">odd_0</span> <span class="o">=</span> <span class="n">InitialTransformer</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="n">initial_pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">()</span>
+<span class="n">initial_pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_0</span><span class="p">,</span> <span class="n">odd_0</span><span class="p">)</span>
+<span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span> <span class="o">=</span> <span class="n">initial_pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">even_0</span><span class="p">,</span> <span class="n">odd_0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can fit couple of standard blocks:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">block_1</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">block_1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+<span class="n">even_1</span><span class="p">,</span> <span class="n">odd_1</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">block_1</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+
+<span class="n">block_2</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">))</span>
+<span class="n">block_2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_1</span><span class="p">,</span> <span class="n">odd_1</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">even_invariants</span> <span class="o">=</span> <span class="n">block_2</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">even_1</span><span class="p">,</span> <span class="n">odd_1</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>At his moment we have all parts of this standard sequence fitted:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span><span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_2</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    True
+    True
+    True
+</p>
+</pre>
+</embed><p>what about full model?</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">nice</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    False
+</p>
+</pre>
+</embed><p>Nope.</p>
+<p>At this point, there is a very high probability of making a mistake.
+Particularly one can feed StandardSequence with some fitted initial_pca
+along with blocks, which were fitted based not on the same initial_pca,
+with different initial_normalizer, or even on different data. In order
+to prevent it, there is a requirement to pass an additional flag
+guaranteed_parts_fitted_consistently = True to the model:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span><span class="n">initial_pca</span><span class="p">,</span>
+                        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">],</span>
+                        <span class="n">guaranteed_parts_fitted_consistently</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nice</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    True
+</p>
+</pre>
+</embed><p>Model is considered to be fitted if 1) all parts are fitted and 2) if
+guaranteed_parts_fitted_consistently is set to be True</p>
+<p><strong>Golden rule:</strong> Every time you pass
+guaranteed_parts_fitted_consistently = True make a pause and think
+twice.</p>
+<p>Let’s check consistency:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">even_invariants_2</span> <span class="o">=</span> <span class="n">nice</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span>
+                                   <span class="n">return_only_invariants</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">even_invariants</span> <span class="o">-</span> <span class="n">even_invariants_2</span><span class="p">)))</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    0.0
+</p>
+</pre>
+</embed><p>This also works in other direction:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">initial_pca</span> <span class="o">=</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">()</span>
+<span class="n">block_1</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">block_2</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_2</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+
+<span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">=</span><span class="n">initial_pca</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
+<span class="n">nice</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">initial_pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_1</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">block_2</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    False
+    False
+    False
+    True
+    True
+    True
+</p>
+</pre>
+</embed><p>StandardBlock behaves the same way:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expansioner</span><span class="p">,</span> <span class="n">pca</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">expansioner</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+
+<span class="n">block</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">expansioner</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pca</span><span class="p">)</span>
+<span class="n">block</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">expansioner</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    False
+    False
+    True
+    True
+</p>
+</pre>
+</embed><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expansioner</span><span class="p">,</span> <span class="n">pca</span> <span class="o">=</span> <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">expansioner</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+<span class="n">even_1</span><span class="p">,</span> <span class="n">odd_1</span> <span class="o">=</span> <span class="n">expansioner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">,</span> <span class="n">even_0_t</span><span class="p">,</span> <span class="n">odd_0_t</span><span class="p">)</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">even_1</span><span class="p">,</span> <span class="n">odd_1</span><span class="p">)</span>
+
+<span class="n">block</span> <span class="o">=</span> <span class="n">StandardBlock</span><span class="p">(</span><span class="n">expansioner</span><span class="p">,</span>
+                      <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">pca</span><span class="p">,</span>
+                      <span class="n">guaranteed_parts_fitted_consistently</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">())</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    True
+</p>
+</pre>
+</embed><p>There is another group of blocks that accepts classes, such as
+sklearn.linear_model.Ridge in the initialization. But in their case,
+there is a need to apply several distinct regressors separately for each
+lambda channel and parity. Thus, the input regressor is cloned, and
+initial instances are not touched in any way. So, the material of this
+tutorial does not apply to purifiers.</p>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Jigyasa Nigam, Sergey Pozdnyakov, Michele Ceriotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

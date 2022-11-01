@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; NICE  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> NICE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Theory in a nutshell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../theory.html">Theory in a nutshell</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../symlinks/constructing_machine_learning_potential.html">Constructing machine learning potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../calculating_covariants.html">Calculating covariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_insights_about_the_model.html">Getting insights about the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../constructor_or_non_standard_sequence.html">Constructor or non standard sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sequential_fitting.html">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_regressors_into_purifiers.html">Custom regressors into purifiers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Acknowledgements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../acknowledgements.html">Acknowledgements</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NICE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/cutted/calculating_covariants_after_collapsible/calculating_covariants_after_collapsible.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<p>Now we need to call <strong>.transform</strong> method with <strong>return_only_invariants
+= False</strong>, which is the default value:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">,</span> <span class="n">invariants_even</span> <span class="o">=</span> <span class="n">nice</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Result is <strong>data_even</strong>, <strong>data_odd</strong> and <strong>invariants_even</strong>. The first
+two objects are covariants. The last one is invariants.</p>
+<p>There is another important symmetry in addition to the translational and
+rotational one. Usually, atomic properties, such as energy, also
+transform in a certain way with respect to inversion. Particularly,
+energy is invariant with respect to it.</p>
+<p>In NICE, features are separated into two groups - the ones which are
+invariant with respect to inversion and the ones that change their sign.
+The first ones are called even; the second ones are called odd.</p>
+<p>Now let’s take a look at the returned objects more closely:</p>
+<p><strong>Invariants</strong> is the same object as in the previous tutorial -
+dictionary, where keys are body order.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">invariants_even</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">invariants_even</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    (40000, 10)
+    (40000, 200)
+    (40000, 200)
+    (40000, 200)
+</p>
+</pre>
+</embed><p>Returned covariants are covariants after the last block, i. e. in our
+case of body order 4. (functionality to get all covariants of all body
+order from <strong>StandardSequence</strong> will be added in the next version of
+NICE)</p>
+<p>Even covariants are packed in the class Data, which has two relevant
+fields - <strong>.covariants_</strong> and <strong>.actual_sizes_</strong>. (getters are also to
+be added in the next version) First is np.array with covariants
+themselves. It has following indexing -<strong>[environmental_index,
+feature_index, lambda, m]</strong>. But the problem is that for each lambda
+channel, the actual number of features is different. Thus, the shape of
+this array doesn’t reflect the real number of meaningful entries.
+Information about the actual number of features is stored in
+<strong>.actual_sizes_</strong>:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">data_even</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape of even covariants array: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;actual sizes of even covariants: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_even</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">))</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    <class 'nice.nice_utilities.Data'>
+    shape of even covariants array: (40000, 87, 6, 11)
+    actual sizes of even covariants: [22 55 73 83 87 76]
+</p>
+</pre>
+</embed><p>It is the same for odd covariants:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape of odd covariants array: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;actual sizes of odd covariants: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_odd</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">))</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    shape of odd covariants array: (40000, 88, 6, 11)
+    actual sizes of odd covariants: [20 54 72 87 88 75]
+</p>
+</pre>
+</embed><p>There is one other point - for each lambda channel the size of covariant
+vectors is (2 * lambda + 1). These vectors are stored from the
+beginning. It means that the meaningful entries for each lambda are
+located in <strong>[:, :, lambda, :(2 * lambda + 1)]</strong></p>
+<p>In the <a class="reference external" href="https://aip.scitation.org/doi/10.1063/5.0021116">nice
+article</a> another
+definition of <strong>parity</strong> is used. Covariants are split into <strong>true</strong> and
+<strong>pseudo</strong> groups. All the covariants in the <strong>true</strong> group are
+transformed with respect to inversion as (-1)^lambda, while all the
+covariants in the <strong>pseudo</strong> group are transformed as (-1) ^ (lambda +
+1).</p>
+<p>There is a special class - <strong>ParityDefinitionChanger</strong> to switch between
+these definitions:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+    <span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data_true</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_true</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data_pseudo</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_pseudo</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">)</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    (40000, 87, 6, 11)
+    [22 54 73 87 87 75]
+    (40000, 88, 6, 11)
+    [20 55 72 83 88 76]
+</p>
+</pre>
+</embed><p>Since this transformation is symmetric, we can use this once again to go
+back from the true and pseudo covariants to even and odd:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_even</span><span class="p">,</span> <span class="n">data_odd</span> <span class="o">=</span> <span class="n">ParityDefinitionChanger</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+    <span class="n">data_true</span><span class="p">,</span> <span class="n">data_pseudo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There is one other discrepancy - covariants defined in the nice article,
+are smaller by the factor of (2 * lambda + 1). Thus, the last step to
+get full compliance is the following:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">lambd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="n">data_true</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_true</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span>
+                          <span class="n">lambd</span><span class="p">,</span> <span class="p">:(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">/=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">data_pseudo</span><span class="o">.</span><span class="n">covariants_</span><span class="p">[:,</span> <span class="p">:</span><span class="n">data_pseudo</span><span class="o">.</span><span class="n">actual_sizes_</span><span class="p">[</span><span class="n">lambd</span><span class="p">],</span>
+                            <span class="n">lambd</span><span class="p">,</span> <span class="p">:(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">/=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Jigyasa Nigam, Sergey Pozdnyakov, Michele Ceriotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nice.blocks package &mdash; NICE  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/togglebutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> NICE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Theory in a nutshell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory in a nutshell</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/constructing_machine_learning_potential.html">Constructing machine learning potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculating_covariants.html">Calculating covariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_insights_about_the_model.html">Getting insights about the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constructor_or_non_standard_sequence.html">Constructor or non standard sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sequential_fitting.html">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_regressors_into_purifiers.html">Custom regressors into purifiers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Acknowledgements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NICE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>nice.blocks package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nice.blocks.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="nice-blocks-package">
+<h1>nice.blocks package<a class="headerlink" href="#nice-blocks-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-nice.blocks.compressors">
+<span id="nice-blocks-compressors-module"></span><h2>nice.blocks.compressors module<a class="headerlink" href="#module-nice.blocks.compressors" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.compressors.IndividualLambdaPCAs">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.compressors.</span></span><span class="sig-name descname"><span class="pre">IndividualLambdaPCAs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_to_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'10x'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAs" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to do pca step for covariants of single parity. It operates with instances of Data class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.IndividualLambdaPCAs.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAs.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.IndividualLambdaPCAs.get_importances">
+<span class="sig-name descname"><span class="pre">get_importances</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAs.get_importances" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.IndividualLambdaPCAs.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAs.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.IndividualLambdaPCAs.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAs.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.compressors.IndividualLambdaPCAsBoth">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.compressors.</span></span><span class="sig-name descname"><span class="pre">IndividualLambdaPCAsBoth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAsBoth" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to do pca step for covariants of both parities. It operates with even-odd pairs of instances of Data class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.IndividualLambdaPCAsBoth.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_odd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAsBoth.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.IndividualLambdaPCAsBoth.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAsBoth.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.IndividualLambdaPCAsBoth.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_odd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.IndividualLambdaPCAsBoth.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.compressors.InvariantsPCA">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.compressors.</span></span><span class="sig-name descname"><span class="pre">InvariantsPCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_to_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'10x'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.InvariantsPCA" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._pca.PCA</span></code></p>
+<p>Block to do pca step for invariants. It operates with 2d numpy arrays</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.InvariantsPCA.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.InvariantsPCA.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fit the model with X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Training data, where n_samples is the number of samples
+and n_features is the number of features.</p></li>
+<li><p><strong>y</strong> (<em>Ignored</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong> – Returns the instance itself.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.InvariantsPCA.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.InvariantsPCA.fit_transform" title="Permalink to this definition"></a></dt>
+<dd><p>Fit the model with X and apply the dimensionality reduction on X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Training data, where n_samples is the number of samples
+and n_features is the number of features.</p></li>
+<li><p><strong>y</strong> (<em>Ignored</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X_new</strong> – Transformed values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray of shape (n_samples, n_components)</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This method returns a Fortran-ordered array. To convert it to a
+C-ordered array, use ‘np.ascontiguousarray’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.InvariantsPCA.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.InvariantsPCA.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.InvariantsPCA.process_input">
+<span class="sig-name descname"><span class="pre">process_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.InvariantsPCA.process_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.compressors.InvariantsPCA.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.InvariantsPCA.transform" title="Permalink to this definition"></a></dt>
+<dd><p>Apply dimensionality reduction to X.</p>
+<p>X is projected on the first principal components previously extracted
+from a training set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>array-like</em><em>, </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – New data, where n_samples is the number of samples
+and n_features is the number of features.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X_new</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like, shape (n_samples, n_components)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.blocks.compressors.get_num_fit">
+<span class="sig-prename descclassname"><span class="pre">nice.blocks.compressors.</span></span><span class="sig-name descname"><span class="pre">get_num_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">desired_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.compressors.get_num_fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-nice.blocks.expansioners">
+<span id="nice-blocks-expansioners-module"></span><h2>nice.blocks.expansioners module<a class="headerlink" href="#module-nice.blocks.expansioners" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.expansioners.ThresholdExpansioner">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.expansioners.</span></span><span class="sig-name descname"><span class="pre">ThresholdExpansioner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_expand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'covariants'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.expansioners.ThresholdExpansioner" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to do Clebsch-Gordan iteration. It uses two even-odd pairs of Data instances with covariants
+to produce new ones. If first even-odd pair contains covariants of body order v1, and the second v2, body
+order of the result would be v1 + v2.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.expansioners.ThresholdExpansioner.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_odd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_odd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clebsch_gordan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.expansioners.ThresholdExpansioner.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.expansioners.ThresholdExpansioner.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.expansioners.ThresholdExpansioner.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.expansioners.ThresholdExpansioner.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_odd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_odd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.expansioners.ThresholdExpansioner.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nice.blocks.grouping">
+<span id="nice-blocks-grouping-module"></span><h2>nice.blocks.grouping module<a class="headerlink" href="#module-nice.blocks.grouping" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.grouping.StandardBlock">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.grouping.</span></span><span class="sig-name descname"><span class="pre">StandardBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">covariants_expansioner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariants_purifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariants_pca</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invariants_expansioner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invariants_purifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invariants_pca</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guaranteed_parts_fitted_consistently</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardBlock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block for standard procedure of body order increasement step</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.grouping.StandardBlock.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_odd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_odd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_even_covariants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_odd_covariants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_even_invariants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clebsch_gordan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardBlock.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.grouping.StandardBlock.get_intermediate_shapes">
+<span class="sig-name descname"><span class="pre">get_intermediate_shapes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardBlock.get_intermediate_shapes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.grouping.StandardBlock.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardBlock.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.grouping.StandardBlock.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first_odd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_odd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_even_covariants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_odd_covariants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_even_invariants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardBlock.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.grouping.StandardSequence">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.grouping.</span></span><span class="sig-name descname"><span class="pre">StandardSequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blocks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_pca</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guaranteed_parts_fitted_consistently</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardSequence" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block implementing logic of main NICE sequence</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.grouping.StandardSequence.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coefficients</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clebsch_gordan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardSequence.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.grouping.StandardSequence.get_intermediate_shapes">
+<span class="sig-name descname"><span class="pre">get_intermediate_shapes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardSequence.get_intermediate_shapes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.grouping.StandardSequence.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardSequence.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.grouping.StandardSequence.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coefficients</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_only_invariants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.StandardSequence.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.blocks.grouping.check_if_all_fitted">
+<span class="sig-prename descclassname"><span class="pre">nice.blocks.grouping.</span></span><span class="sig-name descname"><span class="pre">check_if_all_fitted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parts</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.grouping.check_if_all_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-nice.blocks.miscellaneous">
+<span id="nice-blocks-miscellaneous-module"></span><h2>nice.blocks.miscellaneous module<a class="headerlink" href="#module-nice.blocks.miscellaneous" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.miscellaneous.InitialScaler">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.miscellaneous.</span></span><span class="sig-name descname"><span class="pre">InitialScaler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'signal</span> <span class="pre">integral'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">individually</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.InitialScaler" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to scale initial spherical expansion coefficients in a certain way. It allows to both
+normalize coefficients for each environment individually, and to multiply whole array to single
+scaling factor, thus, preserving information about relative scale</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.miscellaneous.InitialScaler.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coefficients</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.InitialScaler.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.miscellaneous.InitialScaler.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.InitialScaler.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.miscellaneous.InitialScaler.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coefficients</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.InitialScaler.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.miscellaneous.InitialTransformer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.miscellaneous.</span></span><span class="sig-name descname"><span class="pre">InitialTransformer</span></span><a class="headerlink" href="#nice.blocks.miscellaneous.InitialTransformer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Utility block to split spherical expansion coefficients stored in the form of single numpy array to
+even-odd pair of Data instances</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.miscellaneous.InitialTransformer.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.InitialTransformer.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.miscellaneous.InitialTransformer.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coefficients</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.InitialTransformer.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.miscellaneous.ParityDefinitionChanger">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.miscellaneous.</span></span><span class="sig-name descname"><span class="pre">ParityDefinitionChanger</span></span><a class="headerlink" href="#nice.blocks.miscellaneous.ParityDefinitionChanger" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to change parity definition from even-odd to true-pseudo and vice versa</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.miscellaneous.ParityDefinitionChanger.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.ParityDefinitionChanger.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.miscellaneous.ParityDefinitionChanger.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.miscellaneous.ParityDefinitionChanger.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nice.blocks.purifiers">
+<span id="nice-blocks-purifiers-module"></span><h2>nice.blocks.purifiers module<a class="headerlink" href="#module-nice.blocks.purifiers" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsIndividualPurifier">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.purifiers.</span></span><span class="sig-name descname"><span class="pre">CovariantsIndividualPurifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regressor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_to_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'10x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_take</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsIndividualPurifier" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify single covariants lambda channel. It operates with 3 dimensional numpy arrays
+with indexing [environmental_index, feature_index, m]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsIndividualPurifier.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_blocks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsIndividualPurifier.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsIndividualPurifier.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsIndividualPurifier.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsIndividualPurifier.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_blocks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsIndividualPurifier.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsPurifier">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.purifiers.</span></span><span class="sig-name descname"><span class="pre">CovariantsPurifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regressor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_to_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'10x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_take</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifier" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify covariants of single parity. It operates with instances of Data class with covariants</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsPurifier.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_datas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifier.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsPurifier.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifier.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsPurifier.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_datas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifier.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsPurifierBoth">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.purifiers.</span></span><span class="sig-name descname"><span class="pre">CovariantsPurifierBoth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regressor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_to_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'10x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_take</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifierBoth" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify covariants of both parities. It operates with pairs of instances of Data class with covariants</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsPurifierBoth.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_datas_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_data_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_datas_odd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_data_odd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifierBoth.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsPurifierBoth.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifierBoth.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.CovariantsPurifierBoth.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_datas_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_data_even</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">old_datas_odd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_data_odd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.CovariantsPurifierBoth.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.InvariantsPurifier">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.blocks.purifiers.</span></span><span class="sig-name descname"><span class="pre">InvariantsPurifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regressor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_to_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'10x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_take</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.InvariantsPurifier" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block to purify invariants. It operates with numpy 2d arrays containing invariants</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.InvariantsPurifier.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_blocks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_block</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.InvariantsPurifier.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.InvariantsPurifier.is_fitted">
+<span class="sig-name descname"><span class="pre">is_fitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.InvariantsPurifier.is_fitted" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.blocks.purifiers.InvariantsPurifier.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_blocks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_block</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.blocks.purifiers.InvariantsPurifier.transform" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nice.blocks">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nice.blocks" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Jigyasa Nigam, Sergey Pozdnyakov, Michele Ceriotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

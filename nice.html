@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nice package &mdash; NICE  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/togglebutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> NICE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Theory in a nutshell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory in a nutshell</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="symlinks/constructing_machine_learning_potential.html">Constructing machine learning potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculating_covariants.html">Calculating covariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_insights_about_the_model.html">Getting insights about the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constructor_or_non_standard_sequence.html">Constructor or non standard sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sequential_fitting.html">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_regressors_into_purifiers.html">Custom regressors into purifiers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Acknowledgements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NICE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>nice package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nice.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="nice-package">
+<h1>nice package<a class="headerlink" href="#nice-package" title="Permalink to this headline"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nice.blocks.html">nice.blocks package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#module-nice.blocks.compressors">nice.blocks.compressors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#module-nice.blocks.expansioners">nice.blocks.expansioners module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#module-nice.blocks.grouping">nice.blocks.grouping module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#module-nice.blocks.miscellaneous">nice.blocks.miscellaneous module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#module-nice.blocks.purifiers">nice.blocks.purifiers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nice.blocks.html#module-nice.blocks">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-nice.clebsch_gordan">
+<span id="nice-clebsch-gordan-module"></span><h2>nice.clebsch_gordan module<a class="headerlink" href="#module-nice.clebsch_gordan" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.clebsch_gordan.ClebschGordan">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.clebsch_gordan.</span></span><span class="sig-name descname"><span class="pre">ClebschGordan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l_max</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.clebsch_gordan.ClebschGordan" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.clebsch_gordan.check_clebsch_gordan">
+<span class="sig-prename descclassname"><span class="pre">nice.clebsch_gordan.</span></span><span class="sig-name descname"><span class="pre">check_clebsch_gordan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clebsch_gordan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_l_max</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.clebsch_gordan.check_clebsch_gordan" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.clebsch_gordan.get_single">
+<span class="sig-prename descclassname"><span class="pre">nice.clebsch_gordan.</span></span><span class="sig-name descname"><span class="pre">get_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.clebsch_gordan.get_single" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-nice.contracted_pca">
+<span id="nice-contracted-pca-module"></span><h2>nice.contracted_pca module<a class="headerlink" href="#module-nice.contracted_pca" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.contracted_pca.do_pca_step">
+<span class="sig-prename descclassname"><span class="pre">nice.contracted_pca.</span></span><span class="sig-name descname"><span class="pre">do_pca_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.contracted_pca.do_pca_step" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.contracted_pca.do_sign_covariant_pca">
+<span class="sig-prename descclassname"><span class="pre">nice.contracted_pca.</span></span><span class="sig-name descname"><span class="pre">do_sign_covariant_pca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.contracted_pca.do_sign_covariant_pca" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-nice.nice_utilities">
+<span id="nice-nice-utilities-module"></span><h2>nice.nice_utilities module<a class="headerlink" href="#module-nice.nice_utilities" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.nice_utilities.Data">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.nice_utilities.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">covariants</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_sizes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">importances</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.Data" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.nice_utilities.Data.get_amplitude">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">get_amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.Data.get_amplitude" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.nice_utilities.Data.get_amplitudes">
+<span class="sig-name descname"><span class="pre">get_amplitudes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.Data.get_amplitudes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.nice_utilities.Data.get_invariants">
+<span class="sig-name descname"><span class="pre">get_invariants</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.Data.get_invariants" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.nice_utilities.do_partial_expansion">
+<span class="sig-prename descclassname"><span class="pre">nice.nice_utilities.</span></span><span class="sig-name descname"><span class="pre">do_partial_expansion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.do_partial_expansion" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.nice_utilities.do_partial_expansion_covariants">
+<span class="sig-prename descclassname"><span class="pre">nice.nice_utilities.</span></span><span class="sig-name descname"><span class="pre">do_partial_expansion_covariants</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.do_partial_expansion_covariants" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.nice_utilities.do_partial_expansion_invariants">
+<span class="sig-prename descclassname"><span class="pre">nice.nice_utilities.</span></span><span class="sig-name descname"><span class="pre">do_partial_expansion_invariants</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.do_partial_expansion_invariants" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.nice_utilities.get_placing">
+<span class="sig-prename descclassname"><span class="pre">nice.nice_utilities.</span></span><span class="sig-name descname"><span class="pre">get_placing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.get_placing" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.nice_utilities.get_size_invariants">
+<span class="sig-prename descclassname"><span class="pre">nice.nice_utilities.</span></span><span class="sig-name descname"><span class="pre">get_size_invariants</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.get_size_invariants" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.nice_utilities.get_sizes">
+<span class="sig-prename descclassname"><span class="pre">nice.nice_utilities.</span></span><span class="sig-name descname"><span class="pre">get_sizes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.get_sizes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.nice_utilities.get_sizes_covariants">
+<span class="sig-prename descclassname"><span class="pre">nice.nice_utilities.</span></span><span class="sig-name descname"><span class="pre">get_sizes_covariants</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.get_sizes_covariants" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.nice_utilities.process_contiguousness">
+<span class="sig-prename descclassname"><span class="pre">nice.nice_utilities.</span></span><span class="sig-name descname"><span class="pre">process_contiguousness</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.nice_utilities.process_contiguousness" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-nice.packing">
+<span id="nice-packing-module"></span><h2>nice.packing module<a class="headerlink" href="#module-nice.packing" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.packing.copy_parallel">
+<span class="sig-prename descclassname"><span class="pre">nice.packing.</span></span><span class="sig-name descname"><span class="pre">copy_parallel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.packing.copy_parallel" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.packing.pack_dense">
+<span class="sig-prename descclassname"><span class="pre">nice.packing.</span></span><span class="sig-name descname"><span class="pre">pack_dense</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.packing.pack_dense" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.packing.subtract_parallel">
+<span class="sig-prename descclassname"><span class="pre">nice.packing.</span></span><span class="sig-name descname"><span class="pre">subtract_parallel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.packing.subtract_parallel" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.packing.unite_parallel">
+<span class="sig-prename descclassname"><span class="pre">nice.packing.</span></span><span class="sig-name descname"><span class="pre">unite_parallel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.packing.unite_parallel" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.packing.unpack_dense">
+<span class="sig-prename descclassname"><span class="pre">nice.packing.</span></span><span class="sig-name descname"><span class="pre">unpack_dense</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.packing.unpack_dense" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-nice.rascal_coefficients">
+<span id="nice-rascal-coefficients-module"></span><h2>nice.rascal_coefficients module<a class="headerlink" href="#module-nice.rascal_coefficients" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.rascal_coefficients.convert_rascal_coefficients">
+<span class="sig-prename descclassname"><span class="pre">nice.rascal_coefficients.</span></span><span class="sig-name descname"><span class="pre">convert_rascal_coefficients</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.convert_rascal_coefficients" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.rascal_coefficients.copy_coefs">
+<span class="sig-prename descclassname"><span class="pre">nice.rascal_coefficients.</span></span><span class="sig-name descname"><span class="pre">copy_coefs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.copy_coefs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.rascal_coefficients.get_rascal_coefficients">
+<span class="sig-prename descclassname"><span class="pre">nice.rascal_coefficients.</span></span><span class="sig-name descname"><span class="pre">get_rascal_coefficients</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.get_rascal_coefficients" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.rascal_coefficients.get_rascal_coefficients_stared">
+<span class="sig-prename descclassname"><span class="pre">nice.rascal_coefficients.</span></span><span class="sig-name descname"><span class="pre">get_rascal_coefficients_stared</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.get_rascal_coefficients_stared" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.rascal_coefficients.process_structures">
+<span class="sig-prename descclassname"><span class="pre">nice.rascal_coefficients.</span></span><span class="sig-name descname"><span class="pre">process_structures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.process_structures" title="Permalink to this definition"></a></dt>
+<dd><p>Satisfying librascal desire of having all atoms
+inside the cell even if structure is not periodic.
+(changes only non periodic structures)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.rascal_coefficients.split_by_central_specie">
+<span class="sig-prename descclassname"><span class="pre">nice.rascal_coefficients.</span></span><span class="sig-name descname"><span class="pre">split_by_central_specie</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.rascal_coefficients.split_by_central_specie" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-nice.thresholding">
+<span id="nice-thresholding-module"></span><h2>nice.thresholding module<a class="headerlink" href="#module-nice.thresholding" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.thresholding.get_thresholded_tasks">
+<span class="sig-prename descclassname"><span class="pre">nice.thresholding.</span></span><span class="sig-name descname"><span class="pre">get_thresholded_tasks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.thresholding.get_thresholded_tasks" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-nice.unrolling_individual_pca">
+<span id="nice-unrolling-individual-pca-module"></span><h2>nice.unrolling_individual_pca module<a class="headerlink" href="#module-nice.unrolling_individual_pca" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.unrolling_individual_pca.UnrollingIndividualPCA">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.unrolling_individual_pca.</span></span><span class="sig-name descname"><span class="pre">UnrollingIndividualPCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_importances</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_individual_pca.UnrollingIndividualPCA" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._truncated_svd.TruncatedSVD</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.unrolling_individual_pca.UnrollingIndividualPCA.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_individual_pca.UnrollingIndividualPCA.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fit model on training data X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>sparse matrix} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Training data.</p></li>
+<li><p><strong>y</strong> (<em>Ignored</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong> – Returns the transformer object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.unrolling_individual_pca.UnrollingIndividualPCA.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_individual_pca.UnrollingIndividualPCA.fit_transform" title="Permalink to this definition"></a></dt>
+<dd><p>Fit model to X and perform dimensionality reduction on X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>sparse matrix} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Training data.</p></li>
+<li><p><strong>y</strong> (<em>Ignored</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X_new</strong> – Reduced version of X. This will always be a dense array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray of shape (n_samples, n_components)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.unrolling_individual_pca.UnrollingIndividualPCA.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_individual_pca.UnrollingIndividualPCA.transform" title="Permalink to this definition"></a></dt>
+<dd><p>Perform dimensionality reduction on X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>sparse matrix} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – New data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X_new</strong> – Reduced version of X. This will always be a dense array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray of shape (n_samples, n_components)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-nice.unrolling_pca">
+<span id="nice-unrolling-pca-module"></span><h2>nice.unrolling_pca module<a class="headerlink" href="#module-nice.unrolling_pca" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nice.unrolling_pca.UnrollingPCA">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">nice.unrolling_pca.</span></span><span class="sig-name descname"><span class="pre">UnrollingPCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_pca.UnrollingPCA" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._truncated_svd.TruncatedSVD</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.unrolling_pca.UnrollingPCA.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coefficients</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_pca.UnrollingPCA.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fit model on training data X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>sparse matrix} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Training data.</p></li>
+<li><p><strong>y</strong> (<em>Ignored</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong> – Returns the transformer object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.unrolling_pca.UnrollingPCA.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coefficients</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_pca.UnrollingPCA.fit_transform" title="Permalink to this definition"></a></dt>
+<dd><p>Fit model to X and perform dimensionality reduction on X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>sparse matrix} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Training data.</p></li>
+<li><p><strong>y</strong> (<em>Ignored</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X_new</strong> – Reduced version of X. This will always be a dense array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray of shape (n_samples, n_components)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nice.unrolling_pca.UnrollingPCA.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coefficients</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_pca.UnrollingPCA.transform" title="Permalink to this definition"></a></dt>
+<dd><p>Perform dimensionality reduction on X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>sparse matrix} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – New data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X_new</strong> – Reduced version of X. This will always be a dense array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray of shape (n_samples, n_components)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.unrolling_pca.get_signs">
+<span class="sig-prename descclassname"><span class="pre">nice.unrolling_pca.</span></span><span class="sig-name descname"><span class="pre">get_signs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_pca.get_signs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.unrolling_pca.pack_dense">
+<span class="sig-prename descclassname"><span class="pre">nice.unrolling_pca.</span></span><span class="sig-name descname"><span class="pre">pack_dense</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_pca.pack_dense" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.unrolling_pca.unpack_dense">
+<span class="sig-prename descclassname"><span class="pre">nice.unrolling_pca.</span></span><span class="sig-name descname"><span class="pre">unpack_dense</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nice.unrolling_pca.unpack_dense" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-nice.utilities">
+<span id="nice-utilities-module"></span><h2>nice.utilities module<a class="headerlink" href="#module-nice.utilities" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.utilities.get_all_species">
+<span class="sig-prename descclassname"><span class="pre">nice.utilities.</span></span><span class="sig-name descname"><span class="pre">get_all_species</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structures</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.get_all_species" title="Permalink to this definition"></a></dt>
+<dd><p>getting all unique atomic species among the structures</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>structures</strong> – list of ase atoms objects</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sorted numpy array with ints with all unique species in the format where
+1 states for H, 2 for He and so on. (inherits from ase function
+atoms_object.get_atomic_numbers())</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.utilities.get_compositional_features">
+<span class="sig-prename descclassname"><span class="pre">nice.utilities.</span></span><span class="sig-name descname"><span class="pre">get_compositional_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_species</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.get_compositional_features" title="Permalink to this definition"></a></dt>
+<dd><p>getting compositional features suitable for linear regression which contains information
+about the number of atoms with particular species in the structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structures</strong> – list of Ase atoms objects</p></li>
+<li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.         If all species argument is the same for several calls of this function, resulting         blocks of compositional features are guaranteed to be consisted with each other</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy array with shape [len(structures), len(all_species)] with compositional features</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.utilities.get_spherical_expansion">
+<span class="sig-prename descclassname"><span class="pre">nice.utilities.</span></span><span class="sig-name descname"><span class="pre">get_spherical_expansion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rascal_hypers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_by_central_specie</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.get_spherical_expansion" title="Permalink to this definition"></a></dt>
+<dd><p>getting spherical expansion coefficients</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structures</strong> – list of Ase atoms objects</p></li>
+<li><p><strong>rascal_hypers</strong> – dictionary with parameters for librascal controlling spherical expansion</p></li>
+<li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.         If all species argument is the same for several calls of this function, resulting         blocks of spherical expansion coefficients are guaranteed to be consisted with each other</p></li>
+<li><p><strong>task_size</strong> – number of structures in chunk for multiprocessing</p></li>
+<li><p><strong>num_threads</strong> – number of threads in multiprocessing. If None than all available         (len(os.sched_getaffinity(0))) threads are used</p></li>
+<li><p><strong>split_by_central_specie</strong> – whether group or not spherical expansion coefficients by central specie</p></li>
+<li><p><strong>show_progress</strong> – whether or not show progress via tqdm</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary in which keys are elements of all_speceis and entries are numpy arrays with indexing
+[environmental index, radial basis/neighbor specie index, lambda, m] with spherical expansion coefficients for
+environments around atoms with specie indicated in key. Coefficients are stored from the beginning,
+i. e. [:, : lambda, :(2 * lambda + 1)] elements are valid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.utilities.make_structural_features">
+<span class="sig-prename descclassname"><span class="pre">nice.utilities.</span></span><span class="sig-name descname"><span class="pre">make_structural_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.make_structural_features" title="Permalink to this definition"></a></dt>
+<dd><p>getting structural features suitable for linear regression which consist of sums      over atomic features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> – nested dictionary with atomic features. First level keys are central species,         second level keys are body orders. Entries are 2-dimensional numpy arrays.</p></li>
+<li><p><strong>structures</strong> – list of Ase atoms objects</p></li>
+<li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.         If all species argument is the same for several calls of this function, resulting         blocks of structural features are guaranteed to be consistent with each other.           If for given block of structures there are no atoms of some particular specie,        features dictionary still have to contain key with this specie. It should contain         numpy arrays with shapes [0, number of features]. This is need to get proper placing        of features to fulfill consistency.</p></li>
+<li><p><strong>show_progress</strong> – whether or not show progress via tqdm</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy array with shape [len(structures), number of structural features] with structural features</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nice.utilities.transform_sequentially">
+<span class="sig-prename descclassname"><span class="pre">nice.utilities.</span></span><span class="sig-name descname"><span class="pre">transform_sequentially</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rascal_hypers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_species</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nice.utilities.transform_sequentially" title="Permalink to this definition"></a></dt>
+<dd><p>transforming structures into structural features by chunks in order to use less amount of RAM</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nice</strong> – dictionary where keys are species and entries are nice transformers.        If you want to use single nice transformer to all environments regardless of central        specie just pass {key : nice_single for specie in all_species}</p></li>
+<li><p><strong>structures</strong> – list of Ase atoms objects</p></li>
+<li><p><strong>rascal_hypers</strong> – dictionary with parameters for librascal controlling spherical expansion.        Should be the same as used for fitting nice transformers</p></li>
+<li><p><strong>all_species</strong> – numpy array with ints of all unique species in the dataset.</p></li>
+<li><p><strong>block_size</strong> – size of chunks measured in number of environments</p></li>
+<li><p><strong>show_progress</strong> – whether or not show progress via tqdm</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy array with shape [len(structures), number of structural features] with structural features</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-nice">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nice" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Jigyasa Nigam, Sergey Pozdnyakov, Michele Ceriotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

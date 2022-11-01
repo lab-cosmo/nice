@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Constructing machine learning potential &mdash; NICE  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Calculating covariants" href="../calculating_covariants.html" />
+    <link rel="prev" title="Theory in a nutshell" href="../theory.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> NICE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Theory in a nutshell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../theory.html">Theory in a nutshell</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Constructing machine learning potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calculating_covariants.html">Calculating covariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_insights_about_the_model.html">Getting insights about the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../constructor_or_non_standard_sequence.html">Constructor or non standard sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequential_fitting.html">Sequential fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_regressors_into_purifiers.html">Custom regressors into purifiers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Acknowledgements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../acknowledgements.html">Acknowledgements</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NICE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Constructing machine learning potential</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/symlinks/constructing_machine_learning_potential.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="Constructing-machine-learning-potential">
+<h1>Constructing machine learning potential<a class="headerlink" href="#Constructing-machine-learning-potential" title="Permalink to this headline"></a></h1>
+<p>First of all we need to get some dataset for fitting. Good example is <a class="reference external" href="https://archive.materialscloud.org/record/2020.110">this one</a>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># downloading dataset from https://archive.materialscloud.org/record/2020.110</span>
+
+<span class="c1">#!wget &quot;https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528&quot; -O methane.extxyz.gz</span>
+<span class="c1">#!gunzip -k methane.extxyz.gz</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">ase.io</span>
+<span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="kn">from</span> <span class="nn">nice.blocks</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">nice.utilities</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">BayesianRidge</span>
+</pre></div>
+</div>
+</div>
+<p>In the following cell, parameters that control subsequent calculations, along with hyperparameters of the model, are defined.</p>
+<p>The total amount of structures in the methane dataset is huge. Thus it is a good idea to select a smaller amount of structures to speed up the calculations.</p>
+<p>Two out of the three steps of NICE require data to be fitted. In the PCA step, atomic environments are used to determine the matrix of a linear transformation, suitable for the preservation of the most amount of information for <strong>this particular dataset</strong>. In purifiers, eliminated correlations are also dataset-specific. Though, it is absolutely not necessary to use the same amount of data to fit the NICE transformer and to fit the subsequent machine learning model. Typically, the NICE
+transformer requires less amount of data to be fitted. In addition, the fitting process requires a noticeable amount of RAM. Thus, it is a good idea to restrict the amount of data for this step, which is controlled by <strong>environments_for_fitting variable</strong>.</p>
+<p><strong>grid</strong> defines the set of numbers of training configurations for which error would be estimated in order to get an idea of the quality of the model, depending on the number of training configurations. (yep, the NICE transformer uses more data for fitting for a few first points, but it is just a tutorial)</p>
+<p>In the HYPERS dictionary, parameters for initial spherical expansion are defined. For more detail, we refer the reader to <a class="reference external" href="https://github.com/cosmo-epfl/librascal">librascal</a> documentation.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">HARTREE_TO_EV</span> <span class="o">=</span> <span class="mf">27.211386245988</span>
+<span class="n">train_subset</span> <span class="o">=</span> <span class="s2">&quot;0:10000&quot;</span>  <span class="c1">#input for ase.io.read command</span>
+<span class="n">test_subset</span> <span class="o">=</span> <span class="s2">&quot;10000:15000&quot;</span>  <span class="c1">#input to ase.io.read command</span>
+<span class="n">environments_for_fitting</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1">#number of environments to fit nice transfomers</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">7500</span><span class="p">,</span>
+        <span class="mi">10000</span><span class="p">]</span>  <span class="c1">#for learning curve</span>
+
+<span class="c1">#HYPERS for librascal spherical expansion coefficients</span>
+<span class="n">HYPERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
+    <span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;max_angular&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;gaussian_sigma_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Constant&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;gaussian_sigma_constant&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="s1">&#39;cutoff_smooth_width&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">This cell is the most important one. Our model is defined here. As was mentioned before,</div>
+<div class="line">NICE is the sequence of standard transformations, where each increases the body order by 1. The classes which implement this logic are <strong>StandardBlock</strong> and <strong>StandardSequence</strong>.</div>
+</div>
+<p><strong>StandardSequence</strong> consist of 1) <strong>initial scaler</strong> 2) <strong>initial pca</strong> and of 3) sequence of <strong>standard blocks</strong>.</p>
+<p>Let’s imagine uniform multiplication of spherical expansion coefficients by some constant k. In this case, covariants of order k would change as *= k ^(body order). In other words, the relative scale of different body orders would change. This might affect subsequent regression, so it is a good idea to fix the scale in a proper way. This is done by <strong>initial scaler</strong>. It has two modes - “<strong>signal integral</strong>” and “<strong>variance</strong>”. In the first case, it scales coefficients in such a way as to make
+the integral of the squared corresponding signal over the ball to be one. In the second case, it assures the variance of the coefficient’s entries to be one. In practice, the first mode gives better results. The second parameter to this class is to scale coefficients individually, i. e. separately for each environment or globally, thus preserving information about the scale of signals in relation to each other.</p>
+<p><strong>Initial pca</strong> is the same PCA that is applied in each block; more details about it later. It is the first transformation to coefficients after <strong>initial scaler</strong>.</p>
+<p>As already mentioned in theory, each block consists of two branches - for covariants and for invariants. Each branch consists of expansion, purification, and pca steps. During the expansion step in each block, features of the next body order are produced by Clebsch-Gordan iteration between features from the previous block and spherical expansion coefficients after <strong>initial_pca</strong>. In the case of full expansion (each with each), the number of features after the transformation would be incredibly
+huge, as it was already discussed in the theory section. Thus, the thresholding heuristic is used. For each feature, information on how important it is, is stored during the calculations. In standard sequence, these importances are just explained variance ratios after the PCA step. During expansion for each pair of covariant vectors, “pair importance” is defined as the multiplication of previously discussed single feature <strong>importances</strong>, and after that, only a fixed amount of the most important
+input pairs produce output. This fixed amount is controlled by <strong>num_expand</strong> parameter. If it is not specified (or set to <strong>None</strong>), full expansion (each with each) will be performed.</p>
+<p>The nature of the purifier step was discussed in the theory section. Parameter <strong>max_take</strong> controls the number of features to take for purification from previous body orders. (Features are always stored in descending order of importance, and it uses the first ones first). If <strong>max_take</strong> is not specified (<strong>None</strong>) it will use all available features. One additional parameter is a linear regressor to use. For example</p>
+<p>from sklearn.linear_model import Ridge CovariantsPurifierBoth(regressor = Ridge(alpha = 42, fit_intercept = False), max_take = 10)</p>
+<p>or</p>
+<p>from sklearn.linear_model import Lars InvariantsPurifier(regressor = Lars(n_nonzero_coefs = 7), max_take = 10)</p>
+<p>The default one is Ridge(alpha = 1e-12) without fitting intercept for covariants purifier and with fitting intercept for invariants purifier.</p>
+<p><strong>Important!</strong> always put <strong>fit_intercept = False</strong> to regressor in covariants purifier. Otherwise, the resulting features would not be covariants since the vector with constant entries is not covariant. (it is not checked automatically since the corresponding parameter might have a different name from “fit_intercept”)</p>
+<p>Custom regressors can be fed into purifiers. More details about it in the tutorial “Custom regressors into purifiers.”</p>
+<p>Parameter of PCA states for the number of output features. If it is not specified (None), full pca will be performed.</p>
+<p>“Both” in name of classes states the fact that transformations are done simultaneously on even and odd features (more details about it in the tutorials “Calculating covariants” (what are even and odd features?) and “Constructor or non-standard sequence” (classes to work with no separation?)).</p>
+<p>“Individual” in <strong>IndividualLambdaPCAsBoth</strong> stands for the fact that transformations are independent for each lambda channel.</p>
+<p>Since we are interested only in invariants, it is not necessary for the last block to calculate covariants. Thus, the corresponding branch is filled with Nones.</p>
+<p>In this example, parameters of covariant and invariant branches (such as <strong>num_expand</strong> in expansioners) are not dramatically different, but in real-life calculations they usually differ from each other dramatically (see examples folder).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#our model:</span>
+<span class="k">def</span> <span class="nf">get_nice</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">StandardSequence</span><span class="p">([</span>
+        <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">150</span><span class="p">),</span>
+                      <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+                      <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+                      <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                      <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+                      <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">200</span><span class="p">)),</span>
+        <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">150</span><span class="p">),</span>
+                      <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+                      <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+                      <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                      <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+                      <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">200</span><span class="p">)),</span>
+        <span class="n">StandardBlock</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+                      <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+                      <span class="n">InvariantsPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">200</span><span class="p">))</span>
+    <span class="p">],</span>
+                            <span class="n">initial_scaler</span><span class="o">=</span><span class="n">InitialScaler</span><span class="p">(</span>
+                                <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;signal integral&#39;</span><span class="p">,</span> <span class="n">individually</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>It is not necessary to always fill all the transformation steps. For example, the following block is valid:</p>
+<pre>
+StandardBlock(ThresholdExpansioner(num_expand = 150),
+              None,
+              IndividualLambdaPCAsBoth(n_components = 50),
+              ThresholdExpansioner(num_expand =300, mode = 'invariants'),
+              InvariantsPurifier(max_take = 50),
+              None)
+</pre><p>In this case, purifying step in the covariants branch and the PCA step in the invariants branch would be omitted. Covariants and invariants branches are independent. In case of invalid combinations, such as</p>
+<pre>
+StandardBlock(None,
+              None,
+              IndividualLambdaPCAsBoth(n_components = 50),
+              ...)
+</pre><p>It would raise a value error with the description of the problem during initialization.</p>
+<p>All intermediate blocks must compute covariants. A block is considered to be computing covariants if it contains covariant expansion and covariant pca. The latter is required since expansioners in subsequent blocks require not only covariants themselves but also their <strong>importances</strong> for thresholding.</p>
+<p>In this cell, we read the structures, get a set of all the species in the dataset, and calculate the spherical expansion.</p>
+<p><strong>all_species</strong> is a numpy array with ints, where 1 is H, 2 is He, and so on.</p>
+<p><strong>coefficients</strong> is the dictionary where the keys are central species, 1 and 6 in our case, and entries are numpy arrays shaped in the <strong>[environment_index, radial/specie index, l, m]</strong> way.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">train_subset</span><span class="p">)</span>
+
+<span class="n">test_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">test_subset</span><span class="p">)</span>
+
+<span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">train_structures</span> <span class="o">+</span> <span class="n">test_structures</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;all species: &quot;</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span class="n">train_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">train_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span>
+                                             <span class="n">all_species</span><span class="p">)</span>
+
+<span class="n">test_coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">test_structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span>
+                                            <span class="n">all_species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+all species:  [1 6]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 100/100 [00:00&lt;00:00, 111.59it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 20.22it/s]
+100%|██████████| 50/50 [00:00&lt;00:00, 100.93it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 36.41it/s]
+</pre></div></div>
+</div>
+<p>We are going to fit two NICE transformers on environments around both the H and C atoms separately. The following cells create them and perform the fitting:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#individual nice transformers for each atomic specie in the dataset</span>
+<span class="n">nice</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">nice</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_nice</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">nice</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_coefficients</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="n">environments_for_fitting</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/pozdn/.local/lib/python3.8/site-packages/nice/blocks/compressors.py:216: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  warnings.warn((&#34;Amount of provided data is less &#34;
+/home/pozdn/.local/lib/python3.8/site-packages/nice/blocks/compressors.py:216: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  warnings.warn((&#34;Amount of provided data is less &#34;
+/home/pozdn/.local/lib/python3.8/site-packages/nice/blocks/compressors.py:216: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  warnings.warn((&#34;Amount of provided data is less &#34;
+/home/pozdn/.local/lib/python3.8/site-packages/nice/blocks/compressors.py:216: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  warnings.warn((&#34;Amount of provided data is less &#34;
+/home/pozdn/.local/lib/python3.8/site-packages/nice/blocks/compressors.py:216: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  warnings.warn((&#34;Amount of provided data is less &#34;
+/home/pozdn/.local/lib/python3.8/site-packages/nice/blocks/compressors.py:216: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 200, desired number of environments is 2000, actual number of environments is 1000.
+  warnings.warn((&#34;Amount of provided data is less &#34;
+</pre></div></div>
+</div>
+<p>It is not necessary to fit different nice transformers for each central specie, see for example qm9 examples in example folder</p>
+<p>Let’s calculate representations!:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_features</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">specie</span> <span class="ow">in</span> <span class="n">all_species</span><span class="p">:</span>
+    <span class="n">train_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">nice</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+        <span class="n">train_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span> <span class="n">return_only_invariants</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">test_features</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">specie</span> <span class="ow">in</span> <span class="n">all_species</span><span class="p">:</span>
+    <span class="n">test_features</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span> <span class="o">=</span> <span class="n">nice</span><span class="p">[</span><span class="n">specie</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_coefficients</span><span class="p">[</span><span class="n">specie</span><span class="p">],</span>
+                                                   <span class="n">return_only_invariants</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The result is a nested dictionary. The first level keys are central species, and the inner level keys are body orders. Inside are <strong>numpy arrays</strong> with shapes <strong>[environment_index, invariant_index]</strong>:</p>
+<p>In this case number of training structures is 10k, and each structure consists of 4 H atoms. Thus, the total number of H centered environments is 40k.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_features</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">train_features</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1 : (40000, 10)
+2 : (40000, 200)
+3 : (40000, 200)
+4 : (40000, 200)
+</pre></div></div>
+</div>
+<p>Now we need to prepare for subsequent linear regression. As was already discussed in the theory section, energy is an extensive property, and thus it is given as a sum of atomic contributions. Each atomic contribution depends on 1) the central specie and 2) the environment. Thus, it is straightforward to see that if each atomic contribution is given by a linear combination of previously calculated NICE features, the structural features should have the following form - for each structure, the set
+of features is a concatenation of representations for each specie. Representation for each specie is a sum of NICE representations over the atoms with this specie in the structure.</p>
+<p>In our case, the representation of each environment has a size of 200 + 200 + 200 + 10 = 610. And we have two atomic species - H and C. Thus, the shape of structural features should be <strong>[number_of_structures, 610 * 2 = 1220]</strong>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_structures</span><span class="p">,</span>
+                                          <span class="n">all_species</span><span class="p">)</span>
+<span class="n">test_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">test_features</span><span class="p">,</span> <span class="n">test_structures</span><span class="p">,</span>
+                                         <span class="n">all_species</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">train_features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 10000/10000 [00:00&lt;00:00, 15487.86it/s]
+100%|██████████| 5000/5000 [00:00&lt;00:00, 17346.99it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(10000, 1220)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<p>Energies are a part of the dataset we previously downloaded:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">structure</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">train_structures</span><span class="p">]</span>
+<span class="n">train_energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">train_energies</span><span class="p">)</span> <span class="o">*</span> <span class="n">HARTREE_TO_EV</span>
+
+<span class="n">test_energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">structure</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">test_structures</span><span class="p">]</span>
+<span class="n">test_energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_energies</span><span class="p">)</span> <span class="o">*</span> <span class="n">HARTREE_TO_EV</span>
+</pre></div>
+</div>
+</div>
+<p>And the last step is to do linear regression and plot learning curve.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_rmse</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">first</span> <span class="o">-</span> <span class="n">second</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">get_standard_deviation</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">values</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">values</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">get_relative_performance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">get_rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="n">get_standard_deviation</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">estimate_performance</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">,</span>
+                         <span class="n">targets_test</span><span class="p">):</span>
+    <span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">targets_train</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">get_relative_performance</span><span class="p">(</span><span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test</span><span class="p">),</span> <span class="n">targets_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">estimate_performance</span><span class="p">(</span><span class="n">BayesianRidge</span><span class="p">(),</span> <span class="n">train_features</span><span class="p">[:</span><span class="n">el</span><span class="p">],</span>
+                             <span class="n">test_features</span><span class="p">,</span> <span class="n">train_energies</span><span class="p">[:</span><span class="n">el</span><span class="p">],</span>
+                             <span class="n">test_energies</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 12/12 [00:05&lt;00:00,  2.00it/s]
+</pre></div></div>
+</div>
+<p>In this smallest setup best rmse appeared to be about 7%:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0.4247960117126859, 0.4281017534950203, 0.34936789084841546, 0.2316920626001172, 0.18066163968744922, 0.1623460787247309, 0.13108618823678997, 0.11642375706478929, 0.09862653386159333, 0.08368533464287375, 0.07248300726078966, 0.07011143570555972]
+</pre></div></div>
+</div>
+<p>The learning curve looks like this:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;number of structures&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;relative error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/symlinks_constructing_machine_learning_potential_29_0.png" src="../_images/symlinks_constructing_machine_learning_potential_29_0.png" />
+</div>
+</div>
+<p>The pipeline in this tutorial was designed to explain all the intermediate steps, but it has one drawback - at some moment, all atomic representations, along with all intermediate covariants for the whole dataset, are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural invariant features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if the dataset consists of large molecules. Thus,
+it is a good idea to calculate structural features by small blocks and get rid of atomic representations for each block immediately. For this purpose, there is a function <strong>nice.utilities.transform_sequentially</strong>. It has a parameter <strong>block_size</strong> that controls the size of each chunk. The higher this chunk, the more RAM is required for calculations. But, on the other hand, for very small chunks, slow python loops over lambda channels with invoking separate python classes for each lambda channel
+might become a bottleneck (all the other indices are handled either by numpy vectorization or by cython loops). The other reason for the slowdown is multiprocessing. Thus, transforming time per single environment monotonically decrease with the <strong>block_size</strong> and eventually goes to saturation. The default value for <strong>block_size</strong> parameter should be fine in most cases.</p>
+<p>The full example can be found in examples/methane_home_pc or in examples/qm9_home_pc. Other than that and the absence of markdown comments, these notebooks are almost identical to this tutorial (in qm9 single nice transformer is used for all central species). Thus, we recommend picking one of them as the code snippet.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../theory.html" class="btn btn-neutral float-left" title="Theory in a nutshell" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../calculating_covariants.html" class="btn btn-neutral float-right" title="Calculating covariants" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Jigyasa Nigam, Sergey Pozdnyakov, Michele Ceriotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

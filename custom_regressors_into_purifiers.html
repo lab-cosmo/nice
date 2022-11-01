@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom regressors into purifiers &mdash; NICE  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/togglebutton.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Sequential fitting" href="sequential_fitting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> NICE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Theory in a nutshell</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory in a nutshell</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="symlinks/constructing_machine_learning_potential.html">Constructing machine learning potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculating_covariants.html">Calculating covariants</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_insights_about_the_model.html">Getting insights about the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constructor_or_non_standard_sequence.html">Constructor or non standard sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sequential_fitting.html">Sequential fitting</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Custom regressors into purifiers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Acknowledgements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NICE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Custom regressors into purifiers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/custom_regressors_into_purifiers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="custom-regressors-into-purifiers">
+<h1>Custom regressors into purifiers<a class="headerlink" href="#custom-regressors-into-purifiers" title="Permalink to this headline"></a></h1>
+<p>As was already mentioned in the first tutorial, purifiers can accept
+arbitrarily linear regressors from sklearn.linear_model. In order to
+feed it with a custom linear regressor, some requirements should be
+fulfilled. Firstly, it should have the same interface as linear
+regressors from sklearn with the fit and predict methods. Secondly, it
+should fulfill sklearn requirements to make it possible to clone with
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.clone.html">sklearn.base.clone</a>
+function. This tutorial shows an example of such a class.</p>
+<p>As before, let’s calculate spherical expansion coefficients for H
+environments:</p>
+<div class="toggle admonition">
+<p class="admonition-title">Preliminaries</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># downloading dataset from https://archive.materialscloud.org/record/2020.110</span>
+
+<span class="c1">#!wget &quot;https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528&quot; -O methane.extxyz.gz</span>
+<span class="c1">#!gunzip -k methane.extxyz.gz</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">ase.io</span>
+<span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="kn">from</span> <span class="nn">nice.blocks</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">nice.utilities</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">BayesianRidge</span>
+
+<span class="n">structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;0:1000&#39;</span><span class="p">)</span>
+
+<span class="n">HYPERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
+    <span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;max_angular&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;gaussian_sigma_type&#39;</span><span class="p">:</span> <span class="s1">&#39;Constant&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;gaussian_sigma_constant&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="s1">&#39;cutoff_smooth_width&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="s1">&#39;radial_basis&#39;</span><span class="p">:</span> <span class="s1">&#39;GTO&#39;</span>
+<span class="p">}</span>
+
+<span class="n">all_species</span> <span class="o">=</span> <span class="n">get_all_species</span><span class="p">(</span><span class="n">structures</span><span class="p">)</span>
+
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">get_spherical_expansion</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span> <span class="n">HYPERS</span><span class="p">,</span> <span class="n">all_species</span><span class="p">)</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    1
+</p>
+</pre>
+</embed><embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    100%|██████████| 10/10 [00:00<00:00, 115.35it/s]
+    100%|██████████| 2/2 [00:00<00:00, 185.25it/s]
+</p>
+</pre>
+</embed></div>
+<p>Our custom class looks like this:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_predict</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+
+
+<span class="k">class</span> <span class="nc">AdaptiveRidge</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">minimum</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_alpha_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">300</span><span class="p">):</span>
+            <span class="n">regressor</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">predictions</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">predictions</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">minimum</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">now</span> <span class="o">&lt;</span> <span class="n">minimum</span><span class="p">):</span>
+                <span class="n">minimum</span> <span class="o">=</span> <span class="n">now</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">best_alpha_</span> <span class="o">=</span> <span class="n">alpha</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ridge_</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ridge_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ridge_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">parameters</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</pre></div>
+</div>
+<p>During fitting it estimates best value of regularization by cross
+validation using training data. There are additional methods get_params
+and set_params. These methods are required for sklearn.base.clone
+function. More details about it
+<a class="reference external" href="https://scikit-learn.org/stable/developers/develop.html">here</a> (It
+is necessary to read only cloning section).</p>
+<p>Let’s use it:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">LinAlgWarning</span>
+
+<span class="n">nice</span> <span class="o">=</span> <span class="n">StandardSequence</span><span class="p">([</span>
+    <span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+                  <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+    <span class="n">StandardBlock</span><span class="p">(</span>
+        <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+        <span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">regressor</span><span class="o">=</span><span class="n">AdaptiveRidge</span><span class="p">(),</span> <span class="n">max_take</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+        <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+        <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+        <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">regressor</span><span class="o">=</span><span class="n">AdaptiveRidge</span><span class="p">(),</span> <span class="n">max_take</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+        <span class="n">InvariantsPCA</span><span class="p">(</span><span class="mi">20</span><span class="p">)),</span>
+<span class="p">])</span>
+
+<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+    <span class="c1"># a lot of ill conditioned matrices with super small alpha</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">LinAlgWarning</span><span class="p">)</span>
+    <span class="n">nice</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">nice</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is possible to access best alpha parameters for all paritiies and
+lambda chanels in the final model:</p>
+<p>(convenient getters might be added in the next version of NICE)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">lambd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nice</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span><span class="n">even_purifier_</span><span class="o">.</span><span class="n">purifiers_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parity: even; lambda: </span><span class="si">{}</span><span class="s2">; best alpha: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">lambd</span><span class="p">,</span> <span class="n">nice</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span><span class="n">even_purifier_</span><span class="o">.</span>
+            <span class="n">purifiers_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nice</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span><span class="n">odd_purifier_</span><span class="o">.</span><span class="n">purifiers_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parity odd; lambda: </span><span class="si">{}</span><span class="s2">; best alpha: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">lambd</span><span class="p">,</span> <span class="n">nice</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">covariants_purifier_</span><span class="o">.</span><span class="n">odd_purifier_</span><span class="o">.</span>
+            <span class="n">purifiers_</span><span class="p">[</span><span class="n">lambd</span><span class="p">]</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">))</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    parity: even; lambda: 0; best alpha: 1.5996073018614912e-19
+    parity: even; lambda: 1; best alpha: 3.1744774091092e-20
+    parity odd; lambda: 1; best alpha: 2.0944511431514688e-19
+    parity: even; lambda: 2; best alpha: 3.1744774091092e-20
+    parity odd; lambda: 2; best alpha: 1e-25
+    parity: even; lambda: 3; best alpha: 2.4244620170823406e-20
+    parity odd; lambda: 3; best alpha: 2.7423765732649412e-19
+    parity: even; lambda: 4; best alpha: 2.4244620170823406e-20
+    parity odd; lambda: 4; best alpha: 1.2216773489967981e-19
+    parity: even; lambda: 5; best alpha: 1e-25
+    parity odd; lambda: 5; best alpha: 1e-25
+</p>
+</pre>
+</embed><p>The same for InvariantsPurifier:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;best alpha of invariants purifier: &quot;</span><span class="p">,</span>
+      <span class="n">nice</span><span class="o">.</span><span class="n">blocks_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">invariants_purifier_</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">best_alpha_</span><span class="p">)</span>
+</pre></div>
+</div>
+<embed>
+<pre>
+<p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
+    best alpha of invariants purifier:  1.381873305653628e-18
+</p>
+</pre>
+</embed></section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sequential_fitting.html" class="btn btn-neutral float-left" title="Sequential fitting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Jigyasa Nigam, Sergey Pozdnyakov, Michele Ceriotti.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
