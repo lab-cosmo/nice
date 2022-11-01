@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Examples &mdash; NICE  documentation</title>
+  <title>Real-Life Examples of Nice &mdash; NICE  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/togglebutton.css" type="text/css" />
@@ -59,7 +59,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Real-Life Examples of Nice</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference guide</span></p>
 <ul>
@@ -85,7 +85,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Examples</li>
+      <li>Real-Life Examples of Nice</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -119,18 +119,15 @@
     text-align: unset;
 }
 </style>
-<section id="examples">
-<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h1>
-<p>Among other things, this repository contains an examples folder.</p>
-<p>qm9_home_pc.ipynb and qm9_small.ipynb might become a good starting point for
-calculations as code snippets.</p>
-<p>methane_small.ipynb, methane_medium.ipynb and qm9_small.ipynb provide general advice on
+<section id="real-life-examples-of-nice">
+<h1>Real-Life Examples of Nice<a class="headerlink" href="#real-life-examples-of-nice" title="Permalink to this headline"></a></h1>
+<p>Among other things, this repository contains scripts and notebooks to contextualize NICE into real-world problems. These examples are similar to the procedures reported in Jigyasa Nigam, Sergey Pozdnyakov, and Michele Ceriotti. “Recursive evaluation and iterative contraction of N-body equivariant features.” The Journal of Chemical Physics 153.12 (2020): 121101, but not direct productions.</p>
+<p>In <cite>qm9_home_pc.ipynb</cite> and <cite>qm9_small.ipynb</cite> construct similar machine learned potentials for the QM9 dataset (see below). <cite>qm9_home_pc.ipynb</cite> is intended to run on a local workstation, whereas <cite>qm9_small.ipynb</cite> is best suited for HPC resources. We have also provided examples for the methane dataset (<a class="reference external" href="https://archive.materialscloud.org/record/2020.110">https://archive.materialscloud.org/record/2020.110</a>). All notebooks include general advice on
 appropriate real-life hyperparameters.</p>
 <p>QM9 dataset is <a class="reference external" href="https://figshare.com/collections/Quantum_chemistry_structures_and_properties_of_134_kilo_molecules/978904">available</a>
 in the form of separate .xyz files for each molecule in such a special format
-that it can not be read by <a class="reference external" href="https://wiki.fysik.dtu.dk/ase/ase/io/io.html">ase</a>.</p>
-<p>The first cells of qm9_home_pc.ipynb and qm9_small.ipynb notebooks contain code to borrow which
-fetches raw QM9 dataset and parses it into a single ase .extxyz file.</p>
+that it can not be read by <a class="reference external" href="https://wiki.fysik.dtu.dk/ase/ase/io/io.html">ase</a>.
+The first cells of qm9_home_pc.ipynb and qm9_small.ipynb notebooks contain code to fetch the raw QM9 dataset and parses it into a single ase .extxyz file.</p>
 </section>
 
 
