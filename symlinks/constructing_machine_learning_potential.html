@@ -52,7 +52,17 @@
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Constructing machine learning potential</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Constructing machine learning potential</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Blocks-and-Sequences">Blocks and Sequences</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Expansioners">Expansioners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Purifiers">Purifiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Compressors">Compressors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Putting-it-all-Together">Putting it all Together</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Training-the-Model">Training the Model</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../calculating_covariants.html">Calculating covariants</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting_insights_about_the_model.html">Getting insights about the model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../constructor_or_non_standard_sequence.html">Constructor or non standard sequence</a></li>
@@ -394,21 +404,21 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2022-11-01 16:20:48--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
+--2022-11-04 12:25:01--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&amp;filename=methane.extxyz.gz&amp;record_id=528
 Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.149.49
 Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.149.49|:443... connected.
 HTTP request sent, awaiting response... 302 FOUND
-Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Signature=LJUaGsQLl8CZKNZUJGpSH69ZX0g%3D&amp;AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&amp;Expires=1667316108 [following]
---2022-11-01 16:20:48--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Signature=LJUaGsQLl8CZKNZUJGpSH69ZX0g%3D&amp;AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&amp;Expires=1667316108
-Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.201, 148.187.25.202, 148.187.25.204, ...
-Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.201|:443... connected.
+Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Signature=%2BxLnAvJ4CwQ4JY8hbo7MwpILPco%3D&amp;AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&amp;Expires=1667561161 [following]
+--2022-11-04 12:25:01--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&amp;response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&amp;Signature=%2BxLnAvJ4CwQ4JY8hbo7MwpILPco%3D&amp;AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&amp;Expires=1667561161
+Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.204, 148.187.25.200, 148.187.25.202, ...
+Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.204|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 1218139661 (1.1G) [application/octet-stream]
 Saving to: ‘methane.extxyz.gz’
 
-methane.extxyz.gz   100%[===================&gt;]   1.13G   135MB/s    in 8.6s
+methane.extxyz.gz   100%[===================&gt;]   1.13G   223MB/s    in 5.7s
 
-2022-11-01 16:20:57 (135 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+2022-11-04 12:25:07 (205 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
 
 </pre></div></div>
 </div>
@@ -423,27 +433,48 @@ methane.extxyz.gz   100%[===================&gt;]   1.13G   135MB/s    in 8.6s
 <span class="kn">from</span> <span class="nn">nice.utilities</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">BayesianRidge</span>
+
+<span class="n">HARTREE_TO_EV</span> <span class="o">=</span> <span class="mf">27.211386245988</span>
 </pre></div>
 </div>
 </div>
-<p>In the following cell, parameters that control subsequent calculations, along with hyperparameters of the model, are defined.</p>
 <p>The total amount of structures in the methane dataset is huge. Thus it is a good idea to select a smaller amount of structures to speed up the calculations.</p>
-<p>Two out of the three steps of NICE require data to be fitted. In the PCA step, atomic environments are used to determine the matrix of a linear transformation, suitable for the preservation of the most amount of information for <strong>this particular dataset</strong>. In purifiers, eliminated correlations are also dataset-specific. Though, it is absolutely not necessary to use the same amount of data to fit the NICE transformer and to fit the subsequent machine learning model. Typically, the NICE
-transformer requires less amount of data to be fitted. In addition, the fitting process requires a noticeable amount of RAM. Thus, it is a good idea to restrict the amount of data for this step, which is controlled by <strong>environments_for_fitting variable</strong>.</p>
-<p><strong>grid</strong> defines the set of numbers of training configurations for which error would be estimated in order to get an idea of the quality of the model, depending on the number of training configurations. (yep, the NICE transformer uses more data for fitting for a few first points, but it is just a tutorial)</p>
-<p>In the HYPERS dictionary, parameters for initial spherical expansion are defined. For more detail, we refer the reader to <a class="reference external" href="https://github.com/cosmo-epfl/librascal">librascal</a> documentation.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">HARTREE_TO_EV</span> <span class="o">=</span> <span class="mf">27.211386245988</span>
-<span class="n">train_subset</span> <span class="o">=</span> <span class="s2">&quot;0:10000&quot;</span>  <span class="c1">#input for ase.io.read command</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_subset</span> <span class="o">=</span> <span class="s2">&quot;0:10000&quot;</span>  <span class="c1">#input for ase.io.read command</span>
 <span class="n">test_subset</span> <span class="o">=</span> <span class="s2">&quot;10000:15000&quot;</span>  <span class="c1">#input to ase.io.read command</span>
-<span class="n">environments_for_fitting</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1">#number of environments to fit nice transfomers</span>
-<span class="n">grid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">7500</span><span class="p">,</span>
+</pre></div>
+</div>
+</div>
+<p>Two out of the three steps of NICE require data to be fitted. In the PCA step, atomic environments are used to determine the matrix of a linear transformation, suitable for the preservation of the most amount of information for <strong>this particular dataset</strong>. In purifiers, eliminated correlations are also dataset-specific. Though, it is absolutely not necessary to use the same amount of data to fit the NICE transformer and to fit the subsequent machine learning model. Typically, the NICE
+transformer requires less amount of data to be fitted. In addition, the fitting process requires a noticeable amount of RAM. Thus, it is a good idea to restrict the amount of data for this step, which is controlled by <code class="docutils literal notranslate"><span class="pre">environments_for_fitting</span> <span class="pre">variable</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">environments_for_fitting</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1">#number of environments to fit nice transfomers</span>
+</pre></div>
+</div>
+</div>
+<p>Next, we must define our hyperparameters for our representation.</p>
+<p><code class="docutils literal notranslate"><span class="pre">grid</span></code> defines the set of numbers of training configurations for which error would be estimated in order to get an idea of the quality of the model, depending on the number of training configurations. (yep, the NICE transformer uses more data for fitting for a few first points, but it is just a tutorial)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">7500</span><span class="p">,</span>
         <span class="mi">10000</span><span class="p">]</span>  <span class="c1">#for learning curve</span>
-
-<span class="c1">#HYPERS for librascal spherical expansion coefficients</span>
+</pre></div>
+</div>
+</div>
+<p>We also must define parameters for the initial spherical expansion. For more detail, we refer the reader to <a class="reference external" href="https://github.com/cosmo-epfl/librascal">librascal</a> documentation.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#HYPERS for librascal spherical expansion coefficients</span>
 <span class="n">HYPERS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;interaction_cutoff&#39;</span><span class="p">:</span> <span class="mf">6.3</span><span class="p">,</span>
     <span class="s1">&#39;max_radial&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
@@ -456,31 +487,116 @@ transformer requires less amount of data to be fitted. In addition, the fitting 
 </pre></div>
 </div>
 </div>
-<div class="line-block">
-<div class="line">This cell is the most important one. Our model is defined here. As was mentioned before,</div>
-<div class="line">NICE is the sequence of standard transformations, where each increases the body order by 1. The classes which implement this logic are <strong>StandardBlock</strong> and <strong>StandardSequence</strong>.</div>
+<section id="Blocks-and-Sequences">
+<h2>Blocks and Sequences<a class="headerlink" href="#Blocks-and-Sequences" title="Permalink to this headline"></a></h2>
+<p>Each NICE model is the sequence of standard transformations. In NICE, each transformation is called a <code class="docutils literal notranslate"><span class="pre">StandardBlock</span></code> and a sequence of blocks is a <code class="docutils literal notranslate"><span class="pre">StandardSequence</span></code>.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">StandardBlock</span></code> takes in 6 inputs: 1) an expansioner, 2) a purifier, and 3) a compressor for both the covariant and invariants. For more explanation of the theory behind this, please see <a class="reference external" href="https://lab-cosmo.github.io/nice/theory.html">the theory section</a>.</p>
+<p><strong>Scaling</strong> Let’s imagine uniform multiplication of spherical expansion coefficients by some constant k. In this case, covariants of order k would change as <code class="docutils literal notranslate"><span class="pre">*=</span> <span class="pre">k</span> <span class="pre">^(body</span> <span class="pre">order)</span></code>. In other words, the relative scale of different body orders would change. This might affect subsequent regression, so it is a good idea to fix the scale in a proper way. This is done by <code class="docutils literal notranslate"><span class="pre">initial</span> <span class="pre">scaler</span></code>. It has two modes - <code class="docutils literal notranslate"><span class="pre">signal</span> <span class="pre">integral</span></code> and <code class="docutils literal notranslate"><span class="pre">variance</span></code>. In the first case, it scales coefficients in such a way
+as to make the integral of the squared corresponding signal over the ball to be one. In the second case, it assures the variance of the coefficient’s entries to be one. In practice, the first mode gives better results. The second parameter to this class is to scale coefficients individually, i. e. separately for each environment or globally, thus preserving information about the scale of signals in relation to each other.</p>
+<section id="Expansioners">
+<h3>Expansioners<a class="headerlink" href="#Expansioners" title="Permalink to this headline"></a></h3>
+<p>During the expansion step in each block, features of the next body order are produced by Clebsch-Gordan iteration between features from the previous block and spherical expansion coefficients after <code class="docutils literal notranslate"><span class="pre">initial_pca</span></code>.</p>
+<p>Full expansion (expanding the coefficients for each pair of input covariant vectors) results in an untenably large number of features, thus, we typically only store the most important coefficients. In a standard sequence, these importances are just explained variance ratios after the PCA step. We then choose the <code class="docutils literal notranslate"><span class="pre">num_expand</span></code> most important features. If <code class="docutils literal notranslate"><span class="pre">num_expand</span></code> is not specified (or set to <code class="docutils literal notranslate"><span class="pre">None</span></code>), we keep all coefficients.</p>
+<p>In NICE, we invoke this with <code class="docutils literal notranslate"><span class="pre">ThresholdExpansioner</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
 </div>
-<p><strong>StandardSequence</strong> consist of 1) <strong>initial scaler</strong> 2) <strong>initial pca</strong> and of 3) sequence of <strong>standard blocks</strong>.</p>
-<p>Let’s imagine uniform multiplication of spherical expansion coefficients by some constant k. In this case, covariants of order k would change as *= k ^(body order). In other words, the relative scale of different body orders would change. This might affect subsequent regression, so it is a good idea to fix the scale in a proper way. This is done by <strong>initial scaler</strong>. It has two modes - “<strong>signal integral</strong>” and “<strong>variance</strong>”. In the first case, it scales coefficients in such a way as to make
-the integral of the squared corresponding signal over the ball to be one. In the second case, it assures the variance of the coefficient’s entries to be one. In practice, the first mode gives better results. The second parameter to this class is to scale coefficients individually, i. e. separately for each environment or globally, thus preserving information about the scale of signals in relation to each other.</p>
-<p><strong>Initial pca</strong> is the same PCA that is applied in each block; more details about it later. It is the first transformation to coefficients after <strong>initial scaler</strong>.</p>
-<p>As already mentioned in theory, each block consists of two branches - for covariants and for invariants. Each branch consists of expansion, purification, and pca steps. During the expansion step in each block, features of the next body order are produced by Clebsch-Gordan iteration between features from the previous block and spherical expansion coefficients after <strong>initial_pca</strong>. In the case of full expansion (each with each), the number of features after the transformation would be incredibly
-huge, as it was already discussed in the theory section. Thus, the thresholding heuristic is used. For each feature, information on how important it is, is stored during the calculations. In standard sequence, these importances are just explained variance ratios after the PCA step. During expansion for each pair of covariant vectors, “pair importance” is defined as the multiplication of previously discussed single feature <strong>importances</strong>, and after that, only a fixed amount of the most important
-input pairs produce output. This fixed amount is controlled by <strong>num_expand</strong> parameter. If it is not specified (or set to <strong>None</strong>), full expansion (each with each) will be performed.</p>
-<p>The nature of the purifier step was discussed in the theory section. Parameter <strong>max_take</strong> controls the number of features to take for purification from previous body orders. (Features are always stored in descending order of importance, and it uses the first ones first). If <strong>max_take</strong> is not specified (<strong>None</strong>) it will use all available features. One additional parameter is a linear regressor to use. For example</p>
-<p>from sklearn.linear_model import Ridge CovariantsPurifierBoth(regressor = Ridge(alpha = 42, fit_intercept = False), max_take = 10)</p>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;nice.blocks.expansioners.ThresholdExpansioner at 0x7f84a2db9790&gt;
+</pre></div></div>
+</div>
+</section>
+<section id="Purifiers">
+<h3>Purifiers<a class="headerlink" href="#Purifiers" title="Permalink to this headline"></a></h3>
+<p>In a NICE purifier, the parameter <code class="docutils literal notranslate"><span class="pre">max_take</span></code> controls the number of features to take for purification from previous body orders. (Features are always stored in descending order of importance, and it uses the first ones first). If <code class="docutils literal notranslate"><span class="pre">max_take</span></code> is not specified (<code class="docutils literal notranslate"><span class="pre">None</span></code>) it will use all available features.</p>
+<p>One additional parameter is a linear regressor to use. For example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+<span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">regressor</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span> <span class="n">fit_intercept</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span> <span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>or</p>
-<p>from sklearn.linear_model import Lars InvariantsPurifier(regressor = Lars(n_nonzero_coefs = 7), max_take = 10)</p>
-<p>The default one is Ridge(alpha = 1e-12) without fitting intercept for covariants purifier and with fitting intercept for invariants purifier.</p>
-<p><strong>Important!</strong> always put <strong>fit_intercept = False</strong> to regressor in covariants purifier. Otherwise, the resulting features would not be covariants since the vector with constant entries is not covariant. (it is not checked automatically since the corresponding parameter might have a different name from “fit_intercept”)</p>
-<p>Custom regressors can be fed into purifiers. More details about it in the tutorial “Custom regressors into purifiers.”</p>
-<p>Parameter of PCA states for the number of output features. If it is not specified (None), full pca will be performed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lars</span>
+<span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">regressor</span> <span class="o">=</span> <span class="n">Lars</span><span class="p">(</span><span class="n">n_nonzero_coefs</span> <span class="o">=</span> <span class="mi">7</span><span class="p">),</span> <span class="n">max_take</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The default one is <code class="docutils literal notranslate"><span class="pre">Ridge(alpha</span> <span class="pre">=</span> <span class="pre">1e-12)</span></code> without fitting intercept for covariants purifier and with fitting intercept for invariants purifier.</p>
+<p><strong>Important!</strong> always put <code class="docutils literal notranslate"><span class="pre">fit_intercept</span> <span class="pre">=</span> <span class="pre">False</span></code> to the regressor in covariants purifier. Otherwise, the resulting scaled features would not longer be covariants.</p>
+<p>Custom regressors can be fed into purifiers. More details about it in the tutorial <a class="reference external" href="https://lab-cosmo.github.io/nice/custom_regressors_into_purifiers.html">Custom regressors into purifiers</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CovariantsPurifierBoth</span><span class="p">(</span><span class="n">max_take</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;nice.blocks.purifiers.CovariantsPurifierBoth at 0x7f84a2db9d30&gt;
+</pre></div></div>
+</div>
+</section>
+<section id="Compressors">
+<h3>Compressors<a class="headerlink" href="#Compressors" title="Permalink to this headline"></a></h3>
+<p>A compressor is like a PCA step – we group the majority of the variance into a small subset of components.</p>
+<p>Parameter of PCA states for the number of output features (<code class="docutils literal notranslate"><span class="pre">n_components</span></code>). If it is not specified (None), full PCA will be performed.</p>
 <p>“Both” in name of classes states the fact that transformations are done simultaneously on even and odd features (more details about it in the tutorials “Calculating covariants” (what are even and odd features?) and “Constructor or non-standard sequence” (classes to work with no separation?)).</p>
-<p>“Individual” in <strong>IndividualLambdaPCAsBoth</strong> stands for the fact that transformations are independent for each lambda channel.</p>
-<p>Since we are interested only in invariants, it is not necessary for the last block to calculate covariants. Thus, the corresponding branch is filled with Nones.</p>
-<p>In this example, parameters of covariant and invariant branches (such as <strong>num_expand</strong> in expansioners) are not dramatically different, but in real-life calculations they usually differ from each other dramatically (see examples folder).</p>
+<p>“Individual” in <code class="docutils literal notranslate"><span class="pre">IndividualLambdaPCAsBoth</span></code> stands for the fact that transformations are independent for each lambda channel.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;nice.blocks.compressors.IndividualLambdaPCAsBoth at 0x7f84a2db9730&gt;
+</pre></div></div>
+</div>
+</section>
+<section id="Putting-it-all-Together">
+<h3>Putting it all Together<a class="headerlink" href="#Putting-it-all-Together" title="Permalink to this headline"></a></h3>
+<p>In this example, parameters of covariant and invariant branches (such as <code class="docutils literal notranslate"><span class="pre">num_expand</span></code> in expansioners) are not dramatically different, but in real-life calculations they usually differ from each other dramatically (see examples folder).</p>
+<p>It is not necessary to always fill all the transformation steps. For example, the following block is valid:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">StandardBlock</span><span class="p">(</span><span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span> <span class="mi">150</span><span class="p">),</span>
+              <span class="kc">None</span><span class="p">,</span>
+              <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
+              <span class="n">ThresholdExpansioner</span><span class="p">(</span><span class="n">num_expand</span> <span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;invariants&#39;</span><span class="p">),</span>
+              <span class="n">InvariantsPurifier</span><span class="p">(</span><span class="n">max_take</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
+              <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case, purifying step in the covariants branch and the PCA step in the invariants branch would be omitted. Covariants and invariants branches are independent. In case of invalid combinations, such as</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">StandardBlock</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span>
+              <span class="kc">None</span><span class="p">,</span>
+              <span class="n">IndividualLambdaPCAsBoth</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">50</span><span class="p">),</span>
+              <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It would raise a value error with the description of the problem during initialization.</p>
+<p>All intermediate blocks must compute covariants. A block is considered to be computing covariants if it contains covariant expansion and covariant pca. The latter is required since expansioners in subsequent blocks require not only covariants themselves but also their <strong>importances</strong> for thresholding.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#our model:</span>
@@ -508,27 +624,15 @@ input pairs produce output. This fixed amount is controlled by <strong>num_expan
 </pre></div>
 </div>
 </div>
-<p>It is not necessary to always fill all the transformation steps. For example, the following block is valid:</p>
-<pre>
-StandardBlock(ThresholdExpansioner(num_expand = 150),
-              None,
-              IndividualLambdaPCAsBoth(n_components = 50),
-              ThresholdExpansioner(num_expand =300, mode = 'invariants'),
-              InvariantsPurifier(max_take = 50),
-              None)
-</pre><p>In this case, purifying step in the covariants branch and the PCA step in the invariants branch would be omitted. Covariants and invariants branches are independent. In case of invalid combinations, such as</p>
-<pre>
-StandardBlock(None,
-              None,
-              IndividualLambdaPCAsBoth(n_components = 50),
-              ...)
-</pre><p>It would raise a value error with the description of the problem during initialization.</p>
-<p>All intermediate blocks must compute covariants. A block is considered to be computing covariants if it contains covariant expansion and covariant pca. The latter is required since expansioners in subsequent blocks require not only covariants themselves but also their <strong>importances</strong> for thresholding.</p>
+</section>
+</section>
+<section id="Training-the-Model">
+<h2>Training the Model<a class="headerlink" href="#Training-the-Model" title="Permalink to this headline"></a></h2>
 <p>In this cell, we read the structures, get a set of all the species in the dataset, and calculate the spherical expansion.</p>
-<p><strong>all_species</strong> is a numpy array with ints, where 1 is H, 2 is He, and so on.</p>
-<p><strong>coefficients</strong> is the dictionary where the keys are central species, 1 and 6 in our case, and entries are numpy arrays shaped in the <strong>[environment_index, radial/specie index, l, m]</strong> way.</p>
+<p><code class="docutils literal notranslate"><span class="pre">all_species</span></code> is a numpy array with ints, where 1 is H, 2 is He, and so on.</p>
+<p><code class="docutils literal notranslate"><span class="pre">coefficients</span></code> is the dictionary where the keys are central species, 1 and 6 in our case, and entries are numpy arrays shaped in the <code class="docutils literal notranslate"><span class="pre">(environment_index,</span> <span class="pre">radial/specie</span> <span class="pre">index,</span> <span class="pre">l,</span> <span class="pre">m)</span></code> way.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_structures</span> <span class="o">=</span> <span class="n">ase</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;methane.extxyz&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">train_subset</span><span class="p">)</span>
@@ -558,15 +662,15 @@ all species:  [1 6]
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 100/100 [00:00&lt;00:00, 113.06it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 20.30it/s]
-100%|██████████| 50/50 [00:00&lt;00:00, 90.79it/s]
-100%|██████████| 2/2 [00:00&lt;00:00, 39.62it/s]
+100%|██████████| 100/100 [00:00&lt;00:00, 105.94it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 29.91it/s]
+100%|██████████| 50/50 [00:00&lt;00:00, 81.61it/s]
+100%|██████████| 2/2 [00:00&lt;00:00, 60.53it/s]
 </pre></div></div>
 </div>
 <p>We are going to fit two NICE transformers on environments around both the H and C atoms separately. The following cells create them and perform the fitting:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#individual nice transformers for each atomic specie in the dataset</span>
@@ -577,7 +681,7 @@ all species:  [1 6]
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_coefficients</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -607,7 +711,7 @@ all species:  [1 6]
 <p>It is not necessary to fit different nice transformers for each central specie, see for example qm9 examples in example folder</p>
 <p>Let’s calculate representations!:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_features</span> <span class="o">=</span> <span class="p">{}</span>
@@ -622,10 +726,10 @@ all species:  [1 6]
 </pre></div>
 </div>
 </div>
-<p>The result is a nested dictionary. The first level keys are central species, and the inner level keys are body orders. Inside are <strong>numpy arrays</strong> with shapes <strong>[environment_index, invariant_index]</strong>:</p>
+<p>The result is a nested dictionary. The first level keys are central species, and the inner level keys are body orders. Inside are <strong>numpy arrays</strong> with shapes <code class="docutils literal notranslate"><span class="pre">(environment_index,</span> <span class="pre">invariant_index)</span></code>:</p>
 <p>In this case number of training structures is 10k, and each structure consists of 4 H atoms. Thus, the total number of H centered environments is 40k.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">train_features</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -646,9 +750,9 @@ all species:  [1 6]
 </div>
 <p>Now we need to prepare for subsequent linear regression. As was already discussed in the theory section, energy is an extensive property, and thus it is given as a sum of atomic contributions. Each atomic contribution depends on 1) the central specie and 2) the environment. Thus, it is straightforward to see that if each atomic contribution is given by a linear combination of previously calculated NICE features, the structural features should have the following form - for each structure, the set
 of features is a concatenation of representations for each specie. Representation for each specie is a sum of NICE representations over the atoms with this specie in the structure.</p>
-<p>In our case, the representation of each environment has a size of 200 + 200 + 200 + 10 = 610. And we have two atomic species - H and C. Thus, the shape of structural features should be <strong>[number_of_structures, 610 * 2 = 1220]</strong>:</p>
+<p>In our case, the representation of each environment has a size of 200 + 200 + 200 + 10 = 610. And we have two atomic species - H and C. Thus, the shape of structural features should be <code class="docutils literal notranslate"><span class="pre">(number_of_structures)</span> <span class="pre">=</span> <span class="pre">610</span> <span class="pre">*</span> <span class="pre">2</span> <span class="pre">=</span> <span class="pre">1220)</span></code>:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_features</span> <span class="o">=</span> <span class="n">make_structural_features</span><span class="p">(</span><span class="n">train_features</span><span class="p">,</span> <span class="n">train_structures</span><span class="p">,</span>
@@ -664,8 +768,8 @@ of features is a concatenation of representations for each specie. Representatio
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 10000/10000 [00:00&lt;00:00, 15393.56it/s]
-100%|██████████| 5000/5000 [00:00&lt;00:00, 17038.52it/s]
+100%|██████████| 10000/10000 [00:01&lt;00:00, 8538.91it/s]
+100%|██████████| 5000/5000 [00:00&lt;00:00, 9403.23it/s]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -686,7 +790,7 @@ of features is a concatenation of representations for each specie. Representatio
 </div>
 <p>Energies are a part of the dataset we previously downloaded:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">structure</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;energy&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">train_structures</span><span class="p">]</span>
@@ -699,7 +803,7 @@ of features is a concatenation of representations for each specie. Representatio
 </div>
 <p>And the last step is to do linear regression and plot learning curve.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_rmse</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
@@ -722,7 +826,7 @@ of features is a concatenation of representations for each specie. Representatio
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
@@ -739,12 +843,12 @@ of features is a concatenation of representations for each specie. Representatio
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|██████████| 12/12 [00:06&lt;00:00,  1.89it/s]
+100%|██████████| 12/12 [00:09&lt;00:00,  1.32it/s]
 </pre></div></div>
 </div>
 <p>In this smallest setup best rmse appeared to be about 7%:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
@@ -756,12 +860,12 @@ of features is a concatenation of representations for each specie. Representatio
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[0.42468642019120245, 0.427996943106636, 0.3493202669393352, 0.23161547116525558, 0.18065414941207492, 0.16209085425017078, 0.1308818821205268, 0.11611936132988522, 0.09862824178668868, 0.08386888991766907, 0.07247065724235989, 0.0700226889461018]
+[0.42465654790799834, 0.42789327645414715, 0.3493693406283348, 0.231589490323917, 0.1804705093880474, 0.16273379656134457, 0.13117080606147727, 0.1167863010740854, 0.09928117196727987, 0.08373380778918733, 0.07241337804396386, 0.07011697685671456]
 </pre></div></div>
 </div>
 <p>The learning curve looks like this:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
@@ -779,13 +883,22 @@ of features is a concatenation of representations for each specie. Representatio
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/symlinks_constructing_machine_learning_potential_29_0.png" src="../_images/symlinks_constructing_machine_learning_potential_29_0.png" />
+<img alt="../_images/symlinks_constructing_machine_learning_potential_47_0.png" src="../_images/symlinks_constructing_machine_learning_potential_47_0.png" />
 </div>
 </div>
 <p>The pipeline in this tutorial was designed to explain all the intermediate steps, but it has one drawback - at some moment, all atomic representations, along with all intermediate covariants for the whole dataset, are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural invariant features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if the dataset consists of large molecules. Thus,
-it is a good idea to calculate structural features by small blocks and get rid of atomic representations for each block immediately. For this purpose, there is a function <strong>nice.utilities.transform_sequentially</strong>. It has a parameter <strong>block_size</strong> that controls the size of each chunk. The higher this chunk, the more RAM is required for calculations. But, on the other hand, for very small chunks, slow python loops over lambda channels with invoking separate python classes for each lambda channel
-might become a bottleneck (all the other indices are handled either by numpy vectorization or by cython loops). The other reason for the slowdown is multiprocessing. Thus, transforming time per single environment monotonically decrease with the <strong>block_size</strong> and eventually goes to saturation. The default value for <strong>block_size</strong> parameter should be fine in most cases.</p>
+it is a good idea to calculate structural features by small blocks and get rid of atomic representations for each block immediately. For this purpose, there is a function <code class="docutils literal notranslate"><span class="pre">nice.utilities.transform_sequentially</span></code>. It has a parameter <code class="docutils literal notranslate"><span class="pre">block_size</span></code> that controls the size of each chunk. The higher this chunk, the more RAM is required for calculations. But, on the other hand, for very small chunks, slow python loops over lambda channels with invoking separate python classes for each lambda channel
+might become a bottleneck (all the other indices are handled either by numpy vectorization or by cython loops). The other reason for the slowdown is multiprocessing. Thus, transforming time per single environment monotonically decrease with the <code class="docutils literal notranslate"><span class="pre">block_size</span></code> and eventually goes to saturation. The default value for <code class="docutils literal notranslate"><span class="pre">block_size</span></code> parameter should be fine in most cases.</p>
 <p>The full example can be found in examples/methane_home_pc or in examples/qm9_home_pc. Other than that and the absence of markdown comments, these notebooks are almost identical to this tutorial (in qm9 single nice transformer is used for all central species). Thus, we recommend picking one of them as the code snippet.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
 </section>
 
 

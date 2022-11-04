@@ -223,14 +223,14 @@ only by num_to_fit semantics:</p>
 <embed>
 <pre>
 <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-    /home/pozdn/.local/lib/python3.8/site-packages/nice/blocks/compressors.py:216: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 10, desired number of environments is 3000, actual number of environments is 400.
-      warnings.warn(("Amount of provided data is less "
+    (400, 10)
 </p>
 </pre>
 </embed><embed>
 <pre>
 <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-    (400, 10)
+    /home/pozdn/.local/lib/python3.8/site-packages/nice/blocks/compressors.py:216: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 10, desired number of environments is 3000, actual number of environments is 400.
+      warnings.warn(("Amount of provided data is less "
 </p>
 </pre>
 </embed><p>For purifiers there are classes CovariantsPurifier,
@@ -450,7 +450,7 @@ machine learning potential”</p>
 <embed>
 <pre>
 <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-    100%|██████████| 10/10 [00:04<00:00,  2.38it/s]
+    100%|██████████| 10/10 [00:05<00:00,  1.92it/s]
 </p>
 </pre>
 </embed><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>

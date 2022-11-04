@@ -167,28 +167,28 @@ in previous tutorials:</p>
 <embed>
 <pre>
 <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-    --2022-11-01 16:23:52--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528
+    --2022-11-04 12:28:39--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528
     Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.149.49
     Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.149.49|:443... connected.
     HTTP request sent, awaiting response... 302 FOUND
-    Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Signature=NV9PD%2BmJJgw7tMiIhvu9Vn02r04%3D&AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&Expires=1667316292 [following]
-    --2022-11-01 16:23:52--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Signature=NV9PD%2BmJJgw7tMiIhvu9Vn02r04%3D&AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&Expires=1667316292
-    Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.204, 148.187.25.201, ...
+    Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Signature=p4ue%2BhpsNATdAjZ2LeLgeTJ85%2F8%3D&AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&Expires=1667561379 [following]
+    --2022-11-04 12:28:39--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Signature=p4ue%2BhpsNATdAjZ2LeLgeTJ85%2F8%3D&AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&Expires=1667561379
+    Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.200, 148.187.25.201, 148.187.25.204, ...
     Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.200|:443... connected.
     HTTP request sent, awaiting response... 200 OK
     Length: 1218139661 (1.1G) [application/octet-stream]
     Saving to: ‘methane.extxyz.gz’
 
-    methane.extxyz.gz   100%[===================>]   1.13G   191MB/s    in 14s
+    methane.extxyz.gz   100%[===================>]   1.13G   138MB/s    in 6.4s
 
-    2022-11-01 16:24:06 (85.4 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
+    2022-11-04 12:28:45 (181 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]
 </p>
 </pre>
 </embed><embed>
 <pre>
 <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-    100%|██████████| 10/10 [00:00<00:00, 119.96it/s]
-    100%|██████████| 2/2 [00:00<00:00, 184.15it/s]
+    100%|██████████| 10/10 [00:00<00:00, 84.08it/s]
+    100%|██████████| 2/2 [00:00<00:00, 261.19it/s]
 </p>
 </pre>
 </embed></div>
@@ -298,14 +298,14 @@ only by num_to_fit semantics:</p>
 <embed>
 <pre>
 <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-    /home/pozdn/.local/lib/python3.8/site-packages/nice/blocks/compressors.py:216: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 10, desired number of environments is 3000, actual number of environments is 400.
-      warnings.warn(("Amount of provided data is less "
+    (400, 10)
 </p>
 </pre>
 </embed><embed>
 <pre>
 <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-    (400, 10)
+    /home/pozdn/.local/lib/python3.8/site-packages/nice/blocks/compressors.py:216: UserWarning: Amount of provided data is less than the desired one to fit PCA. Number of components is 10, desired number of environments is 3000, actual number of environments is 400.
+      warnings.warn(("Amount of provided data is less "
 </p>
 </pre>
 </embed><p>For purifiers there are classes CovariantsPurifier,
@@ -525,7 +525,7 @@ machine learning potential”</p>
 <embed>
 <pre>
 <p style="margin-left: 5%;font-size:12px;line-height: 1.2; overflow:auto" >
-    100%|██████████| 10/10 [00:04<00:00,  2.38it/s]
+    100%|██████████| 10/10 [00:05<00:00,  1.92it/s]
 </p>
 </pre>
 </embed><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_even_now</span><span class="o">.</span><span class="n">covariants_</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>

@@ -4,7 +4,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Constructing machine learning potential"
+    "# Constructing machine learning potential"
    ]
   },
   {
@@ -24,21 +24,21 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "--2022-11-01 16:20:48--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528\n",
+      "--2022-11-04 12:25:01--  https://archive.materialscloud.org/record/file?file_id=b612d8e3-58af-4374-96ba-b3551ac5d2f4&filename=methane.extxyz.gz&record_id=528\n",
       "Resolving archive.materialscloud.org (archive.materialscloud.org)... 148.187.149.49\n",
       "Connecting to archive.materialscloud.org (archive.materialscloud.org)|148.187.149.49|:443... connected.\n",
       "HTTP request sent, awaiting response... 302 FOUND\n",
-      "Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Signature=LJUaGsQLl8CZKNZUJGpSH69ZX0g%3D&AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&Expires=1667316108 [following]\n",
-      "--2022-11-01 16:20:48--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Signature=LJUaGsQLl8CZKNZUJGpSH69ZX0g%3D&AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&Expires=1667316108\n",
-      "Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.201, 148.187.25.202, 148.187.25.204, ...\n",
-      "Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.201|:443... connected.\n",
+      "Location: https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Signature=%2BxLnAvJ4CwQ4JY8hbo7MwpILPco%3D&AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&Expires=1667561161 [following]\n",
+      "--2022-11-04 12:25:01--  https://object.cscs.ch/archive/b6/12/d8e3-58af-4374-96ba-b3551ac5d2f4/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dmethane.extxyz.gz&Signature=%2BxLnAvJ4CwQ4JY8hbo7MwpILPco%3D&AWSAccessKeyId=f30fe0bddb114e91abe6adf3d36c6f2e&Expires=1667561161\n",
+      "Resolving object.cscs.ch (object.cscs.ch)... 148.187.25.204, 148.187.25.200, 148.187.25.202, ...\n",
+      "Connecting to object.cscs.ch (object.cscs.ch)|148.187.25.204|:443... connected.\n",
       "HTTP request sent, awaiting response... 200 OK\n",
       "Length: 1218139661 (1.1G) [application/octet-stream]\n",
       "Saving to: ‘methane.extxyz.gz’\n",
       "\n",
-      "methane.extxyz.gz   100%[===================>]   1.13G   135MB/s    in 8.6s    \n",
+      "methane.extxyz.gz   100%[===================>]   1.13G   223MB/s    in 5.7s    \n",
       "\n",
-      "2022-11-01 16:20:57 (135 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]\n",
+      "2022-11-04 12:25:07 (205 MB/s) - ‘methane.extxyz.gz’ saved [1218139661/1218139661]\n",
       "\n"
      ]
     }
@@ -62,26 +62,16 @@
     "from nice.blocks import *\n",
     "from nice.utilities import *\n",
     "from matplotlib import pyplot as plt\n",
-    "from sklearn.linear_model import BayesianRidge"
+    "from sklearn.linear_model import BayesianRidge\n",
+    "\n",
+    "HARTREE_TO_EV = 27.211386245988"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "In the following cell, parameters that control subsequent calculations, along with hyperparameters of the model, are defined. \n",
-    "\n",
-    "\n",
-    "The total amount of structures in the methane dataset is huge. Thus it is a good idea to select a smaller amount of structures to speed up the calculations. \n",
-    "\n",
-    "\n",
-    "Two out of the three steps of NICE require data to be fitted. In the PCA step, atomic environments are used to determine the matrix of a linear transformation, suitable for the preservation of the most amount of information for **this particular dataset**. In purifiers, eliminated correlations are also dataset-specific. Though, it is absolutely not necessary \n",
-    "to use the same amount of data to fit the NICE transformer and to fit the subsequent machine learning model. Typically, the NICE transformer requires less amount of data to be fitted. In addition, the fitting process requires a noticeable amount of RAM. Thus, it is a good idea to restrict the amount of data for this step, which is controlled by **environments_for_fitting variable**. \n",
-    "\n",
-    "**grid** defines the set of numbers of training configurations for which error would be estimated in order to get an idea of the quality of the model, depending on the number of training configurations. \n",
-    "(yep, the NICE transformer uses more data for fitting for a few first points, but it is just a tutorial)\n",
-    "\n",
-    "In the HYPERS dictionary, parameters for initial spherical expansion are defined. For more detail, we refer the reader to [librascal](https://github.com/cosmo-epfl/librascal) documentation. "
+    "The total amount of structures in the methane dataset is huge. Thus it is a good idea to select a smaller amount of structures to speed up the calculations. "
    ]
   },
   {
@@ -90,13 +80,64 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "HARTREE_TO_EV = 27.211386245988\n",
     "train_subset = \"0:10000\"  #input for ase.io.read command\n",
-    "test_subset = \"10000:15000\"  #input to ase.io.read command\n",
-    "environments_for_fitting = 1000  #number of environments to fit nice transfomers\n",
+    "test_subset = \"10000:15000\"  #input to ase.io.read command"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Two out of the three steps of NICE require data to be fitted. In the PCA step, atomic environments are used to determine the matrix of a linear transformation, suitable for the preservation of the most amount of information for **this particular dataset**. In purifiers, eliminated correlations are also dataset-specific. Though, it is absolutely not necessary to use the same amount of data to fit the NICE transformer and to fit the subsequent machine learning model. Typically, the NICE transformer requires less amount of data to be fitted. In addition, the fitting process requires a noticeable amount of RAM. Thus, it is a good idea to restrict the amount of data for this step, which is controlled by ``environments_for_fitting variable``. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "environments_for_fitting = 1000  #number of environments to fit nice transfomers"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Next, we must define our hyperparameters for our representation."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "``grid`` defines the set of numbers of training configurations for which error would be estimated in order to get an idea of the quality of the model, depending on the number of training configurations. \n",
+    "(yep, the NICE transformer uses more data for fitting for a few first points, but it is just a tutorial)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
     "grid = [150, 200, 350, 500, 750, 1000, 1500, 2000, 3000, 5000, 7500,\n",
-    "        10000]  #for learning curve\n",
-    "\n",
+    "        10000]  #for learning curve"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We also must define parameters for the initial spherical expansion. For more detail, we refer the reader to [librascal](https://github.com/cosmo-epfl/librascal) documentation. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
     "#HYPERS for librascal spherical expansion coefficients\n",
     "HYPERS = {\n",
     "    'interaction_cutoff': 6.3,\n",
@@ -113,49 +154,193 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "This cell is the most important one. Our model is defined here. As was mentioned before,  \n",
-    "NICE is the sequence of standard transformations, where each increases the body order by 1. \n",
-    "The classes which implement this logic are **StandardBlock** and **StandardSequence**. \n",
+    "## Blocks and Sequences"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Each NICE model is the sequence of standard transformations. In NICE, each transformation is called a ``StandardBlock`` and a sequence of blocks is a ``StandardSequence``."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A ``StandardBlock`` takes in 6 inputs: 1) an expansioner, 2) a purifier, and 3) a compressor for both the covariant and invariants. For more explanation of the theory behind this, please see [the theory section](https://lab-cosmo.github.io/nice/theory.html). \n",
     "\n",
-    "**StandardSequence** consist of 1) **initial scaler** 2) **initial pca** and of 3) sequence of **standard blocks**. \n",
+    "**Scaling** Let's imagine uniform multiplication of spherical expansion coefficients by some constant k. In this case, covariants of order k would change as `*= k ^(body order)`. In other words,  the relative scale of different body orders would change. This might affect subsequent regression, so it is a good idea to fix the scale in a proper way. This is done by ``initial scaler``. It has two modes - ``signal integral`` and ``variance``. In the first case, it scales coefficients in such a way as to make the integral of the squared corresponding signal over the ball to be one. In the second case, it assures the variance of the coefficient's entries to be one. In practice, the first mode gives better results. The second parameter to this class is to scale coefficients individually, i. e. separately for each environment or globally, thus preserving information about the scale of signals in relation to each other. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Expansioners\n",
     "\n",
-    "Let's imagine uniform multiplication of spherical expansion coefficients by some constant k. In this case, covariants of order k would change as *= k ^(body order). In other words,  the relative scale of different body orders would change. This might affect subsequent regression, so it is a good idea to fix the scale in a proper way. This is done by **initial scaler**. It has two modes - \"**signal integral**\" and \"**variance**\". In the first case, it scales coefficients in such a way as to make the integral of the squared corresponding signal over the ball to be one. In the second case, it assures the variance of the coefficient's entries to be one. In practice, the first mode gives better results. The second parameter to this class is to scale coefficients individually, i. e. separately for each environment or globally, thus preserving information about the scale of signals in relation to each other. \n",
+    "During the expansion step in each block, features of the next body order are produced by Clebsch-Gordan iteration between features from the previous block and spherical expansion coefficients after ``initial_pca``. \n",
     "\n",
-    "**Initial pca** is the same PCA that is applied in each block; more details about it later. It is the first transformation to coefficients after **initial scaler**. \n",
+    "Full expansion (expanding the coefficients for each pair of input covariant vectors) results in an untenably large number of features, thus, we typically only store the most important coefficients. In a standard sequence, these importances are just explained variance ratios after the PCA step. We then choose the ``num_expand`` most important features. If ``num_expand`` is not specified (or set to ``None``), we keep all coefficients. \n",
     "\n",
-    "As already mentioned in theory, each block consists of two branches - for covariants and for invariants. Each branch consists of expansion, purification, and pca steps. During the expansion step in each block, features of the next body order are produced by Clebsch-Gordan iteration between features from the previous block and spherical expansion coefficients after **initial_pca**. In the case of full expansion (each with each), the number of features after the transformation would be incredibly huge, as it was already discussed in the theory section. Thus, the thresholding heuristic is used. For each feature, information on how important it is, is stored during the calculations. In standard sequence, these importances are just explained variance ratios after the PCA step. During expansion for each pair of covariant vectors, \"pair importance\" is defined as the multiplication of previously discussed single feature **importances**, and after that, only a fixed amount of the most important input pairs produce output. This fixed amount is controlled by **num_expand** parameter. If it is not specified (or set to **None**), full expansion (each with each) will be performed. \n",
-    "\n",
-    "The nature of the purifier step was discussed in the theory section. Parameter **max_take** controls the number of features to take for purification from previous body orders. (Features are always stored in descending order of importance, and it uses the first ones first). If **max_take** is not specified (**None**) it will use all available features. \n",
-    "One additional parameter is a linear regressor to use. For example \n",
-    "\n",
-    "from sklearn.linear_model import Ridge<br>\n",
-    "CovariantsPurifierBoth(regressor = Ridge(alpha = 42, fit_intercept = False), max_take = 10)\n",
-    "\n",
-    "or \n",
-    "\n",
-    "from sklearn.linear_model import Lars<br>\n",
-    "InvariantsPurifier(regressor = Lars(n_nonzero_coefs = 7), max_take = 10)\n",
-    "\n",
-    "The default one is Ridge(alpha = 1e-12) without fitting intercept for covariants purifier and with fitting intercept for invariants purifier. \n",
-    "\n",
-    "***Important!*** always put **fit_intercept = False** to regressor in covariants purifier. Otherwise, the resulting features would not be covariants since the vector with constant entries is not covariant. (it is not checked automatically since the corresponding parameter might have a different name from \"fit_intercept\")\n",
-    "\n",
-    "Custom regressors can be fed into purifiers. More details about it in the tutorial \"Custom regressors into purifiers.\"\n",
-    "\n",
-    "Parameter of PCA states for the number of output features. If it is not specified (None), full pca will be performed. \n",
-    "\n",
-    "\"Both\" in name of classes states the fact that transformations are done simultaneously on even and odd features (more details about it in the tutorials \"Calculating covariants\" (what are even and odd features?) and \"Constructor or non-standard sequence\" (classes to work with no separation?)). \n",
-    "\n",
-    "\"Individual\" in **IndividualLambdaPCAsBoth** stands for the fact that transformations are independent for each lambda channel.\n",
-    "\n",
-    "Since we are interested only in invariants, it is not necessary for the last block to calculate covariants. Thus, the corresponding branch is filled with Nones.\n",
-    "\n",
-    "In this example, parameters of covariant and invariant branches (such as **num_expand** in expansioners) are not dramatically different, but in real-life calculations they usually differ from each other dramatically (see examples folder). \n"
+    "In NICE, we invoke this with ``ThresholdExpansioner``."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<nice.blocks.expansioners.ThresholdExpansioner at 0x7f84a2db9790>"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ThresholdExpansioner(num_expand=150)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Purifiers\n",
+    "\n",
+    "In a NICE purifier, the parameter ``max_take`` controls the number of features to take for purification from previous body orders. (Features are always stored in descending order of importance, and it uses the first ones first). If ``max_take`` is not specified (``None``) it will use all available features. \n",
+    "\n",
+    "\n",
+    "One additional parameter is a linear regressor to use. For example \n",
+    "\n",
+    "``` python\n",
+    "\n",
+    "from sklearn.linear_model import Ridge\n",
+    "CovariantsPurifierBoth(regressor = Ridge(alpha = 42, fit_intercept = False), max_take = 10)\n",
+    "\n",
+    "```\n",
+    "\n",
+    "or \n",
+    "\n",
+    "``` python\n",
+    "\n",
+    "from sklearn.linear_model import Lars\n",
+    "InvariantsPurifier(regressor = Lars(n_nonzero_coefs = 7), max_take = 10)\n",
+    "\n",
+    "```\n",
+    "\n",
+    "The default one is ```Ridge(alpha = 1e-12)``` without fitting intercept for covariants purifier and with fitting intercept for invariants purifier. \n",
+    "\n",
+    "***Important!*** always put ``fit_intercept = False`` to the regressor in covariants purifier. Otherwise, the resulting scaled features would not longer be covariants. \n",
+    "\n",
+    "Custom regressors can be fed into purifiers. More details about it in the tutorial [Custom regressors into purifiers](https://lab-cosmo.github.io/nice/custom_regressors_into_purifiers.html)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<nice.blocks.purifiers.CovariantsPurifierBoth at 0x7f84a2db9d30>"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "CovariantsPurifierBoth(max_take=10)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Compressors\n",
+    "\n",
+    "A compressor is like a PCA step -- we group the majority of the variance into a small subset of components.\n",
+    "\n",
+    "Parameter of PCA states for the number of output features (``n_components``). If it is not specified (None), full PCA will be performed. \n",
+    "\n",
+    "\"Both\" in name of classes states the fact that transformations are done simultaneously on even and odd features (more details about it in the tutorials \"Calculating covariants\" (what are even and odd features?) and \"Constructor or non-standard sequence\" (classes to work with no separation?)). \n",
+    "\n",
+    "\"Individual\" in ``IndividualLambdaPCAsBoth`` stands for the fact that transformations are independent for each lambda channel."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<nice.blocks.compressors.IndividualLambdaPCAsBoth at 0x7f84a2db9730>"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "IndividualLambdaPCAsBoth(n_components=50)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Putting it all Together"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In this example, parameters of covariant and invariant branches (such as ``num_expand`` in expansioners) are not dramatically different, but in real-life calculations they usually differ from each other dramatically (see examples folder). "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It is not necessary to always fill all the transformation steps. For example, the following block is valid:\n",
+    "\n",
+    "``` python\n",
+    "StandardBlock(ThresholdExpansioner(num_expand = 150),\n",
+    "              None, \n",
+    "              IndividualLambdaPCAsBoth(n_components = 50), \n",
+    "              ThresholdExpansioner(num_expand =300, mode = 'invariants'), \n",
+    "              InvariantsPurifier(max_take = 50), \n",
+    "              None)\n",
+    "``` \n",
+    "  \n",
+    "In this case, purifying step in the covariants branch and the PCA step in the invariants branch would be omitted. Covariants and invariants branches are independent. In case of invalid  combinations, such as \n",
+    "\n",
+    "``` python\n",
+    "StandardBlock(None, \n",
+    "              None,\n",
+    "              IndividualLambdaPCAsBoth(n_components = 50), \n",
+    "              ...)\n",
+    "```             \n",
+    "\n",
+    "It would raise a value error with the description of the problem during initialization.\n",
+    "\n",
+    "All intermediate blocks must compute covariants. A block is considered to be computing covariants if it contains covariant expansion and covariant pca. The latter is required since expansioners in subsequent blocks require not only covariants themselves but also their **importances** for thresholding. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -187,29 +372,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "It is not necessary to always fill all the transformation steps. For example, the following block is valid:\n",
-    "\n",
-    "<pre>\n",
-    "StandardBlock(ThresholdExpansioner(num_expand = 150),\n",
-    "              None, \n",
-    "              IndividualLambdaPCAsBoth(n_components = 50), \n",
-    "              ThresholdExpansioner(num_expand =300, mode = 'invariants'), \n",
-    "              InvariantsPurifier(max_take = 50), \n",
-    "              None)\n",
-    "</pre>   \n",
-    "  \n",
-    "In this case, purifying step in the covariants branch and the PCA step in the invariants branch would be omitted. Covariants and invariants branches are independent. In case of invalid  combinations, such as \n",
-    "\n",
-    "<pre>\n",
-    "StandardBlock(None, \n",
-    "              None,\n",
-    "              IndividualLambdaPCAsBoth(n_components = 50), \n",
-    "              ...)\n",
-    "</pre>              \n",
-    "\n",
-    "It would raise a value error with the description of the problem during initialization.\n",
-    "\n",
-    "All intermediate blocks must compute covariants. A block is considered to be computing covariants if it contains covariant expansion and covariant pca. The latter is required since expansioners in subsequent blocks require not only covariants themselves but also their **importances** for thresholding. "
+    "## Training the Model"
    ]
   },
   {
@@ -218,14 +381,14 @@
    "source": [
     "In this cell, we read the structures, get a set of all the species in the dataset, and calculate the spherical expansion. \n",
     "\n",
-    "**all_species** is a numpy array with ints, where 1 is H, 2 is He, and so on. \n",
+    "``all_species`` is a numpy array with ints, where 1 is H, 2 is He, and so on. \n",
     "\n",
-    "**coefficients** is the dictionary where the keys are central species, 1 and 6 in our case, and entries are numpy arrays shaped in the **[environment_index, radial/specie index, l, m]** way. "
+    "``coefficients`` is the dictionary where the keys are central species, 1 and 6 in our case, and entries are numpy arrays shaped in the ``(environment_index, radial/specie index, l, m)`` way. "
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 11,
    "metadata": {},
    "outputs": [
     {
@@ -239,10 +402,10 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "100%|██████████| 100/100 [00:00<00:00, 113.06it/s]\n",
-      "100%|██████████| 2/2 [00:00<00:00, 20.30it/s]\n",
-      "100%|██████████| 50/50 [00:00<00:00, 90.79it/s]\n",
-      "100%|██████████| 2/2 [00:00<00:00, 39.62it/s]\n"
+      "100%|██████████| 100/100 [00:00<00:00, 105.94it/s]\n",
+      "100%|██████████| 2/2 [00:00<00:00, 29.91it/s]\n",
+      "100%|██████████| 50/50 [00:00<00:00, 81.61it/s] \n",
+      "100%|██████████| 2/2 [00:00<00:00, 60.53it/s]\n"
      ]
     }
    ],
@@ -270,7 +433,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 12,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -282,7 +445,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 13,
    "metadata": {},
    "outputs": [
     {
@@ -325,7 +488,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 14,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -344,14 +507,14 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The result is a nested dictionary. The first level keys are central species, and the inner level keys are body orders. Inside are **numpy arrays** with shapes **[environment_index, invariant_index]**:\n",
+    "The result is a nested dictionary. The first level keys are central species, and the inner level keys are body orders. Inside are **numpy arrays** with shapes ``(environment_index, invariant_index)``:\n",
     "\n",
     "In this case number of training structures is 10k, and each structure consists of 4 H atoms. Thus, the total number of H centered environments is 40k."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 15,
    "metadata": {},
    "outputs": [
     {
@@ -377,20 +540,20 @@
     "Now we need to prepare for subsequent linear regression. As was already discussed in the theory section, energy is an extensive property, and thus it is given as a sum of atomic contributions. \n",
     "Each atomic contribution depends on 1) the central specie and 2) the environment. Thus, it is straightforward to see that if each atomic contribution is given by a linear combination of previously calculated NICE features, the structural features should have the following form - for each structure, the set of features is a concatenation of representations for each specie. Representation for each specie is a sum of NICE representations over the atoms with this specie in the structure. \n",
     "\n",
-    "In our case, the representation of each environment has a size of 200 + 200 + 200 + 10 = 610. And we have two atomic species - H and C. Thus, the shape of structural features should be **[number_of_structures, 610 * 2 = 1220]**:"
+    "In our case, the representation of each environment has a size of 200 + 200 + 200 + 10 = 610. And we have two atomic species - H and C. Thus, the shape of structural features should be ``(number_of_structures) = 610 * 2 = 1220)``:"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 16,
    "metadata": {},
    "outputs": [
     {
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "100%|██████████| 10000/10000 [00:00<00:00, 15393.56it/s]\n",
-      "100%|██████████| 5000/5000 [00:00<00:00, 17038.52it/s]"
+      "100%|██████████| 10000/10000 [00:01<00:00, 8538.91it/s]\n",
+      "100%|██████████| 5000/5000 [00:00<00:00, 9403.23it/s]"
      ]
     },
     {
@@ -425,7 +588,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 17,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -445,7 +608,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 18,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -469,14 +632,14 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 19,
    "metadata": {},
    "outputs": [
     {
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "100%|██████████| 12/12 [00:06<00:00,  1.89it/s]\n"
+      "100%|██████████| 12/12 [00:09<00:00,  1.32it/s]\n"
      ]
     }
    ],
@@ -498,14 +661,14 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 20,
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "[0.42468642019120245, 0.427996943106636, 0.3493202669393352, 0.23161547116525558, 0.18065414941207492, 0.16209085425017078, 0.1308818821205268, 0.11611936132988522, 0.09862824178668868, 0.08386888991766907, 0.07247065724235989, 0.0700226889461018]\n"
+      "[0.42465654790799834, 0.42789327645414715, 0.3493693406283348, 0.231589490323917, 0.1804705093880474, 0.16273379656134457, 0.13117080606147727, 0.1167863010740854, 0.09928117196727987, 0.08373380778918733, 0.07241337804396386, 0.07011697685671456]\n"
      ]
     }
    ],
@@ -522,12 +685,12 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 21,
    "metadata": {},
    "outputs": [
     {
      "data": {
-      "image/png": "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\n",
+      "image/png": "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\n",
       "text/plain": [
        "<Figure size 432x288 with 1 Axes>"
       ]
@@ -553,10 +716,17 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The pipeline in this tutorial was designed to explain all the intermediate steps, but it has one drawback - at some moment, all atomic representations, along with all intermediate covariants for the whole dataset, are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural invariant features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if the dataset consists of large molecules. Thus, it is a good idea to calculate structural features by small blocks and get rid of atomic representations for each block immediately. For this purpose, there is a function **nice.utilities.transform_sequentially**. It has a parameter **block_size** that controls the size of each chunk. The higher this chunk, the more RAM is required for calculations. But, on the other hand, for very small chunks, slow python loops over lambda channels with invoking separate python classes for each lambda channel might become a bottleneck (all the other indices are handled either by numpy vectorization or by cython loops). The other reason for the slowdown is multiprocessing. Thus, transforming time per single environment monotonically decrease with the **block_size** and eventually goes to saturation. The default value for **block_size** parameter should be fine in most cases.\n",
+    "The pipeline in this tutorial was designed to explain all the intermediate steps, but it has one drawback - at some moment, all atomic representations, along with all intermediate covariants for the whole dataset, are explicitly stored in RAM, which might become a bottleneck for big calculations. Indeed, only structural invariant features are eventually needed, and their size is much smaller than the size of all atomic representations, especially if the dataset consists of large molecules. Thus, it is a good idea to calculate structural features by small blocks and get rid of atomic representations for each block immediately. For this purpose, there is a function ``nice.utilities.transform_sequentially``. It has a parameter ``block_size`` that controls the size of each chunk. The higher this chunk, the more RAM is required for calculations. But, on the other hand, for very small chunks, slow python loops over lambda channels with invoking separate python classes for each lambda channel might become a bottleneck (all the other indices are handled either by numpy vectorization or by cython loops). The other reason for the slowdown is multiprocessing. Thus, transforming time per single environment monotonically decrease with the ``block_size`` and eventually goes to saturation. The default value for ``block_size`` parameter should be fine in most cases.\n",
     "\n",
     "The full example can be found in examples/methane_home_pc or in examples/qm9_home_pc. Other than that and the absence of markdown comments, these notebooks are almost identical to this tutorial (in qm9 single nice transformer is used for all central species). Thus, we recommend picking one of them as the code snippet. "
    ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {
