@@ -12,11 +12,11 @@ invariants that can be dropped beyond those that can be identified based
 on angular momentum recoupling theory.
 
 The repository also contains a few examples of the listings, named as
-
-indep-nmax-lmax.dat 
-
+`indep-nmax-lmax.dat`
 Entries in each file list the indices of the nonzero invariants, labeled as
 
+```
 # nu sigma lambda n1 l1 k1 [n2 l2 k2 .....]
+```
 
 following the notation from https://arxiv.org/abs/2007.03407
